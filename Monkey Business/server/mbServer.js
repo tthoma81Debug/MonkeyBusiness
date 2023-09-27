@@ -11,14 +11,6 @@ app.use((req, res, next) => {
   console.log(`${req.method} request at ${req.url}`)
   next()
 })
-
-app.post('/ping', (req, res) => {
-  res.send('pong POST')
-})
-
-const rawJSON = fs.readFileSync('./server/api/gameDetails.json', { encoding: 'utf8' })
-const allGames = JSON.parse(rawJSON)
-
 // Statically serve the public folder
 app.use(Express.static('./public'))
 
