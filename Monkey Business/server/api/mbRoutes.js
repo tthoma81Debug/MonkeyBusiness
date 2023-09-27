@@ -18,6 +18,28 @@ const loginSchema = {
     }
   }
 }
+const stockSchema = {
+  type: 'object',
+  required: ['stockID', 'name', 'amount', 'price', 'userID'],
+  properties: {
+    stockID: {
+      type: 'integer'
+    },
+    name: {
+      type: 'string'
+    },
+    amount: {
+      type: 'integer'
+    },
+    price: {
+      type: 'number'
+    },
+    userID: {
+      type: 'integer'
+    }
+  }
+}
+
 const gameSchema = {
   type: 'object',
   required: ['gameID', 'name', 'image', 'year', 'rating', 'publishers', 'numplayers', 'minAge', 'playtime', 'weight'],
@@ -61,9 +83,6 @@ const gameSchema = {
   }
 }
 
-const rawJSON = fs.readFileSync('./server/api/gameDetails.json', { encoding: 'utf8' })
-const allGames = JSON.parse(rawJSON)
-
 function wait (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -88,25 +107,25 @@ dataRouter.get('/stocks', (req, res) => {
   // pull top 5 Stocks from API  ------------------TO DO --------------------
 })
 
-dataRouter.post('/games', validator.validate({ body: gameSchema }), (req, res) => { // fs.writeFileSync('./server/gameDetails.json', JSON.stringify(allGames))
-  const newGame = req.body
-  let GAME_ID_EXISTS = false
-  allGames.forEach((game) => {
-    if (game.gameID === newGame.gameID) {
-      GAME_ID_EXISTS = true
-    }
-  })
-  if (!GAME_ID_EXISTS) {
-    allGames.push(newGame)
-    res.json({
-      error: false,
-      message: `Game ID ${newGame.gameID} Added`
-    })
-  } else {
-    res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
-  }
-})
-dataRouter.post('/login', validator.validate({ body: loginSchema }), (req, res) => { // fs.writeFileSync('./server/gameDetails.json', JSON.stringify(allGames))
+// dataRouter.post('/games', validator.validate({ body: gameSchema }), (req, res) => {
+//   const newGame = req.body
+//   let GAME_ID_EXISTS = false
+//   allGames.forEach((game) => {
+//     if (game.gameID === newGame.gameID) {
+//       GAME_ID_EXISTS = true
+//     }
+//   })
+//   if (!GAME_ID_EXISTS) {
+//     allGames.push(newGame)
+//     res.json({
+//       error: false,
+//       message: `Game ID ${newGame.gameID} Added`
+//     })
+//   } else {
+//     res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
+//   }
+// })
+dataRouter.post('/login', validator.validate({ body: loginSchema }), (req, res) => {
   const loginCredentials = req.body
 
   queryMongoDatabase(async db => {
@@ -138,41 +157,13 @@ dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) 
     }
   }, 'Users')
 })
-dataRouter.post('/stocks', validator.validate({ body: gameSchema }), (req, res) => { // Add Stock to Database ------------------TO DO --------------------
-  const newGame = req.body
-  let GAME_ID_EXISTS = false
-  allGames.forEach((game) => {
-    if (game.gameID === newGame.gameID) {
-      GAME_ID_EXISTS = true
-    }
-  })
-  if (!GAME_ID_EXISTS) {
-    allGames.push(newGame)
-    res.json({
-      error: false,
-      message: `Game ID ${newGame.gameID} Added`
-    })
-  } else {
-    res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
-  }
+dataRouter.post('/stocks', validator.validate({ body: stockSchema }), (req, res) => { // Add Stock to Database ------------------TO DO --------------------
+  const stock = req.body
+
 })
 dataRouter.post('/monkey', validator.validate({ body: gameSchema }), (req, res) => { //
   const newGame = req.body
-  let GAME_ID_EXISTS = false
-  allGames.forEach((game) => {
-    if (game.gameID === newGame.gameID) {
-      GAME_ID_EXISTS = true
-    }
-  })
-  if (!GAME_ID_EXISTS) {
-    allGames.push(newGame)
-    res.json({
-      error: false,
-      message: `Game ID ${newGame.gameID} Added`
-    })
-  } else {
-    res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
-  }
+
 })
 
 

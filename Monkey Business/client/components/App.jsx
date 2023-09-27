@@ -1,11 +1,11 @@
 import React from 'react'
 
 import PageHeader from './PageHeader.jsx'
-import StockTable from './StockTable.jsx'
-import GameDetails from './GameDetails.jsx'
+import StockTable from './PortfolioPage.jsx'
+import StockDetails from './StockDetails.jsx'
 import BootstrapModal from './BootstrapModal.jsx'
 import FormModal from './FormModal.jsx'
-import GameForm from './GameForm.jsx'
+import LoginRegisterForm from './LoginRegisterForm.jsx'
 import { retrieveGameDetails } from '../mbdataHelper'
 
 export default function App (props) {
@@ -31,27 +31,31 @@ export default function App (props) {
     }
   } , [currentGame])
   return (
+    // <div className='container'>
+    //   <PageHeader title='Game Browser' subTitle='' />
+    //   <GameGrid onDetailsRequested={detailsRequested}/>
+    //   <BootstrapModal
+    //   open={showDetailsModal}
+    //   gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
+    //   onClose={() => setShowDetailsModal(false)}
+    //   >
+
+    //     {!!currentGameData && <GameDetails {...currentGameData} />}
+    //   </BootstrapModal>
+    //   <FormModal
+    //   open={showFormModal}
+    //   gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
+    //   onClose={() => setShowFormModal(false)}
+    //   >
+
+    //     {!!currentGameData && <GameForm {...currentGameData} />}
+    //   </FormModal>
+
+
+    // </div>
     <div className='container'>
-      <PageHeader title='Game Browser' subTitle='' />
-      <GameGrid onDetailsRequested={detailsRequested}/>
-      <BootstrapModal
-      open={showDetailsModal}
-      gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
-      onClose={() => setShowDetailsModal(false)}
-      >
-
-        {!!currentGameData && <GameDetails {...currentGameData} />}
-      </BootstrapModal>
-      <FormModal
-      open={showFormModal}
-      gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
-      onClose={() => setShowFormModal(false)}
-      >
-
-        {!!currentGameData && <GameForm {...currentGameData} />}
-      </FormModal>
-
-
+      <p>Hello World!</p>\
     </div>
+
   )
 }
