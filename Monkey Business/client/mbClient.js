@@ -11,21 +11,21 @@ async function renderStockTable () {
   const stockData = await retrieveStocks()
   rebuildStockTableFromData(stockData)
 }
-async function showStockDetails (gameID) {
+async function showStockDetails (stockID) {
   // Retrieving details
-  const gameDetails = await retrieveStockDetails(gameID)
-  for (const key in gameDetails) {
+  const stockDetails = await retrieveStockDetails(stockID)
+  for (const key in stockDetails) {
     const element = document.getElementById(`details-${key}`)
     if (element) {
       if (key === 'image') {
-        element.setAttribute('src', `${gameDetails[key]}`)
-        element.setAttribute('alt', `Image for ${gameDetails.name}`)
+        element.setAttribute('src', `${stockDetails[key]}`)
+        element.setAttribute('alt', `Image for ${stockDetails.name}`)
       } else if (key === 'description') {
-        element.innerHTML = gameDetails[key]
+        element.innerHTML = stockDetails[key]
       } else if (key === 'designers' || key === 'artists' || key === 'publishers') {
-        element.textContent = gameDetails[key].join(', ')
+        element.textContent = stockDetails[key].join(', ')
       } else {
-        element.textContent = gameDetails[key]
+        element.textContent = stockDetails[key]
       }
     }
   }

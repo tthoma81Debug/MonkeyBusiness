@@ -1,54 +1,54 @@
 import React from 'react'
 
 import PageHeader from './PageHeader.jsx'
-import StockTable from './PortfolioPage.jsx'
+//import StockTable from './PortfolioPage.jsx'
 import StockDetails from './StockDetails.jsx'
 import BootstrapModal from './BootstrapModal.jsx'
 import FormModal from './FormModal.jsx'
-import LoginRegisterForm from './LoginRegisterForm.jsx'
-import { retrieveGameDetails } from '../mbdataHelper'
+//import LoginRegisterForm from './LoginRegisterForm.jsx'
+import { retrieveStockDetails } from '../mbdataHelper'
 
 export default function App (props) {
 
-  const [currentGame, setCurrentGameID] = React.useState('')
+  const [currentStock, setCurrentStockID] = React.useState('')
   const [showDetailsModal, setShowDetailsModal] = React.useState(false)
   const [showFormModal, setShowFormModal] = React.useState(false)
 
-  const detailsRequested = (gameID) => {
-    console.log('details requested for gameID: ' + gameID)
-    setCurrentGameID(gameID)
+  const detailsRequested = (stockID) => {
+    console.log('details requested for stockID: ' + stockID)
+    setCurrentStockID(stockID)
     setShowDetailsModal(true)
   }
-  const [currentGameData, setCurrentGameData] = React.useState(null)
+  const [currentStockData, setCurrentStockData] = React.useState(null)
   React.useEffect(() => {
-    const fetchGameData = async () => {
-      const gameData = await retrieveGameDetails(currentGame)
-      setCurrentGameData(gameData)
+    const fetchStockData = async () => {
+      const stockData = await retrieveStockDetails(currentStock)
+      setCurrentStockData(stockData)
     }
 
-    if (currentGame !== '') {
-    fetchGameData(currentGame)
+    if (currentStock !== '') {
+    fetchStockData(currentStock)
     }
-  } , [currentGame])
+  } , [currentStock])
   return (
     // <div className='container'>
-    //   <PageHeader title='Game Browser' subTitle='' />
-    //   <GameGrid onDetailsRequested={detailsRequested}/>
+    //   <PageHeader title='Stock Browser' subTitle='' />
+    //   <StockGrid onDetailsRequested={detailsRequested}/>
     //   <BootstrapModal
     //   open={showDetailsModal}
-    //   gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
+    //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
     //   onClose={() => setShowDetailsModal(false)}
     //   >
 
-    //     {!!currentGameData && <GameDetails {...currentGameData} />}
+    //     {!!currentStockData && <StockDetails {...currentStockData} />}
     //   </BootstrapModal>
     //   <FormModal
     //   open={showFormModal}
-    //   gameName={`${currentGameData?.name} (${currentGameData?.gameID})`}
+    //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
     //   onClose={() => setShowFormModal(false)}
     //   >
 
-    //     {!!currentGameData && <GameForm {...currentGameData} />}
+    //     {!!currentStockData && <StockForm {...currentStockData} />}
     //   </FormModal>
 
 

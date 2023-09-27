@@ -2423,9 +2423,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React10 = require_react();
+          var React7 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React10.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React7.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4030,7 +4030,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React10.Children.forEach(props.children, function(child) {
+                  React7.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12477,7 +12477,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React10.Component().refs;
+          var emptyRefsObject = new React7.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -24326,11 +24326,11 @@
   });
 
   // client/main.jsx
-  var import_react9 = __toESM(require_react(), 1);
+  var import_react6 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // client/components/App.jsx
-  var import_react8 = __toESM(require_react(), 1);
+  var import_react5 = __toESM(require_react(), 1);
 
   // client/components/PageHeader.jsx
   var import_react = __toESM(require_react(), 1);
@@ -24348,155 +24348,23 @@
     subTitle: "Page Subtitle"
   };
 
-  // client/components/GameGrid.jsx
-  var import_react3 = __toESM(require_react(), 1);
-
-  // client/dataHelper.js
-  function retrieveGames() {
-    return __async(this, null, function* () {
-      try {
-        const response = yield fetch("api/games");
-        if (response.status >= 400) {
-          throw new Error(`Request failed with response code ${response.status}`);
-        }
-        return yield response.json();
-      } catch (err) {
-        console.error("Failed to retrieve array of games");
-        console.error(err);
-        return [];
-      }
-    });
-  }
-  function retrieveGameDetails(gameID) {
-    return __async(this, null, function* () {
-      try {
-        const response = yield fetch(`http://localhost:3000/api/games/${gameID}`);
-        if (response.status >= 400) {
-          throw new Error(`Request failed with response code ${response.status}`);
-        }
-        return yield response.json();
-      } catch (err) {
-        console.error("Failed to retrieve details");
-        console.error(err);
-        return null;
-      }
-    });
-  }
-
-  // client/components/GameCard.jsx
+  // client/components/StockDetails.jsx
   var import_react2 = __toESM(require_react(), 1);
   var import_prop_types2 = __toESM(require_prop_types(), 1);
-  var gameSummaryStyle = {
-    border: "solid 1px lightgrey",
-    borderRadius: "10px",
-    boxShadow: "lightgrey 3px 3px 6px",
-    transition: "box-shadow 0.3s ease-in-out",
-    textAlign: "center",
-    padding: "5px",
-    marginBottom: "15px",
-    verticalAlign: "bottom",
-    cursor: "pointer"
-  };
-  var summaryTitleStyle = {
-    display: "block",
-    fontSize: "medium",
-    height: "4.5em"
-  };
-  var summaryInfoStyle = {
-    display: "block",
-    fontSize: "medium",
-    height: "5em"
-  };
-  var imageStyle = {
-    display: "block",
-    margin: "auto",
-    width: "auto",
-    height: "auto",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    borderRadius: "10px",
-    objectFit: "cover"
-  };
-  function GameCard(props) {
-    const { gameID, name, rating, year, publishers, image, onDetailsRequested } = props;
-    const handleClick = (event) => {
-      event.preventDefault();
-      onDetailsRequested(gameID);
-    };
-    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-sm-6 col-md-4 col-lg-3", onClick: handleClick }, /* @__PURE__ */ import_react2.default.createElement("div", { style: gameSummaryStyle }, /* @__PURE__ */ import_react2.default.createElement("span", { style: summaryTitleStyle }, name), /* @__PURE__ */ import_react2.default.createElement(
-      "img",
-      {
-        alt: `Poster for ${name}`,
-        src: `${image}`,
-        height: "250px",
-        style: imageStyle
-      }
-    ), /* @__PURE__ */ import_react2.default.createElement("br", null), /* @__PURE__ */ import_react2.default.createElement("span", { style: summaryInfoStyle }, publishers.slice(0, 2).join(", "), /* @__PURE__ */ import_react2.default.createElement("br", null), `Year: ${year}, Rating: ${rating}`)));
+  function StockDetails(props) {
+    const { name, amount, price } = props;
+    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5 image" }, /* @__PURE__ */ import_react2.default.createElement("img", { className: "image", id: "details-image", src: "", alt: "Full game poster for" })), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-7" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Stock Name: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, name), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Amount: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, amount), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Price: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, price)))));
   }
-  GameCard.propTypes = {
-    gameID: import_prop_types2.default.number.isRequired,
+  StockDetails.propTypes = {
     name: import_prop_types2.default.string.isRequired,
-    rating: import_prop_types2.default.number.isRequired,
-    year: import_prop_types2.default.number.isRequired,
-    publishers: import_prop_types2.default.arrayOf(import_prop_types2.default.string),
-    image: import_prop_types2.default.string,
-    onDetailsRequested: import_prop_types2.default.func
+    amount: import_prop_types2.default.number.isRequired,
+    price: import_prop_types2.default.number.isRequired
   };
-  GameCard.defaultProps = {
-    publishers: [],
-    onDetailsRequested: () => {
-    },
-    image: "/public/images/defaultImage.jpg"
-  };
-
-  // client/components/GameGrid.jsx
-  function GameGrid(props) {
-    const [games, setGames] = import_react3.default.useState([]);
-    import_react3.default.useEffect(() => {
-      const fetchGames = () => __async(this, null, function* () {
-        const games2 = yield retrieveGames();
-        setGames(games2);
-      });
-      fetchGames();
-    }, []);
-    const gameCards = games.map((game) => /* @__PURE__ */ import_react3.default.createElement(GameCard, __spreadProps(__spreadValues(__spreadValues({}, game), props), { key: game.gameID })));
-    return /* @__PURE__ */ import_react3.default.createElement("div", { className: "row" }, gameCards);
-  }
-
-  // client/components/GameDetails.jsx
-  var import_react4 = __toESM(require_react(), 1);
-  var import_prop_types3 = __toESM(require_prop_types(), 1);
-  function renderHTML(rawHTML) {
-    return import_react4.default.createElement("div", {
-      dangerouslySetInnerHTML: { __html: rawHTML }
-    });
-  }
-  function GameDetails(props) {
-    const { year, rating, numplayers, playtime, minAge, weight, designers, artists, publishers, description } = props;
-    return /* @__PURE__ */ import_react4.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5 image" }, /* @__PURE__ */ import_react4.default.createElement("img", { className: "image", id: "details-image", src: "", alt: "Full game poster for" })), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-7" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Year:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, year), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Rating:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, rating), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Number of Players:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, numplayers), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Time:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, playtime), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Minimum Age:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, minAge), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Weight:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, weight), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Designers:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, designers.join(", ")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Artists:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, artists.join(", ")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react4.default.createElement("h4", null, "Publishers:")), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-5" }, publishers.join(", ")))), /* @__PURE__ */ import_react4.default.createElement("h4", null, "Description:"), /* @__PURE__ */ import_react4.default.createElement("div", { className: "col-12", id: "details-description" }, renderHTML(description))));
-  }
-  GameDetails.propTypes = {
-    year: import_prop_types3.default.number.isRequired,
-    rating: import_prop_types3.default.number.isRequired,
-    numPlayers: import_prop_types3.default.number.isRequired,
-    playTime: import_prop_types3.default.number.isRequired,
-    minAge: import_prop_types3.default.number.isRequired,
-    weight: import_prop_types3.default.number.isRequired,
-    designers: import_prop_types3.default.arrayOf(import_prop_types3.default.string),
-    artists: import_prop_types3.default.arrayOf(import_prop_types3.default.string),
-    publishers: import_prop_types3.default.arrayOf(import_prop_types3.default.string),
-    description: import_prop_types3.default.string
-  };
-  GameDetails.defaultProps = {
-    artists: [],
-    designers: [],
-    publishers: [],
-    description: ""
-  };
+  StockDetails.defaultProps = {};
 
   // client/components/BootstrapModal.jsx
-  var import_react5 = __toESM(require_react(), 1);
-  var import_prop_types4 = __toESM(require_prop_types(), 1);
+  var import_react3 = __toESM(require_react(), 1);
+  var import_prop_types3 = __toESM(require_prop_types(), 1);
 
   // node_modules/@popperjs/core/lib/index.js
   var lib_exports = {};
@@ -29774,9 +29642,9 @@
   // client/components/BootstrapModal.jsx
   function BootstrapModal(props) {
     const { open, onClose, gameName, children } = props;
-    const modalRef = import_react5.default.useRef();
-    const [modalObj, setModalObj] = import_react5.default.useState(null);
-    import_react5.default.useEffect(() => {
+    const modalRef = import_react3.default.useRef();
+    const [modalObj, setModalObj] = import_react3.default.useState(null);
+    import_react3.default.useEffect(() => {
       if (modalRef.current && !modalObj) {
         const gameDetailsModal = new Modal(modalRef.current);
         modalRef.current.addEventListener("hidden.bs.modal", (event) => {
@@ -29785,7 +29653,7 @@
         setModalObj(gameDetailsModal);
       }
     }, [onClose, modalObj]);
-    import_react5.default.useEffect(() => {
+    import_react3.default.useEffect(() => {
       if (modalObj) {
         if (open) {
           modalObj.show();
@@ -29794,8 +29662,22 @@
         }
       }
     }, [open, modalObj]);
-    return /* @__PURE__ */ import_react5.default.createElement("div", { ref: modalRef, className: "modal fade", tabIndex: "-1", "aria-hidden": "true" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "modal-dialog modal-xl" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "modal-content" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "modal-header" }, /* @__PURE__ */ import_react5.default.createElement("h1", { className: "modal-title fs-5", id: "detailsModalLabel" }, /* @__PURE__ */ import_react5.default.createElement("span", null, gameName)), /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })), /* @__PURE__ */ import_react5.default.createElement("div", { className: "modal-body" }, children), /* @__PURE__ */ import_react5.default.createElement("div", { className: "modal-footer" }, /* @__PURE__ */ import_react5.default.createElement("button", { type: "button", className: "btn btn-secondary", "data-bs-dismiss": "modal" }, "Close")))));
+    return /* @__PURE__ */ import_react3.default.createElement("div", { ref: modalRef, className: "modal fade", tabIndex: "-1", "aria-hidden": "true" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-dialog modal-xl" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-content" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-header" }, /* @__PURE__ */ import_react3.default.createElement("h1", { className: "modal-title fs-5", id: "detailsModalLabel" }, /* @__PURE__ */ import_react3.default.createElement("span", null, gameName)), /* @__PURE__ */ import_react3.default.createElement("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })), /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-body" }, children), /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-footer" }, /* @__PURE__ */ import_react3.default.createElement("button", { type: "button", className: "btn btn-secondary", "data-bs-dismiss": "modal" }, "Close")))));
   }
+  BootstrapModal.propTypes = {
+    open: import_prop_types3.default.bool.isRequired,
+    onClose: import_prop_types3.default.func.isRequired,
+    gameName: import_prop_types3.default.string,
+    children: import_prop_types3.default.node
+  };
+  BootstrapModal.defaultProps = {
+    gameName: "Modal Title",
+    children: null
+  };
+
+  // client/components/FormModal.jsx
+  var import_react4 = __toESM(require_react(), 1);
+  var import_prop_types4 = __toESM(require_prop_types(), 1);
   BootstrapModal.propTypes = {
     open: import_prop_types4.default.bool.isRequired,
     onClose: import_prop_types4.default.func.isRequired,
@@ -29807,124 +29689,70 @@
     children: null
   };
 
-  // client/components/FormModal.jsx
-  var import_react6 = __toESM(require_react(), 1);
-  var import_prop_types5 = __toESM(require_prop_types(), 1);
-  function FormModal(props) {
-    const { open, onClose, gameName, children } = props;
-    const modalRef = import_react6.default.useRef();
-    const [modalObj, setModalObj] = import_react6.default.useState(null);
-    import_react6.default.useEffect(() => {
-      if (modalRef.current && !modalObj) {
-        const gameFormModal = new Modal(modalRef.current);
-        modalRef.current.addEventListener("hidden.bs.modal", (event) => {
-          onClose();
-        });
-        setModalObj(gameFormModal);
-      }
-    }, [onClose, modalObj]);
-    import_react6.default.useEffect(() => {
-      if (modalObj) {
-        if (open) {
-          modalObj.show();
-        } else {
-          modalObj.hide();
+  // client/mbdataHelper.js
+  function retrieveStockDetails(stockID) {
+    return __async(this, null, function* () {
+      try {
+        const response = yield fetch(`http://localhost:3000/api/stocks/${stockID}`);
+        if (response.status >= 400) {
+          throw new Error(`Request failed with response code ${response.status}`);
         }
+        return yield response.json();
+      } catch (err) {
+        console.error("Failed to retrieve stock details");
+        console.error(err);
+        return null;
       }
-    }, [open, modalObj]);
-    return /* @__PURE__ */ import_react6.default.createElement("div", { ref: modalRef, className: "modal fade", tabIndex: "-1", "aria-hidden": "true" }, /* @__PURE__ */ import_react6.default.createElement("div", { className: "modal-dialog modal-xl" }, /* @__PURE__ */ import_react6.default.createElement("div", { className: "modal-content" }, /* @__PURE__ */ import_react6.default.createElement("div", { className: "modal-header" }, /* @__PURE__ */ import_react6.default.createElement("h1", { className: "modal-title fs-5", id: "formModalLabel" }, /* @__PURE__ */ import_react6.default.createElement("span", null, "Add/Edit Game")), /* @__PURE__ */ import_react6.default.createElement("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })), /* @__PURE__ */ import_react6.default.createElement("div", { className: "modal-body" }, children), /* @__PURE__ */ import_react6.default.createElement("div", { className: "modal-footer" }, /* @__PURE__ */ import_react6.default.createElement("button", { type: "button", className: "btn btn-secondary", "data-bs-dismiss": "modal" }, "Close"), /* @__PURE__ */ import_react6.default.createElement("button", { type: "button", className: "btn btn-primary" }, "Save changes")))));
-  }
-  BootstrapModal.propTypes = {
-    open: import_prop_types5.default.bool.isRequired,
-    onClose: import_prop_types5.default.func.isRequired,
-    gameName: import_prop_types5.default.string,
-    children: import_prop_types5.default.node
-  };
-  BootstrapModal.defaultProps = {
-    gameName: "Modal Title",
-    children: null
-  };
-
-  // client/components/GameForm.jsx
-  var import_react7 = __toESM(require_react(), 1);
-  var import_prop_types6 = __toESM(require_prop_types(), 1);
-  function renderHTML2(rawHTML) {
-    return import_react7.default.createElement("div", {
-      dangerouslySetInnerHTML: { __html: rawHTML }
     });
   }
-  function GameForm(props) {
-    const { gameName, year, rating, numplayers, playtime, minAge, weight, designers, artists, publishers, description } = props;
-    return /* @__PURE__ */ import_react7.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-7" }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Name:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: gameName })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Year:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: year })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Rating:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: rating })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Number of Players:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: numplayers })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Time:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: playtime })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Minimum Age:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: minAge })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Weight:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: weight })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Designers:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: designers.join(", ") })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Artists:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: artists.join(", ") })), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("h4", null, "Publishers:")), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: publishers.join(", ") })))), /* @__PURE__ */ import_react7.default.createElement("h4", null, "Description:"), /* @__PURE__ */ import_react7.default.createElement("div", { className: "col-12", id: "details-description" }, /* @__PURE__ */ import_react7.default.createElement("input", { type: "text", value: renderHTML2(description) }))));
-  }
-  GameDetails.propTypes = {
-    year: import_prop_types6.default.number,
-    rating: import_prop_types6.default.number,
-    numPlayers: import_prop_types6.default.number,
-    playTime: import_prop_types6.default.number,
-    minAge: import_prop_types6.default.number,
-    weight: import_prop_types6.default.number,
-    designers: import_prop_types6.default.arrayOf(import_prop_types6.default.string),
-    artists: import_prop_types6.default.arrayOf(import_prop_types6.default.string),
-    publishers: import_prop_types6.default.arrayOf(import_prop_types6.default.string),
-    description: import_prop_types6.default.string
-  };
-  GameDetails.defaultProps = {
-    year: null,
-    rating: null,
-    numPlayers: null,
-    playTime: null,
-    minAge: null,
-    weight: null,
-    artists: [],
-    designers: [],
-    publishers: [],
-    description: ""
-  };
 
   // client/components/App.jsx
   function App(props) {
-    const [currentGame, setCurrentGameID] = import_react8.default.useState("");
-    const [showDetailsModal, setShowDetailsModal] = import_react8.default.useState(false);
-    const [showFormModal, setShowFormModal] = import_react8.default.useState(false);
-    const detailsRequested = (gameID) => {
-      console.log("details requested for gameID: " + gameID);
-      setCurrentGameID(gameID);
+    const [currentStock, setCurrentStockID] = import_react5.default.useState("");
+    const [showDetailsModal, setShowDetailsModal] = import_react5.default.useState(false);
+    const [showFormModal, setShowFormModal] = import_react5.default.useState(false);
+    const detailsRequested = (stockID) => {
+      console.log("details requested for stockID: " + stockID);
+      setCurrentStockID(stockID);
       setShowDetailsModal(true);
     };
-    const [currentGameData, setCurrentGameData] = import_react8.default.useState(null);
-    import_react8.default.useEffect(() => {
-      const fetchGameData = () => __async(this, null, function* () {
-        const gameData = yield retrieveGameDetails(currentGame);
-        setCurrentGameData(gameData);
+    const [currentStockData, setCurrentStockData] = import_react5.default.useState(null);
+    import_react5.default.useEffect(() => {
+      const fetchStockData = () => __async(this, null, function* () {
+        const stockData = yield retrieveStockDetails(currentStock);
+        setCurrentStockData(stockData);
       });
-      if (currentGame !== "") {
-        fetchGameData(currentGame);
+      if (currentStock !== "") {
+        fetchStockData(currentStock);
       }
-    }, [currentGame]);
-    return /* @__PURE__ */ import_react8.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react8.default.createElement(PageHeader, { title: "Game Browser", subTitle: "" }), /* @__PURE__ */ import_react8.default.createElement(GameGrid, { onDetailsRequested: detailsRequested }), /* @__PURE__ */ import_react8.default.createElement(
-      BootstrapModal,
-      {
-        open: showDetailsModal,
-        gameName: `${currentGameData == null ? void 0 : currentGameData.name} (${currentGameData == null ? void 0 : currentGameData.gameID})`,
-        onClose: () => setShowDetailsModal(false)
-      },
-      !!currentGameData && /* @__PURE__ */ import_react8.default.createElement(GameDetails, __spreadValues({}, currentGameData))
-    ), /* @__PURE__ */ import_react8.default.createElement(
-      FormModal,
-      {
-        open: showFormModal,
-        gameName: `${currentGameData == null ? void 0 : currentGameData.name} (${currentGameData == null ? void 0 : currentGameData.gameID})`,
-        onClose: () => setShowFormModal(false)
-      },
-      !!currentGameData && /* @__PURE__ */ import_react8.default.createElement(GameForm, __spreadValues({}, currentGameData))
-    ));
+    }, [currentStock]);
+    return (
+      // <div className='container'>
+      //   <PageHeader title='Stock Browser' subTitle='' />
+      //   <StockGrid onDetailsRequested={detailsRequested}/>
+      //   <BootstrapModal
+      //   open={showDetailsModal}
+      //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
+      //   onClose={() => setShowDetailsModal(false)}
+      //   >
+      //     {!!currentStockData && <StockDetails {...currentStockData} />}
+      //   </BootstrapModal>
+      //   <FormModal
+      //   open={showFormModal}
+      //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
+      //   onClose={() => setShowFormModal(false)}
+      //   >
+      //     {!!currentStockData && <StockForm {...currentStockData} />}
+      //   </FormModal>
+      // </div>
+      /* @__PURE__ */ import_react5.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react5.default.createElement("p", null, "Hello World!"), "\\")
+    );
   }
 
   // client/main.jsx
   var root = (0, import_client.createRoot)(document.getElementById("root"));
   root.render(
-    /* @__PURE__ */ import_react9.default.createElement(App, null)
+    /* @__PURE__ */ import_react6.default.createElement(App, null)
   );
 })();
 /*! Bundled license information:
