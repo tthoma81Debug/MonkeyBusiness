@@ -105,6 +105,21 @@ dataRouter.get('/stocks/:id', (req, res) => { // Search Database for related sto
 
 dataRouter.get('/stocks', (req, res) => {
   // pull top 5 Stocks from API  ------------------TO DO --------------------
+  queryMongoDatabase(async db => {
+    const options = {
+      sort: { name: 1 },
+      projection: { _id: 0, name: 1 }
+    }
+    const data = await db.collection('Stock').find({}, options)
+    if ((await db.collection('Stock').countDocuments({})) === 0) {
+      res.status(404).json({ error: true, message: 'No Stocks Found' })
+    }
+    const stockArray = []
+    for await (const doc of data) {
+      stockArray.push(doc)
+    }
+    res.json(stockArray)
+  }, 'MonkeyBusinessWebApp')
 })
 
 // dataRouter.post('/games', validator.validate({ body: gameSchema }), (req, res) => {
@@ -129,15 +144,24 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), (req, res) 
   const loginCredentials = req.body
 
   queryMongoDatabase(async db => {
-    const loginSuccess = await db.collection('Users').findOne({ username: loginCredentials[0], password: loginCredentials[1] }).toArray()
-    console.log(loginSuccess)
-    if (Array.isArray(loginSuccess) && loginSuccess.length > 0) {
+    const loginSuccess = await db.collection('Users').find({ username: loginCredentials[0] })
+    if ((await db.collection('Users').countDocuments({ username: loginCredentials[0]})) === 0) {
       // Function to set login state or token?? ------------------TO DO --------------------
+      res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
     } else {
       // Login Failed
-      res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
+      for await (const doc of loginSuccess) {
+        console.dir(doc)
+        // if (doc.password !== loginCredentials[1]) {
+        //   res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
+        // }
+      }
+      res.json({
+        error: false,
+        message: `User ${loginCredentials[0]} Logged In`
+      })
     }
-  }, 'Users')
+  }, 'MonkeyBusinessWebApp')
 })
 dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) => { // Signup for new user ------------------TO DO --------------------
   const signupCredentials = req.body
