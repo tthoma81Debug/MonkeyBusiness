@@ -1,12 +1,19 @@
 import Express from 'express'
-import fs from 'fs'
 import dataRouter from './api/mbRoutes.js'
+import session from 'express-session'
+import parseUrl from 'parseurl'
+import escapeHtml from 'escape-html'
 
 const PORT = 3000
 const app = new Express()
 
 app.use(Express.json())
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
 
+}))
 app.use((req, res, next) => {
   console.log(`${req.method} request at ${req.url}`)
   next()

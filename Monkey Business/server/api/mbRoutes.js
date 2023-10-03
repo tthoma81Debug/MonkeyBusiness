@@ -3,6 +3,7 @@ import fs from 'fs'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
 
 import queryMongoDatabase from '../data/mongoController.js'
+import { parseString } from 'xml2js'
 
 const dataRouter = new Express.Router()
 const validator = new Validator({ allErrors: true })
@@ -86,11 +87,15 @@ const gameSchema = {
 function wait (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+function isAuthenticated (req, res, next) {
+  if (req.session.user) next()
+  else next('route')
+}
 
 dataRouter.get('/stocks/:id', (req, res) => { // Search Database for related stocks to search query, If cannot search API ------------------TO DO --------------------
   const gameID = parseInt(req.params.id) // this is a string
   queryMongoDatabase(async db => {
-    const data = await db.collection('gamedata').find({ gameID: gameID }).toArray()
+    const data = await db.collection('gamedata').find({ gameID }).toArray()
     console.log(data)
     if (Array.isArray(data) && data.length > 0) {
       res.json(data[0])
@@ -140,28 +145,54 @@ dataRouter.get('/stocks', (req, res) => {
 //     res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
 //   }
 // })
-dataRouter.post('/login', validator.validate({ body: loginSchema }), (req, res) => {
-  const loginCredentials = req.body
+dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.urlencoded({ extended: false }), (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
 
   queryMongoDatabase(async db => {
-    const loginSuccess = await db.collection('Users').find({ username: loginCredentials[0] })
-    if ((await db.collection('Users').countDocuments({ username: loginCredentials[0]})) === 0) {
+    const loginSuccess = db.collection('Users').find({ username })
+    const numDocs = await db.collection('Users').countDocuments({ username })
+    if ((numDocs) === 0) {
       // Function to set login state or token?? ------------------TO DO --------------------
       res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
+    } else if (numDocs > 1) {
+      res.status(500).json({ error: true, message: 'Multiple Users with same Username.' })
     } else {
       // Login Failed
       for await (const doc of loginSuccess) {
-        console.dir(doc)
-        // if (doc.password !== loginCredentials[1]) {
-        //   res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
-        // }
+        if (doc.password !== password) {
+          res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
+        }
       }
+      req.session.regenerate(function (err) {
+        if (err) next(err)
+        req.session.user = username
+        req.session.save(function (err) {
+          if (err) return next(err)
+          res.redirect('/')
+        })
+      })
       res.json({
         error: false,
-        message: `User ${loginCredentials[0]} Logged In`
+        message: `User: ${username} Logged In Successfully`
       })
     }
   }, 'MonkeyBusinessWebApp')
+})
+dataRouter.get('/logout', (req, res) => {
+  req.session.user = null
+  req.session.save(function (err) {
+    if (err) return next(err)
+    req.session.regenerate(function (err) {
+      if (err) next(err)
+      res.redirect('/')
+    }
+    )
+  })
+  req.session.destroy(function (err) {
+    if (err) return next(err)
+    res.redirect('/')
+  })
 })
 dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) => { // Signup for new user ------------------TO DO --------------------
   const signupCredentials = req.body
@@ -183,13 +214,10 @@ dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) 
 })
 dataRouter.post('/stocks', validator.validate({ body: stockSchema }), (req, res) => { // Add Stock to Database ------------------TO DO --------------------
   const stock = req.body
-
 })
 dataRouter.post('/monkey', validator.validate({ body: gameSchema }), (req, res) => { //
   const newGame = req.body
-
 })
-
 
 dataRouter.use(validationErrorMiddleware)
 function validationErrorMiddleware (err, req, res, next) {
@@ -205,19 +233,29 @@ function validationErrorMiddleware (err, req, res, next) {
   next()
 }
 
-dataRouter.delete('/account/:id', (req, res) => {
-  const ID = parseInt(req.params.id) // this is a string
+dataRouter.delete('/account/:username', (req, res) => {
+  const username = String(req.params.username) // this is a string
+  //res.status(404).json({ error: true, message: `user info ${username}` })
   queryMongoDatabase(async db => {
-    const data = await db.collection('Users').deleteOne({ userID: ID })
-    if (data.deletedCount === 1) {
-      res.json({
-        error: false,
-        message: `User ID ${ID} Deleted`
-      })
+    const findAccount = db.collection('Users').find({ username })
+    const numDocs = await db.collection('Users').countDocuments({ username })
+    if ((numDocs) === 0) {
+      // Function to set login state or token?? ------------------TO DO --------------------
+      res.status(404).json({ error: true, message: 'User could not be found.' })
+    } else if (numDocs > 1) {
+      res.status(500).json({ error: true, message: 'Multiple Users with same Username.' })
     } else {
-      res.status(404).json({ error: true, message: `User ID ${ID} not found` })
+      const data = await db.collection('Users').deleteOne({ username: username })
+      if (data.deletedCount === 1) {
+        res.json({
+          error: false,
+          message: `User ${username} Deleted`
+        })
+      } else {
+        res.status(404).json({ error: true, message: `User ${username} not found` })
+      }
     }
-  }, 'Users')
+  }, 'MonkeyBusinessWebApp')
 })
 
 // Make the router available to import in other files
