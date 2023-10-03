@@ -1,5 +1,4 @@
 import Express from 'express'
-import fs from 'fs'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
 
 import queryMongoDatabase from '../data/mongoController.js'
@@ -15,6 +14,24 @@ const loginSchema = {
       type: 'string'
     },
     password: {
+      type: 'string'
+    }
+  }
+}
+const signupSchema = {
+  type: 'object',
+  required: ['username', 'password', 'passwordConfirm', 'email'],
+  properties: {
+    username: {
+      type: 'string'
+    },
+    password: {
+      type: 'string'
+    },
+    passwordConfirm: {
+      type: 'string'
+    },
+    email: {
       type: 'string'
     }
   }
@@ -37,49 +54,6 @@ const stockSchema = {
     },
     userID: {
       type: 'integer'
-    }
-  }
-}
-
-const gameSchema = {
-  type: 'object',
-  required: ['gameID', 'name', 'image', 'year', 'rating', 'publishers', 'numplayers', 'minAge', 'playtime', 'weight'],
-  properties: {
-    gameID: {
-      type: 'integer'
-    },
-    name: {
-      type: 'string'
-    },
-    image: {
-      type: 'string'
-    },
-    year: {
-      type: 'integer'
-    },
-    rating: {
-      type: 'number'
-    },
-    publishers: {
-      type: 'array',
-      items: {
-        type: 'string'
-      }
-    },
-    numplayers: {
-      type: 'integer'
-    },
-    minAge: {
-      type: 'integer'
-    },
-    playtime: {
-      type: 'integer'
-    },
-    weight: {
-      type: 'number'
-    },
-    description: {
-      type: 'string'
     }
   }
 }
@@ -127,24 +101,7 @@ dataRouter.get('/stocks', (req, res) => {
   }, 'MonkeyBusinessWebApp')
 })
 
-// dataRouter.post('/games', validator.validate({ body: gameSchema }), (req, res) => {
-//   const newGame = req.body
-//   let GAME_ID_EXISTS = false
-//   allGames.forEach((game) => {
-//     if (game.gameID === newGame.gameID) {
-//       GAME_ID_EXISTS = true
-//     }
-//   })
-//   if (!GAME_ID_EXISTS) {
-//     allGames.push(newGame)
-//     res.json({
-//       error: false,
-//       message: `Game ID ${newGame.gameID} Added`
-//     })
-//   } else {
-//     res.status(409).json({ error: true, message: `Game ID ${newGame.gameID} Already Exists` })
-//   }
-// })
+
 dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.urlencoded({ extended: false }), (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -194,7 +151,7 @@ dataRouter.get('/logout', (req, res) => {
     res.redirect('/')
   })
 })
-dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) => { // Signup for new user ------------------TO DO --------------------
+dataRouter.post('/signup', validator.validate({ body: signupSchema }), (req, res) => { // Signup for new user ------------------TO DO --------------------
   const signupCredentials = req.body
 
   queryMongoDatabase(async db => {
@@ -210,12 +167,12 @@ dataRouter.post('/signup', validator.validate({ body: gameSchema }), (req, res) 
         message: `User ${signupCredentials[0]} Added`
       })
     }
-  }, 'Users')
+  }, 'MonkeyBusinessWebApp')
 })
 dataRouter.post('/stocks', validator.validate({ body: stockSchema }), (req, res) => { // Add Stock to Database ------------------TO DO --------------------
   const stock = req.body
 })
-dataRouter.post('/monkey', validator.validate({ body: gameSchema }), (req, res) => { //
+dataRouter.post('/monkey', validator.validate({ body: stockSchema }), (req, res) => { //
   const newGame = req.body
 })
 
@@ -235,7 +192,7 @@ function validationErrorMiddleware (err, req, res, next) {
 
 dataRouter.delete('/account/:username', (req, res) => {
   const username = String(req.params.username) // this is a string
-  //res.status(404).json({ error: true, message: `user info ${username}` })
+  //res.status(404).json({ error: true, message: `user info ${username}` }) I put this here to output the value of username to debug the code.
   queryMongoDatabase(async db => {
     const findAccount = db.collection('Users').find({ username })
     const numDocs = await db.collection('Users').countDocuments({ username })
