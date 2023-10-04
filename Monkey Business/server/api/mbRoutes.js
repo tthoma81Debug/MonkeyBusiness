@@ -1,8 +1,7 @@
 import Express from 'express'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
-
 import queryMongoDatabase from '../data/mongoController.js'
-import { parseString } from 'xml2js'
+import { validateEmail } from '../Middleware/generalServerFunctions.js'
 
 const dataRouter = new Express.Router()
 const validator = new Validator({ allErrors: true })
@@ -61,10 +60,28 @@ const stockSchema = {
 function wait (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
-function isAuthenticated (req, res, next) {
+function isAuthenticated (req, res, next) { // Check if user is authenticated ------------------TO DO --------------------
   if (req.session.user) next()
   else next('route')
 }
+function isAdmin (req, res, next) { // Check if user is admin ------------------TO DO --------------------
+  if (req.session.user === 'admin') next()
+  else next('route')
+}
+dataRouter.use(validationErrorMiddleware)
+function validationErrorMiddleware (err, req, res, next) {
+  if (res.headersSent) {
+    return next(err)
+  }
+
+  const isValidationError = err instanceof ValidationError
+  if (!isValidationError) {
+    return next(err)
+  }
+  res.status(400).json({ error: true, message: err.validationErrors })
+  next()
+}
+
 
 dataRouter.get('/stocks/:id', (req, res) => { // Search Database for related stocks to search query, If cannot search API ------------------TO DO --------------------
   const gameID = parseInt(req.params.id) // this is a string
@@ -101,13 +118,12 @@ dataRouter.get('/stocks', (req, res) => {
   }, 'MonkeyBusinessWebApp')
 })
 
-
 dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.urlencoded({ extended: false }), (req, res) => {
   const username = req.body.username
   const password = req.body.password
 
   queryMongoDatabase(async db => {
-    const loginSuccess = db.collection('Users').find({ username })
+    const loginSuccess = await db.collection('Users').find({ username })
     const numDocs = await db.collection('Users').countDocuments({ username })
     if ((numDocs) === 0) {
       // Function to set login state or token?? ------------------TO DO --------------------
@@ -121,14 +137,14 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
           res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
         }
       }
-      req.session.regenerate(function (err) {
-        if (err) next(err)
-        req.session.user = username
-        req.session.save(function (err) {
-          if (err) return next(err)
-          res.redirect('/')
-        })
-      })
+      // req.session.regenerate(function (err) {
+      //   if (err) next(err)
+      //   req.session.user = username
+      //   req.session.save(function (err) {
+      //     if (err) return next(err)
+      //     res.redirect('/')
+      //   })
+      // })
       res.json({
         error: false,
         message: `User: ${username} Logged In Successfully`
@@ -136,7 +152,8 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
     }
   }, 'MonkeyBusinessWebApp')
 })
-dataRouter.get('/logout', (req, res) => {
+dataRouter.get('/logout', (req, res) => { //maybe POST to introdce authentication ------------------TO DO --------------------
+  // if authenticated, logout, else redirect to login page
   req.session.user = null
   req.session.save(function (err) {
     if (err) return next(err)
@@ -151,46 +168,65 @@ dataRouter.get('/logout', (req, res) => {
     res.redirect('/')
   })
 })
-dataRouter.post('/signup', validator.validate({ body: signupSchema }), (req, res) => { // Signup for new user ------------------TO DO --------------------
-  const signupCredentials = req.body
+dataRouter.post('/signup', validator.validate({ body: signupSchema }), (req, res) => { // working without authentication ------------------TO DO --------------------
+  const username = req.body.username
+  const password = req.body.password
+  const passwordConfirm = req.body.passwordConfirm
+  const email = req.body.email
 
   queryMongoDatabase(async db => {
-    const signupSuccess = await db.collection('Users').findOne({ username: signupCredentials[0] }).toArray()
-    console.log(signupSuccess)
-    if (Array.isArray(signupSuccess) && signupSuccess.length > 0) {
+    const signupSuccess = await db.collection('Users').findOne({ username })
+
+    if ((signupSuccess) !== null) {
       res.status(404).json({ error: true, message: 'Username Already Exists.' })
     } else {
-      // Signup Success
-      await db.collection('Users').insertOne({ username: signupCredentials[0], password: signupCredentials[1] })
-      res.json({
-        error: false,
-        message: `User ${signupCredentials[0]} Added`
-      })
+      // Login Failed
+      if (password !== passwordConfirm) {
+        res.status(404).json({ error: true, message: 'Passwords do not match.' })
+      } else if (validateEmail(email) === false) {
+        res.status(404).json({ error: true, message: 'Invalid Email.' })
+      }
+
+      // Encrypt Password before database insertion ------------------TO DO --------------------
+      const insertDoc = db.collection('Users').insertOne({ username, password, email })
+      if (insertDoc.insertedCount !== null) {
+        res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
+      } else {
+        res.status(404).json({ error: true, message: 'Failed to insert user info!' })
+      }
+
+      // req.session.regenerate(function (err) {
+      //   if (err) next(err)
+      //   req.session.user = username
+      //   req.session.save(function (err) {
+      //     if (err) return next(err)
+      //     res.redirect('/')
+      //   })
+      // })
     }
   }, 'MonkeyBusinessWebApp')
 })
-dataRouter.post('/stocks', validator.validate({ body: stockSchema }), (req, res) => { // Add Stock to Database ------------------TO DO --------------------
+dataRouter.post('/stocks', validator.validate({ body: stockSchema }), (req, res) => { // working without authentication ------------------TO DO --------------------
+  // need to add authentication to this route ------------------TO DO --------------------
+  // user must be logged in to delete account
+  // ie req.session.user must be equal to req.params.username
+  // OR req.session.user must be an admin
   const stock = req.body
 })
 dataRouter.post('/monkey', validator.validate({ body: stockSchema }), (req, res) => { //
+  // need to add authentication to this route ------------------TO DO --------------------
+  // user must be logged in to delete account
+  // ie req.session.user must be equal to req.params.username
+  // OR req.session.user must be an admin
   const newGame = req.body
 })
 
-dataRouter.use(validationErrorMiddleware)
-function validationErrorMiddleware (err, req, res, next) {
-  if (res.headersSent) {
-    return next(err)
-  }
-
-  const isValidationError = err instanceof ValidationError
-  if (!isValidationError) {
-    return next(err)
-  }
-  res.status(400).json({ error: true, message: err.validationErrors })
-  next()
-}
-
 dataRouter.delete('/account/:username', (req, res) => {
+
+  // need to add authentication to this route ------------------TO DO --------------------
+  // user must be logged in to delete account
+  // ie req.session.user must be equal to req.params.username
+  // OR req.session.user must be an admin
   const username = String(req.params.username) // this is a string
   //res.status(404).json({ error: true, message: `user info ${username}` }) I put this here to output the value of username to debug the code.
   queryMongoDatabase(async db => {
