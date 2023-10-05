@@ -1,7 +1,7 @@
 import Express from 'express'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
 import queryMongoDatabase from '../data/mongoController.js'
-import { validateEmail } from '../Middleware/generalServerFunctions.js'
+import { validateEmail, deleteInvestor } from '../Middleware/generalServerFunctions.js'
 
 const dataRouter = new Express.Router()
 const validator = new Validator({ allErrors: true })
@@ -82,19 +82,18 @@ function validationErrorMiddleware (err, req, res, next) {
   next()
 }
 
-
 dataRouter.get('/stocks/:id', (req, res) => { // Search Database for related stocks to search query, If cannot search API ------------------TO DO --------------------
-  const gameID = parseInt(req.params.id) // this is a string
+  const stockID = parseInt(req.params.id) // this is a string
   queryMongoDatabase(async db => {
-    const data = await db.collection('gamedata').find({ gameID }).toArray()
+    const data = await db.collection('Stock').find({ stockID }).toArray()
     console.log(data)
     if (Array.isArray(data) && data.length > 0) {
       res.json(data[0])
     } else {
       // Movie is not found
-      res.status(404).json({ error: true, message: `Game ID ${gameID} not found` })
+      res.status(404).json({ error: true, message: `Game ID ${stockID} not found` })
     }
-  }, 'gamedata')
+  }, 'MonkeyBusinessWebApp')
 
   // Otherwise Just Search API for matching results.  ------------------TO DO --------------------
 })
@@ -152,7 +151,7 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
     }
   }, 'MonkeyBusinessWebApp')
 })
-dataRouter.get('/logout', (req, res) => { //maybe POST to introdce authentication ------------------TO DO --------------------
+dataRouter.get('/logout', (req, res) => { // maybe POST to introdce authentication ------------------TO DO --------------------
   // if authenticated, logout, else redirect to login page
   req.session.user = null
   req.session.save(function (err) {
@@ -188,11 +187,19 @@ dataRouter.post('/signup', validator.validate({ body: signupSchema }), (req, res
       }
 
       // Encrypt Password before database insertion ------------------TO DO --------------------
-      const insertDoc = db.collection('Users').insertOne({ username, password, email })
-      if (insertDoc.insertedCount !== null) {
-        res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
+      const adminID = null
+      const preferencesID = '651dec44f8c800a5da81622b'
+      // initialize new_investor
+      const investorID = await db.collection('Investor').insertOne({ username, stocks: [], monkey: [] })
+      if (investorID.insertedCount !== null) {
+        const insertDoc = await db.collection('Users').insertOne({ username, password, email, preferencesID, adminID })
+        if (insertDoc.insertedCount !== null) {
+          res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
+        } else {
+          res.status(404).json({ error: true, message: 'Failed to insert user info!' })
+        }
       } else {
-        res.status(404).json({ error: true, message: 'Failed to insert user info!' })
+        res.status(404).json({ error: true, message: 'Failed to insert investor info!' })
       }
 
       // req.session.regenerate(function (err) {
@@ -222,15 +229,14 @@ dataRouter.post('/monkey', validator.validate({ body: stockSchema }), (req, res)
 })
 
 dataRouter.delete('/account/:username', (req, res) => {
-
   // need to add authentication to this route ------------------TO DO --------------------
   // user must be logged in to delete account
   // ie req.session.user must be equal to req.params.username
   // OR req.session.user must be an admin
-  const username = String(req.params.username) // this is a string
-  //res.status(404).json({ error: true, message: `user info ${username}` }) I put this here to output the value of username to debug the code.
+  const username = req.params.username
+
   queryMongoDatabase(async db => {
-    const findAccount = db.collection('Users').find({ username })
+    const findAccount = await db.collection('Users').find({ username })
     const numDocs = await db.collection('Users').countDocuments({ username })
     if ((numDocs) === 0) {
       // Function to set login state or token?? ------------------TO DO --------------------
@@ -238,7 +244,8 @@ dataRouter.delete('/account/:username', (req, res) => {
     } else if (numDocs > 1) {
       res.status(500).json({ error: true, message: 'Multiple Users with same Username.' })
     } else {
-      const data = await db.collection('Users').deleteOne({ username: username })
+      deleteInvestor(username)
+      const data = await db.collection('Users').deleteOne({ username })
       if (data.deletedCount === 1) {
         res.json({
           error: false,

@@ -17,10 +17,6 @@ const Mongo = new MongoClient(url, {
     strict: true
   }
 })
-// const client = new Mongo.MongoClient(url, {
-//   useNewUrlParser: true, useUnifiedTopology: true, serverApi: Mongo.ServerApiVersion.v1
-// })
-
 export default function queryMongoDatabase (queryCallback, databaseName) {
   queryCallback(Mongo.db(databaseName))
     .catch(err => {
