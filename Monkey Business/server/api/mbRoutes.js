@@ -244,7 +244,9 @@ dataRouter.delete('/account/:username', (req, res) => {
     } else if (numDocs > 1) {
       res.status(500).json({ error: true, message: 'Multiple Users with same Username.' })
     } else {
-      deleteInvestor(username)
+      if (findAccount.investorID !== null) {
+        deleteInvestor(username)
+      }
       const data = await db.collection('Users').deleteOne({ username })
       if (data.deletedCount === 1) {
         res.json({
