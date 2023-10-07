@@ -2423,9 +2423,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React7 = require_react();
+          var React8 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React7.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React8.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4030,7 +4030,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React7.Children.forEach(props.children, function(child) {
+                  React8.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12477,7 +12477,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React7.Component().refs;
+          var emptyRefsObject = new React8.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -24326,11 +24326,11 @@
   });
 
   // client/main.jsx
-  var import_react6 = __toESM(require_react(), 1);
+  var import_react7 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // client/components/App.jsx
-  var import_react5 = __toESM(require_react(), 1);
+  var import_react6 = __toESM(require_react(), 1);
 
   // client/components/PageHeader.jsx
   var import_react = __toESM(require_react(), 1);
@@ -29706,18 +29706,52 @@
     });
   }
 
+  // client/components/HomePage.jsx
+  var import_react5 = __toESM(require_react(), 1);
+  var import_prop_types5 = __toESM(require_prop_types(), 1);
+  function HomePage(props) {
+    let content;
+    if (Math.random() + 0.5 % 1) {
+      content = /* @__PURE__ */ import_react5.default.createElement(UserHomePage, null);
+    } else {
+      content = /* @__PURE__ */ import_react5.default.createElement(GuestHomePage, null);
+    }
+    return /* @__PURE__ */ import_react5.default.createElement("div", null, content);
+  }
+  HomePage.propTypes = {};
+  function GuestHomePage() {
+    return /* @__PURE__ */ import_react5.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "col" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "jumbotron" }, /* @__PURE__ */ import_react5.default.createElement("h1", { className: "display-4" }, "Welcome to the Monkey Business Web App!"), /* @__PURE__ */ import_react5.default.createElement("p", { className: "lead" }, "The best place to find stock information and watch your returns go bananas"), /* @__PURE__ */ import_react5.default.createElement("hr", { className: "my-4" }), /* @__PURE__ */ import_react5.default.createElement("p", null, "Click the button below to login and track your stock picks!"), /* @__PURE__ */ import_react5.default.createElement("a", { className: "btn btn-primary btn-lg", href: "/login", role: "button" }, "Login")))));
+  }
+  function UserHomePage() {
+    return /* @__PURE__ */ import_react5.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "col" }, /* @__PURE__ */ import_react5.default.createElement("div", { className: "jumbotron" }, /* @__PURE__ */ import_react5.default.createElement("h1", { className: "display-4" }, "Welcome back ", username, "!"), /* @__PURE__ */ import_react5.default.createElement("p", { className: "lead" }, "The best place to find stock information"), /* @__PURE__ */ import_react5.default.createElement("hr", { className: "my-4" }), /* @__PURE__ */ import_react5.default.createElement("p", null, "Click the button below to get started"), /* @__PURE__ */ import_react5.default.createElement("a", { className: "btn btn-primary btn-lg", href: "/stocks", role: "button" }, "Get Started")))));
+  }
+  function UserStocksTable(props) {
+    const { stocks } = props;
+    return /* @__PURE__ */ import_react5.default.createElement("table", { className: "table" }, /* @__PURE__ */ import_react5.default.createElement("thead", null, /* @__PURE__ */ import_react5.default.createElement("tr", null, /* @__PURE__ */ import_react5.default.createElement("th", { scope: "col" }, "Symbol"), /* @__PURE__ */ import_react5.default.createElement("th", { scope: "col" }, "Name"), /* @__PURE__ */ import_react5.default.createElement("th", { scope: "col" }, "Price"), /* @__PURE__ */ import_react5.default.createElement("th", { scope: "col" }, "Quantity"), /* @__PURE__ */ import_react5.default.createElement("th", { scope: "col" }, "Total Value"))), /* @__PURE__ */ import_react5.default.createElement("tbody", null, stocks.map((stock) => /* @__PURE__ */ import_react5.default.createElement("tr", { key: stock.symbol }, /* @__PURE__ */ import_react5.default.createElement("td", null, stock.symbol), /* @__PURE__ */ import_react5.default.createElement("td", null, stock.name), /* @__PURE__ */ import_react5.default.createElement("td", null, stock.price), /* @__PURE__ */ import_react5.default.createElement("td", null, stock.quantity), /* @__PURE__ */ import_react5.default.createElement("td", null, stock.price * stock.quantity)))));
+  }
+  UserStocksTable.propTypes = {
+    stocks: import_prop_types5.default.arrayOf(
+      import_prop_types5.default.shape({
+        symbol: import_prop_types5.default.string.isRequired,
+        name: import_prop_types5.default.string.isRequired,
+        price: import_prop_types5.default.number.isRequired,
+        quantity: import_prop_types5.default.number.isRequired
+      })
+    ).isRequired
+  };
+
   // client/components/App.jsx
   function App(props) {
-    const [currentStock, setCurrentStockID] = import_react5.default.useState("");
-    const [showDetailsModal, setShowDetailsModal] = import_react5.default.useState(false);
-    const [showFormModal, setShowFormModal] = import_react5.default.useState(false);
+    const [currentStock, setCurrentStockID] = import_react6.default.useState("");
+    const [showDetailsModal, setShowDetailsModal] = import_react6.default.useState(false);
+    const [showFormModal, setShowFormModal] = import_react6.default.useState(false);
     const detailsRequested = (stockID) => {
       console.log("details requested for stockID: " + stockID);
       setCurrentStockID(stockID);
       setShowDetailsModal(true);
     };
-    const [currentStockData, setCurrentStockData] = import_react5.default.useState(null);
-    import_react5.default.useEffect(() => {
+    const [currentStockData, setCurrentStockData] = import_react6.default.useState(null);
+    import_react6.default.useEffect(() => {
       const fetchStockData = () => __async(this, null, function* () {
         const stockData = yield retrieveStockDetails(currentStock);
         setCurrentStockData(stockData);
@@ -29745,14 +29779,14 @@
       //     {!!currentStockData && <StockForm {...currentStockData} />}
       //   </FormModal>
       // </div>
-      /* @__PURE__ */ import_react5.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react5.default.createElement("p", null, "Hello World!"), "\\")
+      /* @__PURE__ */ import_react6.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react6.default.createElement(PageHeader, { title: "Monkey Business", subTitle: "" }), /* @__PURE__ */ import_react6.default.createElement(HomePage, null))
     );
   }
 
   // client/main.jsx
   var root = (0, import_client.createRoot)(document.getElementById("root"));
   root.render(
-    /* @__PURE__ */ import_react6.default.createElement(App, null)
+    /* @__PURE__ */ import_react7.default.createElement(App, null)
   );
 })();
 /*! Bundled license information:
