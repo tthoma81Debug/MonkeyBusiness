@@ -1,6 +1,9 @@
-# pip install urllib
+# after getting your python environment running, run these commands in the terminal to finihs setting up.
 # pip install m3u8
 # pip install streamlink
+# pip install numpy
+# pip install opencv-python
+# pip install datetime
 from datetime import datetime, timedelta, timezone
 import time
 import numpy as np
@@ -104,7 +107,7 @@ def openCVProcessing(saved_video_file):
             print("x: ", x, " y: ", y)
             cv2.putText(frame1, "Status: {}".format('Movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
                         1, (0, 0, 255), 3)
-        cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2) #Not always desired, but keep available
+        #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2) #Not always desired, but keep available
 
         image = cv2.resize(frame1, (1280, 720))
         cv2.imshow("feed", frame1)
@@ -123,8 +126,8 @@ def openCVProcessing(saved_video_file):
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
 videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
-
+os.remove(tempFile)
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
 
-os.remove(tempFile)
+
