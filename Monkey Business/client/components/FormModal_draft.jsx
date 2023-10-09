@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal } from 'bootstrap'
-import BootstrapModal from './BootstrapModal'
-
+import BootstrapModal from './BootstrapModal_draft.jsx'
 
 export default function FormModal (props) {
-  const { open, onClose, username, children } = props
+  // eslint-disable-next-line react/prop-types
+  const { open, onClose, children } = props
 
   const modalRef = React.useRef()
   const [modalObj, setModalObj] = React.useState(null)
