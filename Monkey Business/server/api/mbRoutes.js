@@ -2,6 +2,12 @@ import Express from 'express'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
 import queryMongoDatabase from '../data/mongoController.js'
 import { validateEmail, deleteInvestor } from '../Middleware/generalServerFunctions.js'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import path from 'path'
+import Dotenv from 'dotenv'
+Dotenv.config()
+
 
 const dataRouter = new Express.Router()
 const validator = new Validator({ allErrors: true })
@@ -139,7 +145,14 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
     } else {
       // Login Failed
       for await (const doc of loginSuccess) {
-        if (doc.password !== password) {
+        const match = (password === doc.password) //await bcrypt.compare(password, doc.password)
+        if (match) {
+          // const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+          // const refreshToken = jwt.sign({ username: username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
+          // const otherUsers = "Array of other users' usernames, excluding current user"
+          // const currentUser = { username, refreshToken }
+          res.json({ error: false, message: `User: ${username} Logged In Successfully` })
+        } else {
           res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
         }
       }
@@ -151,10 +164,6 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
       //     res.redirect('/')
       //   })
       // })
-      res.json({
-        error: false,
-        message: `User: ${username} Logged In Successfully`
-      })
     }
   }, 'MonkeyBusinessWebApp')
 })
