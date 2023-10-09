@@ -13,14 +13,20 @@ export default function MyNavBar () {
         <LinkContainer to = "/" >
           <Nav.Link> Home </Nav.Link>
         </LinkContainer>
+        <LinkContainer to = "/stats" >
+          <Nav.Link> Statistics </Nav.Link>
+        </LinkContainer>
         <LinkContainer to = "/monkeyTech" >
           <Nav.Link> Monkey Technology </Nav.Link>
         </LinkContainer>
         <LinkContainer to = "/about" >
           <Nav.Link> About Us </Nav.Link>
         </LinkContainer>
+        <LinkContainer to = "/setting" >
+          <Nav.Link> Setting </Nav.Link>
+        </LinkContainer>
         </Nav>
-        <Nav className="justify-content-end" style={{ width: '70%' }}>
+        <Nav className="justify-content-end" style={{ width: '60%' }}>
         <LinkContainer to = "/login" >
           <Nav.Link> Log In </Nav.Link>
         </LinkContainer>
