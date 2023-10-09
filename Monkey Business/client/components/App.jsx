@@ -7,6 +7,7 @@ import BootstrapModal from './BootstrapModal.jsx'
 import FormModal from './FormModal.jsx'
 //import LoginRegisterForm from './LoginRegisterForm.jsx'
 import { retrieveStockDetails } from '../mbdataHelper'
+import HomePage from './HomePage.jsx'
 
 export default function App (props) {
 
@@ -54,7 +55,8 @@ export default function App (props) {
 
     // </div>
     <div className='container'>
-      <p>Hello World!</p>\
+      <PageHeader title='Monkey Business' subTitle='' />
+      <HomePage />
     </div>
 
   )

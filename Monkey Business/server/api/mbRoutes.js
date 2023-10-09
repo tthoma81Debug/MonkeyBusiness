@@ -37,11 +37,8 @@ const signupSchema = {
 }
 const stockSchema = {
   type: 'object',
-  required: ['stockID', 'name', 'amount', 'price', 'userID'],
+  required: ['name', 'amount', 'price', 'userID'],
   properties: {
-    stockID: {
-      type: 'integer'
-    },
     name: {
       type: 'string'
     },
@@ -82,16 +79,26 @@ function validationErrorMiddleware (err, req, res, next) {
   next()
 }
 
-dataRouter.get('/stocks/:id', (req, res) => { // Search Database for related stocks to search query, If cannot search API ------------------TO DO --------------------
-  const stockID = parseInt(req.params.id) // this is a string
+dataRouter.get('/stocks/:name', (req, res) => { // Search Database for related stocks to search query, If cannot search API ------------------TO DO --------------------
+  const stockName = parseInt(req.params.name) // this is a string
+  // Search API for matching results.  ------------------TO DO --------------------
+  // logic to return top 5 results from API
+
+  // Start to a solution for searching database for stocks that will then be searched in API
   queryMongoDatabase(async db => {
-    const data = await db.collection('Stock').find({ stockID }).toArray()
-    console.log(data)
+    const data = await db.collection('Stock').find({ stockName })
+    const numDocs = await db.collection('Stock').countDocuments({ stockName })
+    if ((numDocs) === 0) {
+      res.status(404).json({ error: true, message: `Stock: ${stockName} not found` })
+    }
+    for await (const doc of data) {
+      res.json(doc)// search API for doc.name
+    }
     if (Array.isArray(data) && data.length > 0) {
       res.json(data[0])
     } else {
       // Movie is not found
-      res.status(404).json({ error: true, message: `Game ID ${stockID} not found` })
+      res.status(404).json({ error: true, message: `Game ID ${stockName} not found` })
     }
   }, 'MonkeyBusinessWebApp')
 
