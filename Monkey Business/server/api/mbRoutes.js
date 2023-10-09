@@ -267,28 +267,43 @@ dataRouter.delete('/account/:username', (req, res) => {
   }, 'MonkeyBusinessWebApp')
 })
 
-dataRouter.post('/update', (req,res) => {
+dataRouter.post('/update', (req, res) => {
+  // turn parameters into variables
+  const username = req.body.username // going to be session.user
+  const colorScheme = req.body.colorScheme
+  const graphColor = req.body.graphColor
+  const fontSize = req.body.fontSize
+  const query = { colorScheme, graphColor, fontSize }
 
-  //turn parameters into variables
-  const username = req.body.username
-  const newPref = req.body
-  newPref = newPref.slice(0)
+  let newPrefId
 
   queryMongoDatabase(async db => {
+    // check for matching set of preferences
+    const foundPreferences = await db.collection('Preferences').findOne(query)
 
-    //check for matching set of preferences
-    const numDocs = await db.collection('Preferences').countDocuments( newPref )  
+    if (foundPreferences === null) { // if no match, add new set to database
+      const insert = await db.collection('Preferences').insertOne(query)
+      if (insert.insertedCount === null) {
+        res.status(404).json({ error: true, message: 'Failed to insert new preference set!' })
+      } else {
+        newPrefId = await db.collections('Preferences').findOne(query, { projection: { _id: 1, colorScheme: 0, graphColor: 0, fontSize: 0 } })
+      }
+    } else { // if match, get id of matching set
+      newPrefId = foundPreferences._id
+    }
 
-    if(numDocs === 0) { //if no match, add new set to database
-      const insert = await db.collection('Preferences').insertOne( newPref )
-    } 
-    //get new preference set id
-    const newPrefId = await db.collections('Preferences').find( newPref ).projection({ _id : 1})
-
-    //update user's preference set with new id
-    const update = await db.collection('Users').updateOne({ username }, { preferencesID : newPrefId})
-    res.json({ error : false, message: 'Preferences Updated' })
-
+    // update user's preference set with new id
+    const updateDoc = {
+      $set: {
+        preferencesID: newPrefId
+      }
+    }
+    const update = await db.collection('Users').updateOne({ username }, updateDoc)
+    if (update.modifiedCount === null) {
+      res.status(404).json({ error: true, message: 'Failed to update user preferences!' })
+    } else {
+      res.json({ error: false, message: 'Preferences Updated' })
+    }
   }, 'MonkeyBusinessWebApp')
 })
 
