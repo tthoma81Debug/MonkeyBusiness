@@ -260,5 +260,30 @@ dataRouter.delete('/account/:username', (req, res) => {
   }, 'MonkeyBusinessWebApp')
 })
 
+dataRouter.post('/update', (req,res) => {
+
+  //turn parameters into variables
+  const username = req.body.username
+  const newPref = req.body
+  newPref = newPref.slice(0)
+
+  queryMongoDatabase(async db => {
+
+    //check for matching set of preferences
+    const numDocs = await db.collection('Preferences').countDocuments( newPref )  
+
+    if(numDocs === 0) { //if no match, add new set to database
+      const insert = await db.collection('Preferences').insertOne( newPref )
+    } 
+    //get new preference set id
+    const newPrefId = await db.collections('Preferences').find( newPref ).projection({ _id : 1})
+
+    //update user's preference set with new id
+    const update = await db.collection('Users').updateOne({ username }, { preferencesID : newPrefId})
+    res.json({ error : false, message: 'Preferences Updated' })
+
+  }, 'MonkeyBusinessWebApp')
+})
+
 // Make the router available to import in other files
 export default dataRouter
