@@ -126,7 +126,7 @@ def openCVProcessing(saved_video_file):
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
 videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
-os.remove(tempFile)
+if(os.path.isfile(tempFile)): os.remove(tempFile)
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
 
