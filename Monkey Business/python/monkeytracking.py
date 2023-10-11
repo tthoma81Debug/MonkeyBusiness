@@ -109,7 +109,6 @@ def openCVProcessing(saved_video_file):
                         1, (0, 0, 255), 3)
         #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2) #Not always desired, but keep available
 
-        image = cv2.resize(frame1, (1280, 720))
         cv2.imshow("feed", frame1)
         frame1 = frame2
         grabbed, frame2 = capture.read()
