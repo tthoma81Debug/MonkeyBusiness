@@ -1,13 +1,15 @@
 import Express from 'express'
 import { Validator, ValidationError } from 'express-json-validator-middleware'
 import queryMongoDatabase from '../data/mongoController.js'
-import { validateEmail, deleteInvestor } from '../Middleware/generalServerFunctions.js'
-import bcrypt from 'bcrypt'
+import { validateEmail, deleteInvestor } from '../middleware/generalServerFunctions.js'
+import bcryptjs from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import path from 'path'
 import Dotenv from 'dotenv'
-Dotenv.config()
+import { ObjectId } from 'mongodb'
+import { spawn, fork } from 'child_process'
 
+Dotenv.config()
 
 const dataRouter = new Express.Router()
 const validator = new Validator({ allErrors: true })
@@ -113,6 +115,17 @@ dataRouter.get('/stocks/:name', (req, res) => { // Search Database for related s
 
 dataRouter.get('/stocks', (req, res) => {
   // pull top 5 Stocks from API  ------------------TO DO --------------------
+  const ls = fork('node_modules/python', ['script.py'])//, 'arg1', 'arg2']) // call python script to get top 5 stocks
+  ls.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`)
+  })
+  ls.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`)
+  })
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`)
+  })
+
   queryMongoDatabase(async db => {
     const options = {
       sort: { name: 1 },
@@ -145,9 +158,9 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
     } else {
       // Login Failed
       for await (const doc of loginSuccess) {
-        const match = (password === doc.password) //await bcrypt.compare(password, doc.password)
+        const match = (password === doc.password) //await bcryptjs.compare(password, doc.password))
         if (match) {
-          // const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+          // const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
           // const refreshToken = jwt.sign({ username: username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
           // const otherUsers = "Array of other users' usernames, excluding current user"
           // const currentUser = { username, refreshToken }
@@ -203,8 +216,9 @@ dataRouter.post('/signup', validator.validate({ body: signupSchema }), (req, res
       }
 
       // Encrypt Password before database insertion ------------------TO DO --------------------
+      // const encryptedPassword = bcryptjs.hash(password, 1)
       const adminID = null
-      const preferencesID = '651dec44f8c800a5da81622b'
+      const preferencesID = new ObjectId('651dec44f8c800a5da81622b')
       // initialize new_investor
       const investorID = await db.collection('Investor').insertOne({ username, stocks: [], monkey: [] })
       if (investorID.insertedCount !== null) {
