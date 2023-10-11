@@ -125,7 +125,11 @@ def openCVProcessing(saved_video_file):
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
 videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
+<<<<<<< Updated upstream
 if(os.path.isfile(tempFile)): os.remove(tempFile)
+=======
+#os.remove(tempFile)
+>>>>>>> Stashed changes
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
 

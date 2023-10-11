@@ -1,11 +1,12 @@
 import random
+import yfinance as yf
 #Generate default data
 
 
 
 #default pos
 #the parameters are for the desired window size
-def datagen(winX, winY):
+def datagen(winX, winY, quantity=0):
     #default monkey starting Area
     area=2
     #default positions, this doesn't really matter now, I'm just defining them now to not run into problems later
@@ -17,12 +18,14 @@ def datagen(winX, winY):
     move=False
     #create output array
     output=[]
+    if quantity==0:
+        quantity=86400
     #create %chance for monkey to move, 100 means there is a 1 in 100 chance the monkey will be in a different spot each second
     chance=100
     roll=0
     #loop begin
     #86400 is the number of seconds in a day, so i figured I should have 1 datapoint for each second.
-    for i in range(86400):
+    for i in range(quantity):
         #roll chance for monkey to move
         roll=random.randrange(0,chance)
         if roll==chance-1:
@@ -42,7 +45,7 @@ def datagen(winX, winY):
     #loop terminate
 
     #print array
-    for x in range(86400):
+    for x in range(quantity):
         print(output[x])
     #return data
     return(output)
