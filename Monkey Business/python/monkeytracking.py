@@ -1,9 +1,9 @@
 # after getting your python environment running, run these commands in the terminal to finihs setting up.
-# pip install m3u8
-# pip install streamlink
-# pip install numpy
-# pip install opencv-python
-# pip install datetime
+# py -m pip install m3u8
+# py -m pip install streamlink
+# py -m pip install numpy
+# py -m pip install opencv-python
+# py -m pip install datetime
 from datetime import datetime, timedelta, timezone
 import time
 import numpy as np
@@ -126,7 +126,7 @@ def openCVProcessing(saved_video_file):
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
 videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
-os.remove(tempFile)
+if(os.path.isfile(tempFile)): os.remove(tempFile)
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
 
