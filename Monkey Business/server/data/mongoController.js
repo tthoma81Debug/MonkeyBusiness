@@ -1,5 +1,5 @@
 
-import { MongoClient, ServerApiVersion } from 'mongodb'
+import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb'
 import Dotenv from 'dotenv'
 
 Dotenv.config()
@@ -17,9 +17,6 @@ const Mongo = new MongoClient(url, {
     strict: true
   }
 })
-// const client = new Mongo.MongoClient(url, {
-//   useNewUrlParser: true, useUnifiedTopology: true, serverApi: Mongo.ServerApiVersion.v1
-// })
 
 export default function queryMongoDatabase (queryCallback, databaseName) {
   queryCallback(Mongo.db(databaseName))
@@ -32,22 +29,20 @@ export default function queryMongoDatabase (queryCallback, databaseName) {
 
 // async function run() {
 //   try {
-//     const database = Mongo.db("MonkeyBusinessWebApp");
-//     const movies = database.collection("Users");
-//     const query = { username: "test" };
-//     const options = {
-//       sort: { username: 1 },
-//       projection: { _id: 0, username: 1, password: 1 }
-//     };
-//     const cursor = movies.find(query, options);
+//     const database = Mongo.db("MonkeyBusinessWebApp")
+//     const movies = database.collection("Preferences")
+//     const o_id = new ObjectId("651dec44f8c800a5da81622b")
+//       const query = { _id: o_id }
+//     const options = { }
+//     const cursor = movies.find(query, options)
 //     if ((await movies.countDocuments(query)) === 0) {
-//       console.log("No documents found!");
+//       console.log("No documents found!")
 //     }
 //     for await (const doc of cursor) {
-//       console.dir(doc);
+//       console.dir(doc)
 //     }
 //   } finally {
-//     console.log("Closing connection");
+//     console.log("Closing connection")
 //   }
 // }
 // run().catch(console.dir);
