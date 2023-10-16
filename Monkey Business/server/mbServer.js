@@ -1,7 +1,7 @@
 import Express from 'express'
 import fs from 'fs'
 import dataRouter from './api/mbRoutes.js'
-import spawn from 'child_process'
+import cp from 'child_process'
 
 const PORT = 3000
 const app = new Express()
@@ -22,7 +22,7 @@ app.listen(PORT, () => {
 })
 
 //const spawn = require('child_process').spawn;
-const ls = spawn('python', ['../python/monkeytracking.py']);
+const ls = cp.spawn('python', ['./python/monkeytracking.py']);
 
 ls.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);

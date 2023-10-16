@@ -1,4 +1,4 @@
-# after getting your python environment running, run these commands in the terminal to finihs setting up.
+# after getting your python environment running, run these commands in the terminal to finish setting up.
 # py -m pip install m3u8
 # py -m pip install streamlink
 # py -m pip install numpy
