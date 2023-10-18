@@ -8,19 +8,33 @@ import MonkeTech from './MonkeyTech/MonkeyTechPage.jsx'
 import IntroPage from './Intro/IntroPage.jsx'
 import SettingsPage from './Setting/SettingsPage.jsx'
 import StatsPage from './Stat/StatsPage.jsx'
-export default function App () {
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button } from 'react-bootstrap'
+
+export default function App (props) {
+  const [darkMode, setDarkMode] = React.useState(false)
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode)
+    }
+  const theme = (darkMode ? 'dark' : 'light')
+  document.getElementById('html').setAttribute('data-bs-theme', darkMode ? 'dark' : 'light')
+  console.log(darkMode)
+
   return (
     <React.Fragment>
-    <MyNavBar/>
-    <Routes>
-        <Route path="/" exact Component={Home } />
-        <Route path="/login" Component={LoginPage } />
-        <Route path="/about" Component={IntroPage } />
-        <Route path = "/signup" Component={SignupPage}/>
-        <Route path = "/monkeyTech" Component = {MonkeTech}/>
-        <Route path = "/setting" Component = {SettingsPage}/>
-        <Route path = "/stats" Component = {StatsPage}/>
-    </Routes>
+      <div data-bs-theme={theme}>
+        <Button onClick={handleDarkMode} data-bs-theme={theme}>Dark Mode</Button>
+        <MyNavBar data-bs-theme={theme}/>
+        <Routes>
+          <Route path="/" exact element= {<Home theme={theme}/>}/>
+          <Route path="/login" Component={LoginPage} />
+          <Route path="/about" Component={IntroPage} />
+          <Route path="/signup" Component={SignupPage} />
+          <Route path="/monkeyTech" Component={MonkeTech} />
+          <Route path="/setting" Component={SettingsPage} />
+          <Route path="/stats" Component={StatsPage} />
+        </Routes>
+      </div>
     </React.Fragment>
   )
 }
