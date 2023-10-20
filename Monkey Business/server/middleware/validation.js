@@ -31,18 +31,17 @@ export const stockSchema = {
 }
 
 export function validationErrorMiddleware (err, req, res, next) {
-  console.log(err)
-  console.log(err.validationErrors)
-  console.log(err.validationErrors.body)
-  console.log(req.body)
+  console.log("validationErrorMiddleware called")
   if (res.headersSent) {
     return next(err)
   }
 
+  console.log("mid")
   const isValidationError = err instanceof ValidationError
   if (!isValidationError) {
-    return next(err)
+    return next()
   }
+  console.log("mid2")
   res.status(400).json({ error: true, message: err.validationErrors })
   next()
 }

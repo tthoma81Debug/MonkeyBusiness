@@ -1,4 +1,5 @@
 import queryMongoDatabase from '../data/mongoController.js'
+import { getStockShort, getStockDetails, searchStockAPI } from './callPythonScripts.js'
 
 export async function getAllStocks (req, res) {
   // pull top 5 Stocks from API  ------------------TO DO --------------------
@@ -35,4 +36,48 @@ export async function getUserStocks (req, res) {
       res.json(userStocks)
     }
   }, 'MonkeyBusinessWebApp')
+}
+
+export async function getStocksName (req, res) {
+}
+
+export async function getStocks (req, res) {
+  // pull top 5 Stocks from API  ------------------TO DO --------------------
+  const stockArray = getInvestorStockNames(req.session.username)
+  const stockDataArray = []
+  for (const stock of stockArray) {
+    const stockData = getStockShort(stock)
+    stockDataArray.push(stockData)
+  }
+}
+
+export async function searchForStock (req, res) {
+  // call python function to search API for stock
+  // process and return data
+
+}
+
+function getInvestorStockNames (username) {
+  try {
+    queryMongoDatabase(async db => {
+      const data = await db.collection('Investor').findOne({ username })
+      if ((data) < 1) {
+        return ('Failed to find investor')
+      }
+      const userStocks = data.stocks
+      return (userStocks)
+    }, 'MonkeyBusinessWebApp')
+  } catch (err) {
+    console.log(err)
+  }
+}
+export async function getInvestorStocks (req, res) {
+  const username = req.session.username
+  const userStocks = getInvestorStockNames(username)
+  const userStockData = []
+  for (const stock of userStocks) {
+    const stockDataObject = getStockShort(stock)
+    userStockData.push(stockDataObject)
+  }
+  res.json(userStockData)
 }
