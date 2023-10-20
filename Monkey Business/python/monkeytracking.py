@@ -109,7 +109,7 @@ def openCVProcessing(saved_video_file):
                         1, (0, 0, 255), 3)
         #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2) #Not always desired, but keep available
 
-        #cv2.imshow("feed", frame1)
+        cv2.imshow("feed", frame1)
         frame1 = frame2
         grabbed, frame2 = capture.read()
         if grabbed == False:
@@ -125,6 +125,6 @@ def openCVProcessing(saved_video_file):
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
 videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
+if(os.path.isfile(tempFile)): os.remove(tempFile)
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
-if(os.path.isfile(tempFile)): os.remove(tempFile)
