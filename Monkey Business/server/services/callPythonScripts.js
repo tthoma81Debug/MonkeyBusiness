@@ -1,9 +1,7 @@
 import cp from 'child_process'
-import { get } from 'http'
-import path from 'path'
 
 export function getStockShort (stockName) {
-  const ls = cp.fork(path.join(__dirname, 'script.py'), [stockName])
+  const ls = cp.spawn('python', ['./python/script.py', stockName])
   ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
   })
@@ -16,7 +14,7 @@ export function getStockShort (stockName) {
 }
 
 export function getStockDetails (stockName) {
-  const ls = cp.fork(path.join(__dirname, 'script.py'), [stockName])
+  const ls = cp.spawn('python', ['./python/script.py', stockName])
   ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
   })
@@ -29,7 +27,20 @@ export function getStockDetails (stockName) {
 }
 
 export function searchStockAPI (searchQuery) {
-  const ls = cp.fork(path.join(__dirname, 'script.py'), [searchQuery])
+  const ls = cp.spawn('python', ['./python/script.py', searchQuery])
+  ls.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`)
+  })
+  ls.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`)
+  })
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`)
+  })
+}
+
+export function testNodeCall (param) {
+  const ls = cp.spawn('node', ['./python/support.js', param])
   ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
   })

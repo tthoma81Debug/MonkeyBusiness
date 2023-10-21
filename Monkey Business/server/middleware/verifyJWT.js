@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const verifyJWT = (req, res, next) => {
+export const verifyJWT = (req, res, next) => {
   const token = req.headers['x-access-token']
   if (!token) {
     return res.status(401).json({ auth: false, message: 'No token provided.' })
@@ -17,5 +17,3 @@ const verifyJWT = (req, res, next) => {
     next()
   })
 }
-
-module.exports = verifyJWT

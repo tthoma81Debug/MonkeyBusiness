@@ -30,18 +30,27 @@ export const stockSchema = {
   }
 }
 
+export const monkeySchema = {
+  type: 'object',
+  required: ['name', 'stocks', 'history', 'amount'],
+  properties: {
+    name: { type: 'string' },
+    stocks: { type: 'array' },
+    history: { type: 'array' },
+    amount: { type: 'number' }
+  }
+}
+
 export function validationErrorMiddleware (err, req, res, next) {
-  console.log("validationErrorMiddleware called")
   if (res.headersSent) {
     return next(err)
   }
 
-  console.log("mid")
   const isValidationError = err instanceof ValidationError
   if (!isValidationError) {
     return next()
   }
-  console.log("mid2")
+
   res.status(400).json({ error: true, message: err.validationErrors })
   next()
 }
