@@ -22,12 +22,20 @@
     return a;
   };
   var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+  var __objRest = (source, exclude) => {
+    var target = {};
+    for (var prop in source)
+      if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+        target[prop] = source[prop];
+    if (source != null && __getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(source)) {
+        if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+          target[prop] = source[prop];
+      }
+    return target;
+  };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -165,38 +173,38 @@
             ReactSharedInternals.ReactDebugCurrentFrame = ReactDebugCurrentFrame;
             ReactSharedInternals.ReactCurrentActQueue = ReactCurrentActQueue;
           }
-          function warn(format2) {
+          function warn(format) {
             {
               {
                 for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
                   args[_key - 1] = arguments[_key];
                 }
-                printWarning("warn", format2, args);
+                printWarning("warn", format, args);
               }
             }
           }
-          function error(format2) {
+          function error(format) {
             {
               {
                 for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
                   args[_key2 - 1] = arguments[_key2];
                 }
-                printWarning("error", format2, args);
+                printWarning("error", format, args);
               }
             }
           }
-          function printWarning(level, format2, args) {
+          function printWarning(level, format, args) {
             {
               var ReactDebugCurrentFrame2 = ReactSharedInternals.ReactDebugCurrentFrame;
               var stack = ReactDebugCurrentFrame2.getStackAddendum();
               if (stack !== "") {
-                format2 += "%s";
+                format += "%s";
                 args = args.concat([stack]);
               }
               var argsWithFormat = args.map(function(item) {
                 return String(item);
               });
-              argsWithFormat.unshift("Warning: " + format2);
+              argsWithFormat.unshift("Warning: " + format);
               Function.prototype.apply.call(console[level], console, argsWithFormat);
             }
           }
@@ -279,9 +287,9 @@
           {
             Object.freeze(emptyObject);
           }
-          function Component(props, context, updater) {
+          function Component(props, context3, updater) {
             this.props = props;
-            this.context = context;
+            this.context = context3;
             this.refs = emptyObject;
             this.updater = updater || ReactNoopUpdateQueue;
           }
@@ -317,9 +325,9 @@
           function ComponentDummy() {
           }
           ComponentDummy.prototype = Component.prototype;
-          function PureComponent(props, context, updater) {
+          function PureComponent(props, context3, updater) {
             this.props = props;
-            this.context = context;
+            this.context = context3;
             this.refs = emptyObject;
             this.updater = updater || ReactNoopUpdateQueue;
           }
@@ -411,8 +419,8 @@
             if (typeof type === "object") {
               switch (type.$$typeof) {
                 case REACT_CONTEXT_TYPE:
-                  var context = type;
-                  return getContextName(context) + ".Consumer";
+                  var context3 = type;
+                  return getContextName(context3) + ".Consumer";
                 case REACT_PROVIDER_TYPE:
                   var provider = type;
                   return getContextName(provider._context) + ".Provider";
@@ -512,7 +520,7 @@
               }
             }
           }
-          var ReactElement = function(type, key, ref, self, source, owner, props) {
+          var ReactElement = function(type, key, ref, self2, source, owner, props) {
             var element = {
               // This tag allows us to uniquely identify this as a React Element
               $$typeof: REACT_ELEMENT_TYPE,
@@ -536,7 +544,7 @@
                 configurable: false,
                 enumerable: false,
                 writable: false,
-                value: self
+                value: self2
               });
               Object.defineProperty(element, "_source", {
                 configurable: false,
@@ -556,7 +564,7 @@
             var props = {};
             var key = null;
             var ref = null;
-            var self = null;
+            var self2 = null;
             var source = null;
             if (config != null) {
               if (hasValidRef(config)) {
@@ -571,7 +579,7 @@
                 }
                 key = "" + config.key;
               }
-              self = config.__self === void 0 ? null : config.__self;
+              self2 = config.__self === void 0 ? null : config.__self;
               source = config.__source === void 0 ? null : config.__source;
               for (propName in config) {
                 if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
@@ -613,13 +621,13 @@
                 }
               }
             }
-            return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+            return ReactElement(type, key, ref, self2, source, ReactCurrentOwner.current, props);
           }
           function cloneAndReplaceKey(oldElement, newKey) {
             var newElement = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
             return newElement;
           }
-          function cloneElement(element, config, children) {
+          function cloneElement6(element, config, children) {
             if (element === null || element === void 0) {
               throw new Error("React.cloneElement(...): The argument must be a React element, but you passed " + element + ".");
             }
@@ -627,7 +635,7 @@
             var props = assign({}, element.props);
             var key = element.key;
             var ref = element.ref;
-            var self = element._self;
+            var self2 = element._self;
             var source = element._source;
             var owner = element._owner;
             if (config != null) {
@@ -665,9 +673,9 @@
               }
               props.children = childArray;
             }
-            return ReactElement(element.type, key, ref, self, source, owner, props);
+            return ReactElement(element.type, key, ref, self2, source, owner, props);
           }
-          function isValidElement(object) {
+          function isValidElement2(object) {
             return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
           }
           var SEPARATOR = ".";
@@ -732,7 +740,7 @@
                   return c;
                 });
               } else if (mappedChild != null) {
-                if (isValidElement(mappedChild)) {
+                if (isValidElement2(mappedChild)) {
                   {
                     if (mappedChild.key && (!_child || _child.key !== mappedChild.key)) {
                       checkKeyStringCoercion(mappedChild.key);
@@ -791,14 +799,14 @@
             }
             return subtreeCount;
           }
-          function mapChildren(children, func, context) {
+          function mapChildren(children, func, context3) {
             if (children == null) {
               return children;
             }
             var result = [];
             var count = 0;
             mapIntoArray(children, result, "", "", function(child) {
-              return func.call(context, child, count++);
+              return func.call(context3, child, count++);
             });
             return result;
           }
@@ -814,19 +822,19 @@
               forEachFunc.apply(this, arguments);
             }, forEachContext);
           }
-          function toArray(children) {
+          function toArray2(children) {
             return mapChildren(children, function(child) {
               return child;
             }) || [];
           }
           function onlyChild(children) {
-            if (!isValidElement(children)) {
+            if (!isValidElement2(children)) {
               throw new Error("React.Children.only expected to receive a single React element child.");
             }
             return children;
           }
-          function createContext(defaultValue) {
-            var context = {
+          function createContext10(defaultValue) {
+            var context3 = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
               // some renderers as primary and others as secondary. We only expect
@@ -845,53 +853,53 @@
               _defaultValue: null,
               _globalName: null
             };
-            context.Provider = {
+            context3.Provider = {
               $$typeof: REACT_PROVIDER_TYPE,
-              _context: context
+              _context: context3
             };
             var hasWarnedAboutUsingNestedContextConsumers = false;
             var hasWarnedAboutUsingConsumerProvider = false;
             var hasWarnedAboutDisplayNameOnConsumer = false;
             {
-              var Consumer = {
+              var Consumer2 = {
                 $$typeof: REACT_CONTEXT_TYPE,
-                _context: context
+                _context: context3
               };
-              Object.defineProperties(Consumer, {
+              Object.defineProperties(Consumer2, {
                 Provider: {
                   get: function() {
                     if (!hasWarnedAboutUsingConsumerProvider) {
                       hasWarnedAboutUsingConsumerProvider = true;
                       error("Rendering <Context.Consumer.Provider> is not supported and will be removed in a future major release. Did you mean to render <Context.Provider> instead?");
                     }
-                    return context.Provider;
+                    return context3.Provider;
                   },
                   set: function(_Provider) {
-                    context.Provider = _Provider;
+                    context3.Provider = _Provider;
                   }
                 },
                 _currentValue: {
                   get: function() {
-                    return context._currentValue;
+                    return context3._currentValue;
                   },
                   set: function(_currentValue) {
-                    context._currentValue = _currentValue;
+                    context3._currentValue = _currentValue;
                   }
                 },
                 _currentValue2: {
                   get: function() {
-                    return context._currentValue2;
+                    return context3._currentValue2;
                   },
                   set: function(_currentValue2) {
-                    context._currentValue2 = _currentValue2;
+                    context3._currentValue2 = _currentValue2;
                   }
                 },
                 _threadCount: {
                   get: function() {
-                    return context._threadCount;
+                    return context3._threadCount;
                   },
                   set: function(_threadCount) {
-                    context._threadCount = _threadCount;
+                    context3._threadCount = _threadCount;
                   }
                 },
                 Consumer: {
@@ -900,12 +908,12 @@
                       hasWarnedAboutUsingNestedContextConsumers = true;
                       error("Rendering <Context.Consumer.Consumer> is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?");
                     }
-                    return context.Consumer;
+                    return context3.Consumer;
                   }
                 },
                 displayName: {
                   get: function() {
-                    return context.displayName;
+                    return context3.displayName;
                   },
                   set: function(displayName) {
                     if (!hasWarnedAboutDisplayNameOnConsumer) {
@@ -915,13 +923,13 @@
                   }
                 }
               });
-              context.Consumer = Consumer;
+              context3.Consumer = Consumer2;
             }
             {
-              context._currentRenderer = null;
-              context._currentRenderer2 = null;
+              context3._currentRenderer = null;
+              context3._currentRenderer2 = null;
             }
-            return context;
+            return context3;
           }
           var Uninitialized = -1;
           var Pending = 0;
@@ -980,7 +988,7 @@
             };
             {
               var defaultProps;
-              var propTypes;
+              var propTypes4;
               Object.defineProperties(lazyType, {
                 defaultProps: {
                   configurable: true,
@@ -998,11 +1006,11 @@
                 propTypes: {
                   configurable: true,
                   get: function() {
-                    return propTypes;
+                    return propTypes4;
                   },
                   set: function(newPropTypes) {
                     error("React.lazy(...): It is not supported to assign `propTypes` to a lazy component import. Either specify them where the component is defined, or create a wrapping component around it.");
-                    propTypes = newPropTypes;
+                    propTypes4 = newPropTypes;
                     Object.defineProperty(lazyType, "propTypes", {
                       enumerable: true
                     });
@@ -1012,7 +1020,7 @@
             }
             return lazyType;
           }
-          function forwardRef(render) {
+          function forwardRef51(render) {
             {
               if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1111,33 +1119,33 @@
             }
             return dispatcher;
           }
-          function useContext(Context) {
+          function useContext18(Context2) {
             var dispatcher = resolveDispatcher();
             {
-              if (Context._context !== void 0) {
-                var realContext = Context._context;
-                if (realContext.Consumer === Context) {
+              if (Context2._context !== void 0) {
+                var realContext = Context2._context;
+                if (realContext.Consumer === Context2) {
                   error("Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be removed in a future major release. Did you mean to call useContext(Context) instead?");
-                } else if (realContext.Provider === Context) {
+                } else if (realContext.Provider === Context2) {
                   error("Calling useContext(Context.Provider) is not supported. Did you mean to call useContext(Context) instead?");
                 }
               }
             }
-            return dispatcher.useContext(Context);
+            return dispatcher.useContext(Context2);
           }
-          function useState(initialState) {
+          function useState11(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
-          function useReducer(reducer, initialArg, init) {
+          function useReducer2(reducer, initialArg, init) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef(initialValue) {
+          function useRef12(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect(create, deps) {
+          function useEffect15(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1145,19 +1153,19 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useInsertionEffect(create, deps);
           }
-          function useLayoutEffect(create, deps) {
+          function useLayoutEffect2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback(callback, deps) {
+          function useCallback10(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo(create, deps) {
+          function useMemo10(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
-          function useImperativeHandle(ref, create, deps) {
+          function useImperativeHandle2(ref, create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useImperativeHandle(ref, create, deps);
           }
@@ -1167,7 +1175,7 @@
               return dispatcher.useDebugValue(value, formatterFn);
             }
           }
-          function useTransition() {
+          function useTransition2() {
             var dispatcher = resolveDispatcher();
             return dispatcher.useTransition();
           }
@@ -1282,12 +1290,12 @@
             var PossiblyWeakMap = typeof WeakMap === "function" ? WeakMap : Map;
             componentFrameCache = new PossiblyWeakMap();
           }
-          function describeNativeComponentFrame(fn2, construct) {
-            if (!fn2 || reentry) {
+          function describeNativeComponentFrame(fn, construct) {
+            if (!fn || reentry) {
               return "";
             }
             {
-              var frame = componentFrameCache.get(fn2);
+              var frame = componentFrameCache.get(fn);
               if (frame !== void 0) {
                 return frame;
               }
@@ -1318,14 +1326,14 @@
                   } catch (x) {
                     control = x;
                   }
-                  Reflect.construct(fn2, [], Fake);
+                  Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
                   } catch (x) {
                     control = x;
                   }
-                  fn2.call(Fake.prototype);
+                  fn.call(Fake.prototype);
                 }
               } else {
                 try {
@@ -1333,7 +1341,7 @@
                 } catch (x) {
                   control = x;
                 }
-                fn2();
+                fn();
               }
             } catch (sample) {
               if (sample && control && typeof sample.stack === "string") {
@@ -1352,12 +1360,12 @@
                         c--;
                         if (c < 0 || sampleLines[s] !== controlLines[c]) {
                           var _frame = "\n" + sampleLines[s].replace(" at new ", " at ");
-                          if (fn2.displayName && _frame.includes("<anonymous>")) {
-                            _frame = _frame.replace("<anonymous>", fn2.displayName);
+                          if (fn.displayName && _frame.includes("<anonymous>")) {
+                            _frame = _frame.replace("<anonymous>", fn.displayName);
                           }
                           {
-                            if (typeof fn2 === "function") {
-                              componentFrameCache.set(fn2, _frame);
+                            if (typeof fn === "function") {
+                              componentFrameCache.set(fn, _frame);
                             }
                           }
                           return _frame;
@@ -1376,18 +1384,18 @@
               }
               Error.prepareStackTrace = previousPrepareStackTrace;
             }
-            var name = fn2 ? fn2.displayName || fn2.name : "";
+            var name = fn ? fn.displayName || fn.name : "";
             var syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
             {
-              if (typeof fn2 === "function") {
-                componentFrameCache.set(fn2, syntheticFrame);
+              if (typeof fn === "function") {
+                componentFrameCache.set(fn, syntheticFrame);
               }
             }
             return syntheticFrame;
           }
-          function describeFunctionComponentFrame(fn2, source, ownerFn) {
+          function describeFunctionComponentFrame(fn, source, ownerFn) {
             {
-              return describeNativeComponentFrame(fn2, false);
+              return describeNativeComponentFrame(fn, false);
             }
           }
           function shouldConstruct(Component2) {
@@ -1551,11 +1559,11 @@
             if (isArray(node)) {
               for (var i = 0; i < node.length; i++) {
                 var child = node[i];
-                if (isValidElement(child)) {
+                if (isValidElement2(child)) {
                   validateExplicitKey(child, parentType);
                 }
               }
-            } else if (isValidElement(node)) {
+            } else if (isValidElement2(node)) {
               if (node._store) {
                 node._store.validated = true;
               }
@@ -1566,7 +1574,7 @@
                   var iterator = iteratorFn.call(node);
                   var step;
                   while (!(step = iterator.next()).done) {
-                    if (isValidElement(step.value)) {
+                    if (isValidElement2(step.value)) {
                       validateExplicitKey(step.value, parentType);
                     }
                   }
@@ -1580,19 +1588,19 @@
               if (type === null || type === void 0 || typeof type === "string") {
                 return;
               }
-              var propTypes;
+              var propTypes4;
               if (typeof type === "function") {
-                propTypes = type.propTypes;
+                propTypes4 = type.propTypes;
               } else if (typeof type === "object" && (type.$$typeof === REACT_FORWARD_REF_TYPE || // Note: Memo only checks outer props here.
               // Inner props are checked in the reconciler.
               type.$$typeof === REACT_MEMO_TYPE)) {
-                propTypes = type.propTypes;
+                propTypes4 = type.propTypes;
               } else {
                 return;
               }
-              if (propTypes) {
+              if (propTypes4) {
                 var name = getComponentNameFromType(type);
-                checkPropTypes(propTypes, element.props, "prop", name, element);
+                checkPropTypes(propTypes4, element.props, "prop", name, element);
               } else if (type.PropTypes !== void 0 && !propTypesMisspellWarningShown) {
                 propTypesMisspellWarningShown = true;
                 var _name = getComponentNameFromType(type);
@@ -1689,7 +1697,7 @@
             return validatedFactory;
           }
           function cloneElementWithValidation(element, props, children) {
-            var newElement = cloneElement.apply(this, arguments);
+            var newElement = cloneElement6.apply(this, arguments);
             for (var i = 2; i < arguments.length; i++) {
               validateChildKeys(arguments[i], newElement.type);
             }
@@ -1889,14 +1897,14 @@
           var createElement$1 = createElementWithValidation;
           var cloneElement$1 = cloneElementWithValidation;
           var createFactory = createFactoryWithValidation;
-          var Children = {
+          var Children2 = {
             map: mapChildren,
             forEach: forEachChildren,
             count: countChildren,
-            toArray,
+            toArray: toArray2,
             only: onlyChild
           };
-          exports.Children = Children;
+          exports.Children = Children2;
           exports.Component = Component;
           exports.Fragment = REACT_FRAGMENT_TYPE;
           exports.Profiler = REACT_PROFILER_TYPE;
@@ -1905,31 +1913,31 @@
           exports.Suspense = REACT_SUSPENSE_TYPE;
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext;
+          exports.createContext = createContext10;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef;
-          exports.forwardRef = forwardRef;
-          exports.isValidElement = isValidElement;
+          exports.forwardRef = forwardRef51;
+          exports.isValidElement = isValidElement2;
           exports.lazy = lazy;
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback;
-          exports.useContext = useContext;
+          exports.useCallback = useCallback10;
+          exports.useContext = useContext18;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect;
+          exports.useEffect = useEffect15;
           exports.useId = useId;
-          exports.useImperativeHandle = useImperativeHandle;
+          exports.useImperativeHandle = useImperativeHandle2;
           exports.useInsertionEffect = useInsertionEffect;
-          exports.useLayoutEffect = useLayoutEffect;
-          exports.useMemo = useMemo;
-          exports.useReducer = useReducer;
-          exports.useRef = useRef;
-          exports.useState = useState;
+          exports.useLayoutEffect = useLayoutEffect2;
+          exports.useMemo = useMemo10;
+          exports.useReducer = useReducer2;
+          exports.useRef = useRef12;
+          exports.useState = useState11;
           exports.useSyncExternalStore = useSyncExternalStore;
-          exports.useTransition = useTransition;
+          exports.useTransition = useTransition2;
           exports.version = ReactVersion;
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
@@ -2004,21 +2012,21 @@
             var halfLength = length >>> 1;
             while (index < halfLength) {
               var leftIndex = (index + 1) * 2 - 1;
-              var left2 = heap[leftIndex];
+              var left = heap[leftIndex];
               var rightIndex = leftIndex + 1;
-              var right2 = heap[rightIndex];
-              if (compare(left2, node) < 0) {
-                if (rightIndex < length && compare(right2, left2) < 0) {
-                  heap[index] = right2;
+              var right = heap[rightIndex];
+              if (compare(left, node) < 0) {
+                if (rightIndex < length && compare(right, left) < 0) {
+                  heap[index] = right;
                   heap[rightIndex] = node;
                   index = rightIndex;
                 } else {
-                  heap[index] = left2;
+                  heap[index] = left;
                   heap[leftIndex] = node;
                   index = leftIndex;
                 }
-              } else if (rightIndex < length && compare(right2, node) < 0) {
-                heap[index] = right2;
+              } else if (rightIndex < length && compare(right, node) < 0) {
+                heap[index] = right;
                 heap[rightIndex] = node;
                 index = rightIndex;
               } else {
@@ -2229,26 +2237,26 @@
             } else {
               startTime2 = currentTime;
             }
-            var timeout;
+            var timeout2;
             switch (priorityLevel) {
               case ImmediatePriority:
-                timeout = IMMEDIATE_PRIORITY_TIMEOUT;
+                timeout2 = IMMEDIATE_PRIORITY_TIMEOUT;
                 break;
               case UserBlockingPriority:
-                timeout = USER_BLOCKING_PRIORITY_TIMEOUT;
+                timeout2 = USER_BLOCKING_PRIORITY_TIMEOUT;
                 break;
               case IdlePriority:
-                timeout = IDLE_PRIORITY_TIMEOUT;
+                timeout2 = IDLE_PRIORITY_TIMEOUT;
                 break;
               case LowPriority:
-                timeout = LOW_PRIORITY_TIMEOUT;
+                timeout2 = LOW_PRIORITY_TIMEOUT;
                 break;
               case NormalPriority:
               default:
-                timeout = NORMAL_PRIORITY_TIMEOUT;
+                timeout2 = NORMAL_PRIORITY_TIMEOUT;
                 break;
             }
-            var expirationTime = startTime2 + timeout;
+            var expirationTime = startTime2 + timeout2;
             var newTask = {
               id: taskIdCounter++,
               callback,
@@ -2423,47 +2431,47 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React7 = require_react();
+          var React77 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React7.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React77.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
               suppressWarning = newSuppressWarning;
             }
           }
-          function warn(format2) {
+          function warn(format) {
             {
               if (!suppressWarning) {
                 for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
                   args[_key - 1] = arguments[_key];
                 }
-                printWarning("warn", format2, args);
+                printWarning("warn", format, args);
               }
             }
           }
-          function error(format2) {
+          function error(format) {
             {
               if (!suppressWarning) {
                 for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
                   args[_key2 - 1] = arguments[_key2];
                 }
-                printWarning("error", format2, args);
+                printWarning("error", format, args);
               }
             }
           }
-          function printWarning(level, format2, args) {
+          function printWarning(level, format, args) {
             {
               var ReactDebugCurrentFrame2 = ReactSharedInternals.ReactDebugCurrentFrame;
               var stack = ReactDebugCurrentFrame2.getStackAddendum();
               if (stack !== "") {
-                format2 += "%s";
+                format += "%s";
                 args = args.concat([stack]);
               }
               var argsWithFormat = args.map(function(item) {
                 return String(item);
               });
-              argsWithFormat.unshift("Warning: " + format2);
+              argsWithFormat.unshift("Warning: " + format);
               Function.prototype.apply.call(console[level], console, argsWithFormat);
             }
           }
@@ -3347,12 +3355,12 @@
             var PossiblyWeakMap = typeof WeakMap === "function" ? WeakMap : Map;
             componentFrameCache = new PossiblyWeakMap();
           }
-          function describeNativeComponentFrame(fn2, construct) {
-            if (!fn2 || reentry) {
+          function describeNativeComponentFrame(fn, construct) {
+            if (!fn || reentry) {
               return "";
             }
             {
-              var frame = componentFrameCache.get(fn2);
+              var frame = componentFrameCache.get(fn);
               if (frame !== void 0) {
                 return frame;
               }
@@ -3383,14 +3391,14 @@
                   } catch (x) {
                     control = x;
                   }
-                  Reflect.construct(fn2, [], Fake);
+                  Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
                   } catch (x) {
                     control = x;
                   }
-                  fn2.call(Fake.prototype);
+                  fn.call(Fake.prototype);
                 }
               } else {
                 try {
@@ -3398,7 +3406,7 @@
                 } catch (x) {
                   control = x;
                 }
-                fn2();
+                fn();
               }
             } catch (sample) {
               if (sample && control && typeof sample.stack === "string") {
@@ -3417,12 +3425,12 @@
                         c--;
                         if (c < 0 || sampleLines[s] !== controlLines[c]) {
                           var _frame = "\n" + sampleLines[s].replace(" at new ", " at ");
-                          if (fn2.displayName && _frame.includes("<anonymous>")) {
-                            _frame = _frame.replace("<anonymous>", fn2.displayName);
+                          if (fn.displayName && _frame.includes("<anonymous>")) {
+                            _frame = _frame.replace("<anonymous>", fn.displayName);
                           }
                           {
-                            if (typeof fn2 === "function") {
-                              componentFrameCache.set(fn2, _frame);
+                            if (typeof fn === "function") {
+                              componentFrameCache.set(fn, _frame);
                             }
                           }
                           return _frame;
@@ -3441,11 +3449,11 @@
               }
               Error.prepareStackTrace = previousPrepareStackTrace;
             }
-            var name = fn2 ? fn2.displayName || fn2.name : "";
+            var name = fn ? fn.displayName || fn.name : "";
             var syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
             {
-              if (typeof fn2 === "function") {
-                componentFrameCache.set(fn2, syntheticFrame);
+              if (typeof fn === "function") {
+                componentFrameCache.set(fn, syntheticFrame);
               }
             }
             return syntheticFrame;
@@ -3455,9 +3463,9 @@
               return describeNativeComponentFrame(ctor, true);
             }
           }
-          function describeFunctionComponentFrame(fn2, source, ownerFn) {
+          function describeFunctionComponentFrame(fn, source, ownerFn) {
             {
-              return describeNativeComponentFrame(fn2, false);
+              return describeNativeComponentFrame(fn, false);
             }
           }
           function shouldConstruct(Component) {
@@ -3581,8 +3589,8 @@
             if (typeof type === "object") {
               switch (type.$$typeof) {
                 case REACT_CONTEXT_TYPE:
-                  var context = type;
-                  return getContextName(context) + ".Consumer";
+                  var context3 = type;
+                  return getContextName(context3) + ".Consumer";
                 case REACT_PROVIDER_TYPE:
                   var provider = type;
                   return getContextName(provider._context) + ".Provider";
@@ -3621,8 +3629,8 @@
               case CacheComponent:
                 return "Cache";
               case ContextConsumer:
-                var context = type;
-                return getContextName$1(context) + ".Consumer";
+                var context3 = type;
+                return getContextName$1(context3) + ".Consumer";
               case ContextProvider:
                 var provider = type;
                 return getContextName$1(provider._context) + ".Provider";
@@ -4030,7 +4038,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React7.Children.forEach(props.children, function(child) {
+                  React77.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -4446,9 +4454,9 @@
             return ("" + value).trim();
           }
           var uppercasePattern = /([A-Z])/g;
-          var msPattern = /^ms-/;
-          function hyphenateStyleName(name) {
-            return name.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern, "-ms-");
+          var msPattern2 = /^ms-/;
+          function hyphenateStyleName2(name) {
+            return name.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern2, "-ms-");
           }
           var warnValidStyle = function() {
           };
@@ -4537,7 +4545,7 @@
                 var styleValue = styles[styleName];
                 if (styleValue != null) {
                   var isCustomProperty = styleName.indexOf("--") === 0;
-                  serialized += delimiter + (isCustomProperty ? styleName : hyphenateStyleName(styleName)) + ":";
+                  serialized += delimiter + (isCustomProperty ? styleName : hyphenateStyleName2(styleName)) + ":";
                   serialized += dangerousStyleValue(styleName, styleValue, isCustomProperty);
                   delimiter = ";";
                 }
@@ -4546,7 +4554,7 @@
             }
           }
           function setValueForStyles(node, styles) {
-            var style2 = node.style;
+            var style3 = node.style;
             for (var styleName in styles) {
               if (!styles.hasOwnProperty(styleName)) {
                 continue;
@@ -4562,9 +4570,9 @@
                 styleName = "cssFloat";
               }
               if (isCustomProperty) {
-                style2.setProperty(styleName, styleValue);
+                style3.setProperty(styleName, styleValue);
               } else {
-                style2[styleName] = styleValue;
+                style3[styleName] = styleValue;
               }
             }
           }
@@ -5304,7 +5312,7 @@
             var INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/;
             var rARIA$1 = new RegExp("^(aria)-[" + ATTRIBUTE_NAME_CHAR + "]*$");
             var rARIACamel$1 = new RegExp("^(aria)[A-Z][" + ATTRIBUTE_NAME_CHAR + "]*$");
-            validateProperty$1 = function(tagName, name, value, eventRegistry2) {
+            validateProperty$1 = function(tagName, name, value, eventRegistry) {
               if (hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name]) {
                 return true;
               }
@@ -5314,8 +5322,8 @@
                 warnedProperties$1[name] = true;
                 return true;
               }
-              if (eventRegistry2 != null) {
-                var registrationNameDependencies2 = eventRegistry2.registrationNameDependencies, possibleRegistrationNames2 = eventRegistry2.possibleRegistrationNames;
+              if (eventRegistry != null) {
+                var registrationNameDependencies2 = eventRegistry.registrationNameDependencies, possibleRegistrationNames2 = eventRegistry.possibleRegistrationNames;
                 if (registrationNameDependencies2.hasOwnProperty(name)) {
                   return true;
                 }
@@ -5398,11 +5406,11 @@
               return true;
             };
           }
-          var warnUnknownProperties = function(type, props, eventRegistry2) {
+          var warnUnknownProperties = function(type, props, eventRegistry) {
             {
               var unknownProps = [];
               for (var key in props) {
-                var isValid = validateProperty$1(type, key, props[key], eventRegistry2);
+                var isValid = validateProperty$1(type, key, props[key], eventRegistry);
                 if (!isValid) {
                   unknownProps.push(key);
                 }
@@ -5417,11 +5425,11 @@
               }
             }
           };
-          function validateProperties$2(type, props, eventRegistry2) {
+          function validateProperties$2(type, props, eventRegistry) {
             if (isCustomComponent(type, props)) {
               return;
             }
-            warnUnknownProperties(type, props, eventRegistry2);
+            warnUnknownProperties(type, props, eventRegistry);
           }
           var IS_EVENT_HANDLE_NON_MANAGED_NODE = 1;
           var IS_NON_DELEGATED = 1 << 1;
@@ -5503,8 +5511,8 @@
               }
             }
           }
-          var batchedUpdatesImpl = function(fn2, bookkeeping) {
-            return fn2(bookkeeping);
+          var batchedUpdatesImpl = function(fn, bookkeeping) {
+            return fn(bookkeeping);
           };
           var flushSyncImpl = function() {
           };
@@ -5516,13 +5524,13 @@
               restoreStateIfNeeded();
             }
           }
-          function batchedUpdates(fn2, a, b) {
+          function batchedUpdates(fn, a, b) {
             if (isInsideEventHandler) {
-              return fn2(a, b);
+              return fn(a, b);
             }
             isInsideEventHandler = true;
             try {
-              return batchedUpdatesImpl(fn2, a, b);
+              return batchedUpdatesImpl(fn, a, b);
             } finally {
               isInsideEventHandler = false;
               finishEventHandler();
@@ -5586,10 +5594,10 @@
               passiveBrowserEventsSupported = false;
             }
           }
-          function invokeGuardedCallbackProd(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallbackProd(name, func, context3, a, b, c, d, e, f) {
             var funcArgs = Array.prototype.slice.call(arguments, 3);
             try {
-              func.apply(context, funcArgs);
+              func.apply(context3, funcArgs);
             } catch (error2) {
               this.onError(error2);
             }
@@ -5598,7 +5606,7 @@
           {
             if (typeof window !== "undefined" && typeof window.dispatchEvent === "function" && typeof document !== "undefined" && typeof document.createEvent === "function") {
               var fakeNode = document.createElement("react");
-              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a, b, c, d, e, f) {
+              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context3, a, b, c, d, e, f) {
                 if (typeof document === "undefined" || document === null) {
                   throw new Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
                 }
@@ -5617,7 +5625,7 @@
                 function callCallback2() {
                   didCall = true;
                   restoreAfterDispatch();
-                  func.apply(context, funcArgs);
+                  func.apply(context3, funcArgs);
                   didError = false;
                 }
                 var error2;
@@ -5673,12 +5681,12 @@
               caughtError = error2;
             }
           };
-          function invokeGuardedCallback(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallback(name, func, context3, a, b, c, d, e, f) {
             hasError = false;
             caughtError = null;
             invokeGuardedCallbackImpl$1.apply(reporter, arguments);
           }
-          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a, b, c, d, e, f) {
+          function invokeGuardedCallbackAndCatchFirstError(name, func, context3, a, b, c, d, e, f) {
             invokeGuardedCallback.apply(this, arguments);
             if (hasError) {
               var error2 = clearCaughtError();
@@ -7032,11 +7040,11 @@
           function setCurrentUpdatePriority(newPriority) {
             currentUpdatePriority = newPriority;
           }
-          function runWithPriority(priority, fn2) {
+          function runWithPriority(priority, fn) {
             var previousPriority = currentUpdatePriority;
             try {
               currentUpdatePriority = priority;
-              return fn2();
+              return fn();
             } finally {
               currentUpdatePriority = previousPriority;
             }
@@ -7068,27 +7076,27 @@
             return currentState.isDehydrated;
           }
           var _attemptSynchronousHydration;
-          function setAttemptSynchronousHydration(fn2) {
-            _attemptSynchronousHydration = fn2;
+          function setAttemptSynchronousHydration(fn) {
+            _attemptSynchronousHydration = fn;
           }
           function attemptSynchronousHydration(fiber) {
             _attemptSynchronousHydration(fiber);
           }
           var attemptContinuousHydration;
-          function setAttemptContinuousHydration(fn2) {
-            attemptContinuousHydration = fn2;
+          function setAttemptContinuousHydration(fn) {
+            attemptContinuousHydration = fn;
           }
           var attemptHydrationAtCurrentPriority;
-          function setAttemptHydrationAtCurrentPriority(fn2) {
-            attemptHydrationAtCurrentPriority = fn2;
+          function setAttemptHydrationAtCurrentPriority(fn) {
+            attemptHydrationAtCurrentPriority = fn;
           }
           var getCurrentUpdatePriority$1;
-          function setGetCurrentUpdatePriority(fn2) {
-            getCurrentUpdatePriority$1 = fn2;
+          function setGetCurrentUpdatePriority(fn) {
+            getCurrentUpdatePriority$1 = fn;
           }
           var attemptHydrationAtPriority;
-          function setAttemptHydrationAtPriority(fn2) {
-            attemptHydrationAtPriority = fn2;
+          function setAttemptHydrationAtPriority(fn) {
+            attemptHydrationAtPriority = fn;
           }
           var hasScheduledReplayAttempt = false;
           var queuedDiscreteEvents = [];
@@ -7585,16 +7593,16 @@
             target.addEventListener(eventType, listener, true);
             return listener;
           }
-          function addEventCaptureListenerWithPassiveFlag(target, eventType, listener, passive2) {
+          function addEventCaptureListenerWithPassiveFlag(target, eventType, listener, passive) {
             target.addEventListener(eventType, listener, {
               capture: true,
-              passive: passive2
+              passive
             });
             return listener;
           }
-          function addEventBubbleListenerWithPassiveFlag(target, eventType, listener, passive2) {
+          function addEventBubbleListenerWithPassiveFlag(target, eventType, listener, passive) {
             target.addEventListener(eventType, listener, {
-              passive: passive2
+              passive
             });
             return listener;
           }
@@ -7615,25 +7623,25 @@
             if (fallbackText) {
               return fallbackText;
             }
-            var start2;
+            var start;
             var startValue = startText;
             var startLength = startValue.length;
-            var end2;
+            var end;
             var endValue = getText();
             var endLength = endValue.length;
-            for (start2 = 0; start2 < startLength; start2++) {
-              if (startValue[start2] !== endValue[start2]) {
+            for (start = 0; start < startLength; start++) {
+              if (startValue[start] !== endValue[start]) {
                 break;
               }
             }
-            var minEnd = startLength - start2;
-            for (end2 = 1; end2 <= minEnd; end2++) {
-              if (startValue[startLength - end2] !== endValue[endLength - end2]) {
+            var minEnd = startLength - start;
+            for (end = 1; end <= minEnd; end++) {
+              if (startValue[startLength - end] !== endValue[endLength - end]) {
                 break;
               }
             }
-            var sliceTail = end2 > 1 ? 1 - end2 : void 0;
-            fallbackText = endValue.slice(start2, sliceTail);
+            var sliceTail = end > 1 ? 1 - end : void 0;
+            fallbackText = endValue.slice(start, sliceTail);
             return fallbackText;
           }
           function getText() {
@@ -8230,7 +8238,7 @@
               });
             }
           }
-          var activeElement = null;
+          var activeElement2 = null;
           var activeElementInst = null;
           function shouldUseChangeEvent(elem) {
             var nodeName = elem.nodeName && elem.nodeName.toLowerCase();
@@ -8260,16 +8268,16 @@
             isInputEventSupported = isEventSupported("input") && (!document.documentMode || document.documentMode > 9);
           }
           function startWatchingForValueChange(target, targetInst) {
-            activeElement = target;
+            activeElement2 = target;
             activeElementInst = targetInst;
-            activeElement.attachEvent("onpropertychange", handlePropertyChange);
+            activeElement2.attachEvent("onpropertychange", handlePropertyChange);
           }
           function stopWatchingForValueChange() {
-            if (!activeElement) {
+            if (!activeElement2) {
               return;
             }
-            activeElement.detachEvent("onpropertychange", handlePropertyChange);
-            activeElement = null;
+            activeElement2.detachEvent("onpropertychange", handlePropertyChange);
+            activeElement2 = null;
             activeElementInst = null;
           }
           function handlePropertyChange(nativeEvent) {
@@ -8458,17 +8466,17 @@
               node = node.parentNode;
             }
           }
-          function getNodeForCharacterOffset(root3, offset2) {
+          function getNodeForCharacterOffset(root3, offset) {
             var node = getLeafNode(root3);
             var nodeStart = 0;
             var nodeEnd = 0;
             while (node) {
               if (node.nodeType === TEXT_NODE) {
                 nodeEnd = nodeStart + node.textContent.length;
-                if (nodeStart <= offset2 && nodeEnd >= offset2) {
+                if (nodeStart <= offset && nodeEnd >= offset) {
                   return {
                     node,
-                    offset: offset2 - nodeStart
+                    offset: offset - nodeStart
                   };
                 }
                 nodeStart = nodeEnd;
@@ -8477,8 +8485,8 @@
             }
           }
           function getOffsets(outerNode) {
-            var ownerDocument = outerNode.ownerDocument;
-            var win = ownerDocument && ownerDocument.defaultView || window;
+            var ownerDocument2 = outerNode.ownerDocument;
+            var win = ownerDocument2 && ownerDocument2.defaultView || window;
             var selection = win.getSelection && win.getSelection();
             if (!selection || selection.rangeCount === 0) {
               return null;
@@ -8494,8 +8502,8 @@
           }
           function getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNode, focusOffset) {
             var length = 0;
-            var start2 = -1;
-            var end2 = -1;
+            var start = -1;
+            var end = -1;
             var indexWithinAnchor = 0;
             var indexWithinFocus = 0;
             var node = outerNode;
@@ -8505,10 +8513,10 @@
                 var next = null;
                 while (true) {
                   if (node === anchorNode && (anchorOffset === 0 || node.nodeType === TEXT_NODE)) {
-                    start2 = length + anchorOffset;
+                    start = length + anchorOffset;
                   }
                   if (node === focusNode && (focusOffset === 0 || node.nodeType === TEXT_NODE)) {
-                    end2 = length + focusOffset;
+                    end = length + focusOffset;
                   }
                   if (node.nodeType === TEXT_NODE) {
                     length += node.nodeValue.length;
@@ -8524,10 +8532,10 @@
                     break outer;
                   }
                   if (parentNode === anchorNode && ++indexWithinAnchor === anchorOffset) {
-                    start2 = length;
+                    start = length;
                   }
                   if (parentNode === focusNode && ++indexWithinFocus === focusOffset) {
-                    end2 = length;
+                    end = length;
                   }
                   if ((next = node.nextSibling) !== null) {
                     break;
@@ -8537,12 +8545,12 @@
                 }
                 node = next;
               }
-            if (start2 === -1 || end2 === -1) {
+            if (start === -1 || end === -1) {
               return null;
             }
             return {
-              start: start2,
-              end: end2
+              start,
+              end
             };
           }
           function setOffsets(node, offsets) {
@@ -8553,15 +8561,15 @@
             }
             var selection = win.getSelection();
             var length = node.textContent.length;
-            var start2 = Math.min(offsets.start, length);
-            var end2 = offsets.end === void 0 ? start2 : Math.min(offsets.end, length);
-            if (!selection.extend && start2 > end2) {
-              var temp = end2;
-              end2 = start2;
-              start2 = temp;
+            var start = Math.min(offsets.start, length);
+            var end = offsets.end === void 0 ? start : Math.min(offsets.end, length);
+            if (!selection.extend && start > end) {
+              var temp = end;
+              end = start;
+              start = temp;
             }
-            var startMarker = getNodeForCharacterOffset(node, start2);
-            var endMarker = getNodeForCharacterOffset(node, end2);
+            var startMarker = getNodeForCharacterOffset(node, start);
+            var endMarker = getNodeForCharacterOffset(node, end);
             if (startMarker && endMarker) {
               if (selection.rangeCount === 1 && selection.anchorNode === startMarker.node && selection.anchorOffset === startMarker.offset && selection.focusNode === endMarker.node && selection.focusOffset === endMarker.offset) {
                 return;
@@ -8569,7 +8577,7 @@
               var range = doc.createRange();
               range.setStart(startMarker.node, startMarker.offset);
               selection.removeAllRanges();
-              if (start2 > end2) {
+              if (start > end) {
                 selection.addRange(range);
                 selection.extend(endMarker.node, endMarker.offset);
               } else {
@@ -8677,14 +8685,14 @@
             };
           }
           function setSelection(input, offsets) {
-            var start2 = offsets.start;
-            var end2 = offsets.end;
-            if (end2 === void 0) {
-              end2 = start2;
+            var start = offsets.start;
+            var end = offsets.end;
+            if (end === void 0) {
+              end = start;
             }
             if ("selectionStart" in input) {
-              input.selectionStart = start2;
-              input.selectionEnd = Math.min(end2, input.value.length);
+              input.selectionStart = start;
+              input.selectionEnd = Math.min(end, input.value.length);
             } else {
               setOffsets(input, offsets);
             }
@@ -8783,9 +8791,9 @@
             transitionend: makePrefixMap("Transition", "TransitionEnd")
           };
           var prefixedEventNames = {};
-          var style = {};
+          var style2 = {};
           if (canUseDOM) {
-            style = document.createElement("div").style;
+            style2 = document.createElement("div").style;
             if (!("AnimationEvent" in window)) {
               delete vendorPrefixes.animationend.animation;
               delete vendorPrefixes.animationiteration.animation;
@@ -8803,7 +8811,7 @@
             }
             var prefixMap = vendorPrefixes[eventName];
             for (var styleProp in prefixMap) {
-              if (prefixMap.hasOwnProperty(styleProp) && styleProp in style) {
+              if (prefixMap.hasOwnProperty(styleProp) && styleProp in style2) {
                 return prefixedEventNames[eventName] = prefixMap[styleProp];
               }
             }
@@ -8812,7 +8820,7 @@
           var ANIMATION_END = getVendorPrefixedEventName("animationend");
           var ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration");
           var ANIMATION_START = getVendorPrefixedEventName("animationstart");
-          var TRANSITION_END2 = getVendorPrefixedEventName("transitionend");
+          var TRANSITION_END = getVendorPrefixedEventName("transitionend");
           var topLevelEventsToReactNames = /* @__PURE__ */ new Map();
           var simpleEventPluginEvents = ["abort", "auxClick", "cancel", "canPlay", "canPlayThrough", "click", "close", "contextMenu", "copy", "cut", "drag", "dragEnd", "dragEnter", "dragExit", "dragLeave", "dragOver", "dragStart", "drop", "durationChange", "emptied", "encrypted", "ended", "error", "gotPointerCapture", "input", "invalid", "keyDown", "keyPress", "keyUp", "load", "loadedData", "loadedMetadata", "loadStart", "lostPointerCapture", "mouseDown", "mouseMove", "mouseOut", "mouseOver", "mouseUp", "paste", "pause", "play", "playing", "pointerCancel", "pointerDown", "pointerMove", "pointerOut", "pointerOver", "pointerUp", "progress", "rateChange", "reset", "resize", "seeked", "seeking", "stalled", "submit", "suspend", "timeUpdate", "touchCancel", "touchEnd", "touchStart", "volumeChange", "scroll", "toggle", "touchMove", "waiting", "wheel"];
           function registerSimpleEvent(domEventName, reactName) {
@@ -8832,7 +8840,7 @@
             registerSimpleEvent("dblclick", "onDoubleClick");
             registerSimpleEvent("focusin", "onFocus");
             registerSimpleEvent("focusout", "onBlur");
-            registerSimpleEvent(TRANSITION_END2, "onTransitionEnd");
+            registerSimpleEvent(TRANSITION_END, "onTransitionEnd");
           }
           function extractEvents$4(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
             var reactName = topLevelEventsToReactNames.get(domEventName);
@@ -8897,7 +8905,7 @@
               case ANIMATION_START:
                 SyntheticEventCtor = SyntheticAnimationEvent;
                 break;
-              case TRANSITION_END2:
+              case TRANSITION_END:
                 SyntheticEventCtor = SyntheticTransitionEvent;
                 break;
               case "scroll":
@@ -9036,11 +9044,11 @@
                   listenToNativeEvent(domEventName, true, rootContainerElement);
                 }
               });
-              var ownerDocument = rootContainerElement.nodeType === DOCUMENT_NODE ? rootContainerElement : rootContainerElement.ownerDocument;
-              if (ownerDocument !== null) {
-                if (!ownerDocument[listeningMarker]) {
-                  ownerDocument[listeningMarker] = true;
-                  listenToNativeEvent("selectionchange", false, ownerDocument);
+              var ownerDocument2 = rootContainerElement.nodeType === DOCUMENT_NODE ? rootContainerElement : rootContainerElement.ownerDocument;
+              if (ownerDocument2 !== null) {
+                if (!ownerDocument2[listeningMarker]) {
+                  ownerDocument2[listeningMarker] = true;
+                  listenToNativeEvent("selectionchange", false, ownerDocument2);
                 }
               }
             }
@@ -9364,10 +9372,10 @@
           function getOwnerDocumentFromRootContainer(rootContainerElement) {
             return rootContainerElement.nodeType === DOCUMENT_NODE ? rootContainerElement : rootContainerElement.ownerDocument;
           }
-          function noop2() {
+          function noop3() {
           }
           function trapClickOnNonInteractiveElement(node) {
-            node.onclick = noop2;
+            node.onclick = noop3;
           }
           function setInitialDOMProperties(tag, domElement, rootContainerElement, nextProps, isCustomComponentTag) {
             for (var propKey in nextProps) {
@@ -9431,7 +9439,7 @@
           }
           function createElement(type, props, rootContainerElement, parentNamespace) {
             var isCustomComponentTag;
-            var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
+            var ownerDocument2 = getOwnerDocumentFromRootContainer(rootContainerElement);
             var domElement;
             var namespaceURI = parentNamespace;
             if (namespaceURI === HTML_NAMESPACE) {
@@ -9445,16 +9453,16 @@
                 }
               }
               if (type === "script") {
-                var div = ownerDocument.createElement("div");
+                var div = ownerDocument2.createElement("div");
                 div.innerHTML = "<script><\/script>";
                 var firstChild = div.firstChild;
                 domElement = div.removeChild(firstChild);
               } else if (typeof props.is === "string") {
-                domElement = ownerDocument.createElement(type, {
+                domElement = ownerDocument2.createElement(type, {
                   is: props.is
                 });
               } else {
-                domElement = ownerDocument.createElement(type);
+                domElement = ownerDocument2.createElement(type);
                 if (type === "select") {
                   var node = domElement;
                   if (props.multiple) {
@@ -9465,7 +9473,7 @@
                 }
               }
             } else {
-              domElement = ownerDocument.createElementNS(namespaceURI, type);
+              domElement = ownerDocument2.createElementNS(namespaceURI, type);
             }
             {
               if (namespaceURI === HTML_NAMESPACE) {
@@ -10453,11 +10461,11 @@
           }
           function hideInstance(instance) {
             instance = instance;
-            var style2 = instance.style;
-            if (typeof style2.setProperty === "function") {
-              style2.setProperty("display", "none", "important");
+            var style3 = instance.style;
+            if (typeof style3.setProperty === "function") {
+              style3.setProperty("display", "none", "important");
             } else {
-              style2.display = "none";
+              style3.display = "none";
             }
           }
           function hideTextInstance(textInstance) {
@@ -10920,18 +10928,18 @@
               if (instance && instance.__reactInternalMemoizedUnmaskedChildContext === unmaskedContext) {
                 return instance.__reactInternalMemoizedMaskedChildContext;
               }
-              var context = {};
+              var context3 = {};
               for (var key in contextTypes) {
-                context[key] = unmaskedContext[key];
+                context3[key] = unmaskedContext[key];
               }
               {
                 var name = getComponentNameFromFiber(workInProgress2) || "Unknown";
-                checkPropTypes(contextTypes, context, "context", name);
+                checkPropTypes(contextTypes, context3, "context", name);
               }
               if (instance) {
-                cacheContext(workInProgress2, unmaskedContext, context);
+                cacheContext(workInProgress2, unmaskedContext, context3);
               }
-              return context;
+              return context3;
             }
           }
           function hasContextChanged() {
@@ -10957,12 +10965,12 @@
               pop(contextStackCursor, fiber);
             }
           }
-          function pushTopLevelContextObject(fiber, context, didChange) {
+          function pushTopLevelContextObject(fiber, context3, didChange) {
             {
               if (contextStackCursor.current !== emptyContextObject) {
                 throw new Error("Unexpected context found on stack. This error is likely caused by a bug in React. Please file an issue.");
               }
-              push(contextStackCursor, context, fiber);
+              push(contextStackCursor, context3, fiber);
               push(didPerformWorkStackCursor, didChange, fiber);
             }
           }
@@ -11836,24 +11844,24 @@
               isDisallowedContextReadInDEV = false;
             }
           }
-          function pushProvider(providerFiber, context, nextValue) {
+          function pushProvider(providerFiber, context3, nextValue) {
             {
-              push(valueCursor, context._currentValue, providerFiber);
-              context._currentValue = nextValue;
+              push(valueCursor, context3._currentValue, providerFiber);
+              context3._currentValue = nextValue;
               {
-                if (context._currentRenderer !== void 0 && context._currentRenderer !== null && context._currentRenderer !== rendererSigil) {
+                if (context3._currentRenderer !== void 0 && context3._currentRenderer !== null && context3._currentRenderer !== rendererSigil) {
                   error("Detected multiple renderers concurrently rendering the same context provider. This is currently unsupported.");
                 }
-                context._currentRenderer = rendererSigil;
+                context3._currentRenderer = rendererSigil;
               }
             }
           }
-          function popProvider(context, providerFiber) {
+          function popProvider(context3, providerFiber) {
             var currentValue = valueCursor.current;
             pop(valueCursor, providerFiber);
             {
               {
-                context._currentValue = currentValue;
+                context3._currentValue = currentValue;
               }
             }
           }
@@ -11880,12 +11888,12 @@
               }
             }
           }
-          function propagateContextChange(workInProgress2, context, renderLanes2) {
+          function propagateContextChange(workInProgress2, context3, renderLanes2) {
             {
-              propagateContextChange_eager(workInProgress2, context, renderLanes2);
+              propagateContextChange_eager(workInProgress2, context3, renderLanes2);
             }
           }
-          function propagateContextChange_eager(workInProgress2, context, renderLanes2) {
+          function propagateContextChange_eager(workInProgress2, context3, renderLanes2) {
             var fiber = workInProgress2.child;
             if (fiber !== null) {
               fiber.return = workInProgress2;
@@ -11897,7 +11905,7 @@
                 nextFiber = fiber.child;
                 var dependency = list.firstContext;
                 while (dependency !== null) {
-                  if (dependency.context === context) {
+                  if (dependency.context === context3) {
                     if (fiber.tag === ClassComponent) {
                       var lane = pickArbitraryLane(renderLanes2);
                       var update = createUpdate(NoTimestamp, lane);
@@ -11983,18 +11991,18 @@
               }
             }
           }
-          function readContext(context) {
+          function readContext(context3) {
             {
               if (isDisallowedContextReadInDEV) {
                 error("Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().");
               }
             }
-            var value = context._currentValue;
-            if (lastFullyObservedContext === context)
+            var value = context3._currentValue;
+            if (lastFullyObservedContext === context3)
               ;
             else {
               var contextItem = {
-                context,
+                context: context3,
                 memoizedValue: value,
                 next: null
               };
@@ -12450,11 +12458,11 @@
               currentlyProcessingQueue = null;
             }
           }
-          function callCallback(callback, context) {
+          function callCallback(callback, context3) {
             if (typeof callback !== "function") {
               throw new Error("Invalid argument passed as callback. Expected a function. Instead " + ("received: " + callback));
             }
-            callback.call(context);
+            callback.call(context3);
           }
           function resetHasForceUpdateBeforeProcessing() {
             hasForceUpdate = false;
@@ -12467,17 +12475,17 @@
             finishedQueue.effects = null;
             if (effects !== null) {
               for (var i = 0; i < effects.length; i++) {
-                var effect4 = effects[i];
-                var callback = effect4.callback;
+                var effect = effects[i];
+                var callback = effect.callback;
                 if (callback !== null) {
-                  effect4.callback = null;
+                  effect.callback = null;
                   callCallback(callback, instance);
                 }
               }
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React7.Component().refs;
+          var emptyRefsObject = new React77.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -12728,7 +12736,7 @@
           function constructClassInstance(workInProgress2, ctor, props) {
             var isLegacyContextConsumer = false;
             var unmaskedContext = emptyContextObject;
-            var context = emptyContextObject;
+            var context3 = emptyContextObject;
             var contextType = ctor.contextType;
             {
               if ("contextType" in ctor) {
@@ -12755,19 +12763,19 @@
               }
             }
             if (typeof contextType === "object" && contextType !== null) {
-              context = readContext(contextType);
+              context3 = readContext(contextType);
             } else {
               unmaskedContext = getUnmaskedContext(workInProgress2, ctor, true);
               var contextTypes = ctor.contextTypes;
               isLegacyContextConsumer = contextTypes !== null && contextTypes !== void 0;
-              context = isLegacyContextConsumer ? getMaskedContext(workInProgress2, unmaskedContext) : emptyContextObject;
+              context3 = isLegacyContextConsumer ? getMaskedContext(workInProgress2, unmaskedContext) : emptyContextObject;
             }
-            var instance = new ctor(props, context);
+            var instance = new ctor(props, context3);
             {
               if (workInProgress2.mode & StrictLegacyMode) {
                 setIsStrictModeForDevtools(true);
                 try {
-                  instance = new ctor(props, context);
+                  instance = new ctor(props, context3);
                 } finally {
                   setIsStrictModeForDevtools(false);
                 }
@@ -12813,7 +12821,7 @@
               }
             }
             if (isLegacyContextConsumer) {
-              cacheContext(workInProgress2, unmaskedContext, context);
+              cacheContext(workInProgress2, unmaskedContext, context3);
             }
             return instance;
           }
@@ -13864,14 +13872,14 @@
             pop(rootInstanceStackCursor, fiber);
           }
           function getHostContext() {
-            var context = requiredContext(contextStackCursor$1.current);
-            return context;
+            var context3 = requiredContext(contextStackCursor$1.current);
+            return context3;
           }
           function pushHostContext(fiber) {
             var rootInstance = requiredContext(rootInstanceStackCursor.current);
-            var context = requiredContext(contextStackCursor$1.current);
-            var nextContext = getChildHostContext(context, fiber.type);
-            if (context === nextContext) {
+            var context3 = requiredContext(contextStackCursor$1.current);
+            var nextContext = getChildHostContext(context3, fiber.type);
+            if (context3 === nextContext) {
               return;
             }
             push(contextFiberStackCursor, fiber, fiber);
@@ -14593,7 +14601,7 @@
             return rerenderReducer(basicStateReducer);
           }
           function pushEffect(tag, create, destroy, deps) {
-            var effect4 = {
+            var effect = {
               tag,
               create,
               destroy,
@@ -14605,19 +14613,19 @@
             if (componentUpdateQueue === null) {
               componentUpdateQueue = createFunctionComponentUpdateQueue();
               currentlyRenderingFiber$1.updateQueue = componentUpdateQueue;
-              componentUpdateQueue.lastEffect = effect4.next = effect4;
+              componentUpdateQueue.lastEffect = effect.next = effect;
             } else {
               var lastEffect = componentUpdateQueue.lastEffect;
               if (lastEffect === null) {
-                componentUpdateQueue.lastEffect = effect4.next = effect4;
+                componentUpdateQueue.lastEffect = effect.next = effect;
               } else {
                 var firstEffect = lastEffect.next;
-                lastEffect.next = effect4;
-                effect4.next = firstEffect;
-                componentUpdateQueue.lastEffect = effect4;
+                lastEffect.next = effect;
+                effect.next = firstEffect;
+                componentUpdateQueue.lastEffect = effect;
               }
             }
-            return effect4;
+            return effect;
           }
           function mountRef(initialValue) {
             var hook = mountWorkInProgressHook();
@@ -14849,22 +14857,22 @@
           }
           function mountTransition() {
             var _mountState = mountState(false), isPending = _mountState[0], setPending = _mountState[1];
-            var start2 = startTransition.bind(null, setPending);
+            var start = startTransition.bind(null, setPending);
             var hook = mountWorkInProgressHook();
-            hook.memoizedState = start2;
-            return [isPending, start2];
+            hook.memoizedState = start;
+            return [isPending, start];
           }
           function updateTransition() {
             var _updateState = updateState(), isPending = _updateState[0];
             var hook = updateWorkInProgressHook();
-            var start2 = hook.memoizedState;
-            return [isPending, start2];
+            var start = hook.memoizedState;
+            return [isPending, start];
           }
           function rerenderTransition() {
             var _rerenderState = rerenderState(), isPending = _rerenderState[0];
             var hook = updateWorkInProgressHook();
-            var start2 = hook.memoizedState;
-            return [isPending, start2];
+            var start = hook.memoizedState;
+            return [isPending, start];
           }
           var isUpdatingOpaqueValueInRenderPhase = false;
           function getIsUpdatingOpaqueValueInRenderPhaseInDEV() {
@@ -15039,8 +15047,8 @@
               error("Do not call Hooks inside useEffect(...), useMemo(...), or other built-in Hooks. You can only call Hooks at the top level of your React function. For more information, see https://reactjs.org/link/rules-of-hooks");
             };
             HooksDispatcherOnMountInDEV = {
-              readContext: function(context) {
-                return readContext(context);
+              readContext: function(context3) {
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
@@ -15048,10 +15056,10 @@
                 checkDepsAreArrayDev(deps);
                 return mountCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 mountHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15149,18 +15157,18 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             HooksDispatcherOnMountWithHookTypesInDEV = {
-              readContext: function(context) {
-                return readContext(context);
+              readContext: function(context3) {
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
                 updateHookTypesDev();
                 return mountCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 updateHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15253,18 +15261,18 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             HooksDispatcherOnUpdateInDEV = {
-              readContext: function(context) {
-                return readContext(context);
+              readContext: function(context3) {
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
                 updateHookTypesDev();
                 return updateCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 updateHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15357,18 +15365,18 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             HooksDispatcherOnRerenderInDEV = {
-              readContext: function(context) {
-                return readContext(context);
+              readContext: function(context3) {
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
                 updateHookTypesDev();
                 return updateCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 updateHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15461,9 +15469,9 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             InvalidNestedHooksDispatcherOnMountInDEV = {
-              readContext: function(context) {
+              readContext: function(context3) {
                 warnInvalidContextAccess();
-                return readContext(context);
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
@@ -15471,11 +15479,11 @@
                 mountHookTypesDev();
                 return mountCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 warnInvalidHookAccess();
                 mountHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15582,9 +15590,9 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             InvalidNestedHooksDispatcherOnUpdateInDEV = {
-              readContext: function(context) {
+              readContext: function(context3) {
                 warnInvalidContextAccess();
-                return readContext(context);
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
@@ -15592,11 +15600,11 @@
                 updateHookTypesDev();
                 return updateCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 warnInvalidHookAccess();
                 updateHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -15703,9 +15711,9 @@
               unstable_isNewReconciler: enableNewReconciler
             };
             InvalidNestedHooksDispatcherOnRerenderInDEV = {
-              readContext: function(context) {
+              readContext: function(context3) {
                 warnInvalidContextAccess();
-                return readContext(context);
+                return readContext(context3);
               },
               useCallback: function(callback, deps) {
                 currentHookNameInDev = "useCallback";
@@ -15713,11 +15721,11 @@
                 updateHookTypesDev();
                 return updateCallback(callback, deps);
               },
-              useContext: function(context) {
+              useContext: function(context3) {
                 currentHookNameInDev = "useContext";
                 warnInvalidHookAccess();
                 updateHookTypesDev();
-                return readContext(context);
+                return readContext(context3);
               },
               useEffect: function(create, deps) {
                 currentHookNameInDev = "useEffect";
@@ -16506,10 +16514,10 @@
                 }
               }
             }
-            var context;
+            var context3;
             {
               var unmaskedContext = getUnmaskedContext(workInProgress2, Component, true);
-              context = getMaskedContext(workInProgress2, unmaskedContext);
+              context3 = getMaskedContext(workInProgress2, unmaskedContext);
             }
             var nextChildren;
             var hasId;
@@ -16520,12 +16528,12 @@
             {
               ReactCurrentOwner$1.current = workInProgress2;
               setIsRendering(true);
-              nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context, renderLanes2);
+              nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context3, renderLanes2);
               hasId = checkDidRenderIdHook();
               if (workInProgress2.mode & StrictLegacyMode) {
                 setIsStrictModeForDevtools(true);
                 try {
-                  nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context, renderLanes2);
+                  nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context3, renderLanes2);
                   hasId = checkDidRenderIdHook();
                 } finally {
                   setIsStrictModeForDevtools(false);
@@ -16840,10 +16848,10 @@
           function mountIndeterminateComponent(_current, workInProgress2, Component, renderLanes2) {
             resetSuspendedCurrentOnMountInLegacyMode(_current, workInProgress2);
             var props = workInProgress2.pendingProps;
-            var context;
+            var context3;
             {
               var unmaskedContext = getUnmaskedContext(workInProgress2, Component, false);
-              context = getMaskedContext(workInProgress2, unmaskedContext);
+              context3 = getMaskedContext(workInProgress2, unmaskedContext);
             }
             prepareToReadContext(workInProgress2, renderLanes2);
             var value;
@@ -16864,7 +16872,7 @@
               }
               setIsRendering(true);
               ReactCurrentOwner$1.current = workInProgress2;
-              value = renderWithHooks(null, workInProgress2, Component, props, context, renderLanes2);
+              value = renderWithHooks(null, workInProgress2, Component, props, context3, renderLanes2);
               hasId = checkDidRenderIdHook();
               setIsRendering(false);
             }
@@ -16914,7 +16922,7 @@
                 if (workInProgress2.mode & StrictLegacyMode) {
                   setIsStrictModeForDevtools(true);
                   try {
-                    value = renderWithHooks(null, workInProgress2, Component, props, context, renderLanes2);
+                    value = renderWithHooks(null, workInProgress2, Component, props, context3, renderLanes2);
                     hasId = checkDidRenderIdHook();
                   } finally {
                     setIsStrictModeForDevtools(false);
@@ -17566,7 +17574,7 @@
           var hasWarnedAboutUsingNoValuePropOnContextProvider = false;
           function updateContextProvider(current2, workInProgress2, renderLanes2) {
             var providerType = workInProgress2.type;
-            var context = providerType._context;
+            var context3 = providerType._context;
             var newProps = workInProgress2.pendingProps;
             var oldProps = workInProgress2.memoizedProps;
             var newValue = newProps.value;
@@ -17582,7 +17590,7 @@
                 checkPropTypes(providerPropTypes, newProps, "prop", "Context.Provider");
               }
             }
-            pushProvider(workInProgress2, context, newValue);
+            pushProvider(workInProgress2, context3, newValue);
             {
               if (oldProps !== null) {
                 var oldValue = oldProps.value;
@@ -17591,7 +17599,7 @@
                     return bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
                   }
                 } else {
-                  propagateContextChange(workInProgress2, context, renderLanes2);
+                  propagateContextChange(workInProgress2, context3, renderLanes2);
                 }
               }
             }
@@ -17601,17 +17609,17 @@
           }
           var hasWarnedAboutUsingContextAsConsumer = false;
           function updateContextConsumer(current2, workInProgress2, renderLanes2) {
-            var context = workInProgress2.type;
+            var context3 = workInProgress2.type;
             {
-              if (context._context === void 0) {
-                if (context !== context.Consumer) {
+              if (context3._context === void 0) {
+                if (context3 !== context3.Consumer) {
                   if (!hasWarnedAboutUsingContextAsConsumer) {
                     hasWarnedAboutUsingContextAsConsumer = true;
                     error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?");
                   }
                 }
               } else {
-                context = context._context;
+                context3 = context3._context;
               }
             }
             var newProps = workInProgress2.pendingProps;
@@ -17622,7 +17630,7 @@
               }
             }
             prepareToReadContext(workInProgress2, renderLanes2);
-            var newValue = readContext(context);
+            var newValue = readContext(context3);
             {
               markComponentRenderStarted(workInProgress2);
             }
@@ -17735,8 +17743,8 @@
                 break;
               case ContextProvider: {
                 var newValue = workInProgress2.memoizedProps.value;
-                var context = workInProgress2.type._context;
-                pushProvider(workInProgress2, context, newValue);
+                var context3 = workInProgress2.type._context;
+                pushProvider(workInProgress2, context3, newValue);
                 break;
               }
               case Profiler:
@@ -18323,8 +18331,8 @@
                 bubbleProperties(workInProgress2);
                 return null;
               case ContextProvider:
-                var context = workInProgress2.type._context;
-                popProvider(context, workInProgress2);
+                var context3 = workInProgress2.type._context;
+                popProvider(context3, workInProgress2);
                 bubbleProperties(workInProgress2);
                 return null;
               case IncompleteClassComponent: {
@@ -18536,8 +18544,8 @@
                 popHostContainer(workInProgress2);
                 return null;
               case ContextProvider:
-                var context = workInProgress2.type._context;
-                popProvider(context, workInProgress2);
+                var context3 = workInProgress2.type._context;
+                popProvider(context3, workInProgress2);
                 return null;
               case OffscreenComponent:
               case LegacyHiddenComponent:
@@ -18580,8 +18588,8 @@
                 popSuspenseContext(interruptedWork);
                 break;
               case ContextProvider:
-                var context = interruptedWork.type._context;
-                popProvider(context, interruptedWork);
+                var context3 = interruptedWork.type._context;
+                popProvider(context3, interruptedWork);
                 break;
               case OffscreenComponent:
               case LegacyHiddenComponent:
@@ -18789,11 +18797,11 @@
             var lastEffect = updateQueue !== null ? updateQueue.lastEffect : null;
             if (lastEffect !== null) {
               var firstEffect = lastEffect.next;
-              var effect4 = firstEffect;
+              var effect = firstEffect;
               do {
-                if ((effect4.tag & flags) === flags) {
-                  var destroy = effect4.destroy;
-                  effect4.destroy = void 0;
+                if ((effect.tag & flags) === flags) {
+                  var destroy = effect.destroy;
+                  effect.destroy = void 0;
                   if (destroy !== void 0) {
                     {
                       if ((flags & Passive$1) !== NoFlags$1) {
@@ -18822,8 +18830,8 @@
                     }
                   }
                 }
-                effect4 = effect4.next;
-              } while (effect4 !== firstEffect);
+                effect = effect.next;
+              } while (effect !== firstEffect);
             }
           }
           function commitHookEffectListMount(flags, finishedWork) {
@@ -18831,9 +18839,9 @@
             var lastEffect = updateQueue !== null ? updateQueue.lastEffect : null;
             if (lastEffect !== null) {
               var firstEffect = lastEffect.next;
-              var effect4 = firstEffect;
+              var effect = firstEffect;
               do {
-                if ((effect4.tag & flags) === flags) {
+                if ((effect.tag & flags) === flags) {
                   {
                     if ((flags & Passive$1) !== NoFlags$1) {
                       markComponentPassiveEffectMountStarted(finishedWork);
@@ -18841,13 +18849,13 @@
                       markComponentLayoutEffectMountStarted(finishedWork);
                     }
                   }
-                  var create = effect4.create;
+                  var create = effect.create;
                   {
                     if ((flags & Insertion) !== NoFlags$1) {
                       setIsRunningInsertionEffect(true);
                     }
                   }
-                  effect4.destroy = create();
+                  effect.destroy = create();
                   {
                     if ((flags & Insertion) !== NoFlags$1) {
                       setIsRunningInsertionEffect(false);
@@ -18861,12 +18869,12 @@
                     }
                   }
                   {
-                    var destroy = effect4.destroy;
+                    var destroy = effect.destroy;
                     if (destroy !== void 0 && typeof destroy !== "function") {
                       var hookName = void 0;
-                      if ((effect4.tag & Layout) !== NoFlags) {
+                      if ((effect.tag & Layout) !== NoFlags) {
                         hookName = "useLayoutEffect";
-                      } else if ((effect4.tag & Insertion) !== NoFlags) {
+                      } else if ((effect.tag & Insertion) !== NoFlags) {
                         hookName = "useInsertionEffect";
                       } else {
                         hookName = "useEffect";
@@ -18883,8 +18891,8 @@
                     }
                   }
                 }
-                effect4 = effect4.next;
-              } while (effect4 !== firstEffect);
+                effect = effect.next;
+              } while (effect !== firstEffect);
             }
           }
           function commitPassiveEffectDurations(finishedRoot, finishedWork) {
@@ -19489,9 +19497,9 @@
                     var lastEffect = updateQueue.lastEffect;
                     if (lastEffect !== null) {
                       var firstEffect = lastEffect.next;
-                      var effect4 = firstEffect;
+                      var effect = firstEffect;
                       do {
-                        var _effect = effect4, destroy = _effect.destroy, tag = _effect.tag;
+                        var _effect = effect, destroy = _effect.destroy, tag = _effect.tag;
                         if (destroy !== void 0) {
                           if ((tag & Insertion) !== NoFlags$1) {
                             safelyCallDestroy(deletedFiber, nearestMountedAncestor, destroy);
@@ -19511,8 +19519,8 @@
                             }
                           }
                         }
-                        effect4 = effect4.next;
-                      } while (effect4 !== firstEffect);
+                        effect = effect.next;
+                      } while (effect !== firstEffect);
                     }
                   }
                 }
@@ -20848,11 +20856,11 @@
               }
             }
           }
-          function batchedUpdates$1(fn2, a) {
+          function batchedUpdates$1(fn, a) {
             var prevExecutionContext = executionContext;
             executionContext |= BatchedContext;
             try {
-              return fn2(a);
+              return fn(a);
             } finally {
               executionContext = prevExecutionContext;
               if (executionContext === NoContext && // Treat `act` as if it's inside `batchedUpdates`, even in legacy mode.
@@ -20862,13 +20870,13 @@
               }
             }
           }
-          function discreteUpdates(fn2, a, b, c, d) {
+          function discreteUpdates(fn, a, b, c, d) {
             var previousPriority = getCurrentUpdatePriority();
             var prevTransition = ReactCurrentBatchConfig$3.transition;
             try {
               ReactCurrentBatchConfig$3.transition = null;
               setCurrentUpdatePriority(DiscreteEventPriority);
-              return fn2(a, b, c, d);
+              return fn(a, b, c, d);
             } finally {
               setCurrentUpdatePriority(previousPriority);
               ReactCurrentBatchConfig$3.transition = prevTransition;
@@ -20877,7 +20885,7 @@
               }
             }
           }
-          function flushSync(fn2) {
+          function flushSync(fn) {
             if (rootWithPendingPassiveEffects !== null && rootWithPendingPassiveEffects.tag === LegacyRoot && (executionContext & (RenderContext | CommitContext)) === NoContext) {
               flushPassiveEffects();
             }
@@ -20888,8 +20896,8 @@
             try {
               ReactCurrentBatchConfig$3.transition = null;
               setCurrentUpdatePriority(DiscreteEventPriority);
-              if (fn2) {
-                return fn2();
+              if (fn) {
+                return fn();
               } else {
                 return void 0;
               }
@@ -22689,11 +22697,11 @@
             {
               markRenderScheduled(lane);
             }
-            var context = getContextForSubtree(parentComponent);
+            var context3 = getContextForSubtree(parentComponent);
             if (container.context === null) {
-              container.context = context;
+              container.context = context3;
             } else {
-              container.pendingContext = context;
+              container.pendingContext = context3;
             }
             {
               if (isRendering && current !== null && !didWarnAboutNestedUpdates) {
@@ -23460,13 +23468,13 @@
             }
             return hydrateRoot(container, initialChildren, options2);
           }
-          function flushSync$1(fn2) {
+          function flushSync$1(fn) {
             {
               if (isAlreadyRendering()) {
                 error("flushSync was called from inside a lifecycle method. React cannot flush when React is already rendering. Consider moving this call to a scheduler task or micro task.");
               }
             }
-            return flushSync(fn2);
+            return flushSync(fn);
           }
           var foundDevTools = injectIntoDevTools({
             findFiberByHostInstance: getClosestInstanceFromNode,
@@ -23545,6 +23553,6731 @@
         };
       }
       var i;
+    }
+  });
+
+  // node_modules/@remix-run/router/dist/router.cjs.js
+  var require_router_cjs = __commonJS({
+    "node_modules/@remix-run/router/dist/router.cjs.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      function _extends2() {
+        _extends2 = Object.assign ? Object.assign.bind() : function(target) {
+          for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var key in source) {
+              if (Object.prototype.hasOwnProperty.call(source, key)) {
+                target[key] = source[key];
+              }
+            }
+          }
+          return target;
+        };
+        return _extends2.apply(this, arguments);
+      }
+      var Action = /* @__PURE__ */ function(Action2) {
+        Action2["Pop"] = "POP";
+        Action2["Push"] = "PUSH";
+        Action2["Replace"] = "REPLACE";
+        return Action2;
+      }({});
+      var PopStateEventType = "popstate";
+      function createMemoryHistory(options) {
+        if (options === void 0) {
+          options = {};
+        }
+        let {
+          initialEntries = ["/"],
+          initialIndex,
+          v5Compat = false
+        } = options;
+        let entries;
+        entries = initialEntries.map((entry, index2) => createMemoryLocation(entry, typeof entry === "string" ? null : entry.state, index2 === 0 ? "default" : void 0));
+        let index = clampIndex(initialIndex == null ? entries.length - 1 : initialIndex);
+        let action = Action.Pop;
+        let listener = null;
+        function clampIndex(n) {
+          return Math.min(Math.max(n, 0), entries.length - 1);
+        }
+        function getCurrentLocation() {
+          return entries[index];
+        }
+        function createMemoryLocation(to, state, key) {
+          if (state === void 0) {
+            state = null;
+          }
+          let location = createLocation(entries ? getCurrentLocation().pathname : "/", to, state, key);
+          warning3(location.pathname.charAt(0) === "/", "relative pathnames are not supported in memory history: " + JSON.stringify(to));
+          return location;
+        }
+        function createHref(to) {
+          return typeof to === "string" ? to : createPath(to);
+        }
+        let history = {
+          get index() {
+            return index;
+          },
+          get action() {
+            return action;
+          },
+          get location() {
+            return getCurrentLocation();
+          },
+          createHref,
+          createURL(to) {
+            return new URL(createHref(to), "http://localhost");
+          },
+          encodeLocation(to) {
+            let path = typeof to === "string" ? parsePath(to) : to;
+            return {
+              pathname: path.pathname || "",
+              search: path.search || "",
+              hash: path.hash || ""
+            };
+          },
+          push(to, state) {
+            action = Action.Push;
+            let nextLocation = createMemoryLocation(to, state);
+            index += 1;
+            entries.splice(index, entries.length, nextLocation);
+            if (v5Compat && listener) {
+              listener({
+                action,
+                location: nextLocation,
+                delta: 1
+              });
+            }
+          },
+          replace(to, state) {
+            action = Action.Replace;
+            let nextLocation = createMemoryLocation(to, state);
+            entries[index] = nextLocation;
+            if (v5Compat && listener) {
+              listener({
+                action,
+                location: nextLocation,
+                delta: 0
+              });
+            }
+          },
+          go(delta) {
+            action = Action.Pop;
+            let nextIndex = clampIndex(index + delta);
+            let nextLocation = entries[nextIndex];
+            index = nextIndex;
+            if (listener) {
+              listener({
+                action,
+                location: nextLocation,
+                delta
+              });
+            }
+          },
+          listen(fn) {
+            listener = fn;
+            return () => {
+              listener = null;
+            };
+          }
+        };
+        return history;
+      }
+      function createBrowserHistory(options) {
+        if (options === void 0) {
+          options = {};
+        }
+        function createBrowserLocation(window2, globalHistory) {
+          let {
+            pathname,
+            search,
+            hash
+          } = window2.location;
+          return createLocation(
+            "",
+            {
+              pathname,
+              search,
+              hash
+            },
+            // state defaults to `null` because `window.history.state` does
+            globalHistory.state && globalHistory.state.usr || null,
+            globalHistory.state && globalHistory.state.key || "default"
+          );
+        }
+        function createBrowserHref(window2, to) {
+          return typeof to === "string" ? to : createPath(to);
+        }
+        return getUrlBasedHistory(createBrowserLocation, createBrowserHref, null, options);
+      }
+      function createHashHistory(options) {
+        if (options === void 0) {
+          options = {};
+        }
+        function createHashLocation(window2, globalHistory) {
+          let {
+            pathname = "/",
+            search = "",
+            hash = ""
+          } = parsePath(window2.location.hash.substr(1));
+          if (!pathname.startsWith("/") && !pathname.startsWith(".")) {
+            pathname = "/" + pathname;
+          }
+          return createLocation(
+            "",
+            {
+              pathname,
+              search,
+              hash
+            },
+            // state defaults to `null` because `window.history.state` does
+            globalHistory.state && globalHistory.state.usr || null,
+            globalHistory.state && globalHistory.state.key || "default"
+          );
+        }
+        function createHashHref(window2, to) {
+          let base = window2.document.querySelector("base");
+          let href = "";
+          if (base && base.getAttribute("href")) {
+            let url = window2.location.href;
+            let hashIndex = url.indexOf("#");
+            href = hashIndex === -1 ? url : url.slice(0, hashIndex);
+          }
+          return href + "#" + (typeof to === "string" ? to : createPath(to));
+        }
+        function validateHashLocation(location, to) {
+          warning3(location.pathname.charAt(0) === "/", "relative pathnames are not supported in hash history.push(" + JSON.stringify(to) + ")");
+        }
+        return getUrlBasedHistory(createHashLocation, createHashHref, validateHashLocation, options);
+      }
+      function invariant3(value, message) {
+        if (value === false || value === null || typeof value === "undefined") {
+          throw new Error(message);
+        }
+      }
+      function warning3(cond, message) {
+        if (!cond) {
+          if (typeof console !== "undefined")
+            console.warn(message);
+          try {
+            throw new Error(message);
+          } catch (e) {
+          }
+        }
+      }
+      function createKey() {
+        return Math.random().toString(36).substr(2, 8);
+      }
+      function getHistoryState(location, index) {
+        return {
+          usr: location.state,
+          key: location.key,
+          idx: index
+        };
+      }
+      function createLocation(current, to, state, key) {
+        if (state === void 0) {
+          state = null;
+        }
+        let location = _extends2({
+          pathname: typeof current === "string" ? current : current.pathname,
+          search: "",
+          hash: ""
+        }, typeof to === "string" ? parsePath(to) : to, {
+          state,
+          // TODO: This could be cleaned up.  push/replace should probably just take
+          // full Locations now and avoid the need to run through this flow at all
+          // But that's a pretty big refactor to the current test suite so going to
+          // keep as is for the time being and just let any incoming keys take precedence
+          key: to && to.key || key || createKey()
+        });
+        return location;
+      }
+      function createPath(_ref) {
+        let {
+          pathname = "/",
+          search = "",
+          hash = ""
+        } = _ref;
+        if (search && search !== "?")
+          pathname += search.charAt(0) === "?" ? search : "?" + search;
+        if (hash && hash !== "#")
+          pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
+        return pathname;
+      }
+      function parsePath(path) {
+        let parsedPath = {};
+        if (path) {
+          let hashIndex = path.indexOf("#");
+          if (hashIndex >= 0) {
+            parsedPath.hash = path.substr(hashIndex);
+            path = path.substr(0, hashIndex);
+          }
+          let searchIndex = path.indexOf("?");
+          if (searchIndex >= 0) {
+            parsedPath.search = path.substr(searchIndex);
+            path = path.substr(0, searchIndex);
+          }
+          if (path) {
+            parsedPath.pathname = path;
+          }
+        }
+        return parsedPath;
+      }
+      function getUrlBasedHistory(getLocation, createHref, validateLocation, options) {
+        if (options === void 0) {
+          options = {};
+        }
+        let {
+          window: window2 = document.defaultView,
+          v5Compat = false
+        } = options;
+        let globalHistory = window2.history;
+        let action = Action.Pop;
+        let listener = null;
+        let index = getIndex();
+        if (index == null) {
+          index = 0;
+          globalHistory.replaceState(_extends2({}, globalHistory.state, {
+            idx: index
+          }), "");
+        }
+        function getIndex() {
+          let state = globalHistory.state || {
+            idx: null
+          };
+          return state.idx;
+        }
+        function handlePop() {
+          action = Action.Pop;
+          let nextIndex = getIndex();
+          let delta = nextIndex == null ? null : nextIndex - index;
+          index = nextIndex;
+          if (listener) {
+            listener({
+              action,
+              location: history.location,
+              delta
+            });
+          }
+        }
+        function push(to, state) {
+          action = Action.Push;
+          let location = createLocation(history.location, to, state);
+          if (validateLocation)
+            validateLocation(location, to);
+          index = getIndex() + 1;
+          let historyState = getHistoryState(location, index);
+          let url = history.createHref(location);
+          try {
+            globalHistory.pushState(historyState, "", url);
+          } catch (error) {
+            if (error instanceof DOMException && error.name === "DataCloneError") {
+              throw error;
+            }
+            window2.location.assign(url);
+          }
+          if (v5Compat && listener) {
+            listener({
+              action,
+              location: history.location,
+              delta: 1
+            });
+          }
+        }
+        function replace(to, state) {
+          action = Action.Replace;
+          let location = createLocation(history.location, to, state);
+          if (validateLocation)
+            validateLocation(location, to);
+          index = getIndex();
+          let historyState = getHistoryState(location, index);
+          let url = history.createHref(location);
+          globalHistory.replaceState(historyState, "", url);
+          if (v5Compat && listener) {
+            listener({
+              action,
+              location: history.location,
+              delta: 0
+            });
+          }
+        }
+        function createURL(to) {
+          let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
+          let href = typeof to === "string" ? to : createPath(to);
+          invariant3(base, "No window.location.(origin|href) available to create URL for href: " + href);
+          return new URL(href, base);
+        }
+        let history = {
+          get action() {
+            return action;
+          },
+          get location() {
+            return getLocation(window2, globalHistory);
+          },
+          listen(fn) {
+            if (listener) {
+              throw new Error("A history only accepts one active listener");
+            }
+            window2.addEventListener(PopStateEventType, handlePop);
+            listener = fn;
+            return () => {
+              window2.removeEventListener(PopStateEventType, handlePop);
+              listener = null;
+            };
+          },
+          createHref(to) {
+            return createHref(window2, to);
+          },
+          createURL,
+          encodeLocation(to) {
+            let url = createURL(to);
+            return {
+              pathname: url.pathname,
+              search: url.search,
+              hash: url.hash
+            };
+          },
+          push,
+          replace,
+          go(n) {
+            return globalHistory.go(n);
+          }
+        };
+        return history;
+      }
+      var ResultType = /* @__PURE__ */ function(ResultType2) {
+        ResultType2["data"] = "data";
+        ResultType2["deferred"] = "deferred";
+        ResultType2["redirect"] = "redirect";
+        ResultType2["error"] = "error";
+        return ResultType2;
+      }({});
+      var immutableRouteKeys = /* @__PURE__ */ new Set(["lazy", "caseSensitive", "path", "id", "index", "children"]);
+      function isIndexRoute(route) {
+        return route.index === true;
+      }
+      function convertRoutesToDataRoutes(routes, mapRouteProperties, parentPath, manifest) {
+        if (parentPath === void 0) {
+          parentPath = [];
+        }
+        if (manifest === void 0) {
+          manifest = {};
+        }
+        return routes.map((route, index) => {
+          let treePath = [...parentPath, index];
+          let id = typeof route.id === "string" ? route.id : treePath.join("-");
+          invariant3(route.index !== true || !route.children, "Cannot specify children on an index route");
+          invariant3(!manifest[id], 'Found a route id collision on id "' + id + `".  Route id's must be globally unique within Data Router usages`);
+          if (isIndexRoute(route)) {
+            let indexRoute = _extends2({}, route, mapRouteProperties(route), {
+              id
+            });
+            manifest[id] = indexRoute;
+            return indexRoute;
+          } else {
+            let pathOrLayoutRoute = _extends2({}, route, mapRouteProperties(route), {
+              id,
+              children: void 0
+            });
+            manifest[id] = pathOrLayoutRoute;
+            if (route.children) {
+              pathOrLayoutRoute.children = convertRoutesToDataRoutes(route.children, mapRouteProperties, treePath, manifest);
+            }
+            return pathOrLayoutRoute;
+          }
+        });
+      }
+      function matchRoutes(routes, locationArg, basename) {
+        if (basename === void 0) {
+          basename = "/";
+        }
+        let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+        let pathname = stripBasename(location.pathname || "/", basename);
+        if (pathname == null) {
+          return null;
+        }
+        let branches = flattenRoutes(routes);
+        rankRouteBranches(branches);
+        let matches = null;
+        for (let i = 0; matches == null && i < branches.length; ++i) {
+          matches = matchRouteBranch(
+            branches[i],
+            // Incoming pathnames are generally encoded from either window.location
+            // or from router.navigate, but we want to match against the unencoded
+            // paths in the route definitions.  Memory router locations won't be
+            // encoded here but there also shouldn't be anything to decode so this
+            // should be a safe operation.  This avoids needing matchRoutes to be
+            // history-aware.
+            safelyDecodeURI(pathname)
+          );
+        }
+        return matches;
+      }
+      function convertRouteMatchToUiMatch(match, loaderData) {
+        let {
+          route,
+          pathname,
+          params
+        } = match;
+        return {
+          id: route.id,
+          pathname,
+          params,
+          data: loaderData[route.id],
+          handle: route.handle
+        };
+      }
+      function flattenRoutes(routes, branches, parentsMeta, parentPath) {
+        if (branches === void 0) {
+          branches = [];
+        }
+        if (parentsMeta === void 0) {
+          parentsMeta = [];
+        }
+        if (parentPath === void 0) {
+          parentPath = "";
+        }
+        let flattenRoute = (route, index, relativePath) => {
+          let meta = {
+            relativePath: relativePath === void 0 ? route.path || "" : relativePath,
+            caseSensitive: route.caseSensitive === true,
+            childrenIndex: index,
+            route
+          };
+          if (meta.relativePath.startsWith("/")) {
+            invariant3(meta.relativePath.startsWith(parentPath), 'Absolute route path "' + meta.relativePath + '" nested under path ' + ('"' + parentPath + '" is not valid. An absolute child route path ') + "must start with the combined path of all its parent routes.");
+            meta.relativePath = meta.relativePath.slice(parentPath.length);
+          }
+          let path = joinPaths([parentPath, meta.relativePath]);
+          let routesMeta = parentsMeta.concat(meta);
+          if (route.children && route.children.length > 0) {
+            invariant3(
+              // Our types know better, but runtime JS may not!
+              // @ts-expect-error
+              route.index !== true,
+              "Index routes must not have child routes. Please remove " + ('all child routes from route path "' + path + '".')
+            );
+            flattenRoutes(route.children, branches, routesMeta, path);
+          }
+          if (route.path == null && !route.index) {
+            return;
+          }
+          branches.push({
+            path,
+            score: computeScore(path, route.index),
+            routesMeta
+          });
+        };
+        routes.forEach((route, index) => {
+          var _route$path;
+          if (route.path === "" || !((_route$path = route.path) != null && _route$path.includes("?"))) {
+            flattenRoute(route, index);
+          } else {
+            for (let exploded of explodeOptionalSegments(route.path)) {
+              flattenRoute(route, index, exploded);
+            }
+          }
+        });
+        return branches;
+      }
+      function explodeOptionalSegments(path) {
+        let segments = path.split("/");
+        if (segments.length === 0)
+          return [];
+        let [first, ...rest] = segments;
+        let isOptional = first.endsWith("?");
+        let required = first.replace(/\?$/, "");
+        if (rest.length === 0) {
+          return isOptional ? [required, ""] : [required];
+        }
+        let restExploded = explodeOptionalSegments(rest.join("/"));
+        let result = [];
+        result.push(...restExploded.map((subpath) => subpath === "" ? required : [required, subpath].join("/")));
+        if (isOptional) {
+          result.push(...restExploded);
+        }
+        return result.map((exploded) => path.startsWith("/") && exploded === "" ? "/" : exploded);
+      }
+      function rankRouteBranches(branches) {
+        branches.sort((a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b.routesMeta.map((meta) => meta.childrenIndex)));
+      }
+      var paramRe = /^:\w+$/;
+      var dynamicSegmentValue = 3;
+      var indexRouteValue = 2;
+      var emptySegmentValue = 1;
+      var staticSegmentValue = 10;
+      var splatPenalty = -2;
+      var isSplat = (s) => s === "*";
+      function computeScore(path, index) {
+        let segments = path.split("/");
+        let initialScore = segments.length;
+        if (segments.some(isSplat)) {
+          initialScore += splatPenalty;
+        }
+        if (index) {
+          initialScore += indexRouteValue;
+        }
+        return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+      }
+      function compareIndexes(a, b) {
+        let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
+        return siblings ? (
+          // If two routes are siblings, we should try to match the earlier sibling
+          // first. This allows people to have fine-grained control over the matching
+          // behavior by simply putting routes with identical paths in the order they
+          // want them tried.
+          a[a.length - 1] - b[b.length - 1]
+        ) : (
+          // Otherwise, it doesn't really make sense to rank non-siblings by index,
+          // so they sort equally.
+          0
+        );
+      }
+      function matchRouteBranch(branch, pathname) {
+        let {
+          routesMeta
+        } = branch;
+        let matchedParams = {};
+        let matchedPathname = "/";
+        let matches = [];
+        for (let i = 0; i < routesMeta.length; ++i) {
+          let meta = routesMeta[i];
+          let end = i === routesMeta.length - 1;
+          let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
+          let match = matchPath({
+            path: meta.relativePath,
+            caseSensitive: meta.caseSensitive,
+            end
+          }, remainingPathname);
+          if (!match)
+            return null;
+          Object.assign(matchedParams, match.params);
+          let route = meta.route;
+          matches.push({
+            // TODO: Can this as be avoided?
+            params: matchedParams,
+            pathname: joinPaths([matchedPathname, match.pathname]),
+            pathnameBase: normalizePathname(joinPaths([matchedPathname, match.pathnameBase])),
+            route
+          });
+          if (match.pathnameBase !== "/") {
+            matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+          }
+        }
+        return matches;
+      }
+      function generatePath(originalPath, params) {
+        if (params === void 0) {
+          params = {};
+        }
+        let path = originalPath;
+        if (path.endsWith("*") && path !== "*" && !path.endsWith("/*")) {
+          warning3(false, 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".'));
+          path = path.replace(/\*$/, "/*");
+        }
+        const prefix = path.startsWith("/") ? "/" : "";
+        const stringify = (p) => p == null ? "" : typeof p === "string" ? p : String(p);
+        const segments = path.split(/\/+/).map((segment, index, array) => {
+          const isLastSegment = index === array.length - 1;
+          if (isLastSegment && segment === "*") {
+            const star = "*";
+            return stringify(params[star]);
+          }
+          const keyMatch = segment.match(/^:(\w+)(\??)$/);
+          if (keyMatch) {
+            const [, key, optional] = keyMatch;
+            let param = params[key];
+            invariant3(optional === "?" || param != null, 'Missing ":' + key + '" param');
+            return stringify(param);
+          }
+          return segment.replace(/\?$/g, "");
+        }).filter((segment) => !!segment);
+        return prefix + segments.join("/");
+      }
+      function matchPath(pattern, pathname) {
+        if (typeof pattern === "string") {
+          pattern = {
+            path: pattern,
+            caseSensitive: false,
+            end: true
+          };
+        }
+        let [matcher, paramNames] = compilePath(pattern.path, pattern.caseSensitive, pattern.end);
+        let match = pathname.match(matcher);
+        if (!match)
+          return null;
+        let matchedPathname = match[0];
+        let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
+        let captureGroups = match.slice(1);
+        let params = paramNames.reduce((memo, paramName, index) => {
+          if (paramName === "*") {
+            let splatValue = captureGroups[index] || "";
+            pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
+          }
+          memo[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
+          return memo;
+        }, {});
+        return {
+          params,
+          pathname: matchedPathname,
+          pathnameBase,
+          pattern
+        };
+      }
+      function compilePath(path, caseSensitive, end) {
+        if (caseSensitive === void 0) {
+          caseSensitive = false;
+        }
+        if (end === void 0) {
+          end = true;
+        }
+        warning3(path === "*" || !path.endsWith("*") || path.endsWith("/*"), 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".'));
+        let paramNames = [];
+        let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^$?{}|()[\]]/g, "\\$&").replace(/\/:(\w+)/g, (_, paramName) => {
+          paramNames.push(paramName);
+          return "/([^\\/]+)";
+        });
+        if (path.endsWith("*")) {
+          paramNames.push("*");
+          regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
+        } else if (end) {
+          regexpSource += "\\/*$";
+        } else if (path !== "" && path !== "/") {
+          regexpSource += "(?:(?=\\/|$))";
+        } else
+          ;
+        let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
+        return [matcher, paramNames];
+      }
+      function safelyDecodeURI(value) {
+        try {
+          return decodeURI(value);
+        } catch (error) {
+          warning3(false, 'The URL path "' + value + '" could not be decoded because it is is a malformed URL segment. This is probably due to a bad percent ' + ("encoding (" + error + ")."));
+          return value;
+        }
+      }
+      function safelyDecodeURIComponent(value, paramName) {
+        try {
+          return decodeURIComponent(value);
+        } catch (error) {
+          warning3(false, 'The value for the URL param "' + paramName + '" will not be decoded because' + (' the string "' + value + '" is a malformed URL segment. This is probably') + (" due to a bad percent encoding (" + error + ")."));
+          return value;
+        }
+      }
+      function stripBasename(pathname, basename) {
+        if (basename === "/")
+          return pathname;
+        if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+          return null;
+        }
+        let startIndex = basename.endsWith("/") ? basename.length - 1 : basename.length;
+        let nextChar = pathname.charAt(startIndex);
+        if (nextChar && nextChar !== "/") {
+          return null;
+        }
+        return pathname.slice(startIndex) || "/";
+      }
+      function resolvePath(to, fromPathname) {
+        if (fromPathname === void 0) {
+          fromPathname = "/";
+        }
+        let {
+          pathname: toPathname,
+          search = "",
+          hash = ""
+        } = typeof to === "string" ? parsePath(to) : to;
+        let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+        return {
+          pathname,
+          search: normalizeSearch(search),
+          hash: normalizeHash(hash)
+        };
+      }
+      function resolvePathname(relativePath, fromPathname) {
+        let segments = fromPathname.replace(/\/+$/, "").split("/");
+        let relativeSegments = relativePath.split("/");
+        relativeSegments.forEach((segment) => {
+          if (segment === "..") {
+            if (segments.length > 1)
+              segments.pop();
+          } else if (segment !== ".") {
+            segments.push(segment);
+          }
+        });
+        return segments.length > 1 ? segments.join("/") : "/";
+      }
+      function getInvalidPathError(char, field, dest, path) {
+        return "Cannot include a '" + char + "' character in a manually specified " + ("`to." + field + "` field [" + JSON.stringify(path) + "].  Please separate it out to the ") + ("`to." + dest + "` field. Alternatively you may provide the full path as ") + 'a string in <Link to="..."> and the router will parse it for you.';
+      }
+      function getPathContributingMatches(matches) {
+        return matches.filter((match, index) => index === 0 || match.route.path && match.route.path.length > 0);
+      }
+      function resolveTo(toArg, routePathnames, locationPathname, isPathRelative) {
+        if (isPathRelative === void 0) {
+          isPathRelative = false;
+        }
+        let to;
+        if (typeof toArg === "string") {
+          to = parsePath(toArg);
+        } else {
+          to = _extends2({}, toArg);
+          invariant3(!to.pathname || !to.pathname.includes("?"), getInvalidPathError("?", "pathname", "search", to));
+          invariant3(!to.pathname || !to.pathname.includes("#"), getInvalidPathError("#", "pathname", "hash", to));
+          invariant3(!to.search || !to.search.includes("#"), getInvalidPathError("#", "search", "hash", to));
+        }
+        let isEmptyPath = toArg === "" || to.pathname === "";
+        let toPathname = isEmptyPath ? "/" : to.pathname;
+        let from;
+        if (isPathRelative || toPathname == null) {
+          from = locationPathname;
+        } else {
+          let routePathnameIndex = routePathnames.length - 1;
+          if (toPathname.startsWith("..")) {
+            let toSegments = toPathname.split("/");
+            while (toSegments[0] === "..") {
+              toSegments.shift();
+              routePathnameIndex -= 1;
+            }
+            to.pathname = toSegments.join("/");
+          }
+          from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
+        }
+        let path = resolvePath(to, from);
+        let hasExplicitTrailingSlash = toPathname && toPathname !== "/" && toPathname.endsWith("/");
+        let hasCurrentTrailingSlash = (isEmptyPath || toPathname === ".") && locationPathname.endsWith("/");
+        if (!path.pathname.endsWith("/") && (hasExplicitTrailingSlash || hasCurrentTrailingSlash)) {
+          path.pathname += "/";
+        }
+        return path;
+      }
+      function getToPathname(to) {
+        return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? parsePath(to).pathname : to.pathname;
+      }
+      var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
+      var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+      var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
+      var normalizeHash = (hash) => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
+      var json = function json2(data, init) {
+        if (init === void 0) {
+          init = {};
+        }
+        let responseInit = typeof init === "number" ? {
+          status: init
+        } : init;
+        let headers = new Headers(responseInit.headers);
+        if (!headers.has("Content-Type")) {
+          headers.set("Content-Type", "application/json; charset=utf-8");
+        }
+        return new Response(JSON.stringify(data), _extends2({}, responseInit, {
+          headers
+        }));
+      };
+      var AbortedDeferredError = class extends Error {
+      };
+      var DeferredData = class {
+        constructor(data, responseInit) {
+          this.pendingKeysSet = /* @__PURE__ */ new Set();
+          this.subscribers = /* @__PURE__ */ new Set();
+          this.deferredKeys = [];
+          invariant3(data && typeof data === "object" && !Array.isArray(data), "defer() only accepts plain objects");
+          let reject;
+          this.abortPromise = new Promise((_, r) => reject = r);
+          this.controller = new AbortController();
+          let onAbort = () => reject(new AbortedDeferredError("Deferred data aborted"));
+          this.unlistenAbortSignal = () => this.controller.signal.removeEventListener("abort", onAbort);
+          this.controller.signal.addEventListener("abort", onAbort);
+          this.data = Object.entries(data).reduce((acc, _ref) => {
+            let [key, value] = _ref;
+            return Object.assign(acc, {
+              [key]: this.trackPromise(key, value)
+            });
+          }, {});
+          if (this.done) {
+            this.unlistenAbortSignal();
+          }
+          this.init = responseInit;
+        }
+        trackPromise(key, value) {
+          if (!(value instanceof Promise)) {
+            return value;
+          }
+          this.deferredKeys.push(key);
+          this.pendingKeysSet.add(key);
+          let promise = Promise.race([value, this.abortPromise]).then((data) => this.onSettle(promise, key, void 0, data), (error) => this.onSettle(promise, key, error));
+          promise.catch(() => {
+          });
+          Object.defineProperty(promise, "_tracked", {
+            get: () => true
+          });
+          return promise;
+        }
+        onSettle(promise, key, error, data) {
+          if (this.controller.signal.aborted && error instanceof AbortedDeferredError) {
+            this.unlistenAbortSignal();
+            Object.defineProperty(promise, "_error", {
+              get: () => error
+            });
+            return Promise.reject(error);
+          }
+          this.pendingKeysSet.delete(key);
+          if (this.done) {
+            this.unlistenAbortSignal();
+          }
+          if (error === void 0 && data === void 0) {
+            let undefinedError = new Error('Deferred data for key "' + key + '" resolved/rejected with `undefined`, you must resolve/reject with a value or `null`.');
+            Object.defineProperty(promise, "_error", {
+              get: () => undefinedError
+            });
+            this.emit(false, key);
+            return Promise.reject(undefinedError);
+          }
+          if (data === void 0) {
+            Object.defineProperty(promise, "_error", {
+              get: () => error
+            });
+            this.emit(false, key);
+            return Promise.reject(error);
+          }
+          Object.defineProperty(promise, "_data", {
+            get: () => data
+          });
+          this.emit(false, key);
+          return data;
+        }
+        emit(aborted, settledKey) {
+          this.subscribers.forEach((subscriber) => subscriber(aborted, settledKey));
+        }
+        subscribe(fn) {
+          this.subscribers.add(fn);
+          return () => this.subscribers.delete(fn);
+        }
+        cancel() {
+          this.controller.abort();
+          this.pendingKeysSet.forEach((v, k) => this.pendingKeysSet.delete(k));
+          this.emit(true);
+        }
+        resolveData(signal) {
+          return __async(this, null, function* () {
+            let aborted = false;
+            if (!this.done) {
+              let onAbort = () => this.cancel();
+              signal.addEventListener("abort", onAbort);
+              aborted = yield new Promise((resolve) => {
+                this.subscribe((aborted2) => {
+                  signal.removeEventListener("abort", onAbort);
+                  if (aborted2 || this.done) {
+                    resolve(aborted2);
+                  }
+                });
+              });
+            }
+            return aborted;
+          });
+        }
+        get done() {
+          return this.pendingKeysSet.size === 0;
+        }
+        get unwrappedData() {
+          invariant3(this.data !== null && this.done, "Can only unwrap data on initialized and settled deferreds");
+          return Object.entries(this.data).reduce((acc, _ref2) => {
+            let [key, value] = _ref2;
+            return Object.assign(acc, {
+              [key]: unwrapTrackedPromise(value)
+            });
+          }, {});
+        }
+        get pendingKeys() {
+          return Array.from(this.pendingKeysSet);
+        }
+      };
+      function isTrackedPromise(value) {
+        return value instanceof Promise && value._tracked === true;
+      }
+      function unwrapTrackedPromise(value) {
+        if (!isTrackedPromise(value)) {
+          return value;
+        }
+        if (value._error) {
+          throw value._error;
+        }
+        return value._data;
+      }
+      var defer = function defer2(data, init) {
+        if (init === void 0) {
+          init = {};
+        }
+        let responseInit = typeof init === "number" ? {
+          status: init
+        } : init;
+        return new DeferredData(data, responseInit);
+      };
+      var redirect = function redirect2(url, init) {
+        if (init === void 0) {
+          init = 302;
+        }
+        let responseInit = init;
+        if (typeof responseInit === "number") {
+          responseInit = {
+            status: responseInit
+          };
+        } else if (typeof responseInit.status === "undefined") {
+          responseInit.status = 302;
+        }
+        let headers = new Headers(responseInit.headers);
+        headers.set("Location", url);
+        return new Response(null, _extends2({}, responseInit, {
+          headers
+        }));
+      };
+      var redirectDocument = (url, init) => {
+        let response = redirect(url, init);
+        response.headers.set("X-Remix-Reload-Document", "true");
+        return response;
+      };
+      var ErrorResponseImpl = class {
+        constructor(status, statusText, data, internal) {
+          if (internal === void 0) {
+            internal = false;
+          }
+          this.status = status;
+          this.statusText = statusText || "";
+          this.internal = internal;
+          if (data instanceof Error) {
+            this.data = data.toString();
+            this.error = data;
+          } else {
+            this.data = data;
+          }
+        }
+      };
+      function isRouteErrorResponse(error) {
+        return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
+      }
+      var validMutationMethodsArr = ["post", "put", "patch", "delete"];
+      var validMutationMethods = new Set(validMutationMethodsArr);
+      var validRequestMethodsArr = ["get", ...validMutationMethodsArr];
+      var validRequestMethods = new Set(validRequestMethodsArr);
+      var redirectStatusCodes = /* @__PURE__ */ new Set([301, 302, 303, 307, 308]);
+      var redirectPreserveMethodStatusCodes = /* @__PURE__ */ new Set([307, 308]);
+      var IDLE_NAVIGATION = {
+        state: "idle",
+        location: void 0,
+        formMethod: void 0,
+        formAction: void 0,
+        formEncType: void 0,
+        formData: void 0,
+        json: void 0,
+        text: void 0
+      };
+      var IDLE_FETCHER = {
+        state: "idle",
+        data: void 0,
+        formMethod: void 0,
+        formAction: void 0,
+        formEncType: void 0,
+        formData: void 0,
+        json: void 0,
+        text: void 0
+      };
+      var IDLE_BLOCKER = {
+        state: "unblocked",
+        proceed: void 0,
+        reset: void 0,
+        location: void 0
+      };
+      var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+      var defaultMapRouteProperties = (route) => ({
+        hasErrorBoundary: Boolean(route.hasErrorBoundary)
+      });
+      function createRouter(init) {
+        const routerWindow = init.window ? init.window : typeof window !== "undefined" ? window : void 0;
+        const isBrowser = typeof routerWindow !== "undefined" && typeof routerWindow.document !== "undefined" && typeof routerWindow.document.createElement !== "undefined";
+        const isServer = !isBrowser;
+        invariant3(init.routes.length > 0, "You must provide a non-empty routes array to createRouter");
+        let mapRouteProperties;
+        if (init.mapRouteProperties) {
+          mapRouteProperties = init.mapRouteProperties;
+        } else if (init.detectErrorBoundary) {
+          let detectErrorBoundary = init.detectErrorBoundary;
+          mapRouteProperties = (route) => ({
+            hasErrorBoundary: detectErrorBoundary(route)
+          });
+        } else {
+          mapRouteProperties = defaultMapRouteProperties;
+        }
+        let manifest = {};
+        let dataRoutes = convertRoutesToDataRoutes(init.routes, mapRouteProperties, void 0, manifest);
+        let inFlightDataRoutes;
+        let basename = init.basename || "/";
+        let future = _extends2({
+          v7_normalizeFormMethod: false,
+          v7_prependBasename: false
+        }, init.future);
+        let unlistenHistory = null;
+        let subscribers = /* @__PURE__ */ new Set();
+        let savedScrollPositions = null;
+        let getScrollRestorationKey = null;
+        let getScrollPosition = null;
+        let initialScrollRestored = init.hydrationData != null;
+        let initialMatches = matchRoutes(dataRoutes, init.history.location, basename);
+        let initialErrors = null;
+        if (initialMatches == null) {
+          let error = getInternalRouterError(404, {
+            pathname: init.history.location.pathname
+          });
+          let {
+            matches,
+            route
+          } = getShortCircuitMatches(dataRoutes);
+          initialMatches = matches;
+          initialErrors = {
+            [route.id]: error
+          };
+        }
+        let initialized = (
+          // All initialMatches need to be loaded before we're ready.  If we have lazy
+          // functions around still then we'll need to run them in initialize()
+          !initialMatches.some((m) => m.route.lazy) && // And we have to either have no loaders or have been provided hydrationData
+          (!initialMatches.some((m) => m.route.loader) || init.hydrationData != null)
+        );
+        let router;
+        let state = {
+          historyAction: init.history.action,
+          location: init.history.location,
+          matches: initialMatches,
+          initialized,
+          navigation: IDLE_NAVIGATION,
+          // Don't restore on initial updateState() if we were SSR'd
+          restoreScrollPosition: init.hydrationData != null ? false : null,
+          preventScrollReset: false,
+          revalidation: "idle",
+          loaderData: init.hydrationData && init.hydrationData.loaderData || {},
+          actionData: init.hydrationData && init.hydrationData.actionData || null,
+          errors: init.hydrationData && init.hydrationData.errors || initialErrors,
+          fetchers: /* @__PURE__ */ new Map(),
+          blockers: /* @__PURE__ */ new Map()
+        };
+        let pendingAction = Action.Pop;
+        let pendingPreventScrollReset = false;
+        let pendingNavigationController;
+        let isUninterruptedRevalidation = false;
+        let isRevalidationRequired = false;
+        let cancelledDeferredRoutes = [];
+        let cancelledFetcherLoads = [];
+        let fetchControllers = /* @__PURE__ */ new Map();
+        let incrementingLoadId = 0;
+        let pendingNavigationLoadId = -1;
+        let fetchReloadIds = /* @__PURE__ */ new Map();
+        let fetchRedirectIds = /* @__PURE__ */ new Set();
+        let fetchLoadMatches = /* @__PURE__ */ new Map();
+        let activeDeferreds = /* @__PURE__ */ new Map();
+        let blockerFunctions = /* @__PURE__ */ new Map();
+        let ignoreNextHistoryUpdate = false;
+        function initialize() {
+          unlistenHistory = init.history.listen((_ref) => {
+            let {
+              action: historyAction,
+              location,
+              delta
+            } = _ref;
+            if (ignoreNextHistoryUpdate) {
+              ignoreNextHistoryUpdate = false;
+              return;
+            }
+            warning3(blockerFunctions.size === 0 || delta != null, "You are trying to use a blocker on a POP navigation to a location that was not created by @remix-run/router. This will fail silently in production. This can happen if you are navigating outside the router via `window.history.pushState`/`window.location.hash` instead of using router navigation APIs.  This can also happen if you are using createHashRouter and the user manually changes the URL.");
+            let blockerKey = shouldBlockNavigation({
+              currentLocation: state.location,
+              nextLocation: location,
+              historyAction
+            });
+            if (blockerKey && delta != null) {
+              ignoreNextHistoryUpdate = true;
+              init.history.go(delta * -1);
+              updateBlocker(blockerKey, {
+                state: "blocked",
+                location,
+                proceed() {
+                  updateBlocker(blockerKey, {
+                    state: "proceeding",
+                    proceed: void 0,
+                    reset: void 0,
+                    location
+                  });
+                  init.history.go(delta);
+                },
+                reset() {
+                  let blockers = new Map(state.blockers);
+                  blockers.set(blockerKey, IDLE_BLOCKER);
+                  updateState({
+                    blockers
+                  });
+                }
+              });
+              return;
+            }
+            return startNavigation(historyAction, location);
+          });
+          if (!state.initialized) {
+            startNavigation(Action.Pop, state.location);
+          }
+          return router;
+        }
+        function dispose() {
+          if (unlistenHistory) {
+            unlistenHistory();
+          }
+          subscribers.clear();
+          pendingNavigationController && pendingNavigationController.abort();
+          state.fetchers.forEach((_, key) => deleteFetcher(key));
+          state.blockers.forEach((_, key) => deleteBlocker(key));
+        }
+        function subscribe(fn) {
+          subscribers.add(fn);
+          return () => subscribers.delete(fn);
+        }
+        function updateState(newState) {
+          state = _extends2({}, state, newState);
+          subscribers.forEach((subscriber) => subscriber(state));
+        }
+        function completeNavigation(location, newState) {
+          var _location$state, _location$state2;
+          let isActionReload = state.actionData != null && state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && state.navigation.state === "loading" && ((_location$state = location.state) == null ? void 0 : _location$state._isRedirect) !== true;
+          let actionData;
+          if (newState.actionData) {
+            if (Object.keys(newState.actionData).length > 0) {
+              actionData = newState.actionData;
+            } else {
+              actionData = null;
+            }
+          } else if (isActionReload) {
+            actionData = state.actionData;
+          } else {
+            actionData = null;
+          }
+          let loaderData = newState.loaderData ? mergeLoaderData(state.loaderData, newState.loaderData, newState.matches || [], newState.errors) : state.loaderData;
+          let blockers = state.blockers;
+          if (blockers.size > 0) {
+            blockers = new Map(blockers);
+            blockers.forEach((_, k) => blockers.set(k, IDLE_BLOCKER));
+          }
+          let preventScrollReset = pendingPreventScrollReset === true || state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && ((_location$state2 = location.state) == null ? void 0 : _location$state2._isRedirect) !== true;
+          if (inFlightDataRoutes) {
+            dataRoutes = inFlightDataRoutes;
+            inFlightDataRoutes = void 0;
+          }
+          if (isUninterruptedRevalidation)
+            ;
+          else if (pendingAction === Action.Pop)
+            ;
+          else if (pendingAction === Action.Push) {
+            init.history.push(location, location.state);
+          } else if (pendingAction === Action.Replace) {
+            init.history.replace(location, location.state);
+          }
+          updateState(_extends2({}, newState, {
+            // matches, errors, fetchers go through as-is
+            actionData,
+            loaderData,
+            historyAction: pendingAction,
+            location,
+            initialized: true,
+            navigation: IDLE_NAVIGATION,
+            revalidation: "idle",
+            restoreScrollPosition: getSavedScrollPosition(location, newState.matches || state.matches),
+            preventScrollReset,
+            blockers
+          }));
+          pendingAction = Action.Pop;
+          pendingPreventScrollReset = false;
+          isUninterruptedRevalidation = false;
+          isRevalidationRequired = false;
+          cancelledDeferredRoutes = [];
+          cancelledFetcherLoads = [];
+        }
+        function navigate(to, opts) {
+          return __async(this, null, function* () {
+            if (typeof to === "number") {
+              init.history.go(to);
+              return;
+            }
+            let normalizedPath = normalizeTo(state.location, state.matches, basename, future.v7_prependBasename, to, opts == null ? void 0 : opts.fromRouteId, opts == null ? void 0 : opts.relative);
+            let {
+              path,
+              submission,
+              error
+            } = normalizeNavigateOptions(future.v7_normalizeFormMethod, false, normalizedPath, opts);
+            let currentLocation = state.location;
+            let nextLocation = createLocation(state.location, path, opts && opts.state);
+            nextLocation = _extends2({}, nextLocation, init.history.encodeLocation(nextLocation));
+            let userReplace = opts && opts.replace != null ? opts.replace : void 0;
+            let historyAction = Action.Push;
+            if (userReplace === true) {
+              historyAction = Action.Replace;
+            } else if (userReplace === false)
+              ;
+            else if (submission != null && isMutationMethod(submission.formMethod) && submission.formAction === state.location.pathname + state.location.search) {
+              historyAction = Action.Replace;
+            }
+            let preventScrollReset = opts && "preventScrollReset" in opts ? opts.preventScrollReset === true : void 0;
+            let blockerKey = shouldBlockNavigation({
+              currentLocation,
+              nextLocation,
+              historyAction
+            });
+            if (blockerKey) {
+              updateBlocker(blockerKey, {
+                state: "blocked",
+                location: nextLocation,
+                proceed() {
+                  updateBlocker(blockerKey, {
+                    state: "proceeding",
+                    proceed: void 0,
+                    reset: void 0,
+                    location: nextLocation
+                  });
+                  navigate(to, opts);
+                },
+                reset() {
+                  let blockers = new Map(state.blockers);
+                  blockers.set(blockerKey, IDLE_BLOCKER);
+                  updateState({
+                    blockers
+                  });
+                }
+              });
+              return;
+            }
+            return yield startNavigation(historyAction, nextLocation, {
+              submission,
+              // Send through the formData serialization error if we have one so we can
+              // render at the right error boundary after we match routes
+              pendingError: error,
+              preventScrollReset,
+              replace: opts && opts.replace
+            });
+          });
+        }
+        function revalidate() {
+          interruptActiveLoads();
+          updateState({
+            revalidation: "loading"
+          });
+          if (state.navigation.state === "submitting") {
+            return;
+          }
+          if (state.navigation.state === "idle") {
+            startNavigation(state.historyAction, state.location, {
+              startUninterruptedRevalidation: true
+            });
+            return;
+          }
+          startNavigation(pendingAction || state.historyAction, state.navigation.location, {
+            overrideNavigation: state.navigation
+          });
+        }
+        function startNavigation(historyAction, location, opts) {
+          return __async(this, null, function* () {
+            pendingNavigationController && pendingNavigationController.abort();
+            pendingNavigationController = null;
+            pendingAction = historyAction;
+            isUninterruptedRevalidation = (opts && opts.startUninterruptedRevalidation) === true;
+            saveScrollPosition(state.location, state.matches);
+            pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
+            let routesToUse = inFlightDataRoutes || dataRoutes;
+            let loadingNavigation = opts && opts.overrideNavigation;
+            let matches = matchRoutes(routesToUse, location, basename);
+            if (!matches) {
+              let error = getInternalRouterError(404, {
+                pathname: location.pathname
+              });
+              let {
+                matches: notFoundMatches,
+                route
+              } = getShortCircuitMatches(routesToUse);
+              cancelActiveDeferreds();
+              completeNavigation(location, {
+                matches: notFoundMatches,
+                loaderData: {},
+                errors: {
+                  [route.id]: error
+                }
+              });
+              return;
+            }
+            if (state.initialized && !isRevalidationRequired && isHashChangeOnly(state.location, location) && !(opts && opts.submission && isMutationMethod(opts.submission.formMethod))) {
+              completeNavigation(location, {
+                matches
+              });
+              return;
+            }
+            pendingNavigationController = new AbortController();
+            let request = createClientSideRequest(init.history, location, pendingNavigationController.signal, opts && opts.submission);
+            let pendingActionData;
+            let pendingError;
+            if (opts && opts.pendingError) {
+              pendingError = {
+                [findNearestBoundary(matches).route.id]: opts.pendingError
+              };
+            } else if (opts && opts.submission && isMutationMethod(opts.submission.formMethod)) {
+              let actionOutput = yield handleAction(request, location, opts.submission, matches, {
+                replace: opts.replace
+              });
+              if (actionOutput.shortCircuited) {
+                return;
+              }
+              pendingActionData = actionOutput.pendingActionData;
+              pendingError = actionOutput.pendingActionError;
+              loadingNavigation = getLoadingNavigation(location, opts.submission);
+              request = new Request(request.url, {
+                signal: request.signal
+              });
+            }
+            let {
+              shortCircuited,
+              loaderData,
+              errors
+            } = yield handleLoaders(request, location, matches, loadingNavigation, opts && opts.submission, opts && opts.fetcherSubmission, opts && opts.replace, pendingActionData, pendingError);
+            if (shortCircuited) {
+              return;
+            }
+            pendingNavigationController = null;
+            completeNavigation(location, _extends2({
+              matches
+            }, pendingActionData ? {
+              actionData: pendingActionData
+            } : {}, {
+              loaderData,
+              errors
+            }));
+          });
+        }
+        function handleAction(request, location, submission, matches, opts) {
+          return __async(this, null, function* () {
+            if (opts === void 0) {
+              opts = {};
+            }
+            interruptActiveLoads();
+            let navigation = getSubmittingNavigation(location, submission);
+            updateState({
+              navigation
+            });
+            let result;
+            let actionMatch = getTargetMatch(matches, location);
+            if (!actionMatch.route.action && !actionMatch.route.lazy) {
+              result = {
+                type: ResultType.error,
+                error: getInternalRouterError(405, {
+                  method: request.method,
+                  pathname: location.pathname,
+                  routeId: actionMatch.route.id
+                })
+              };
+            } else {
+              result = yield callLoaderOrAction("action", request, actionMatch, matches, manifest, mapRouteProperties, basename);
+              if (request.signal.aborted) {
+                return {
+                  shortCircuited: true
+                };
+              }
+            }
+            if (isRedirectResult(result)) {
+              let replace;
+              if (opts && opts.replace != null) {
+                replace = opts.replace;
+              } else {
+                replace = result.location === state.location.pathname + state.location.search;
+              }
+              yield startRedirectNavigation(state, result, {
+                submission,
+                replace
+              });
+              return {
+                shortCircuited: true
+              };
+            }
+            if (isErrorResult(result)) {
+              let boundaryMatch = findNearestBoundary(matches, actionMatch.route.id);
+              if ((opts && opts.replace) !== true) {
+                pendingAction = Action.Push;
+              }
+              return {
+                // Send back an empty object we can use to clear out any prior actionData
+                pendingActionData: {},
+                pendingActionError: {
+                  [boundaryMatch.route.id]: result.error
+                }
+              };
+            }
+            if (isDeferredResult(result)) {
+              throw getInternalRouterError(400, {
+                type: "defer-action"
+              });
+            }
+            return {
+              pendingActionData: {
+                [actionMatch.route.id]: result.data
+              }
+            };
+          });
+        }
+        function handleLoaders(request, location, matches, overrideNavigation, submission, fetcherSubmission, replace, pendingActionData, pendingError) {
+          return __async(this, null, function* () {
+            let loadingNavigation = overrideNavigation || getLoadingNavigation(location, submission);
+            let activeSubmission = submission || fetcherSubmission || getSubmissionFromNavigation(loadingNavigation);
+            let routesToUse = inFlightDataRoutes || dataRoutes;
+            let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(init.history, state, matches, activeSubmission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionData, pendingError);
+            cancelActiveDeferreds((routeId) => !(matches && matches.some((m) => m.route.id === routeId)) || matchesToLoad && matchesToLoad.some((m) => m.route.id === routeId));
+            pendingNavigationLoadId = ++incrementingLoadId;
+            if (matchesToLoad.length === 0 && revalidatingFetchers.length === 0) {
+              let updatedFetchers2 = markFetchRedirectsDone();
+              completeNavigation(location, _extends2({
+                matches,
+                loaderData: {},
+                // Commit pending error if we're short circuiting
+                errors: pendingError || null
+              }, pendingActionData ? {
+                actionData: pendingActionData
+              } : {}, updatedFetchers2 ? {
+                fetchers: new Map(state.fetchers)
+              } : {}));
+              return {
+                shortCircuited: true
+              };
+            }
+            if (!isUninterruptedRevalidation) {
+              revalidatingFetchers.forEach((rf) => {
+                let fetcher = state.fetchers.get(rf.key);
+                let revalidatingFetcher = getLoadingFetcher(void 0, fetcher ? fetcher.data : void 0);
+                state.fetchers.set(rf.key, revalidatingFetcher);
+              });
+              let actionData = pendingActionData || state.actionData;
+              updateState(_extends2({
+                navigation: loadingNavigation
+              }, actionData ? Object.keys(actionData).length === 0 ? {
+                actionData: null
+              } : {
+                actionData
+              } : {}, revalidatingFetchers.length > 0 ? {
+                fetchers: new Map(state.fetchers)
+              } : {}));
+            }
+            revalidatingFetchers.forEach((rf) => {
+              if (fetchControllers.has(rf.key)) {
+                abortFetcher(rf.key);
+              }
+              if (rf.controller) {
+                fetchControllers.set(rf.key, rf.controller);
+              }
+            });
+            let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((f) => abortFetcher(f.key));
+            if (pendingNavigationController) {
+              pendingNavigationController.signal.addEventListener("abort", abortPendingFetchRevalidations);
+            }
+            let {
+              results,
+              loaderResults,
+              fetcherResults
+            } = yield callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, request);
+            if (request.signal.aborted) {
+              return {
+                shortCircuited: true
+              };
+            }
+            if (pendingNavigationController) {
+              pendingNavigationController.signal.removeEventListener("abort", abortPendingFetchRevalidations);
+            }
+            revalidatingFetchers.forEach((rf) => fetchControllers.delete(rf.key));
+            let redirect2 = findRedirect(results);
+            if (redirect2) {
+              if (redirect2.idx >= matchesToLoad.length) {
+                let fetcherKey = revalidatingFetchers[redirect2.idx - matchesToLoad.length].key;
+                fetchRedirectIds.add(fetcherKey);
+              }
+              yield startRedirectNavigation(state, redirect2.result, {
+                replace
+              });
+              return {
+                shortCircuited: true
+              };
+            }
+            let {
+              loaderData,
+              errors
+            } = processLoaderData(state, matches, matchesToLoad, loaderResults, pendingError, revalidatingFetchers, fetcherResults, activeDeferreds);
+            activeDeferreds.forEach((deferredData, routeId) => {
+              deferredData.subscribe((aborted) => {
+                if (aborted || deferredData.done) {
+                  activeDeferreds.delete(routeId);
+                }
+              });
+            });
+            let updatedFetchers = markFetchRedirectsDone();
+            let didAbortFetchLoads = abortStaleFetchLoads(pendingNavigationLoadId);
+            let shouldUpdateFetchers = updatedFetchers || didAbortFetchLoads || revalidatingFetchers.length > 0;
+            return _extends2({
+              loaderData,
+              errors
+            }, shouldUpdateFetchers ? {
+              fetchers: new Map(state.fetchers)
+            } : {});
+          });
+        }
+        function getFetcher(key) {
+          return state.fetchers.get(key) || IDLE_FETCHER;
+        }
+        function fetch(key, routeId, href, opts) {
+          if (isServer) {
+            throw new Error("router.fetch() was called during the server render, but it shouldn't be. You are likely calling a useFetcher() method in the body of your component. Try moving it to a useEffect or a callback.");
+          }
+          if (fetchControllers.has(key))
+            abortFetcher(key);
+          let routesToUse = inFlightDataRoutes || dataRoutes;
+          let normalizedPath = normalizeTo(state.location, state.matches, basename, future.v7_prependBasename, href, routeId, opts == null ? void 0 : opts.relative);
+          let matches = matchRoutes(routesToUse, normalizedPath, basename);
+          if (!matches) {
+            setFetcherError(key, routeId, getInternalRouterError(404, {
+              pathname: normalizedPath
+            }));
+            return;
+          }
+          let {
+            path,
+            submission,
+            error
+          } = normalizeNavigateOptions(future.v7_normalizeFormMethod, true, normalizedPath, opts);
+          if (error) {
+            setFetcherError(key, routeId, error);
+            return;
+          }
+          let match = getTargetMatch(matches, path);
+          pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
+          if (submission && isMutationMethod(submission.formMethod)) {
+            handleFetcherAction(key, routeId, path, match, matches, submission);
+            return;
+          }
+          fetchLoadMatches.set(key, {
+            routeId,
+            path
+          });
+          handleFetcherLoader(key, routeId, path, match, matches, submission);
+        }
+        function handleFetcherAction(key, routeId, path, match, requestMatches, submission) {
+          return __async(this, null, function* () {
+            interruptActiveLoads();
+            fetchLoadMatches.delete(key);
+            if (!match.route.action && !match.route.lazy) {
+              let error = getInternalRouterError(405, {
+                method: submission.formMethod,
+                pathname: path,
+                routeId
+              });
+              setFetcherError(key, routeId, error);
+              return;
+            }
+            let existingFetcher = state.fetchers.get(key);
+            let fetcher = getSubmittingFetcher(submission, existingFetcher);
+            state.fetchers.set(key, fetcher);
+            updateState({
+              fetchers: new Map(state.fetchers)
+            });
+            let abortController = new AbortController();
+            let fetchRequest = createClientSideRequest(init.history, path, abortController.signal, submission);
+            fetchControllers.set(key, abortController);
+            let originatingLoadId = incrementingLoadId;
+            let actionResult = yield callLoaderOrAction("action", fetchRequest, match, requestMatches, manifest, mapRouteProperties, basename);
+            if (fetchRequest.signal.aborted) {
+              if (fetchControllers.get(key) === abortController) {
+                fetchControllers.delete(key);
+              }
+              return;
+            }
+            if (isRedirectResult(actionResult)) {
+              fetchControllers.delete(key);
+              if (pendingNavigationLoadId > originatingLoadId) {
+                let doneFetcher = getDoneFetcher(void 0);
+                state.fetchers.set(key, doneFetcher);
+                updateState({
+                  fetchers: new Map(state.fetchers)
+                });
+                return;
+              } else {
+                fetchRedirectIds.add(key);
+                let loadingFetcher = getLoadingFetcher(submission);
+                state.fetchers.set(key, loadingFetcher);
+                updateState({
+                  fetchers: new Map(state.fetchers)
+                });
+                return startRedirectNavigation(state, actionResult, {
+                  fetcherSubmission: submission
+                });
+              }
+            }
+            if (isErrorResult(actionResult)) {
+              setFetcherError(key, routeId, actionResult.error);
+              return;
+            }
+            if (isDeferredResult(actionResult)) {
+              throw getInternalRouterError(400, {
+                type: "defer-action"
+              });
+            }
+            let nextLocation = state.navigation.location || state.location;
+            let revalidationRequest = createClientSideRequest(init.history, nextLocation, abortController.signal);
+            let routesToUse = inFlightDataRoutes || dataRoutes;
+            let matches = state.navigation.state !== "idle" ? matchRoutes(routesToUse, state.navigation.location, basename) : state.matches;
+            invariant3(matches, "Didn't find any matches after fetcher action");
+            let loadId = ++incrementingLoadId;
+            fetchReloadIds.set(key, loadId);
+            let loadFetcher = getLoadingFetcher(submission, actionResult.data);
+            state.fetchers.set(key, loadFetcher);
+            let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(
+              init.history,
+              state,
+              matches,
+              submission,
+              nextLocation,
+              isRevalidationRequired,
+              cancelledDeferredRoutes,
+              cancelledFetcherLoads,
+              fetchLoadMatches,
+              fetchRedirectIds,
+              routesToUse,
+              basename,
+              {
+                [match.route.id]: actionResult.data
+              },
+              void 0
+              // No need to send through errors since we short circuit above
+            );
+            revalidatingFetchers.filter((rf) => rf.key !== key).forEach((rf) => {
+              let staleKey = rf.key;
+              let existingFetcher2 = state.fetchers.get(staleKey);
+              let revalidatingFetcher = getLoadingFetcher(void 0, existingFetcher2 ? existingFetcher2.data : void 0);
+              state.fetchers.set(staleKey, revalidatingFetcher);
+              if (fetchControllers.has(staleKey)) {
+                abortFetcher(staleKey);
+              }
+              if (rf.controller) {
+                fetchControllers.set(staleKey, rf.controller);
+              }
+            });
+            updateState({
+              fetchers: new Map(state.fetchers)
+            });
+            let abortPendingFetchRevalidations = () => revalidatingFetchers.forEach((rf) => abortFetcher(rf.key));
+            abortController.signal.addEventListener("abort", abortPendingFetchRevalidations);
+            let {
+              results,
+              loaderResults,
+              fetcherResults
+            } = yield callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, revalidationRequest);
+            if (abortController.signal.aborted) {
+              return;
+            }
+            abortController.signal.removeEventListener("abort", abortPendingFetchRevalidations);
+            fetchReloadIds.delete(key);
+            fetchControllers.delete(key);
+            revalidatingFetchers.forEach((r) => fetchControllers.delete(r.key));
+            let redirect2 = findRedirect(results);
+            if (redirect2) {
+              if (redirect2.idx >= matchesToLoad.length) {
+                let fetcherKey = revalidatingFetchers[redirect2.idx - matchesToLoad.length].key;
+                fetchRedirectIds.add(fetcherKey);
+              }
+              return startRedirectNavigation(state, redirect2.result);
+            }
+            let {
+              loaderData,
+              errors
+            } = processLoaderData(state, state.matches, matchesToLoad, loaderResults, void 0, revalidatingFetchers, fetcherResults, activeDeferreds);
+            if (state.fetchers.has(key)) {
+              let doneFetcher = getDoneFetcher(actionResult.data);
+              state.fetchers.set(key, doneFetcher);
+            }
+            let didAbortFetchLoads = abortStaleFetchLoads(loadId);
+            if (state.navigation.state === "loading" && loadId > pendingNavigationLoadId) {
+              invariant3(pendingAction, "Expected pending action");
+              pendingNavigationController && pendingNavigationController.abort();
+              completeNavigation(state.navigation.location, {
+                matches,
+                loaderData,
+                errors,
+                fetchers: new Map(state.fetchers)
+              });
+            } else {
+              updateState(_extends2({
+                errors,
+                loaderData: mergeLoaderData(state.loaderData, loaderData, matches, errors)
+              }, didAbortFetchLoads || revalidatingFetchers.length > 0 ? {
+                fetchers: new Map(state.fetchers)
+              } : {}));
+              isRevalidationRequired = false;
+            }
+          });
+        }
+        function handleFetcherLoader(key, routeId, path, match, matches, submission) {
+          return __async(this, null, function* () {
+            let existingFetcher = state.fetchers.get(key);
+            let loadingFetcher = getLoadingFetcher(submission, existingFetcher ? existingFetcher.data : void 0);
+            state.fetchers.set(key, loadingFetcher);
+            updateState({
+              fetchers: new Map(state.fetchers)
+            });
+            let abortController = new AbortController();
+            let fetchRequest = createClientSideRequest(init.history, path, abortController.signal);
+            fetchControllers.set(key, abortController);
+            let originatingLoadId = incrementingLoadId;
+            let result = yield callLoaderOrAction("loader", fetchRequest, match, matches, manifest, mapRouteProperties, basename);
+            if (isDeferredResult(result)) {
+              result = (yield resolveDeferredData(result, fetchRequest.signal, true)) || result;
+            }
+            if (fetchControllers.get(key) === abortController) {
+              fetchControllers.delete(key);
+            }
+            if (fetchRequest.signal.aborted) {
+              return;
+            }
+            if (isRedirectResult(result)) {
+              if (pendingNavigationLoadId > originatingLoadId) {
+                let doneFetcher2 = getDoneFetcher(void 0);
+                state.fetchers.set(key, doneFetcher2);
+                updateState({
+                  fetchers: new Map(state.fetchers)
+                });
+                return;
+              } else {
+                fetchRedirectIds.add(key);
+                yield startRedirectNavigation(state, result);
+                return;
+              }
+            }
+            if (isErrorResult(result)) {
+              let boundaryMatch = findNearestBoundary(state.matches, routeId);
+              state.fetchers.delete(key);
+              updateState({
+                fetchers: new Map(state.fetchers),
+                errors: {
+                  [boundaryMatch.route.id]: result.error
+                }
+              });
+              return;
+            }
+            invariant3(!isDeferredResult(result), "Unhandled fetcher deferred data");
+            let doneFetcher = getDoneFetcher(result.data);
+            state.fetchers.set(key, doneFetcher);
+            updateState({
+              fetchers: new Map(state.fetchers)
+            });
+          });
+        }
+        function startRedirectNavigation(state2, redirect2, _temp) {
+          return __async(this, null, function* () {
+            let {
+              submission,
+              fetcherSubmission,
+              replace
+            } = _temp === void 0 ? {} : _temp;
+            if (redirect2.revalidate) {
+              isRevalidationRequired = true;
+            }
+            let redirectLocation = createLocation(state2.location, redirect2.location, {
+              _isRedirect: true
+            });
+            invariant3(redirectLocation, "Expected a location on the redirect navigation");
+            if (isBrowser) {
+              let isDocumentReload = false;
+              if (redirect2.reloadDocument) {
+                isDocumentReload = true;
+              } else if (ABSOLUTE_URL_REGEX.test(redirect2.location)) {
+                const url = init.history.createURL(redirect2.location);
+                isDocumentReload = // Hard reload if it's an absolute URL to a new origin
+                url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
+                stripBasename(url.pathname, basename) == null;
+              }
+              if (isDocumentReload) {
+                if (replace) {
+                  routerWindow.location.replace(redirect2.location);
+                } else {
+                  routerWindow.location.assign(redirect2.location);
+                }
+                return;
+              }
+            }
+            pendingNavigationController = null;
+            let redirectHistoryAction = replace === true ? Action.Replace : Action.Push;
+            let {
+              formMethod,
+              formAction,
+              formEncType
+            } = state2.navigation;
+            if (!submission && !fetcherSubmission && formMethod && formAction && formEncType) {
+              submission = getSubmissionFromNavigation(state2.navigation);
+            }
+            let activeSubmission = submission || fetcherSubmission;
+            if (redirectPreserveMethodStatusCodes.has(redirect2.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
+              yield startNavigation(redirectHistoryAction, redirectLocation, {
+                submission: _extends2({}, activeSubmission, {
+                  formAction: redirect2.location
+                }),
+                // Preserve this flag across redirects
+                preventScrollReset: pendingPreventScrollReset
+              });
+            } else {
+              let overrideNavigation = getLoadingNavigation(redirectLocation, submission);
+              yield startNavigation(redirectHistoryAction, redirectLocation, {
+                overrideNavigation,
+                // Send fetcher submissions through for shouldRevalidate
+                fetcherSubmission,
+                // Preserve this flag across redirects
+                preventScrollReset: pendingPreventScrollReset
+              });
+            }
+          });
+        }
+        function callLoadersAndMaybeResolveData(currentMatches, matches, matchesToLoad, fetchersToLoad, request) {
+          return __async(this, null, function* () {
+            let results = yield Promise.all([...matchesToLoad.map((match) => callLoaderOrAction("loader", request, match, matches, manifest, mapRouteProperties, basename)), ...fetchersToLoad.map((f) => {
+              if (f.matches && f.match && f.controller) {
+                return callLoaderOrAction("loader", createClientSideRequest(init.history, f.path, f.controller.signal), f.match, f.matches, manifest, mapRouteProperties, basename);
+              } else {
+                let error = {
+                  type: ResultType.error,
+                  error: getInternalRouterError(404, {
+                    pathname: f.path
+                  })
+                };
+                return error;
+              }
+            })]);
+            let loaderResults = results.slice(0, matchesToLoad.length);
+            let fetcherResults = results.slice(matchesToLoad.length);
+            yield Promise.all([resolveDeferredResults(currentMatches, matchesToLoad, loaderResults, loaderResults.map(() => request.signal), false, state.loaderData), resolveDeferredResults(currentMatches, fetchersToLoad.map((f) => f.match), fetcherResults, fetchersToLoad.map((f) => f.controller ? f.controller.signal : null), true)]);
+            return {
+              results,
+              loaderResults,
+              fetcherResults
+            };
+          });
+        }
+        function interruptActiveLoads() {
+          isRevalidationRequired = true;
+          cancelledDeferredRoutes.push(...cancelActiveDeferreds());
+          fetchLoadMatches.forEach((_, key) => {
+            if (fetchControllers.has(key)) {
+              cancelledFetcherLoads.push(key);
+              abortFetcher(key);
+            }
+          });
+        }
+        function setFetcherError(key, routeId, error) {
+          let boundaryMatch = findNearestBoundary(state.matches, routeId);
+          deleteFetcher(key);
+          updateState({
+            errors: {
+              [boundaryMatch.route.id]: error
+            },
+            fetchers: new Map(state.fetchers)
+          });
+        }
+        function deleteFetcher(key) {
+          let fetcher = state.fetchers.get(key);
+          if (fetchControllers.has(key) && !(fetcher && fetcher.state === "loading" && fetchReloadIds.has(key))) {
+            abortFetcher(key);
+          }
+          fetchLoadMatches.delete(key);
+          fetchReloadIds.delete(key);
+          fetchRedirectIds.delete(key);
+          state.fetchers.delete(key);
+        }
+        function abortFetcher(key) {
+          let controller = fetchControllers.get(key);
+          invariant3(controller, "Expected fetch controller: " + key);
+          controller.abort();
+          fetchControllers.delete(key);
+        }
+        function markFetchersDone(keys) {
+          for (let key of keys) {
+            let fetcher = getFetcher(key);
+            let doneFetcher = getDoneFetcher(fetcher.data);
+            state.fetchers.set(key, doneFetcher);
+          }
+        }
+        function markFetchRedirectsDone() {
+          let doneKeys = [];
+          let updatedFetchers = false;
+          for (let key of fetchRedirectIds) {
+            let fetcher = state.fetchers.get(key);
+            invariant3(fetcher, "Expected fetcher: " + key);
+            if (fetcher.state === "loading") {
+              fetchRedirectIds.delete(key);
+              doneKeys.push(key);
+              updatedFetchers = true;
+            }
+          }
+          markFetchersDone(doneKeys);
+          return updatedFetchers;
+        }
+        function abortStaleFetchLoads(landedId) {
+          let yeetedKeys = [];
+          for (let [key, id] of fetchReloadIds) {
+            if (id < landedId) {
+              let fetcher = state.fetchers.get(key);
+              invariant3(fetcher, "Expected fetcher: " + key);
+              if (fetcher.state === "loading") {
+                abortFetcher(key);
+                fetchReloadIds.delete(key);
+                yeetedKeys.push(key);
+              }
+            }
+          }
+          markFetchersDone(yeetedKeys);
+          return yeetedKeys.length > 0;
+        }
+        function getBlocker(key, fn) {
+          let blocker = state.blockers.get(key) || IDLE_BLOCKER;
+          if (blockerFunctions.get(key) !== fn) {
+            blockerFunctions.set(key, fn);
+          }
+          return blocker;
+        }
+        function deleteBlocker(key) {
+          state.blockers.delete(key);
+          blockerFunctions.delete(key);
+        }
+        function updateBlocker(key, newBlocker) {
+          let blocker = state.blockers.get(key) || IDLE_BLOCKER;
+          invariant3(blocker.state === "unblocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "proceeding" || blocker.state === "blocked" && newBlocker.state === "unblocked" || blocker.state === "proceeding" && newBlocker.state === "unblocked", "Invalid blocker state transition: " + blocker.state + " -> " + newBlocker.state);
+          let blockers = new Map(state.blockers);
+          blockers.set(key, newBlocker);
+          updateState({
+            blockers
+          });
+        }
+        function shouldBlockNavigation(_ref2) {
+          let {
+            currentLocation,
+            nextLocation,
+            historyAction
+          } = _ref2;
+          if (blockerFunctions.size === 0) {
+            return;
+          }
+          if (blockerFunctions.size > 1) {
+            warning3(false, "A router only supports one blocker at a time");
+          }
+          let entries = Array.from(blockerFunctions.entries());
+          let [blockerKey, blockerFunction] = entries[entries.length - 1];
+          let blocker = state.blockers.get(blockerKey);
+          if (blocker && blocker.state === "proceeding") {
+            return;
+          }
+          if (blockerFunction({
+            currentLocation,
+            nextLocation,
+            historyAction
+          })) {
+            return blockerKey;
+          }
+        }
+        function cancelActiveDeferreds(predicate) {
+          let cancelledRouteIds = [];
+          activeDeferreds.forEach((dfd, routeId) => {
+            if (!predicate || predicate(routeId)) {
+              dfd.cancel();
+              cancelledRouteIds.push(routeId);
+              activeDeferreds.delete(routeId);
+            }
+          });
+          return cancelledRouteIds;
+        }
+        function enableScrollRestoration(positions, getPosition, getKey) {
+          savedScrollPositions = positions;
+          getScrollPosition = getPosition;
+          getScrollRestorationKey = getKey || null;
+          if (!initialScrollRestored && state.navigation === IDLE_NAVIGATION) {
+            initialScrollRestored = true;
+            let y = getSavedScrollPosition(state.location, state.matches);
+            if (y != null) {
+              updateState({
+                restoreScrollPosition: y
+              });
+            }
+          }
+          return () => {
+            savedScrollPositions = null;
+            getScrollPosition = null;
+            getScrollRestorationKey = null;
+          };
+        }
+        function getScrollKey(location, matches) {
+          if (getScrollRestorationKey) {
+            let key = getScrollRestorationKey(location, matches.map((m) => convertRouteMatchToUiMatch(m, state.loaderData)));
+            return key || location.key;
+          }
+          return location.key;
+        }
+        function saveScrollPosition(location, matches) {
+          if (savedScrollPositions && getScrollPosition) {
+            let key = getScrollKey(location, matches);
+            savedScrollPositions[key] = getScrollPosition();
+          }
+        }
+        function getSavedScrollPosition(location, matches) {
+          if (savedScrollPositions) {
+            let key = getScrollKey(location, matches);
+            let y = savedScrollPositions[key];
+            if (typeof y === "number") {
+              return y;
+            }
+          }
+          return null;
+        }
+        function _internalSetRoutes(newRoutes) {
+          manifest = {};
+          inFlightDataRoutes = convertRoutesToDataRoutes(newRoutes, mapRouteProperties, void 0, manifest);
+        }
+        router = {
+          get basename() {
+            return basename;
+          },
+          get state() {
+            return state;
+          },
+          get routes() {
+            return dataRoutes;
+          },
+          initialize,
+          subscribe,
+          enableScrollRestoration,
+          navigate,
+          fetch,
+          revalidate,
+          // Passthrough to history-aware createHref used by useHref so we get proper
+          // hash-aware URLs in DOM paths
+          createHref: (to) => init.history.createHref(to),
+          encodeLocation: (to) => init.history.encodeLocation(to),
+          getFetcher,
+          deleteFetcher,
+          dispose,
+          getBlocker,
+          deleteBlocker,
+          _internalFetchControllers: fetchControllers,
+          _internalActiveDeferreds: activeDeferreds,
+          // TODO: Remove setRoutes, it's temporary to avoid dealing with
+          // updating the tree while validating the update algorithm.
+          _internalSetRoutes
+        };
+        return router;
+      }
+      var UNSAFE_DEFERRED_SYMBOL = Symbol("deferred");
+      function createStaticHandler(routes, opts) {
+        invariant3(routes.length > 0, "You must provide a non-empty routes array to createStaticHandler");
+        let manifest = {};
+        let basename = (opts ? opts.basename : null) || "/";
+        let mapRouteProperties;
+        if (opts != null && opts.mapRouteProperties) {
+          mapRouteProperties = opts.mapRouteProperties;
+        } else if (opts != null && opts.detectErrorBoundary) {
+          let detectErrorBoundary = opts.detectErrorBoundary;
+          mapRouteProperties = (route) => ({
+            hasErrorBoundary: detectErrorBoundary(route)
+          });
+        } else {
+          mapRouteProperties = defaultMapRouteProperties;
+        }
+        let dataRoutes = convertRoutesToDataRoutes(routes, mapRouteProperties, void 0, manifest);
+        function query(request, _temp2) {
+          return __async(this, null, function* () {
+            let {
+              requestContext
+            } = _temp2 === void 0 ? {} : _temp2;
+            let url = new URL(request.url);
+            let method = request.method;
+            let location = createLocation("", createPath(url), null, "default");
+            let matches = matchRoutes(dataRoutes, location, basename);
+            if (!isValidMethod(method) && method !== "HEAD") {
+              let error = getInternalRouterError(405, {
+                method
+              });
+              let {
+                matches: methodNotAllowedMatches,
+                route
+              } = getShortCircuitMatches(dataRoutes);
+              return {
+                basename,
+                location,
+                matches: methodNotAllowedMatches,
+                loaderData: {},
+                actionData: null,
+                errors: {
+                  [route.id]: error
+                },
+                statusCode: error.status,
+                loaderHeaders: {},
+                actionHeaders: {},
+                activeDeferreds: null
+              };
+            } else if (!matches) {
+              let error = getInternalRouterError(404, {
+                pathname: location.pathname
+              });
+              let {
+                matches: notFoundMatches,
+                route
+              } = getShortCircuitMatches(dataRoutes);
+              return {
+                basename,
+                location,
+                matches: notFoundMatches,
+                loaderData: {},
+                actionData: null,
+                errors: {
+                  [route.id]: error
+                },
+                statusCode: error.status,
+                loaderHeaders: {},
+                actionHeaders: {},
+                activeDeferreds: null
+              };
+            }
+            let result = yield queryImpl(request, location, matches, requestContext);
+            if (isResponse(result)) {
+              return result;
+            }
+            return _extends2({
+              location,
+              basename
+            }, result);
+          });
+        }
+        function queryRoute(request, _temp3) {
+          return __async(this, null, function* () {
+            let {
+              routeId,
+              requestContext
+            } = _temp3 === void 0 ? {} : _temp3;
+            let url = new URL(request.url);
+            let method = request.method;
+            let location = createLocation("", createPath(url), null, "default");
+            let matches = matchRoutes(dataRoutes, location, basename);
+            if (!isValidMethod(method) && method !== "HEAD" && method !== "OPTIONS") {
+              throw getInternalRouterError(405, {
+                method
+              });
+            } else if (!matches) {
+              throw getInternalRouterError(404, {
+                pathname: location.pathname
+              });
+            }
+            let match = routeId ? matches.find((m) => m.route.id === routeId) : getTargetMatch(matches, location);
+            if (routeId && !match) {
+              throw getInternalRouterError(403, {
+                pathname: location.pathname,
+                routeId
+              });
+            } else if (!match) {
+              throw getInternalRouterError(404, {
+                pathname: location.pathname
+              });
+            }
+            let result = yield queryImpl(request, location, matches, requestContext, match);
+            if (isResponse(result)) {
+              return result;
+            }
+            let error = result.errors ? Object.values(result.errors)[0] : void 0;
+            if (error !== void 0) {
+              throw error;
+            }
+            if (result.actionData) {
+              return Object.values(result.actionData)[0];
+            }
+            if (result.loaderData) {
+              var _result$activeDeferre;
+              let data = Object.values(result.loaderData)[0];
+              if ((_result$activeDeferre = result.activeDeferreds) != null && _result$activeDeferre[match.route.id]) {
+                data[UNSAFE_DEFERRED_SYMBOL] = result.activeDeferreds[match.route.id];
+              }
+              return data;
+            }
+            return void 0;
+          });
+        }
+        function queryImpl(request, location, matches, requestContext, routeMatch) {
+          return __async(this, null, function* () {
+            invariant3(request.signal, "query()/queryRoute() requests must contain an AbortController signal");
+            try {
+              if (isMutationMethod(request.method.toLowerCase())) {
+                let result2 = yield submit(request, matches, routeMatch || getTargetMatch(matches, location), requestContext, routeMatch != null);
+                return result2;
+              }
+              let result = yield loadRouteData(request, matches, requestContext, routeMatch);
+              return isResponse(result) ? result : _extends2({}, result, {
+                actionData: null,
+                actionHeaders: {}
+              });
+            } catch (e) {
+              if (isQueryRouteResponse(e)) {
+                if (e.type === ResultType.error) {
+                  throw e.response;
+                }
+                return e.response;
+              }
+              if (isRedirectResponse(e)) {
+                return e;
+              }
+              throw e;
+            }
+          });
+        }
+        function submit(request, matches, actionMatch, requestContext, isRouteRequest) {
+          return __async(this, null, function* () {
+            let result;
+            if (!actionMatch.route.action && !actionMatch.route.lazy) {
+              let error = getInternalRouterError(405, {
+                method: request.method,
+                pathname: new URL(request.url).pathname,
+                routeId: actionMatch.route.id
+              });
+              if (isRouteRequest) {
+                throw error;
+              }
+              result = {
+                type: ResultType.error,
+                error
+              };
+            } else {
+              result = yield callLoaderOrAction("action", request, actionMatch, matches, manifest, mapRouteProperties, basename, {
+                isStaticRequest: true,
+                isRouteRequest,
+                requestContext
+              });
+              if (request.signal.aborted) {
+                let method = isRouteRequest ? "queryRoute" : "query";
+                throw new Error(method + "() call aborted: " + request.method + " " + request.url);
+              }
+            }
+            if (isRedirectResult(result)) {
+              throw new Response(null, {
+                status: result.status,
+                headers: {
+                  Location: result.location
+                }
+              });
+            }
+            if (isDeferredResult(result)) {
+              let error = getInternalRouterError(400, {
+                type: "defer-action"
+              });
+              if (isRouteRequest) {
+                throw error;
+              }
+              result = {
+                type: ResultType.error,
+                error
+              };
+            }
+            if (isRouteRequest) {
+              if (isErrorResult(result)) {
+                throw result.error;
+              }
+              return {
+                matches: [actionMatch],
+                loaderData: {},
+                actionData: {
+                  [actionMatch.route.id]: result.data
+                },
+                errors: null,
+                // Note: statusCode + headers are unused here since queryRoute will
+                // return the raw Response or value
+                statusCode: 200,
+                loaderHeaders: {},
+                actionHeaders: {},
+                activeDeferreds: null
+              };
+            }
+            if (isErrorResult(result)) {
+              let boundaryMatch = findNearestBoundary(matches, actionMatch.route.id);
+              let context4 = yield loadRouteData(request, matches, requestContext, void 0, {
+                [boundaryMatch.route.id]: result.error
+              });
+              return _extends2({}, context4, {
+                statusCode: isRouteErrorResponse(result.error) ? result.error.status : 500,
+                actionData: null,
+                actionHeaders: _extends2({}, result.headers ? {
+                  [actionMatch.route.id]: result.headers
+                } : {})
+              });
+            }
+            let loaderRequest = new Request(request.url, {
+              headers: request.headers,
+              redirect: request.redirect,
+              signal: request.signal
+            });
+            let context3 = yield loadRouteData(loaderRequest, matches, requestContext);
+            return _extends2({}, context3, result.statusCode ? {
+              statusCode: result.statusCode
+            } : {}, {
+              actionData: {
+                [actionMatch.route.id]: result.data
+              },
+              actionHeaders: _extends2({}, result.headers ? {
+                [actionMatch.route.id]: result.headers
+              } : {})
+            });
+          });
+        }
+        function loadRouteData(request, matches, requestContext, routeMatch, pendingActionError) {
+          return __async(this, null, function* () {
+            let isRouteRequest = routeMatch != null;
+            if (isRouteRequest && !(routeMatch != null && routeMatch.route.loader) && !(routeMatch != null && routeMatch.route.lazy)) {
+              throw getInternalRouterError(400, {
+                method: request.method,
+                pathname: new URL(request.url).pathname,
+                routeId: routeMatch == null ? void 0 : routeMatch.route.id
+              });
+            }
+            let requestMatches = routeMatch ? [routeMatch] : getLoaderMatchesUntilBoundary(matches, Object.keys(pendingActionError || {})[0]);
+            let matchesToLoad = requestMatches.filter((m) => m.route.loader || m.route.lazy);
+            if (matchesToLoad.length === 0) {
+              return {
+                matches,
+                // Add a null for all matched routes for proper revalidation on the client
+                loaderData: matches.reduce((acc, m) => Object.assign(acc, {
+                  [m.route.id]: null
+                }), {}),
+                errors: pendingActionError || null,
+                statusCode: 200,
+                loaderHeaders: {},
+                activeDeferreds: null
+              };
+            }
+            let results = yield Promise.all([...matchesToLoad.map((match) => callLoaderOrAction("loader", request, match, matches, manifest, mapRouteProperties, basename, {
+              isStaticRequest: true,
+              isRouteRequest,
+              requestContext
+            }))]);
+            if (request.signal.aborted) {
+              let method = isRouteRequest ? "queryRoute" : "query";
+              throw new Error(method + "() call aborted: " + request.method + " " + request.url);
+            }
+            let activeDeferreds = /* @__PURE__ */ new Map();
+            let context3 = processRouteLoaderData(matches, matchesToLoad, results, pendingActionError, activeDeferreds);
+            let executedLoaders = new Set(matchesToLoad.map((match) => match.route.id));
+            matches.forEach((match) => {
+              if (!executedLoaders.has(match.route.id)) {
+                context3.loaderData[match.route.id] = null;
+              }
+            });
+            return _extends2({}, context3, {
+              matches,
+              activeDeferreds: activeDeferreds.size > 0 ? Object.fromEntries(activeDeferreds.entries()) : null
+            });
+          });
+        }
+        return {
+          dataRoutes,
+          query,
+          queryRoute
+        };
+      }
+      function getStaticContextFromError(routes, context3, error) {
+        let newContext = _extends2({}, context3, {
+          statusCode: 500,
+          errors: {
+            [context3._deepestRenderedBoundaryId || routes[0].id]: error
+          }
+        });
+        return newContext;
+      }
+      function isSubmissionNavigation(opts) {
+        return opts != null && ("formData" in opts && opts.formData != null || "body" in opts && opts.body !== void 0);
+      }
+      function normalizeTo(location, matches, basename, prependBasename, to, fromRouteId, relative) {
+        let contextualMatches;
+        let activeRouteMatch;
+        if (fromRouteId != null && relative !== "path") {
+          contextualMatches = [];
+          for (let match of matches) {
+            contextualMatches.push(match);
+            if (match.route.id === fromRouteId) {
+              activeRouteMatch = match;
+              break;
+            }
+          }
+        } else {
+          contextualMatches = matches;
+          activeRouteMatch = matches[matches.length - 1];
+        }
+        let path = resolveTo(to ? to : ".", getPathContributingMatches(contextualMatches).map((m) => m.pathnameBase), stripBasename(location.pathname, basename) || location.pathname, relative === "path");
+        if (to == null) {
+          path.search = location.search;
+          path.hash = location.hash;
+        }
+        if ((to == null || to === "" || to === ".") && activeRouteMatch && activeRouteMatch.route.index && !hasNakedIndexQuery(path.search)) {
+          path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+        }
+        if (prependBasename && basename !== "/") {
+          path.pathname = path.pathname === "/" ? basename : joinPaths([basename, path.pathname]);
+        }
+        return createPath(path);
+      }
+      function normalizeNavigateOptions(normalizeFormMethod, isFetcher, path, opts) {
+        if (!opts || !isSubmissionNavigation(opts)) {
+          return {
+            path
+          };
+        }
+        if (opts.formMethod && !isValidMethod(opts.formMethod)) {
+          return {
+            path,
+            error: getInternalRouterError(405, {
+              method: opts.formMethod
+            })
+          };
+        }
+        let getInvalidBodyError = () => ({
+          path,
+          error: getInternalRouterError(400, {
+            type: "invalid-body"
+          })
+        });
+        let rawFormMethod = opts.formMethod || "get";
+        let formMethod = normalizeFormMethod ? rawFormMethod.toUpperCase() : rawFormMethod.toLowerCase();
+        let formAction = stripHashFromPath(path);
+        if (opts.body !== void 0) {
+          if (opts.formEncType === "text/plain") {
+            if (!isMutationMethod(formMethod)) {
+              return getInvalidBodyError();
+            }
+            let text = typeof opts.body === "string" ? opts.body : opts.body instanceof FormData || opts.body instanceof URLSearchParams ? (
+              // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#plain-text-form-data
+              Array.from(opts.body.entries()).reduce((acc, _ref3) => {
+                let [name, value] = _ref3;
+                return "" + acc + name + "=" + value + "\n";
+              }, "")
+            ) : String(opts.body);
+            return {
+              path,
+              submission: {
+                formMethod,
+                formAction,
+                formEncType: opts.formEncType,
+                formData: void 0,
+                json: void 0,
+                text
+              }
+            };
+          } else if (opts.formEncType === "application/json") {
+            if (!isMutationMethod(formMethod)) {
+              return getInvalidBodyError();
+            }
+            try {
+              let json2 = typeof opts.body === "string" ? JSON.parse(opts.body) : opts.body;
+              return {
+                path,
+                submission: {
+                  formMethod,
+                  formAction,
+                  formEncType: opts.formEncType,
+                  formData: void 0,
+                  json: json2,
+                  text: void 0
+                }
+              };
+            } catch (e) {
+              return getInvalidBodyError();
+            }
+          }
+        }
+        invariant3(typeof FormData === "function", "FormData is not available in this environment");
+        let searchParams;
+        let formData;
+        if (opts.formData) {
+          searchParams = convertFormDataToSearchParams(opts.formData);
+          formData = opts.formData;
+        } else if (opts.body instanceof FormData) {
+          searchParams = convertFormDataToSearchParams(opts.body);
+          formData = opts.body;
+        } else if (opts.body instanceof URLSearchParams) {
+          searchParams = opts.body;
+          formData = convertSearchParamsToFormData(searchParams);
+        } else if (opts.body == null) {
+          searchParams = new URLSearchParams();
+          formData = new FormData();
+        } else {
+          try {
+            searchParams = new URLSearchParams(opts.body);
+            formData = convertSearchParamsToFormData(searchParams);
+          } catch (e) {
+            return getInvalidBodyError();
+          }
+        }
+        let submission = {
+          formMethod,
+          formAction,
+          formEncType: opts && opts.formEncType || "application/x-www-form-urlencoded",
+          formData,
+          json: void 0,
+          text: void 0
+        };
+        if (isMutationMethod(submission.formMethod)) {
+          return {
+            path,
+            submission
+          };
+        }
+        let parsedPath = parsePath(path);
+        if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search)) {
+          searchParams.append("index", "");
+        }
+        parsedPath.search = "?" + searchParams;
+        return {
+          path: createPath(parsedPath),
+          submission
+        };
+      }
+      function getLoaderMatchesUntilBoundary(matches, boundaryId) {
+        let boundaryMatches = matches;
+        if (boundaryId) {
+          let index = matches.findIndex((m) => m.route.id === boundaryId);
+          if (index >= 0) {
+            boundaryMatches = matches.slice(0, index);
+          }
+        }
+        return boundaryMatches;
+      }
+      function getMatchesToLoad(history, state, matches, submission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionData, pendingError) {
+        let actionResult = pendingError ? Object.values(pendingError)[0] : pendingActionData ? Object.values(pendingActionData)[0] : void 0;
+        let currentUrl = history.createURL(state.location);
+        let nextUrl = history.createURL(location);
+        let boundaryId = pendingError ? Object.keys(pendingError)[0] : void 0;
+        let boundaryMatches = getLoaderMatchesUntilBoundary(matches, boundaryId);
+        let navigationMatches = boundaryMatches.filter((match, index) => {
+          if (match.route.lazy) {
+            return true;
+          }
+          if (match.route.loader == null) {
+            return false;
+          }
+          if (isNewLoader(state.loaderData, state.matches[index], match) || cancelledDeferredRoutes.some((id) => id === match.route.id)) {
+            return true;
+          }
+          let currentRouteMatch = state.matches[index];
+          let nextRouteMatch = match;
+          return shouldRevalidateLoader(match, _extends2({
+            currentUrl,
+            currentParams: currentRouteMatch.params,
+            nextUrl,
+            nextParams: nextRouteMatch.params
+          }, submission, {
+            actionResult,
+            defaultShouldRevalidate: (
+              // Forced revalidation due to submission, useRevalidator, or X-Remix-Revalidate
+              isRevalidationRequired || // Clicked the same link, resubmitted a GET form
+              currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
+              currentUrl.search !== nextUrl.search || isNewRouteInstance(currentRouteMatch, nextRouteMatch)
+            )
+          }));
+        });
+        let revalidatingFetchers = [];
+        fetchLoadMatches.forEach((f, key) => {
+          if (!matches.some((m) => m.route.id === f.routeId)) {
+            return;
+          }
+          let fetcherMatches = matchRoutes(routesToUse, f.path, basename);
+          if (!fetcherMatches) {
+            revalidatingFetchers.push({
+              key,
+              routeId: f.routeId,
+              path: f.path,
+              matches: null,
+              match: null,
+              controller: null
+            });
+            return;
+          }
+          let fetcher = state.fetchers.get(key);
+          let fetcherMatch = getTargetMatch(fetcherMatches, f.path);
+          let shouldRevalidate = false;
+          if (fetchRedirectIds.has(key)) {
+            shouldRevalidate = false;
+          } else if (cancelledFetcherLoads.includes(key)) {
+            shouldRevalidate = true;
+          } else if (fetcher && fetcher.state !== "idle" && fetcher.data === void 0) {
+            shouldRevalidate = isRevalidationRequired;
+          } else {
+            shouldRevalidate = shouldRevalidateLoader(fetcherMatch, _extends2({
+              currentUrl,
+              currentParams: state.matches[state.matches.length - 1].params,
+              nextUrl,
+              nextParams: matches[matches.length - 1].params
+            }, submission, {
+              actionResult,
+              defaultShouldRevalidate: isRevalidationRequired
+            }));
+          }
+          if (shouldRevalidate) {
+            revalidatingFetchers.push({
+              key,
+              routeId: f.routeId,
+              path: f.path,
+              matches: fetcherMatches,
+              match: fetcherMatch,
+              controller: new AbortController()
+            });
+          }
+        });
+        return [navigationMatches, revalidatingFetchers];
+      }
+      function isNewLoader(currentLoaderData, currentMatch, match) {
+        let isNew = (
+          // [a] -> [a, b]
+          !currentMatch || // [a, b] -> [a, c]
+          match.route.id !== currentMatch.route.id
+        );
+        let isMissingData = currentLoaderData[match.route.id] === void 0;
+        return isNew || isMissingData;
+      }
+      function isNewRouteInstance(currentMatch, match) {
+        let currentPath = currentMatch.route.path;
+        return (
+          // param change for this match, /users/123 -> /users/456
+          currentMatch.pathname !== match.pathname || // splat param changed, which is not present in match.path
+          // e.g. /files/images/avatar.jpg -> files/finances.xls
+          currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match.params["*"]
+        );
+      }
+      function shouldRevalidateLoader(loaderMatch, arg) {
+        if (loaderMatch.route.shouldRevalidate) {
+          let routeChoice = loaderMatch.route.shouldRevalidate(arg);
+          if (typeof routeChoice === "boolean") {
+            return routeChoice;
+          }
+        }
+        return arg.defaultShouldRevalidate;
+      }
+      function loadLazyRouteModule(route, mapRouteProperties, manifest) {
+        return __async(this, null, function* () {
+          if (!route.lazy) {
+            return;
+          }
+          let lazyRoute = yield route.lazy();
+          if (!route.lazy) {
+            return;
+          }
+          let routeToUpdate = manifest[route.id];
+          invariant3(routeToUpdate, "No route found in manifest");
+          let routeUpdates = {};
+          for (let lazyRouteProperty in lazyRoute) {
+            let staticRouteValue = routeToUpdate[lazyRouteProperty];
+            let isPropertyStaticallyDefined = staticRouteValue !== void 0 && // This property isn't static since it should always be updated based
+            // on the route updates
+            lazyRouteProperty !== "hasErrorBoundary";
+            warning3(!isPropertyStaticallyDefined, 'Route "' + routeToUpdate.id + '" has a static property "' + lazyRouteProperty + '" defined but its lazy function is also returning a value for this property. ' + ('The lazy route property "' + lazyRouteProperty + '" will be ignored.'));
+            if (!isPropertyStaticallyDefined && !immutableRouteKeys.has(lazyRouteProperty)) {
+              routeUpdates[lazyRouteProperty] = lazyRoute[lazyRouteProperty];
+            }
+          }
+          Object.assign(routeToUpdate, routeUpdates);
+          Object.assign(routeToUpdate, _extends2({}, mapRouteProperties(routeToUpdate), {
+            lazy: void 0
+          }));
+        });
+      }
+      function callLoaderOrAction(type, request, match, matches, manifest, mapRouteProperties, basename, opts) {
+        return __async(this, null, function* () {
+          if (opts === void 0) {
+            opts = {};
+          }
+          let resultType;
+          let result;
+          let onReject;
+          let runHandler = (handler) => {
+            let reject;
+            let abortPromise = new Promise((_, r) => reject = r);
+            onReject = () => reject();
+            request.signal.addEventListener("abort", onReject);
+            return Promise.race([handler({
+              request,
+              params: match.params,
+              context: opts.requestContext
+            }), abortPromise]);
+          };
+          try {
+            let handler = match.route[type];
+            if (match.route.lazy) {
+              if (handler) {
+                let handlerError;
+                let values = yield Promise.all([
+                  // If the handler throws, don't let it immediately bubble out,
+                  // since we need to let the lazy() execution finish so we know if this
+                  // route has a boundary that can handle the error
+                  runHandler(handler).catch((e) => {
+                    handlerError = e;
+                  }),
+                  loadLazyRouteModule(match.route, mapRouteProperties, manifest)
+                ]);
+                if (handlerError) {
+                  throw handlerError;
+                }
+                result = values[0];
+              } else {
+                yield loadLazyRouteModule(match.route, mapRouteProperties, manifest);
+                handler = match.route[type];
+                if (handler) {
+                  result = yield runHandler(handler);
+                } else if (type === "action") {
+                  let url = new URL(request.url);
+                  let pathname = url.pathname + url.search;
+                  throw getInternalRouterError(405, {
+                    method: request.method,
+                    pathname,
+                    routeId: match.route.id
+                  });
+                } else {
+                  return {
+                    type: ResultType.data,
+                    data: void 0
+                  };
+                }
+              }
+            } else if (!handler) {
+              let url = new URL(request.url);
+              let pathname = url.pathname + url.search;
+              throw getInternalRouterError(404, {
+                pathname
+              });
+            } else {
+              result = yield runHandler(handler);
+            }
+            invariant3(result !== void 0, "You defined " + (type === "action" ? "an action" : "a loader") + " for route " + ('"' + match.route.id + "\" but didn't return anything from your `" + type + "` ") + "function. Please return a value or `null`.");
+          } catch (e) {
+            resultType = ResultType.error;
+            result = e;
+          } finally {
+            if (onReject) {
+              request.signal.removeEventListener("abort", onReject);
+            }
+          }
+          if (isResponse(result)) {
+            let status = result.status;
+            if (redirectStatusCodes.has(status)) {
+              let location = result.headers.get("Location");
+              invariant3(location, "Redirects returned/thrown from loaders/actions must have a Location header");
+              if (!ABSOLUTE_URL_REGEX.test(location)) {
+                location = normalizeTo(new URL(request.url), matches.slice(0, matches.indexOf(match) + 1), basename, true, location);
+              } else if (!opts.isStaticRequest) {
+                let currentUrl = new URL(request.url);
+                let url = location.startsWith("//") ? new URL(currentUrl.protocol + location) : new URL(location);
+                let isSameBasename = stripBasename(url.pathname, basename) != null;
+                if (url.origin === currentUrl.origin && isSameBasename) {
+                  location = url.pathname + url.search + url.hash;
+                }
+              }
+              if (opts.isStaticRequest) {
+                result.headers.set("Location", location);
+                throw result;
+              }
+              return {
+                type: ResultType.redirect,
+                status,
+                location,
+                revalidate: result.headers.get("X-Remix-Revalidate") !== null,
+                reloadDocument: result.headers.get("X-Remix-Reload-Document") !== null
+              };
+            }
+            if (opts.isRouteRequest) {
+              let queryRouteResponse = {
+                type: resultType === ResultType.error ? ResultType.error : ResultType.data,
+                response: result
+              };
+              throw queryRouteResponse;
+            }
+            let data;
+            let contentType = result.headers.get("Content-Type");
+            if (contentType && /\bapplication\/json\b/.test(contentType)) {
+              data = yield result.json();
+            } else {
+              data = yield result.text();
+            }
+            if (resultType === ResultType.error) {
+              return {
+                type: resultType,
+                error: new ErrorResponseImpl(status, result.statusText, data),
+                headers: result.headers
+              };
+            }
+            return {
+              type: ResultType.data,
+              data,
+              statusCode: result.status,
+              headers: result.headers
+            };
+          }
+          if (resultType === ResultType.error) {
+            return {
+              type: resultType,
+              error: result
+            };
+          }
+          if (isDeferredData(result)) {
+            var _result$init, _result$init2;
+            return {
+              type: ResultType.deferred,
+              deferredData: result,
+              statusCode: (_result$init = result.init) == null ? void 0 : _result$init.status,
+              headers: ((_result$init2 = result.init) == null ? void 0 : _result$init2.headers) && new Headers(result.init.headers)
+            };
+          }
+          return {
+            type: ResultType.data,
+            data: result
+          };
+        });
+      }
+      function createClientSideRequest(history, location, signal, submission) {
+        let url = history.createURL(stripHashFromPath(location)).toString();
+        let init = {
+          signal
+        };
+        if (submission && isMutationMethod(submission.formMethod)) {
+          let {
+            formMethod,
+            formEncType
+          } = submission;
+          init.method = formMethod.toUpperCase();
+          if (formEncType === "application/json") {
+            init.headers = new Headers({
+              "Content-Type": formEncType
+            });
+            init.body = JSON.stringify(submission.json);
+          } else if (formEncType === "text/plain") {
+            init.body = submission.text;
+          } else if (formEncType === "application/x-www-form-urlencoded" && submission.formData) {
+            init.body = convertFormDataToSearchParams(submission.formData);
+          } else {
+            init.body = submission.formData;
+          }
+        }
+        return new Request(url, init);
+      }
+      function convertFormDataToSearchParams(formData) {
+        let searchParams = new URLSearchParams();
+        for (let [key, value] of formData.entries()) {
+          searchParams.append(key, typeof value === "string" ? value : value.name);
+        }
+        return searchParams;
+      }
+      function convertSearchParamsToFormData(searchParams) {
+        let formData = new FormData();
+        for (let [key, value] of searchParams.entries()) {
+          formData.append(key, value);
+        }
+        return formData;
+      }
+      function processRouteLoaderData(matches, matchesToLoad, results, pendingError, activeDeferreds) {
+        let loaderData = {};
+        let errors = null;
+        let statusCode;
+        let foundError = false;
+        let loaderHeaders = {};
+        results.forEach((result, index) => {
+          let id = matchesToLoad[index].route.id;
+          invariant3(!isRedirectResult(result), "Cannot handle redirect results in processLoaderData");
+          if (isErrorResult(result)) {
+            let boundaryMatch = findNearestBoundary(matches, id);
+            let error = result.error;
+            if (pendingError) {
+              error = Object.values(pendingError)[0];
+              pendingError = void 0;
+            }
+            errors = errors || {};
+            if (errors[boundaryMatch.route.id] == null) {
+              errors[boundaryMatch.route.id] = error;
+            }
+            loaderData[id] = void 0;
+            if (!foundError) {
+              foundError = true;
+              statusCode = isRouteErrorResponse(result.error) ? result.error.status : 500;
+            }
+            if (result.headers) {
+              loaderHeaders[id] = result.headers;
+            }
+          } else {
+            if (isDeferredResult(result)) {
+              activeDeferreds.set(id, result.deferredData);
+              loaderData[id] = result.deferredData.data;
+            } else {
+              loaderData[id] = result.data;
+            }
+            if (result.statusCode != null && result.statusCode !== 200 && !foundError) {
+              statusCode = result.statusCode;
+            }
+            if (result.headers) {
+              loaderHeaders[id] = result.headers;
+            }
+          }
+        });
+        if (pendingError) {
+          errors = pendingError;
+          loaderData[Object.keys(pendingError)[0]] = void 0;
+        }
+        return {
+          loaderData,
+          errors,
+          statusCode: statusCode || 200,
+          loaderHeaders
+        };
+      }
+      function processLoaderData(state, matches, matchesToLoad, results, pendingError, revalidatingFetchers, fetcherResults, activeDeferreds) {
+        let {
+          loaderData,
+          errors
+        } = processRouteLoaderData(matches, matchesToLoad, results, pendingError, activeDeferreds);
+        for (let index = 0; index < revalidatingFetchers.length; index++) {
+          let {
+            key,
+            match,
+            controller
+          } = revalidatingFetchers[index];
+          invariant3(fetcherResults !== void 0 && fetcherResults[index] !== void 0, "Did not find corresponding fetcher result");
+          let result = fetcherResults[index];
+          if (controller && controller.signal.aborted) {
+            continue;
+          } else if (isErrorResult(result)) {
+            let boundaryMatch = findNearestBoundary(state.matches, match == null ? void 0 : match.route.id);
+            if (!(errors && errors[boundaryMatch.route.id])) {
+              errors = _extends2({}, errors, {
+                [boundaryMatch.route.id]: result.error
+              });
+            }
+            state.fetchers.delete(key);
+          } else if (isRedirectResult(result)) {
+            invariant3(false, "Unhandled fetcher revalidation redirect");
+          } else if (isDeferredResult(result)) {
+            invariant3(false, "Unhandled fetcher deferred data");
+          } else {
+            let doneFetcher = getDoneFetcher(result.data);
+            state.fetchers.set(key, doneFetcher);
+          }
+        }
+        return {
+          loaderData,
+          errors
+        };
+      }
+      function mergeLoaderData(loaderData, newLoaderData, matches, errors) {
+        let mergedLoaderData = _extends2({}, newLoaderData);
+        for (let match of matches) {
+          let id = match.route.id;
+          if (newLoaderData.hasOwnProperty(id)) {
+            if (newLoaderData[id] !== void 0) {
+              mergedLoaderData[id] = newLoaderData[id];
+            }
+          } else if (loaderData[id] !== void 0 && match.route.loader) {
+            mergedLoaderData[id] = loaderData[id];
+          }
+          if (errors && errors.hasOwnProperty(id)) {
+            break;
+          }
+        }
+        return mergedLoaderData;
+      }
+      function findNearestBoundary(matches, routeId) {
+        let eligibleMatches = routeId ? matches.slice(0, matches.findIndex((m) => m.route.id === routeId) + 1) : [...matches];
+        return eligibleMatches.reverse().find((m) => m.route.hasErrorBoundary === true) || matches[0];
+      }
+      function getShortCircuitMatches(routes) {
+        let route = routes.find((r) => r.index || !r.path || r.path === "/") || {
+          id: "__shim-error-route__"
+        };
+        return {
+          matches: [{
+            params: {},
+            pathname: "",
+            pathnameBase: "",
+            route
+          }],
+          route
+        };
+      }
+      function getInternalRouterError(status, _temp4) {
+        let {
+          pathname,
+          routeId,
+          method,
+          type
+        } = _temp4 === void 0 ? {} : _temp4;
+        let statusText = "Unknown Server Error";
+        let errorMessage = "Unknown @remix-run/router error";
+        if (status === 400) {
+          statusText = "Bad Request";
+          if (method && pathname && routeId) {
+            errorMessage = "You made a " + method + ' request to "' + pathname + '" but ' + ('did not provide a `loader` for route "' + routeId + '", ') + "so there is no way to handle the request.";
+          } else if (type === "defer-action") {
+            errorMessage = "defer() is not supported in actions";
+          } else if (type === "invalid-body") {
+            errorMessage = "Unable to encode submission body";
+          }
+        } else if (status === 403) {
+          statusText = "Forbidden";
+          errorMessage = 'Route "' + routeId + '" does not match URL "' + pathname + '"';
+        } else if (status === 404) {
+          statusText = "Not Found";
+          errorMessage = 'No route matches URL "' + pathname + '"';
+        } else if (status === 405) {
+          statusText = "Method Not Allowed";
+          if (method && pathname && routeId) {
+            errorMessage = "You made a " + method.toUpperCase() + ' request to "' + pathname + '" but ' + ('did not provide an `action` for route "' + routeId + '", ') + "so there is no way to handle the request.";
+          } else if (method) {
+            errorMessage = 'Invalid request method "' + method.toUpperCase() + '"';
+          }
+        }
+        return new ErrorResponseImpl(status || 500, statusText, new Error(errorMessage), true);
+      }
+      function findRedirect(results) {
+        for (let i = results.length - 1; i >= 0; i--) {
+          let result = results[i];
+          if (isRedirectResult(result)) {
+            return {
+              result,
+              idx: i
+            };
+          }
+        }
+      }
+      function stripHashFromPath(path) {
+        let parsedPath = typeof path === "string" ? parsePath(path) : path;
+        return createPath(_extends2({}, parsedPath, {
+          hash: ""
+        }));
+      }
+      function isHashChangeOnly(a, b) {
+        if (a.pathname !== b.pathname || a.search !== b.search) {
+          return false;
+        }
+        if (a.hash === "") {
+          return b.hash !== "";
+        } else if (a.hash === b.hash) {
+          return true;
+        } else if (b.hash !== "") {
+          return true;
+        }
+        return false;
+      }
+      function isDeferredResult(result) {
+        return result.type === ResultType.deferred;
+      }
+      function isErrorResult(result) {
+        return result.type === ResultType.error;
+      }
+      function isRedirectResult(result) {
+        return (result && result.type) === ResultType.redirect;
+      }
+      function isDeferredData(value) {
+        let deferred = value;
+        return deferred && typeof deferred === "object" && typeof deferred.data === "object" && typeof deferred.subscribe === "function" && typeof deferred.cancel === "function" && typeof deferred.resolveData === "function";
+      }
+      function isResponse(value) {
+        return value != null && typeof value.status === "number" && typeof value.statusText === "string" && typeof value.headers === "object" && typeof value.body !== "undefined";
+      }
+      function isRedirectResponse(result) {
+        if (!isResponse(result)) {
+          return false;
+        }
+        let status = result.status;
+        let location = result.headers.get("Location");
+        return status >= 300 && status <= 399 && location != null;
+      }
+      function isQueryRouteResponse(obj) {
+        return obj && isResponse(obj.response) && (obj.type === ResultType.data || obj.type === ResultType.error);
+      }
+      function isValidMethod(method) {
+        return validRequestMethods.has(method.toLowerCase());
+      }
+      function isMutationMethod(method) {
+        return validMutationMethods.has(method.toLowerCase());
+      }
+      function resolveDeferredResults(currentMatches, matchesToLoad, results, signals, isFetcher, currentLoaderData) {
+        return __async(this, null, function* () {
+          for (let index = 0; index < results.length; index++) {
+            let result = results[index];
+            let match = matchesToLoad[index];
+            if (!match) {
+              continue;
+            }
+            let currentMatch = currentMatches.find((m) => m.route.id === match.route.id);
+            let isRevalidatingLoader = currentMatch != null && !isNewRouteInstance(currentMatch, match) && (currentLoaderData && currentLoaderData[match.route.id]) !== void 0;
+            if (isDeferredResult(result) && (isFetcher || isRevalidatingLoader)) {
+              let signal = signals[index];
+              invariant3(signal, "Expected an AbortSignal for revalidating fetcher deferred result");
+              yield resolveDeferredData(result, signal, isFetcher).then((result2) => {
+                if (result2) {
+                  results[index] = result2 || results[index];
+                }
+              });
+            }
+          }
+        });
+      }
+      function resolveDeferredData(result, signal, unwrap) {
+        return __async(this, null, function* () {
+          if (unwrap === void 0) {
+            unwrap = false;
+          }
+          let aborted = yield result.deferredData.resolveData(signal);
+          if (aborted) {
+            return;
+          }
+          if (unwrap) {
+            try {
+              return {
+                type: ResultType.data,
+                data: result.deferredData.unwrappedData
+              };
+            } catch (e) {
+              return {
+                type: ResultType.error,
+                error: e
+              };
+            }
+          }
+          return {
+            type: ResultType.data,
+            data: result.deferredData.data
+          };
+        });
+      }
+      function hasNakedIndexQuery(search) {
+        return new URLSearchParams(search).getAll("index").some((v) => v === "");
+      }
+      function getTargetMatch(matches, location) {
+        let search = typeof location === "string" ? parsePath(location).search : location.search;
+        if (matches[matches.length - 1].route.index && hasNakedIndexQuery(search || "")) {
+          return matches[matches.length - 1];
+        }
+        let pathMatches = getPathContributingMatches(matches);
+        return pathMatches[pathMatches.length - 1];
+      }
+      function getSubmissionFromNavigation(navigation) {
+        let {
+          formMethod,
+          formAction,
+          formEncType,
+          text,
+          formData,
+          json: json2
+        } = navigation;
+        if (!formMethod || !formAction || !formEncType) {
+          return;
+        }
+        if (text != null) {
+          return {
+            formMethod,
+            formAction,
+            formEncType,
+            formData: void 0,
+            json: void 0,
+            text
+          };
+        } else if (formData != null) {
+          return {
+            formMethod,
+            formAction,
+            formEncType,
+            formData,
+            json: void 0,
+            text: void 0
+          };
+        } else if (json2 !== void 0) {
+          return {
+            formMethod,
+            formAction,
+            formEncType,
+            formData: void 0,
+            json: json2,
+            text: void 0
+          };
+        }
+      }
+      function getLoadingNavigation(location, submission) {
+        if (submission) {
+          let navigation = {
+            state: "loading",
+            location,
+            formMethod: submission.formMethod,
+            formAction: submission.formAction,
+            formEncType: submission.formEncType,
+            formData: submission.formData,
+            json: submission.json,
+            text: submission.text
+          };
+          return navigation;
+        } else {
+          let navigation = {
+            state: "loading",
+            location,
+            formMethod: void 0,
+            formAction: void 0,
+            formEncType: void 0,
+            formData: void 0,
+            json: void 0,
+            text: void 0
+          };
+          return navigation;
+        }
+      }
+      function getSubmittingNavigation(location, submission) {
+        let navigation = {
+          state: "submitting",
+          location,
+          formMethod: submission.formMethod,
+          formAction: submission.formAction,
+          formEncType: submission.formEncType,
+          formData: submission.formData,
+          json: submission.json,
+          text: submission.text
+        };
+        return navigation;
+      }
+      function getLoadingFetcher(submission, data) {
+        if (submission) {
+          let fetcher = {
+            state: "loading",
+            formMethod: submission.formMethod,
+            formAction: submission.formAction,
+            formEncType: submission.formEncType,
+            formData: submission.formData,
+            json: submission.json,
+            text: submission.text,
+            data
+          };
+          return fetcher;
+        } else {
+          let fetcher = {
+            state: "loading",
+            formMethod: void 0,
+            formAction: void 0,
+            formEncType: void 0,
+            formData: void 0,
+            json: void 0,
+            text: void 0,
+            data
+          };
+          return fetcher;
+        }
+      }
+      function getSubmittingFetcher(submission, existingFetcher) {
+        let fetcher = {
+          state: "submitting",
+          formMethod: submission.formMethod,
+          formAction: submission.formAction,
+          formEncType: submission.formEncType,
+          formData: submission.formData,
+          json: submission.json,
+          text: submission.text,
+          data: existingFetcher ? existingFetcher.data : void 0
+        };
+        return fetcher;
+      }
+      function getDoneFetcher(data) {
+        let fetcher = {
+          state: "idle",
+          formMethod: void 0,
+          formAction: void 0,
+          formEncType: void 0,
+          formData: void 0,
+          json: void 0,
+          text: void 0,
+          data
+        };
+        return fetcher;
+      }
+      exports.AbortedDeferredError = AbortedDeferredError;
+      exports.Action = Action;
+      exports.IDLE_BLOCKER = IDLE_BLOCKER;
+      exports.IDLE_FETCHER = IDLE_FETCHER;
+      exports.IDLE_NAVIGATION = IDLE_NAVIGATION;
+      exports.UNSAFE_DEFERRED_SYMBOL = UNSAFE_DEFERRED_SYMBOL;
+      exports.UNSAFE_DeferredData = DeferredData;
+      exports.UNSAFE_ErrorResponseImpl = ErrorResponseImpl;
+      exports.UNSAFE_convertRouteMatchToUiMatch = convertRouteMatchToUiMatch;
+      exports.UNSAFE_convertRoutesToDataRoutes = convertRoutesToDataRoutes;
+      exports.UNSAFE_getPathContributingMatches = getPathContributingMatches;
+      exports.UNSAFE_invariant = invariant3;
+      exports.UNSAFE_warning = warning3;
+      exports.createBrowserHistory = createBrowserHistory;
+      exports.createHashHistory = createHashHistory;
+      exports.createMemoryHistory = createMemoryHistory;
+      exports.createPath = createPath;
+      exports.createRouter = createRouter;
+      exports.createStaticHandler = createStaticHandler;
+      exports.defer = defer;
+      exports.generatePath = generatePath;
+      exports.getStaticContextFromError = getStaticContextFromError;
+      exports.getToPathname = getToPathname;
+      exports.isDeferredData = isDeferredData;
+      exports.isRouteErrorResponse = isRouteErrorResponse;
+      exports.joinPaths = joinPaths;
+      exports.json = json;
+      exports.matchPath = matchPath;
+      exports.matchRoutes = matchRoutes;
+      exports.normalizePathname = normalizePathname;
+      exports.parsePath = parsePath;
+      exports.redirect = redirect;
+      exports.redirectDocument = redirectDocument;
+      exports.resolvePath = resolvePath;
+      exports.resolveTo = resolveTo;
+      exports.stripBasename = stripBasename;
+    }
+  });
+
+  // node_modules/react-router-dom/node_modules/react-router/dist/umd/react-router.development.js
+  var require_react_router_development = __commonJS({
+    "node_modules/react-router-dom/node_modules/react-router/dist/umd/react-router.development.js"(exports, module) {
+      (function(global2, factory) {
+        typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouter = {}, global2.React, global2.RemixRouter));
+      })(exports, function(exports2, React77, router) {
+        "use strict";
+        function _interopNamespace(e) {
+          if (e && e.__esModule)
+            return e;
+          var n = /* @__PURE__ */ Object.create(null);
+          if (e) {
+            Object.keys(e).forEach(function(k) {
+              if (k !== "default") {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                  enumerable: true,
+                  get: function() {
+                    return e[k];
+                  }
+                });
+              }
+            });
+          }
+          n["default"] = e;
+          return Object.freeze(n);
+        }
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React77);
+        function _extends2() {
+          _extends2 = Object.assign ? Object.assign.bind() : function(target) {
+            for (var i = 1; i < arguments.length; i++) {
+              var source = arguments[i];
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
+              }
+            }
+            return target;
+          };
+          return _extends2.apply(this, arguments);
+        }
+        const DataRouterContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          DataRouterContext.displayName = "DataRouter";
+        }
+        const DataRouterStateContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          DataRouterStateContext.displayName = "DataRouterState";
+        }
+        const AwaitContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          AwaitContext.displayName = "Await";
+        }
+        const NavigationContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          NavigationContext.displayName = "Navigation";
+        }
+        const LocationContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          LocationContext.displayName = "Location";
+        }
+        const RouteContext = /* @__PURE__ */ React__namespace.createContext({
+          outlet: null,
+          matches: [],
+          isDataRoute: false
+        });
+        {
+          RouteContext.displayName = "Route";
+        }
+        const RouteErrorContext = /* @__PURE__ */ React__namespace.createContext(null);
+        {
+          RouteErrorContext.displayName = "RouteError";
+        }
+        function useHref(to, _temp) {
+          let {
+            relative
+          } = _temp === void 0 ? {} : _temp;
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of the
+            // router loaded. We can help them understand how to avoid that.
+            "useHref() may be used only in the context of a <Router> component."
+          ) : void 0;
+          let {
+            basename,
+            navigator: navigator2
+          } = React__namespace.useContext(NavigationContext);
+          let {
+            hash,
+            pathname,
+            search
+          } = useResolvedPath(to, {
+            relative
+          });
+          let joinedPathname = pathname;
+          if (basename !== "/") {
+            joinedPathname = pathname === "/" ? basename : router.joinPaths([basename, pathname]);
+          }
+          return navigator2.createHref({
+            pathname: joinedPathname,
+            search,
+            hash
+          });
+        }
+        function useInRouterContext() {
+          return React__namespace.useContext(LocationContext) != null;
+        }
+        function useLocation() {
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of the
+            // router loaded. We can help them understand how to avoid that.
+            "useLocation() may be used only in the context of a <Router> component."
+          ) : void 0;
+          return React__namespace.useContext(LocationContext).location;
+        }
+        function useNavigationType() {
+          return React__namespace.useContext(LocationContext).navigationType;
+        }
+        function useMatch(pattern) {
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of the
+            // router loaded. We can help them understand how to avoid that.
+            "useMatch() may be used only in the context of a <Router> component."
+          ) : void 0;
+          let {
+            pathname
+          } = useLocation();
+          return React__namespace.useMemo(() => router.matchPath(pattern, pathname), [pathname, pattern]);
+        }
+        const navigateEffectWarning = "You should call navigate() in a React.useEffect(), not when your component is first rendered.";
+        function useIsomorphicLayoutEffect(cb) {
+          let isStatic = React__namespace.useContext(NavigationContext).static;
+          if (!isStatic) {
+            React__namespace.useLayoutEffect(cb);
+          }
+        }
+        function useNavigate() {
+          let {
+            isDataRoute
+          } = React__namespace.useContext(RouteContext);
+          return isDataRoute ? useNavigateStable() : useNavigateUnstable();
+        }
+        function useNavigateUnstable() {
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of the
+            // router loaded. We can help them understand how to avoid that.
+            "useNavigate() may be used only in the context of a <Router> component."
+          ) : void 0;
+          let dataRouterContext = React__namespace.useContext(DataRouterContext);
+          let {
+            basename,
+            navigator: navigator2
+          } = React__namespace.useContext(NavigationContext);
+          let {
+            matches
+          } = React__namespace.useContext(RouteContext);
+          let {
+            pathname: locationPathname
+          } = useLocation();
+          let routePathnamesJson = JSON.stringify(router.UNSAFE_getPathContributingMatches(matches).map((match) => match.pathnameBase));
+          let activeRef = React__namespace.useRef(false);
+          useIsomorphicLayoutEffect(() => {
+            activeRef.current = true;
+          });
+          let navigate = React__namespace.useCallback(function(to, options) {
+            if (options === void 0) {
+              options = {};
+            }
+            router.UNSAFE_warning(activeRef.current, navigateEffectWarning);
+            if (!activeRef.current)
+              return;
+            if (typeof to === "number") {
+              navigator2.go(to);
+              return;
+            }
+            let path = router.resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, options.relative === "path");
+            if (dataRouterContext == null && basename !== "/") {
+              path.pathname = path.pathname === "/" ? basename : router.joinPaths([basename, path.pathname]);
+            }
+            (!!options.replace ? navigator2.replace : navigator2.push)(path, options.state, options);
+          }, [basename, navigator2, routePathnamesJson, locationPathname, dataRouterContext]);
+          return navigate;
+        }
+        const OutletContext = /* @__PURE__ */ React__namespace.createContext(null);
+        function useOutletContext() {
+          return React__namespace.useContext(OutletContext);
+        }
+        function useOutlet(context3) {
+          let outlet = React__namespace.useContext(RouteContext).outlet;
+          if (outlet) {
+            return /* @__PURE__ */ React__namespace.createElement(OutletContext.Provider, {
+              value: context3
+            }, outlet);
+          }
+          return outlet;
+        }
+        function useParams() {
+          let {
+            matches
+          } = React__namespace.useContext(RouteContext);
+          let routeMatch = matches[matches.length - 1];
+          return routeMatch ? routeMatch.params : {};
+        }
+        function useResolvedPath(to, _temp2) {
+          let {
+            relative
+          } = _temp2 === void 0 ? {} : _temp2;
+          let {
+            matches
+          } = React__namespace.useContext(RouteContext);
+          let {
+            pathname: locationPathname
+          } = useLocation();
+          let routePathnamesJson = JSON.stringify(router.UNSAFE_getPathContributingMatches(matches).map((match) => match.pathnameBase));
+          return React__namespace.useMemo(() => router.resolveTo(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to, routePathnamesJson, locationPathname, relative]);
+        }
+        function useRoutes(routes, locationArg) {
+          return useRoutesImpl(routes, locationArg);
+        }
+        function useRoutesImpl(routes, locationArg, dataRouterState) {
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of the
+            // router loaded. We can help them understand how to avoid that.
+            "useRoutes() may be used only in the context of a <Router> component."
+          ) : void 0;
+          let {
+            navigator: navigator2
+          } = React__namespace.useContext(NavigationContext);
+          let {
+            matches: parentMatches
+          } = React__namespace.useContext(RouteContext);
+          let routeMatch = parentMatches[parentMatches.length - 1];
+          let parentParams = routeMatch ? routeMatch.params : {};
+          let parentPathname = routeMatch ? routeMatch.pathname : "/";
+          let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
+          let parentRoute = routeMatch && routeMatch.route;
+          {
+            let parentPath = parentRoute && parentRoute.path || "";
+            warningOnce(parentPathname, !parentRoute || parentPath.endsWith("*"), "You rendered descendant <Routes> (or called `useRoutes()`) at " + ('"' + parentPathname + '" (under <Route path="' + parentPath + '">) but the ') + `parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
+
+` + ('Please change the parent <Route path="' + parentPath + '"> to <Route ') + ('path="' + (parentPath === "/" ? "*" : parentPath + "/*") + '">.'));
+          }
+          let locationFromContext = useLocation();
+          let location;
+          if (locationArg) {
+            var _parsedLocationArg$pa;
+            let parsedLocationArg = typeof locationArg === "string" ? router.parsePath(locationArg) : locationArg;
+            !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ? router.UNSAFE_invariant(false, "When overriding the location using `<Routes location>` or `useRoutes(routes, location)`, the location pathname must begin with the portion of the URL pathname that was " + ('matched by all parent routes. The current pathname base is "' + parentPathnameBase + '" ') + ('but pathname "' + parsedLocationArg.pathname + '" was given in the `location` prop.')) : void 0;
+            location = parsedLocationArg;
+          } else {
+            location = locationFromContext;
+          }
+          let pathname = location.pathname || "/";
+          let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
+          let matches = router.matchRoutes(routes, {
+            pathname: remainingPathname
+          });
+          {
+            router.UNSAFE_warning(parentRoute || matches != null, 'No routes matched location "' + location.pathname + location.search + location.hash + '" ');
+            router.UNSAFE_warning(matches == null || matches[matches.length - 1].route.element !== void 0 || matches[matches.length - 1].route.Component !== void 0, 'Matched leaf route at location "' + location.pathname + location.search + location.hash + '" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.');
+          }
+          let renderedMatches = _renderMatches(matches && matches.map((match) => Object.assign({}, match, {
+            params: Object.assign({}, parentParams, match.params),
+            pathname: router.joinPaths([
+              parentPathnameBase,
+              // Re-encode pathnames that were decoded inside matchRoutes
+              navigator2.encodeLocation ? navigator2.encodeLocation(match.pathname).pathname : match.pathname
+            ]),
+            pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : router.joinPaths([
+              parentPathnameBase,
+              // Re-encode pathnames that were decoded inside matchRoutes
+              navigator2.encodeLocation ? navigator2.encodeLocation(match.pathnameBase).pathname : match.pathnameBase
+            ])
+          })), parentMatches, dataRouterState);
+          if (locationArg && renderedMatches) {
+            return /* @__PURE__ */ React__namespace.createElement(LocationContext.Provider, {
+              value: {
+                location: _extends2({
+                  pathname: "/",
+                  search: "",
+                  hash: "",
+                  state: null,
+                  key: "default"
+                }, location),
+                navigationType: router.Action.Pop
+              }
+            }, renderedMatches);
+          }
+          return renderedMatches;
+        }
+        function DefaultErrorComponent() {
+          let error = useRouteError();
+          let message = router.isRouteErrorResponse(error) ? error.status + " " + error.statusText : error instanceof Error ? error.message : JSON.stringify(error);
+          let stack = error instanceof Error ? error.stack : null;
+          let lightgrey = "rgba(200,200,200, 0.5)";
+          let preStyles = {
+            padding: "0.5rem",
+            backgroundColor: lightgrey
+          };
+          let codeStyles = {
+            padding: "2px 4px",
+            backgroundColor: lightgrey
+          };
+          let devInfo = null;
+          {
+            console.error("Error handled by React Router default ErrorBoundary:", error);
+            devInfo = /* @__PURE__ */ React__namespace.createElement(React__namespace.Fragment, null, /* @__PURE__ */ React__namespace.createElement("p", null, "\u{1F4BF} Hey developer \u{1F44B}"), /* @__PURE__ */ React__namespace.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ React__namespace.createElement("code", {
+              style: codeStyles
+            }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ React__namespace.createElement("code", {
+              style: codeStyles
+            }, "errorElement"), " prop on your route."));
+          }
+          return /* @__PURE__ */ React__namespace.createElement(React__namespace.Fragment, null, /* @__PURE__ */ React__namespace.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ React__namespace.createElement("h3", {
+            style: {
+              fontStyle: "italic"
+            }
+          }, message), stack ? /* @__PURE__ */ React__namespace.createElement("pre", {
+            style: preStyles
+          }, stack) : null, devInfo);
+        }
+        const defaultErrorElement = /* @__PURE__ */ React__namespace.createElement(DefaultErrorComponent, null);
+        class RenderErrorBoundary extends React__namespace.Component {
+          constructor(props) {
+            super(props);
+            this.state = {
+              location: props.location,
+              revalidation: props.revalidation,
+              error: props.error
+            };
+          }
+          static getDerivedStateFromError(error) {
+            return {
+              error
+            };
+          }
+          static getDerivedStateFromProps(props, state) {
+            if (state.location !== props.location || state.revalidation !== "idle" && props.revalidation === "idle") {
+              return {
+                error: props.error,
+                location: props.location,
+                revalidation: props.revalidation
+              };
+            }
+            return {
+              error: props.error || state.error,
+              location: state.location,
+              revalidation: props.revalidation || state.revalidation
+            };
+          }
+          componentDidCatch(error, errorInfo) {
+            console.error("React Router caught the following error during render", error, errorInfo);
+          }
+          render() {
+            return this.state.error ? /* @__PURE__ */ React__namespace.createElement(RouteContext.Provider, {
+              value: this.props.routeContext
+            }, /* @__PURE__ */ React__namespace.createElement(RouteErrorContext.Provider, {
+              value: this.state.error,
+              children: this.props.component
+            })) : this.props.children;
+          }
+        }
+        function RenderedRoute(_ref) {
+          let {
+            routeContext,
+            match,
+            children
+          } = _ref;
+          let dataRouterContext = React__namespace.useContext(DataRouterContext);
+          if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) {
+            dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
+          }
+          return /* @__PURE__ */ React__namespace.createElement(RouteContext.Provider, {
+            value: routeContext
+          }, children);
+        }
+        function _renderMatches(matches, parentMatches, dataRouterState) {
+          var _dataRouterState2;
+          if (parentMatches === void 0) {
+            parentMatches = [];
+          }
+          if (dataRouterState === void 0) {
+            dataRouterState = null;
+          }
+          if (matches == null) {
+            var _dataRouterState;
+            if ((_dataRouterState = dataRouterState) != null && _dataRouterState.errors) {
+              matches = dataRouterState.matches;
+            } else {
+              return null;
+            }
+          }
+          let renderedMatches = matches;
+          let errors = (_dataRouterState2 = dataRouterState) == null ? void 0 : _dataRouterState2.errors;
+          if (errors != null) {
+            let errorIndex = renderedMatches.findIndex((m) => m.route.id && (errors == null ? void 0 : errors[m.route.id]));
+            !(errorIndex >= 0) ? router.UNSAFE_invariant(false, "Could not find a matching route for errors on route IDs: " + Object.keys(errors).join(",")) : void 0;
+            renderedMatches = renderedMatches.slice(0, Math.min(renderedMatches.length, errorIndex + 1));
+          }
+          return renderedMatches.reduceRight((outlet, match, index) => {
+            let error = match.route.id ? errors == null ? void 0 : errors[match.route.id] : null;
+            let errorElement = null;
+            if (dataRouterState) {
+              errorElement = match.route.errorElement || defaultErrorElement;
+            }
+            let matches2 = parentMatches.concat(renderedMatches.slice(0, index + 1));
+            let getChildren = () => {
+              let children;
+              if (error) {
+                children = errorElement;
+              } else if (match.route.Component) {
+                children = /* @__PURE__ */ React__namespace.createElement(match.route.Component, null);
+              } else if (match.route.element) {
+                children = match.route.element;
+              } else {
+                children = outlet;
+              }
+              return /* @__PURE__ */ React__namespace.createElement(RenderedRoute, {
+                match,
+                routeContext: {
+                  outlet,
+                  matches: matches2,
+                  isDataRoute: dataRouterState != null
+                },
+                children
+              });
+            };
+            return dataRouterState && (match.route.ErrorBoundary || match.route.errorElement || index === 0) ? /* @__PURE__ */ React__namespace.createElement(RenderErrorBoundary, {
+              location: dataRouterState.location,
+              revalidation: dataRouterState.revalidation,
+              component: errorElement,
+              error,
+              children: getChildren(),
+              routeContext: {
+                outlet: null,
+                matches: matches2,
+                isDataRoute: true
+              }
+            }) : getChildren();
+          }, null);
+        }
+        var DataRouterHook = /* @__PURE__ */ function(DataRouterHook2) {
+          DataRouterHook2["UseBlocker"] = "useBlocker";
+          DataRouterHook2["UseRevalidator"] = "useRevalidator";
+          DataRouterHook2["UseNavigateStable"] = "useNavigate";
+          return DataRouterHook2;
+        }(DataRouterHook || {});
+        var DataRouterStateHook = /* @__PURE__ */ function(DataRouterStateHook2) {
+          DataRouterStateHook2["UseBlocker"] = "useBlocker";
+          DataRouterStateHook2["UseLoaderData"] = "useLoaderData";
+          DataRouterStateHook2["UseActionData"] = "useActionData";
+          DataRouterStateHook2["UseRouteError"] = "useRouteError";
+          DataRouterStateHook2["UseNavigation"] = "useNavigation";
+          DataRouterStateHook2["UseRouteLoaderData"] = "useRouteLoaderData";
+          DataRouterStateHook2["UseMatches"] = "useMatches";
+          DataRouterStateHook2["UseRevalidator"] = "useRevalidator";
+          DataRouterStateHook2["UseNavigateStable"] = "useNavigate";
+          DataRouterStateHook2["UseRouteId"] = "useRouteId";
+          return DataRouterStateHook2;
+        }(DataRouterStateHook || {});
+        function getDataRouterConsoleError(hookName) {
+          return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
+        }
+        function useDataRouterContext(hookName) {
+          let ctx = React__namespace.useContext(DataRouterContext);
+          !ctx ? router.UNSAFE_invariant(false, getDataRouterConsoleError(hookName)) : void 0;
+          return ctx;
+        }
+        function useDataRouterState(hookName) {
+          let state = React__namespace.useContext(DataRouterStateContext);
+          !state ? router.UNSAFE_invariant(false, getDataRouterConsoleError(hookName)) : void 0;
+          return state;
+        }
+        function useRouteContext(hookName) {
+          let route = React__namespace.useContext(RouteContext);
+          !route ? router.UNSAFE_invariant(false, getDataRouterConsoleError(hookName)) : void 0;
+          return route;
+        }
+        function useCurrentRouteId(hookName) {
+          let route = useRouteContext(hookName);
+          let thisRoute = route.matches[route.matches.length - 1];
+          !thisRoute.route.id ? router.UNSAFE_invariant(false, hookName + ' can only be used on routes that contain a unique "id"') : void 0;
+          return thisRoute.route.id;
+        }
+        function useRouteId() {
+          return useCurrentRouteId(DataRouterStateHook.UseRouteId);
+        }
+        function useNavigation() {
+          let state = useDataRouterState(DataRouterStateHook.UseNavigation);
+          return state.navigation;
+        }
+        function useRevalidator() {
+          let dataRouterContext = useDataRouterContext(DataRouterHook.UseRevalidator);
+          let state = useDataRouterState(DataRouterStateHook.UseRevalidator);
+          return React__namespace.useMemo(() => ({
+            revalidate: dataRouterContext.router.revalidate,
+            state: state.revalidation
+          }), [dataRouterContext.router.revalidate, state.revalidation]);
+        }
+        function useMatches() {
+          let {
+            matches,
+            loaderData
+          } = useDataRouterState(DataRouterStateHook.UseMatches);
+          return React__namespace.useMemo(() => matches.map((m) => router.UNSAFE_convertRouteMatchToUiMatch(m, loaderData)), [matches, loaderData]);
+        }
+        function useLoaderData() {
+          let state = useDataRouterState(DataRouterStateHook.UseLoaderData);
+          let routeId = useCurrentRouteId(DataRouterStateHook.UseLoaderData);
+          if (state.errors && state.errors[routeId] != null) {
+            console.error("You cannot `useLoaderData` in an errorElement (routeId: " + routeId + ")");
+            return void 0;
+          }
+          return state.loaderData[routeId];
+        }
+        function useRouteLoaderData(routeId) {
+          let state = useDataRouterState(DataRouterStateHook.UseRouteLoaderData);
+          return state.loaderData[routeId];
+        }
+        function useActionData() {
+          let state = useDataRouterState(DataRouterStateHook.UseActionData);
+          let route = React__namespace.useContext(RouteContext);
+          !route ? router.UNSAFE_invariant(false, "useActionData must be used inside a RouteContext") : void 0;
+          return Object.values((state == null ? void 0 : state.actionData) || {})[0];
+        }
+        function useRouteError() {
+          var _state$errors;
+          let error = React__namespace.useContext(RouteErrorContext);
+          let state = useDataRouterState(DataRouterStateHook.UseRouteError);
+          let routeId = useCurrentRouteId(DataRouterStateHook.UseRouteError);
+          if (error) {
+            return error;
+          }
+          return (_state$errors = state.errors) == null ? void 0 : _state$errors[routeId];
+        }
+        function useAsyncValue() {
+          let value = React__namespace.useContext(AwaitContext);
+          return value == null ? void 0 : value._data;
+        }
+        function useAsyncError() {
+          let value = React__namespace.useContext(AwaitContext);
+          return value == null ? void 0 : value._error;
+        }
+        let blockerId = 0;
+        function useBlocker(shouldBlock) {
+          let {
+            router: router$1,
+            basename
+          } = useDataRouterContext(DataRouterHook.UseBlocker);
+          let state = useDataRouterState(DataRouterStateHook.UseBlocker);
+          let [blockerKey, setBlockerKey] = React__namespace.useState("");
+          let blockerFunction = React__namespace.useCallback((arg) => {
+            if (typeof shouldBlock !== "function") {
+              return !!shouldBlock;
+            }
+            if (basename === "/") {
+              return shouldBlock(arg);
+            }
+            let {
+              currentLocation,
+              nextLocation,
+              historyAction
+            } = arg;
+            return shouldBlock({
+              currentLocation: _extends2({}, currentLocation, {
+                pathname: router.stripBasename(currentLocation.pathname, basename) || currentLocation.pathname
+              }),
+              nextLocation: _extends2({}, nextLocation, {
+                pathname: router.stripBasename(nextLocation.pathname, basename) || nextLocation.pathname
+              }),
+              historyAction
+            });
+          }, [basename, shouldBlock]);
+          React__namespace.useEffect(() => {
+            let key = String(++blockerId);
+            setBlockerKey(key);
+            return () => router$1.deleteBlocker(key);
+          }, [router$1]);
+          React__namespace.useEffect(() => {
+            if (blockerKey !== "") {
+              router$1.getBlocker(blockerKey, blockerFunction);
+            }
+          }, [router$1, blockerKey, blockerFunction]);
+          return blockerKey && state.blockers.has(blockerKey) ? state.blockers.get(blockerKey) : router.IDLE_BLOCKER;
+        }
+        function useNavigateStable() {
+          let {
+            router: router$1
+          } = useDataRouterContext(DataRouterHook.UseNavigateStable);
+          let id = useCurrentRouteId(DataRouterStateHook.UseNavigateStable);
+          let activeRef = React__namespace.useRef(false);
+          useIsomorphicLayoutEffect(() => {
+            activeRef.current = true;
+          });
+          let navigate = React__namespace.useCallback(function(to, options) {
+            if (options === void 0) {
+              options = {};
+            }
+            router.UNSAFE_warning(activeRef.current, navigateEffectWarning);
+            if (!activeRef.current)
+              return;
+            if (typeof to === "number") {
+              router$1.navigate(to);
+            } else {
+              router$1.navigate(to, _extends2({
+                fromRouteId: id
+              }, options));
+            }
+          }, [router$1, id]);
+          return navigate;
+        }
+        const alreadyWarned = {};
+        function warningOnce(key, cond, message) {
+          if (!cond && !alreadyWarned[key]) {
+            alreadyWarned[key] = true;
+            router.UNSAFE_warning(false, message);
+          }
+        }
+        const START_TRANSITION = "startTransition";
+        const startTransitionImpl = React__namespace[START_TRANSITION];
+        function RouterProvider(_ref) {
+          let {
+            fallbackElement,
+            router: router2,
+            future
+          } = _ref;
+          let [state, setStateImpl] = React__namespace.useState(router2.state);
+          let {
+            v7_startTransition
+          } = future || {};
+          let setState = React__namespace.useCallback((newState) => {
+            v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+          }, [setStateImpl, v7_startTransition]);
+          React__namespace.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
+          let navigator2 = React__namespace.useMemo(() => {
+            return {
+              createHref: router2.createHref,
+              encodeLocation: router2.encodeLocation,
+              go: (n) => router2.navigate(n),
+              push: (to, state2, opts) => router2.navigate(to, {
+                state: state2,
+                preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+              }),
+              replace: (to, state2, opts) => router2.navigate(to, {
+                replace: true,
+                state: state2,
+                preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+              })
+            };
+          }, [router2]);
+          let basename = router2.basename || "/";
+          let dataRouterContext = React__namespace.useMemo(() => ({
+            router: router2,
+            navigator: navigator2,
+            static: false,
+            basename
+          }), [router2, navigator2, basename]);
+          return /* @__PURE__ */ React__namespace.createElement(React__namespace.Fragment, null, /* @__PURE__ */ React__namespace.createElement(DataRouterContext.Provider, {
+            value: dataRouterContext
+          }, /* @__PURE__ */ React__namespace.createElement(DataRouterStateContext.Provider, {
+            value: state
+          }, /* @__PURE__ */ React__namespace.createElement(Router, {
+            basename,
+            location: state.location,
+            navigationType: state.historyAction,
+            navigator: navigator2
+          }, state.initialized ? /* @__PURE__ */ React__namespace.createElement(DataRoutes, {
+            routes: router2.routes,
+            state
+          }) : fallbackElement))), null);
+        }
+        function DataRoutes(_ref2) {
+          let {
+            routes,
+            state
+          } = _ref2;
+          return useRoutesImpl(routes, void 0, state);
+        }
+        function MemoryRouter(_ref3) {
+          let {
+            basename,
+            children,
+            initialEntries,
+            initialIndex,
+            future
+          } = _ref3;
+          let historyRef = React__namespace.useRef();
+          if (historyRef.current == null) {
+            historyRef.current = router.createMemoryHistory({
+              initialEntries,
+              initialIndex,
+              v5Compat: true
+            });
+          }
+          let history = historyRef.current;
+          let [state, setStateImpl] = React__namespace.useState({
+            action: history.action,
+            location: history.location
+          });
+          let {
+            v7_startTransition
+          } = future || {};
+          let setState = React__namespace.useCallback((newState) => {
+            v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+          }, [setStateImpl, v7_startTransition]);
+          React__namespace.useLayoutEffect(() => history.listen(setState), [history, setState]);
+          return /* @__PURE__ */ React__namespace.createElement(Router, {
+            basename,
+            children,
+            location: state.location,
+            navigationType: state.action,
+            navigator: history
+          });
+        }
+        function Navigate(_ref4) {
+          let {
+            to,
+            replace,
+            state,
+            relative
+          } = _ref4;
+          !useInRouterContext() ? router.UNSAFE_invariant(
+            false,
+            // TODO: This error is probably because they somehow have 2 versions of
+            // the router loaded. We can help them understand how to avoid that.
+            "<Navigate> may be used only in the context of a <Router> component."
+          ) : void 0;
+          router.UNSAFE_warning(!React__namespace.useContext(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.");
+          let {
+            matches
+          } = React__namespace.useContext(RouteContext);
+          let {
+            pathname: locationPathname
+          } = useLocation();
+          let navigate = useNavigate();
+          let path = router.resolveTo(to, router.UNSAFE_getPathContributingMatches(matches).map((match) => match.pathnameBase), locationPathname, relative === "path");
+          let jsonPath = JSON.stringify(path);
+          React__namespace.useEffect(() => navigate(JSON.parse(jsonPath), {
+            replace,
+            state,
+            relative
+          }), [navigate, jsonPath, relative, replace, state]);
+          return null;
+        }
+        function Outlet(props) {
+          return useOutlet(props.context);
+        }
+        function Route2(_props) {
+          router.UNSAFE_invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes>.");
+        }
+        function Router(_ref5) {
+          let {
+            basename: basenameProp = "/",
+            children = null,
+            location: locationProp,
+            navigationType = router.Action.Pop,
+            navigator: navigator2,
+            static: staticProp = false
+          } = _ref5;
+          !!useInRouterContext() ? router.UNSAFE_invariant(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app.") : void 0;
+          let basename = basenameProp.replace(/^\/*/, "/");
+          let navigationContext = React__namespace.useMemo(() => ({
+            basename,
+            navigator: navigator2,
+            static: staticProp
+          }), [basename, navigator2, staticProp]);
+          if (typeof locationProp === "string") {
+            locationProp = router.parsePath(locationProp);
+          }
+          let {
+            pathname = "/",
+            search = "",
+            hash = "",
+            state = null,
+            key = "default"
+          } = locationProp;
+          let locationContext = React__namespace.useMemo(() => {
+            let trailingPathname = router.stripBasename(pathname, basename);
+            if (trailingPathname == null) {
+              return null;
+            }
+            return {
+              location: {
+                pathname: trailingPathname,
+                search,
+                hash,
+                state,
+                key
+              },
+              navigationType
+            };
+          }, [basename, pathname, search, hash, state, key, navigationType]);
+          router.UNSAFE_warning(locationContext != null, '<Router basename="' + basename + '"> is not able to match the URL ' + ('"' + pathname + search + hash + '" because it does not start with the ') + "basename, so the <Router> won't render anything.");
+          if (locationContext == null) {
+            return null;
+          }
+          return /* @__PURE__ */ React__namespace.createElement(NavigationContext.Provider, {
+            value: navigationContext
+          }, /* @__PURE__ */ React__namespace.createElement(LocationContext.Provider, {
+            children,
+            value: locationContext
+          }));
+        }
+        function Routes2(_ref6) {
+          let {
+            children,
+            location
+          } = _ref6;
+          return useRoutes(createRoutesFromChildren(children), location);
+        }
+        function Await(_ref7) {
+          let {
+            children,
+            errorElement,
+            resolve
+          } = _ref7;
+          return /* @__PURE__ */ React__namespace.createElement(AwaitErrorBoundary, {
+            resolve,
+            errorElement
+          }, /* @__PURE__ */ React__namespace.createElement(ResolveAwait, null, children));
+        }
+        var AwaitRenderStatus = /* @__PURE__ */ function(AwaitRenderStatus2) {
+          AwaitRenderStatus2[AwaitRenderStatus2["pending"] = 0] = "pending";
+          AwaitRenderStatus2[AwaitRenderStatus2["success"] = 1] = "success";
+          AwaitRenderStatus2[AwaitRenderStatus2["error"] = 2] = "error";
+          return AwaitRenderStatus2;
+        }(AwaitRenderStatus || {});
+        const neverSettledPromise = new Promise(() => {
+        });
+        class AwaitErrorBoundary extends React__namespace.Component {
+          constructor(props) {
+            super(props);
+            this.state = {
+              error: null
+            };
+          }
+          static getDerivedStateFromError(error) {
+            return {
+              error
+            };
+          }
+          componentDidCatch(error, errorInfo) {
+            console.error("<Await> caught the following error during render", error, errorInfo);
+          }
+          render() {
+            let {
+              children,
+              errorElement,
+              resolve
+            } = this.props;
+            let promise = null;
+            let status = AwaitRenderStatus.pending;
+            if (!(resolve instanceof Promise)) {
+              status = AwaitRenderStatus.success;
+              promise = Promise.resolve();
+              Object.defineProperty(promise, "_tracked", {
+                get: () => true
+              });
+              Object.defineProperty(promise, "_data", {
+                get: () => resolve
+              });
+            } else if (this.state.error) {
+              status = AwaitRenderStatus.error;
+              let renderError = this.state.error;
+              promise = Promise.reject().catch(() => {
+              });
+              Object.defineProperty(promise, "_tracked", {
+                get: () => true
+              });
+              Object.defineProperty(promise, "_error", {
+                get: () => renderError
+              });
+            } else if (resolve._tracked) {
+              promise = resolve;
+              status = promise._error !== void 0 ? AwaitRenderStatus.error : promise._data !== void 0 ? AwaitRenderStatus.success : AwaitRenderStatus.pending;
+            } else {
+              status = AwaitRenderStatus.pending;
+              Object.defineProperty(resolve, "_tracked", {
+                get: () => true
+              });
+              promise = resolve.then((data) => Object.defineProperty(resolve, "_data", {
+                get: () => data
+              }), (error) => Object.defineProperty(resolve, "_error", {
+                get: () => error
+              }));
+            }
+            if (status === AwaitRenderStatus.error && promise._error instanceof router.AbortedDeferredError) {
+              throw neverSettledPromise;
+            }
+            if (status === AwaitRenderStatus.error && !errorElement) {
+              throw promise._error;
+            }
+            if (status === AwaitRenderStatus.error) {
+              return /* @__PURE__ */ React__namespace.createElement(AwaitContext.Provider, {
+                value: promise,
+                children: errorElement
+              });
+            }
+            if (status === AwaitRenderStatus.success) {
+              return /* @__PURE__ */ React__namespace.createElement(AwaitContext.Provider, {
+                value: promise,
+                children
+              });
+            }
+            throw promise;
+          }
+        }
+        function ResolveAwait(_ref8) {
+          let {
+            children
+          } = _ref8;
+          let data = useAsyncValue();
+          let toRender = typeof children === "function" ? children(data) : children;
+          return /* @__PURE__ */ React__namespace.createElement(React__namespace.Fragment, null, toRender);
+        }
+        function createRoutesFromChildren(children, parentPath) {
+          if (parentPath === void 0) {
+            parentPath = [];
+          }
+          let routes = [];
+          React__namespace.Children.forEach(children, (element, index) => {
+            if (!/* @__PURE__ */ React__namespace.isValidElement(element)) {
+              return;
+            }
+            let treePath = [...parentPath, index];
+            if (element.type === React__namespace.Fragment) {
+              routes.push.apply(routes, createRoutesFromChildren(element.props.children, treePath));
+              return;
+            }
+            !(element.type === Route2) ? router.UNSAFE_invariant(false, "[" + (typeof element.type === "string" ? element.type : element.type.name) + "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>") : void 0;
+            !(!element.props.index || !element.props.children) ? router.UNSAFE_invariant(false, "An index route cannot have child routes.") : void 0;
+            let route = {
+              id: element.props.id || treePath.join("-"),
+              caseSensitive: element.props.caseSensitive,
+              element: element.props.element,
+              Component: element.props.Component,
+              index: element.props.index,
+              path: element.props.path,
+              loader: element.props.loader,
+              action: element.props.action,
+              errorElement: element.props.errorElement,
+              ErrorBoundary: element.props.ErrorBoundary,
+              hasErrorBoundary: element.props.ErrorBoundary != null || element.props.errorElement != null,
+              shouldRevalidate: element.props.shouldRevalidate,
+              handle: element.props.handle,
+              lazy: element.props.lazy
+            };
+            if (element.props.children) {
+              route.children = createRoutesFromChildren(element.props.children, treePath);
+            }
+            routes.push(route);
+          });
+          return routes;
+        }
+        function renderMatches(matches) {
+          return _renderMatches(matches);
+        }
+        function mapRouteProperties(route) {
+          let updates = {
+            // Note: this check also occurs in createRoutesFromChildren so update
+            // there if you change this -- please and thank you!
+            hasErrorBoundary: route.ErrorBoundary != null || route.errorElement != null
+          };
+          if (route.Component) {
+            {
+              if (route.element) {
+                router.UNSAFE_warning(false, "You should not include both `Component` and `element` on your route - `Component` will be used.");
+              }
+            }
+            Object.assign(updates, {
+              element: /* @__PURE__ */ React__namespace.createElement(route.Component),
+              Component: void 0
+            });
+          }
+          if (route.ErrorBoundary) {
+            {
+              if (route.errorElement) {
+                router.UNSAFE_warning(false, "You should not include both `ErrorBoundary` and `errorElement` on your route - `ErrorBoundary` will be used.");
+              }
+            }
+            Object.assign(updates, {
+              errorElement: /* @__PURE__ */ React__namespace.createElement(route.ErrorBoundary),
+              ErrorBoundary: void 0
+            });
+          }
+          return updates;
+        }
+        function createMemoryRouter(routes, opts) {
+          return router.createRouter({
+            basename: opts == null ? void 0 : opts.basename,
+            future: _extends2({}, opts == null ? void 0 : opts.future, {
+              v7_prependBasename: true
+            }),
+            history: router.createMemoryHistory({
+              initialEntries: opts == null ? void 0 : opts.initialEntries,
+              initialIndex: opts == null ? void 0 : opts.initialIndex
+            }),
+            hydrationData: opts == null ? void 0 : opts.hydrationData,
+            routes,
+            mapRouteProperties
+          }).initialize();
+        }
+        Object.defineProperty(exports2, "AbortedDeferredError", {
+          enumerable: true,
+          get: function() {
+            return router.AbortedDeferredError;
+          }
+        });
+        Object.defineProperty(exports2, "NavigationType", {
+          enumerable: true,
+          get: function() {
+            return router.Action;
+          }
+        });
+        Object.defineProperty(exports2, "createPath", {
+          enumerable: true,
+          get: function() {
+            return router.createPath;
+          }
+        });
+        Object.defineProperty(exports2, "defer", {
+          enumerable: true,
+          get: function() {
+            return router.defer;
+          }
+        });
+        Object.defineProperty(exports2, "generatePath", {
+          enumerable: true,
+          get: function() {
+            return router.generatePath;
+          }
+        });
+        Object.defineProperty(exports2, "isRouteErrorResponse", {
+          enumerable: true,
+          get: function() {
+            return router.isRouteErrorResponse;
+          }
+        });
+        Object.defineProperty(exports2, "json", {
+          enumerable: true,
+          get: function() {
+            return router.json;
+          }
+        });
+        Object.defineProperty(exports2, "matchPath", {
+          enumerable: true,
+          get: function() {
+            return router.matchPath;
+          }
+        });
+        Object.defineProperty(exports2, "matchRoutes", {
+          enumerable: true,
+          get: function() {
+            return router.matchRoutes;
+          }
+        });
+        Object.defineProperty(exports2, "parsePath", {
+          enumerable: true,
+          get: function() {
+            return router.parsePath;
+          }
+        });
+        Object.defineProperty(exports2, "redirect", {
+          enumerable: true,
+          get: function() {
+            return router.redirect;
+          }
+        });
+        Object.defineProperty(exports2, "redirectDocument", {
+          enumerable: true,
+          get: function() {
+            return router.redirectDocument;
+          }
+        });
+        Object.defineProperty(exports2, "resolvePath", {
+          enumerable: true,
+          get: function() {
+            return router.resolvePath;
+          }
+        });
+        exports2.Await = Await;
+        exports2.MemoryRouter = MemoryRouter;
+        exports2.Navigate = Navigate;
+        exports2.Outlet = Outlet;
+        exports2.Route = Route2;
+        exports2.Router = Router;
+        exports2.RouterProvider = RouterProvider;
+        exports2.Routes = Routes2;
+        exports2.UNSAFE_DataRouterContext = DataRouterContext;
+        exports2.UNSAFE_DataRouterStateContext = DataRouterStateContext;
+        exports2.UNSAFE_LocationContext = LocationContext;
+        exports2.UNSAFE_NavigationContext = NavigationContext;
+        exports2.UNSAFE_RouteContext = RouteContext;
+        exports2.UNSAFE_mapRouteProperties = mapRouteProperties;
+        exports2.UNSAFE_useRouteId = useRouteId;
+        exports2.UNSAFE_useRoutesImpl = useRoutesImpl;
+        exports2.createMemoryRouter = createMemoryRouter;
+        exports2.createRoutesFromChildren = createRoutesFromChildren;
+        exports2.createRoutesFromElements = createRoutesFromChildren;
+        exports2.renderMatches = renderMatches;
+        exports2.unstable_useBlocker = useBlocker;
+        exports2.useActionData = useActionData;
+        exports2.useAsyncError = useAsyncError;
+        exports2.useAsyncValue = useAsyncValue;
+        exports2.useHref = useHref;
+        exports2.useInRouterContext = useInRouterContext;
+        exports2.useLoaderData = useLoaderData;
+        exports2.useLocation = useLocation;
+        exports2.useMatch = useMatch;
+        exports2.useMatches = useMatches;
+        exports2.useNavigate = useNavigate;
+        exports2.useNavigation = useNavigation;
+        exports2.useNavigationType = useNavigationType;
+        exports2.useOutlet = useOutlet;
+        exports2.useOutletContext = useOutletContext;
+        exports2.useParams = useParams;
+        exports2.useResolvedPath = useResolvedPath;
+        exports2.useRevalidator = useRevalidator;
+        exports2.useRouteError = useRouteError;
+        exports2.useRouteLoaderData = useRouteLoaderData;
+        exports2.useRoutes = useRoutes;
+        Object.defineProperty(exports2, "__esModule", { value: true });
+      });
+    }
+  });
+
+  // node_modules/react-router-dom/node_modules/react-router/dist/main.js
+  var require_main = __commonJS({
+    "node_modules/react-router-dom/node_modules/react-router/dist/main.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_router_development();
+      }
+    }
+  });
+
+  // node_modules/react-router-dom/dist/umd/react-router-dom.development.js
+  var require_react_router_dom_development = __commonJS({
+    "node_modules/react-router-dom/dist/umd/react-router-dom.development.js"(exports, module) {
+      (function(global2, factory) {
+        typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react(), require_main(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "react-router", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouterDOM = {}, global2.React, global2.ReactRouter, global2.RemixRouter));
+      })(exports, function(exports2, React77, reactRouter, router) {
+        "use strict";
+        function _interopNamespace(e) {
+          if (e && e.__esModule)
+            return e;
+          var n = /* @__PURE__ */ Object.create(null);
+          if (e) {
+            Object.keys(e).forEach(function(k) {
+              if (k !== "default") {
+                var d = Object.getOwnPropertyDescriptor(e, k);
+                Object.defineProperty(n, k, d.get ? d : {
+                  enumerable: true,
+                  get: function() {
+                    return e[k];
+                  }
+                });
+              }
+            });
+          }
+          n["default"] = e;
+          return Object.freeze(n);
+        }
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React77);
+        function _extends2() {
+          _extends2 = Object.assign ? Object.assign.bind() : function(target) {
+            for (var i = 1; i < arguments.length; i++) {
+              var source = arguments[i];
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
+              }
+            }
+            return target;
+          };
+          return _extends2.apply(this, arguments);
+        }
+        function _objectWithoutPropertiesLoose7(source, excluded) {
+          if (source == null)
+            return {};
+          var target = {};
+          var sourceKeys = Object.keys(source);
+          var key, i;
+          for (i = 0; i < sourceKeys.length; i++) {
+            key = sourceKeys[i];
+            if (excluded.indexOf(key) >= 0)
+              continue;
+            target[key] = source[key];
+          }
+          return target;
+        }
+        const defaultMethod = "get";
+        const defaultEncType = "application/x-www-form-urlencoded";
+        function isHtmlElement(object) {
+          return object != null && typeof object.tagName === "string";
+        }
+        function isButtonElement(object) {
+          return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
+        }
+        function isFormElement(object) {
+          return isHtmlElement(object) && object.tagName.toLowerCase() === "form";
+        }
+        function isInputElement(object) {
+          return isHtmlElement(object) && object.tagName.toLowerCase() === "input";
+        }
+        function isModifiedEvent(event) {
+          return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+        }
+        function shouldProcessLinkClick(event, target) {
+          return event.button === 0 && // Ignore everything but left clicks
+          (!target || target === "_self") && // Let browser handle "target=_blank" etc.
+          !isModifiedEvent(event);
+        }
+        function createSearchParams(init) {
+          if (init === void 0) {
+            init = "";
+          }
+          return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key) => {
+            let value = init[key];
+            return memo.concat(Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]);
+          }, []));
+        }
+        function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+          let searchParams = createSearchParams(locationSearch);
+          if (defaultSearchParams) {
+            defaultSearchParams.forEach((_, key) => {
+              if (!searchParams.has(key)) {
+                defaultSearchParams.getAll(key).forEach((value) => {
+                  searchParams.append(key, value);
+                });
+              }
+            });
+          }
+          return searchParams;
+        }
+        let _formDataSupportsSubmitter = null;
+        function isFormDataSubmitterSupported() {
+          if (_formDataSupportsSubmitter === null) {
+            try {
+              new FormData(
+                document.createElement("form"),
+                // @ts-expect-error if FormData supports the submitter parameter, this will throw
+                0
+              );
+              _formDataSupportsSubmitter = false;
+            } catch (e) {
+              _formDataSupportsSubmitter = true;
+            }
+          }
+          return _formDataSupportsSubmitter;
+        }
+        const supportedFormEncTypes = /* @__PURE__ */ new Set(["application/x-www-form-urlencoded", "multipart/form-data", "text/plain"]);
+        function getFormEncType(encType) {
+          if (encType != null && !supportedFormEncTypes.has(encType)) {
+            router.UNSAFE_warning(false, '"' + encType + '" is not a valid `encType` for `<Form>`/`<fetcher.Form>` ' + ('and will default to "' + defaultEncType + '"'));
+            return null;
+          }
+          return encType;
+        }
+        function getFormSubmissionInfo(target, basename) {
+          let method;
+          let action;
+          let encType;
+          let formData;
+          let body;
+          if (isFormElement(target)) {
+            let attr = target.getAttribute("action");
+            action = attr ? router.stripBasename(attr, basename) : null;
+            method = target.getAttribute("method") || defaultMethod;
+            encType = getFormEncType(target.getAttribute("enctype")) || defaultEncType;
+            formData = new FormData(target);
+          } else if (isButtonElement(target) || isInputElement(target) && (target.type === "submit" || target.type === "image")) {
+            let form = target.form;
+            if (form == null) {
+              throw new Error('Cannot submit a <button> or <input type="submit"> without a <form>');
+            }
+            let attr = target.getAttribute("formaction") || form.getAttribute("action");
+            action = attr ? router.stripBasename(attr, basename) : null;
+            method = target.getAttribute("formmethod") || form.getAttribute("method") || defaultMethod;
+            encType = getFormEncType(target.getAttribute("formenctype")) || getFormEncType(form.getAttribute("enctype")) || defaultEncType;
+            formData = new FormData(form, target);
+            if (!isFormDataSubmitterSupported()) {
+              let {
+                name,
+                type,
+                value
+              } = target;
+              if (type === "image") {
+                let prefix = name ? name + "." : "";
+                formData.append(prefix + "x", "0");
+                formData.append(prefix + "y", "0");
+              } else if (name) {
+                formData.append(name, value);
+              }
+            }
+          } else if (isHtmlElement(target)) {
+            throw new Error('Cannot submit element that is not <form>, <button>, or <input type="submit|image">');
+          } else {
+            method = defaultMethod;
+            action = null;
+            encType = defaultEncType;
+            body = target;
+          }
+          if (formData && encType === "text/plain") {
+            body = formData;
+            formData = void 0;
+          }
+          return {
+            action,
+            method: method.toLowerCase(),
+            encType,
+            formData,
+            body
+          };
+        }
+        const _excluded6 = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"], _excluded22 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"], _excluded32 = ["reloadDocument", "replace", "state", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"];
+        function createBrowserRouter(routes, opts) {
+          return router.createRouter({
+            basename: opts == null ? void 0 : opts.basename,
+            future: _extends2({}, opts == null ? void 0 : opts.future, {
+              v7_prependBasename: true
+            }),
+            history: router.createBrowserHistory({
+              window: opts == null ? void 0 : opts.window
+            }),
+            hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+            routes,
+            mapRouteProperties: reactRouter.UNSAFE_mapRouteProperties
+          }).initialize();
+        }
+        function createHashRouter(routes, opts) {
+          return router.createRouter({
+            basename: opts == null ? void 0 : opts.basename,
+            future: _extends2({}, opts == null ? void 0 : opts.future, {
+              v7_prependBasename: true
+            }),
+            history: router.createHashHistory({
+              window: opts == null ? void 0 : opts.window
+            }),
+            hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
+            routes,
+            mapRouteProperties: reactRouter.UNSAFE_mapRouteProperties
+          }).initialize();
+        }
+        function parseHydrationData() {
+          var _window;
+          let state = (_window = window) == null ? void 0 : _window.__staticRouterHydrationData;
+          if (state && state.errors) {
+            state = _extends2({}, state, {
+              errors: deserializeErrors(state.errors)
+            });
+          }
+          return state;
+        }
+        function deserializeErrors(errors) {
+          if (!errors)
+            return null;
+          let entries = Object.entries(errors);
+          let serialized = {};
+          for (let [key, val] of entries) {
+            if (val && val.__type === "RouteErrorResponse") {
+              serialized[key] = new router.UNSAFE_ErrorResponseImpl(val.status, val.statusText, val.data, val.internal === true);
+            } else if (val && val.__type === "Error") {
+              if (val.__subType) {
+                let ErrorConstructor = window[val.__subType];
+                if (typeof ErrorConstructor === "function") {
+                  try {
+                    let error = new ErrorConstructor(val.message);
+                    error.stack = "";
+                    serialized[key] = error;
+                  } catch (e) {
+                  }
+                }
+              }
+              if (serialized[key] == null) {
+                let error = new Error(val.message);
+                error.stack = "";
+                serialized[key] = error;
+              }
+            } else {
+              serialized[key] = val;
+            }
+          }
+          return serialized;
+        }
+        const START_TRANSITION = "startTransition";
+        const startTransitionImpl = React__namespace[START_TRANSITION];
+        function BrowserRouter2(_ref) {
+          let {
+            basename,
+            children,
+            future,
+            window: window2
+          } = _ref;
+          let historyRef = React__namespace.useRef();
+          if (historyRef.current == null) {
+            historyRef.current = router.createBrowserHistory({
+              window: window2,
+              v5Compat: true
+            });
+          }
+          let history = historyRef.current;
+          let [state, setStateImpl] = React__namespace.useState({
+            action: history.action,
+            location: history.location
+          });
+          let {
+            v7_startTransition
+          } = future || {};
+          let setState = React__namespace.useCallback((newState) => {
+            v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+          }, [setStateImpl, v7_startTransition]);
+          React__namespace.useLayoutEffect(() => history.listen(setState), [history, setState]);
+          return /* @__PURE__ */ React__namespace.createElement(reactRouter.Router, {
+            basename,
+            children,
+            location: state.location,
+            navigationType: state.action,
+            navigator: history
+          });
+        }
+        function HashRouter(_ref2) {
+          let {
+            basename,
+            children,
+            future,
+            window: window2
+          } = _ref2;
+          let historyRef = React__namespace.useRef();
+          if (historyRef.current == null) {
+            historyRef.current = router.createHashHistory({
+              window: window2,
+              v5Compat: true
+            });
+          }
+          let history = historyRef.current;
+          let [state, setStateImpl] = React__namespace.useState({
+            action: history.action,
+            location: history.location
+          });
+          let {
+            v7_startTransition
+          } = future || {};
+          let setState = React__namespace.useCallback((newState) => {
+            v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+          }, [setStateImpl, v7_startTransition]);
+          React__namespace.useLayoutEffect(() => history.listen(setState), [history, setState]);
+          return /* @__PURE__ */ React__namespace.createElement(reactRouter.Router, {
+            basename,
+            children,
+            location: state.location,
+            navigationType: state.action,
+            navigator: history
+          });
+        }
+        function HistoryRouter(_ref3) {
+          let {
+            basename,
+            children,
+            future,
+            history
+          } = _ref3;
+          let [state, setStateImpl] = React__namespace.useState({
+            action: history.action,
+            location: history.location
+          });
+          let {
+            v7_startTransition
+          } = future || {};
+          let setState = React__namespace.useCallback((newState) => {
+            v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
+          }, [setStateImpl, v7_startTransition]);
+          React__namespace.useLayoutEffect(() => history.listen(setState), [history, setState]);
+          return /* @__PURE__ */ React__namespace.createElement(reactRouter.Router, {
+            basename,
+            children,
+            location: state.location,
+            navigationType: state.action,
+            navigator: history
+          });
+        }
+        {
+          HistoryRouter.displayName = "unstable_HistoryRouter";
+        }
+        const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
+        const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+        const Link = /* @__PURE__ */ React__namespace.forwardRef(function LinkWithRef(_ref4, ref) {
+          let {
+            onClick,
+            relative,
+            reloadDocument,
+            replace,
+            state,
+            target,
+            to,
+            preventScrollReset
+          } = _ref4, rest = _objectWithoutPropertiesLoose7(_ref4, _excluded6);
+          let {
+            basename
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          let absoluteHref;
+          let isExternal = false;
+          if (typeof to === "string" && ABSOLUTE_URL_REGEX.test(to)) {
+            absoluteHref = to;
+            if (isBrowser) {
+              try {
+                let currentUrl = new URL(window.location.href);
+                let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+                let path = router.stripBasename(targetUrl.pathname, basename);
+                if (targetUrl.origin === currentUrl.origin && path != null) {
+                  to = path + targetUrl.search + targetUrl.hash;
+                } else {
+                  isExternal = true;
+                }
+              } catch (e) {
+                router.UNSAFE_warning(false, '<Link to="' + to + '"> contains an invalid URL which will probably break when clicked - please update to a valid URL path.');
+              }
+            }
+          }
+          let href = reactRouter.useHref(to, {
+            relative
+          });
+          let internalOnClick = useLinkClickHandler(to, {
+            replace,
+            state,
+            target,
+            preventScrollReset,
+            relative
+          });
+          function handleClick(event) {
+            if (onClick)
+              onClick(event);
+            if (!event.defaultPrevented) {
+              internalOnClick(event);
+            }
+          }
+          return (
+            // eslint-disable-next-line jsx-a11y/anchor-has-content
+            /* @__PURE__ */ React__namespace.createElement("a", _extends2({}, rest, {
+              href: absoluteHref || href,
+              onClick: isExternal || reloadDocument ? onClick : handleClick,
+              ref,
+              target
+            }))
+          );
+        });
+        {
+          Link.displayName = "Link";
+        }
+        const NavLink2 = /* @__PURE__ */ React__namespace.forwardRef(function NavLinkWithRef(_ref5, ref) {
+          let {
+            "aria-current": ariaCurrentProp = "page",
+            caseSensitive = false,
+            className: classNameProp = "",
+            end = false,
+            style: styleProp,
+            to,
+            children
+          } = _ref5, rest = _objectWithoutPropertiesLoose7(_ref5, _excluded22);
+          let path = reactRouter.useResolvedPath(to, {
+            relative: rest.relative
+          });
+          let location = reactRouter.useLocation();
+          let routerState = React__namespace.useContext(reactRouter.UNSAFE_DataRouterStateContext);
+          let {
+            navigator: navigator2
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          let toPathname = navigator2.encodeLocation ? navigator2.encodeLocation(path).pathname : path.pathname;
+          let locationPathname = location.pathname;
+          let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
+          if (!caseSensitive) {
+            locationPathname = locationPathname.toLowerCase();
+            nextLocationPathname = nextLocationPathname ? nextLocationPathname.toLowerCase() : null;
+            toPathname = toPathname.toLowerCase();
+          }
+          let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
+          let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+          let ariaCurrent = isActive ? ariaCurrentProp : void 0;
+          let className;
+          if (typeof classNameProp === "function") {
+            className = classNameProp({
+              isActive,
+              isPending
+            });
+          } else {
+            className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null].filter(Boolean).join(" ");
+          }
+          let style2 = typeof styleProp === "function" ? styleProp({
+            isActive,
+            isPending
+          }) : styleProp;
+          return /* @__PURE__ */ React__namespace.createElement(Link, _extends2({}, rest, {
+            "aria-current": ariaCurrent,
+            className,
+            ref,
+            style: style2,
+            to
+          }), typeof children === "function" ? children({
+            isActive,
+            isPending
+          }) : children);
+        });
+        {
+          NavLink2.displayName = "NavLink";
+        }
+        const Form2 = /* @__PURE__ */ React__namespace.forwardRef((props, ref) => {
+          let submit = useSubmit();
+          return /* @__PURE__ */ React__namespace.createElement(FormImpl, _extends2({}, props, {
+            submit,
+            ref
+          }));
+        });
+        {
+          Form2.displayName = "Form";
+        }
+        const FormImpl = /* @__PURE__ */ React__namespace.forwardRef((_ref6, forwardedRef) => {
+          let {
+            reloadDocument,
+            replace,
+            state,
+            method = defaultMethod,
+            action,
+            onSubmit,
+            submit,
+            relative,
+            preventScrollReset
+          } = _ref6, props = _objectWithoutPropertiesLoose7(_ref6, _excluded32);
+          let formMethod = method.toLowerCase() === "get" ? "get" : "post";
+          let formAction = useFormAction(action, {
+            relative
+          });
+          let submitHandler = (event) => {
+            onSubmit && onSubmit(event);
+            if (event.defaultPrevented)
+              return;
+            event.preventDefault();
+            let submitter = event.nativeEvent.submitter;
+            let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
+            submit(submitter || event.currentTarget, {
+              method: submitMethod,
+              replace,
+              state,
+              relative,
+              preventScrollReset
+            });
+          };
+          return /* @__PURE__ */ React__namespace.createElement("form", _extends2({
+            ref: forwardedRef,
+            method: formMethod,
+            action: formAction,
+            onSubmit: reloadDocument ? onSubmit : submitHandler
+          }, props));
+        });
+        {
+          FormImpl.displayName = "FormImpl";
+        }
+        function ScrollRestoration(_ref7) {
+          let {
+            getKey,
+            storageKey
+          } = _ref7;
+          useScrollRestoration({
+            getKey,
+            storageKey
+          });
+          return null;
+        }
+        {
+          ScrollRestoration.displayName = "ScrollRestoration";
+        }
+        var DataRouterHook = /* @__PURE__ */ function(DataRouterHook2) {
+          DataRouterHook2["UseScrollRestoration"] = "useScrollRestoration";
+          DataRouterHook2["UseSubmit"] = "useSubmit";
+          DataRouterHook2["UseSubmitFetcher"] = "useSubmitFetcher";
+          DataRouterHook2["UseFetcher"] = "useFetcher";
+          return DataRouterHook2;
+        }(DataRouterHook || {});
+        var DataRouterStateHook = /* @__PURE__ */ function(DataRouterStateHook2) {
+          DataRouterStateHook2["UseFetchers"] = "useFetchers";
+          DataRouterStateHook2["UseScrollRestoration"] = "useScrollRestoration";
+          return DataRouterStateHook2;
+        }(DataRouterStateHook || {});
+        function getDataRouterConsoleError(hookName) {
+          return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
+        }
+        function useDataRouterContext(hookName) {
+          let ctx = React__namespace.useContext(reactRouter.UNSAFE_DataRouterContext);
+          !ctx ? router.UNSAFE_invariant(false, getDataRouterConsoleError(hookName)) : void 0;
+          return ctx;
+        }
+        function useDataRouterState(hookName) {
+          let state = React__namespace.useContext(reactRouter.UNSAFE_DataRouterStateContext);
+          !state ? router.UNSAFE_invariant(false, getDataRouterConsoleError(hookName)) : void 0;
+          return state;
+        }
+        function useLinkClickHandler(to, _temp) {
+          let {
+            target,
+            replace: replaceProp,
+            state,
+            preventScrollReset,
+            relative
+          } = _temp === void 0 ? {} : _temp;
+          let navigate = reactRouter.useNavigate();
+          let location = reactRouter.useLocation();
+          let path = reactRouter.useResolvedPath(to, {
+            relative
+          });
+          return React__namespace.useCallback((event) => {
+            if (shouldProcessLinkClick(event, target)) {
+              event.preventDefault();
+              let replace = replaceProp !== void 0 ? replaceProp : reactRouter.createPath(location) === reactRouter.createPath(path);
+              navigate(to, {
+                replace,
+                state,
+                preventScrollReset,
+                relative
+              });
+            }
+          }, [location, navigate, path, replaceProp, state, target, to, preventScrollReset, relative]);
+        }
+        function useSearchParams(defaultInit) {
+          router.UNSAFE_warning(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params\n\nIf you're unsure how to load polyfills, we recommend you check out https://polyfill.io/v3/ which provides some recommendations about how to load polyfills only for users that need them, instead of for every user.");
+          let defaultSearchParamsRef = React__namespace.useRef(createSearchParams(defaultInit));
+          let hasSetSearchParamsRef = React__namespace.useRef(false);
+          let location = reactRouter.useLocation();
+          let searchParams = React__namespace.useMemo(() => (
+            // Only merge in the defaults if we haven't yet called setSearchParams.
+            // Once we call that we want those to take precedence, otherwise you can't
+            // remove a param with setSearchParams({}) if it has an initial value
+            getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current)
+          ), [location.search]);
+          let navigate = reactRouter.useNavigate();
+          let setSearchParams = React__namespace.useCallback((nextInit, navigateOptions) => {
+            const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
+            hasSetSearchParamsRef.current = true;
+            navigate("?" + newSearchParams, navigateOptions);
+          }, [navigate, searchParams]);
+          return [searchParams, setSearchParams];
+        }
+        function validateClientSideSubmission() {
+          if (typeof document === "undefined") {
+            throw new Error("You are calling submit during the server render. Try calling submit within a `useEffect` or callback instead.");
+          }
+        }
+        function useSubmit() {
+          let {
+            router: router2
+          } = useDataRouterContext(DataRouterHook.UseSubmit);
+          let {
+            basename
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          let currentRouteId = reactRouter.UNSAFE_useRouteId();
+          return React__namespace.useCallback(function(target, options) {
+            if (options === void 0) {
+              options = {};
+            }
+            validateClientSideSubmission();
+            let {
+              action,
+              method,
+              encType,
+              formData,
+              body
+            } = getFormSubmissionInfo(target, basename);
+            router2.navigate(options.action || action, {
+              preventScrollReset: options.preventScrollReset,
+              formData,
+              body,
+              formMethod: options.method || method,
+              formEncType: options.encType || encType,
+              replace: options.replace,
+              state: options.state,
+              fromRouteId: currentRouteId
+            });
+          }, [router2, basename, currentRouteId]);
+        }
+        function useSubmitFetcher(fetcherKey, fetcherRouteId) {
+          let {
+            router: router$1
+          } = useDataRouterContext(DataRouterHook.UseSubmitFetcher);
+          let {
+            basename
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          return React__namespace.useCallback(function(target, options) {
+            if (options === void 0) {
+              options = {};
+            }
+            validateClientSideSubmission();
+            let {
+              action,
+              method,
+              encType,
+              formData,
+              body
+            } = getFormSubmissionInfo(target, basename);
+            !(fetcherRouteId != null) ? router.UNSAFE_invariant(false, "No routeId available for useFetcher()") : void 0;
+            router$1.fetch(fetcherKey, fetcherRouteId, options.action || action, {
+              preventScrollReset: options.preventScrollReset,
+              formData,
+              body,
+              formMethod: options.method || method,
+              formEncType: options.encType || encType
+            });
+          }, [router$1, basename, fetcherKey, fetcherRouteId]);
+        }
+        function useFormAction(action, _temp2) {
+          let {
+            relative
+          } = _temp2 === void 0 ? {} : _temp2;
+          let {
+            basename
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          let routeContext = React__namespace.useContext(reactRouter.UNSAFE_RouteContext);
+          !routeContext ? router.UNSAFE_invariant(false, "useFormAction must be used inside a RouteContext") : void 0;
+          let [match] = routeContext.matches.slice(-1);
+          let path = _extends2({}, reactRouter.useResolvedPath(action ? action : ".", {
+            relative
+          }));
+          let location = reactRouter.useLocation();
+          if (action == null) {
+            path.search = location.search;
+            if (match.route.index) {
+              let params = new URLSearchParams(path.search);
+              params.delete("index");
+              path.search = params.toString() ? "?" + params.toString() : "";
+            }
+          }
+          if ((!action || action === ".") && match.route.index) {
+            path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
+          }
+          if (basename !== "/") {
+            path.pathname = path.pathname === "/" ? basename : router.joinPaths([basename, path.pathname]);
+          }
+          return reactRouter.createPath(path);
+        }
+        function createFetcherForm(fetcherKey, routeId) {
+          let FetcherForm = /* @__PURE__ */ React__namespace.forwardRef((props, ref) => {
+            let submit = useSubmitFetcher(fetcherKey, routeId);
+            return /* @__PURE__ */ React__namespace.createElement(FormImpl, _extends2({}, props, {
+              ref,
+              submit
+            }));
+          });
+          {
+            FetcherForm.displayName = "fetcher.Form";
+          }
+          return FetcherForm;
+        }
+        let fetcherId = 0;
+        function useFetcher() {
+          var _route$matches;
+          let {
+            router: router$1
+          } = useDataRouterContext(DataRouterHook.UseFetcher);
+          let route = React__namespace.useContext(reactRouter.UNSAFE_RouteContext);
+          !route ? router.UNSAFE_invariant(false, "useFetcher must be used inside a RouteContext") : void 0;
+          let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
+          !(routeId != null) ? router.UNSAFE_invariant(false, 'useFetcher can only be used on routes that contain a unique "id"') : void 0;
+          let [fetcherKey] = React__namespace.useState(() => String(++fetcherId));
+          let [Form3] = React__namespace.useState(() => {
+            !routeId ? router.UNSAFE_invariant(false, "No routeId available for fetcher.Form()") : void 0;
+            return createFetcherForm(fetcherKey, routeId);
+          });
+          let [load] = React__namespace.useState(() => (href) => {
+            !router$1 ? router.UNSAFE_invariant(false, "No router available for fetcher.load()") : void 0;
+            !routeId ? router.UNSAFE_invariant(false, "No routeId available for fetcher.load()") : void 0;
+            router$1.fetch(fetcherKey, routeId, href);
+          });
+          let submit = useSubmitFetcher(fetcherKey, routeId);
+          let fetcher = router$1.getFetcher(fetcherKey);
+          let fetcherWithComponents = React__namespace.useMemo(() => _extends2({
+            Form: Form3,
+            submit,
+            load
+          }, fetcher), [fetcher, Form3, submit, load]);
+          React__namespace.useEffect(() => {
+            return () => {
+              if (!router$1) {
+                console.warn("No router available to clean up from useFetcher()");
+                return;
+              }
+              router$1.deleteFetcher(fetcherKey);
+            };
+          }, [router$1, fetcherKey]);
+          return fetcherWithComponents;
+        }
+        function useFetchers() {
+          let state = useDataRouterState(DataRouterStateHook.UseFetchers);
+          return [...state.fetchers.values()];
+        }
+        const SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
+        let savedScrollPositions = {};
+        function useScrollRestoration(_temp3) {
+          let {
+            getKey,
+            storageKey
+          } = _temp3 === void 0 ? {} : _temp3;
+          let {
+            router: router$1
+          } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
+          let {
+            restoreScrollPosition,
+            preventScrollReset
+          } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
+          let {
+            basename
+          } = React__namespace.useContext(reactRouter.UNSAFE_NavigationContext);
+          let location = reactRouter.useLocation();
+          let matches = reactRouter.useMatches();
+          let navigation = reactRouter.useNavigation();
+          React__namespace.useEffect(() => {
+            window.history.scrollRestoration = "manual";
+            return () => {
+              window.history.scrollRestoration = "auto";
+            };
+          }, []);
+          usePageHide(React__namespace.useCallback(() => {
+            if (navigation.state === "idle") {
+              let key = (getKey ? getKey(location, matches) : null) || location.key;
+              savedScrollPositions[key] = window.scrollY;
+            }
+            sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
+            window.history.scrollRestoration = "auto";
+          }, [storageKey, getKey, navigation.state, location, matches]));
+          if (typeof document !== "undefined") {
+            React__namespace.useLayoutEffect(() => {
+              try {
+                let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
+                if (sessionPositions) {
+                  savedScrollPositions = JSON.parse(sessionPositions);
+                }
+              } catch (e) {
+              }
+            }, [storageKey]);
+            React__namespace.useLayoutEffect(() => {
+              let getKeyWithoutBasename = getKey && basename !== "/" ? (location2, matches2) => getKey(
+                // Strip the basename to match useLocation()
+                _extends2({}, location2, {
+                  pathname: router.stripBasename(location2.pathname, basename) || location2.pathname
+                }),
+                matches2
+              ) : getKey;
+              let disableScrollRestoration = router$1 == null ? void 0 : router$1.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKeyWithoutBasename);
+              return () => disableScrollRestoration && disableScrollRestoration();
+            }, [router$1, basename, getKey]);
+            React__namespace.useLayoutEffect(() => {
+              if (restoreScrollPosition === false) {
+                return;
+              }
+              if (typeof restoreScrollPosition === "number") {
+                window.scrollTo(0, restoreScrollPosition);
+                return;
+              }
+              if (location.hash) {
+                let el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+                if (el) {
+                  el.scrollIntoView();
+                  return;
+                }
+              }
+              if (preventScrollReset === true) {
+                return;
+              }
+              window.scrollTo(0, 0);
+            }, [location, restoreScrollPosition, preventScrollReset]);
+          }
+        }
+        function useBeforeUnload(callback, options) {
+          let {
+            capture
+          } = options || {};
+          React__namespace.useEffect(() => {
+            let opts = capture != null ? {
+              capture
+            } : void 0;
+            window.addEventListener("beforeunload", callback, opts);
+            return () => {
+              window.removeEventListener("beforeunload", callback, opts);
+            };
+          }, [callback, capture]);
+        }
+        function usePageHide(callback, options) {
+          let {
+            capture
+          } = options || {};
+          React__namespace.useEffect(() => {
+            let opts = capture != null ? {
+              capture
+            } : void 0;
+            window.addEventListener("pagehide", callback, opts);
+            return () => {
+              window.removeEventListener("pagehide", callback, opts);
+            };
+          }, [callback, capture]);
+        }
+        function usePrompt(_ref8) {
+          let {
+            when,
+            message
+          } = _ref8;
+          let blocker = reactRouter.unstable_useBlocker(when);
+          React__namespace.useEffect(() => {
+            if (blocker.state === "blocked") {
+              let proceed = window.confirm(message);
+              if (proceed) {
+                setTimeout(blocker.proceed, 0);
+              } else {
+                blocker.reset();
+              }
+            }
+          }, [blocker, message]);
+          React__namespace.useEffect(() => {
+            if (blocker.state === "blocked" && !when) {
+              blocker.reset();
+            }
+          }, [blocker, when]);
+        }
+        Object.defineProperty(exports2, "AbortedDeferredError", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.AbortedDeferredError;
+          }
+        });
+        Object.defineProperty(exports2, "Await", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Await;
+          }
+        });
+        Object.defineProperty(exports2, "MemoryRouter", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.MemoryRouter;
+          }
+        });
+        Object.defineProperty(exports2, "Navigate", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Navigate;
+          }
+        });
+        Object.defineProperty(exports2, "NavigationType", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.NavigationType;
+          }
+        });
+        Object.defineProperty(exports2, "Outlet", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Outlet;
+          }
+        });
+        Object.defineProperty(exports2, "Route", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Route;
+          }
+        });
+        Object.defineProperty(exports2, "Router", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Router;
+          }
+        });
+        Object.defineProperty(exports2, "RouterProvider", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.RouterProvider;
+          }
+        });
+        Object.defineProperty(exports2, "Routes", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.Routes;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_DataRouterContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_DataRouterContext;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_DataRouterStateContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_DataRouterStateContext;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_LocationContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_LocationContext;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_NavigationContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_NavigationContext;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_RouteContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_RouteContext;
+          }
+        });
+        Object.defineProperty(exports2, "UNSAFE_useRouteId", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.UNSAFE_useRouteId;
+          }
+        });
+        Object.defineProperty(exports2, "createMemoryRouter", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.createMemoryRouter;
+          }
+        });
+        Object.defineProperty(exports2, "createPath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.createPath;
+          }
+        });
+        Object.defineProperty(exports2, "createRoutesFromChildren", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.createRoutesFromChildren;
+          }
+        });
+        Object.defineProperty(exports2, "createRoutesFromElements", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.createRoutesFromElements;
+          }
+        });
+        Object.defineProperty(exports2, "defer", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.defer;
+          }
+        });
+        Object.defineProperty(exports2, "generatePath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.generatePath;
+          }
+        });
+        Object.defineProperty(exports2, "isRouteErrorResponse", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.isRouteErrorResponse;
+          }
+        });
+        Object.defineProperty(exports2, "json", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.json;
+          }
+        });
+        Object.defineProperty(exports2, "matchPath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.matchPath;
+          }
+        });
+        Object.defineProperty(exports2, "matchRoutes", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.matchRoutes;
+          }
+        });
+        Object.defineProperty(exports2, "parsePath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.parsePath;
+          }
+        });
+        Object.defineProperty(exports2, "redirect", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.redirect;
+          }
+        });
+        Object.defineProperty(exports2, "redirectDocument", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.redirectDocument;
+          }
+        });
+        Object.defineProperty(exports2, "renderMatches", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.renderMatches;
+          }
+        });
+        Object.defineProperty(exports2, "resolvePath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.resolvePath;
+          }
+        });
+        Object.defineProperty(exports2, "unstable_useBlocker", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.unstable_useBlocker;
+          }
+        });
+        Object.defineProperty(exports2, "useActionData", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useActionData;
+          }
+        });
+        Object.defineProperty(exports2, "useAsyncError", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useAsyncError;
+          }
+        });
+        Object.defineProperty(exports2, "useAsyncValue", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useAsyncValue;
+          }
+        });
+        Object.defineProperty(exports2, "useHref", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useHref;
+          }
+        });
+        Object.defineProperty(exports2, "useInRouterContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useInRouterContext;
+          }
+        });
+        Object.defineProperty(exports2, "useLoaderData", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useLoaderData;
+          }
+        });
+        Object.defineProperty(exports2, "useLocation", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useLocation;
+          }
+        });
+        Object.defineProperty(exports2, "useMatch", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useMatch;
+          }
+        });
+        Object.defineProperty(exports2, "useMatches", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useMatches;
+          }
+        });
+        Object.defineProperty(exports2, "useNavigate", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useNavigate;
+          }
+        });
+        Object.defineProperty(exports2, "useNavigation", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useNavigation;
+          }
+        });
+        Object.defineProperty(exports2, "useNavigationType", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useNavigationType;
+          }
+        });
+        Object.defineProperty(exports2, "useOutlet", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useOutlet;
+          }
+        });
+        Object.defineProperty(exports2, "useOutletContext", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useOutletContext;
+          }
+        });
+        Object.defineProperty(exports2, "useParams", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useParams;
+          }
+        });
+        Object.defineProperty(exports2, "useResolvedPath", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useResolvedPath;
+          }
+        });
+        Object.defineProperty(exports2, "useRevalidator", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useRevalidator;
+          }
+        });
+        Object.defineProperty(exports2, "useRouteError", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useRouteError;
+          }
+        });
+        Object.defineProperty(exports2, "useRouteLoaderData", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useRouteLoaderData;
+          }
+        });
+        Object.defineProperty(exports2, "useRoutes", {
+          enumerable: true,
+          get: function() {
+            return reactRouter.useRoutes;
+          }
+        });
+        exports2.BrowserRouter = BrowserRouter2;
+        exports2.Form = Form2;
+        exports2.HashRouter = HashRouter;
+        exports2.Link = Link;
+        exports2.NavLink = NavLink2;
+        exports2.ScrollRestoration = ScrollRestoration;
+        exports2.UNSAFE_useScrollRestoration = useScrollRestoration;
+        exports2.createBrowserRouter = createBrowserRouter;
+        exports2.createHashRouter = createHashRouter;
+        exports2.createSearchParams = createSearchParams;
+        exports2.unstable_HistoryRouter = HistoryRouter;
+        exports2.unstable_usePrompt = usePrompt;
+        exports2.useBeforeUnload = useBeforeUnload;
+        exports2.useFetcher = useFetcher;
+        exports2.useFetchers = useFetchers;
+        exports2.useFormAction = useFormAction;
+        exports2.useLinkClickHandler = useLinkClickHandler;
+        exports2.useSearchParams = useSearchParams;
+        exports2.useSubmit = useSubmit;
+        Object.defineProperty(exports2, "__esModule", { value: true });
+      });
+    }
+  });
+
+  // node_modules/react-router-dom/dist/main.js
+  var require_main2 = __commonJS({
+    "node_modules/react-router-dom/dist/main.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_router_dom_development();
+      }
+    }
+  });
+
+  // node_modules/classnames/index.js
+  var require_classnames = __commonJS({
+    "node_modules/classnames/index.js"(exports, module) {
+      (function() {
+        "use strict";
+        var hasOwn = {}.hasOwnProperty;
+        var nativeCodeString = "[native code]";
+        function classNames41() {
+          var classes = [];
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            if (!arg)
+              continue;
+            var argType = typeof arg;
+            if (argType === "string" || argType === "number") {
+              classes.push(arg);
+            } else if (Array.isArray(arg)) {
+              if (arg.length) {
+                var inner = classNames41.apply(null, arg);
+                if (inner) {
+                  classes.push(inner);
+                }
+              }
+            } else if (argType === "object") {
+              if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
+                classes.push(arg.toString());
+                continue;
+              }
+              for (var key in arg) {
+                if (hasOwn.call(arg, key) && arg[key]) {
+                  classes.push(key);
+                }
+              }
+            }
+          }
+          return classes.join(" ");
+        }
+        if (typeof module !== "undefined" && module.exports) {
+          classNames41.default = classNames41;
+          module.exports = classNames41;
+        } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) {
+          define("classnames", [], function() {
+            return classNames41;
+          });
+        } else {
+          window.classNames = classNames41;
+        }
+      })();
+    }
+  });
+
+  // node_modules/invariant/browser.js
+  var require_browser = __commonJS({
+    "node_modules/invariant/browser.js"(exports, module) {
+      "use strict";
+      var invariant3 = function(condition, format, a, b, c, d, e, f) {
+        if (true) {
+          if (format === void 0) {
+            throw new Error("invariant requires an error message argument");
+          }
+        }
+        if (!condition) {
+          var error;
+          if (format === void 0) {
+            error = new Error(
+              "Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings."
+            );
+          } else {
+            var args = [a, b, c, d, e, f];
+            var argIndex = 0;
+            error = new Error(
+              format.replace(/%s/g, function() {
+                return args[argIndex++];
+              })
+            );
+            error.name = "Invariant Violation";
+          }
+          error.framesToPop = 1;
+          throw error;
+        }
+      };
+      module.exports = invariant3;
+    }
+  });
+
+  // node_modules/react/cjs/react-jsx-runtime.development.js
+  var require_react_jsx_runtime_development = __commonJS({
+    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+      "use strict";
+      if (true) {
+        (function() {
+          "use strict";
+          var React77 = require_react();
+          var REACT_ELEMENT_TYPE = Symbol.for("react.element");
+          var REACT_PORTAL_TYPE = Symbol.for("react.portal");
+          var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
+          var REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode");
+          var REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+          var REACT_PROVIDER_TYPE = Symbol.for("react.provider");
+          var REACT_CONTEXT_TYPE = Symbol.for("react.context");
+          var REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref");
+          var REACT_SUSPENSE_TYPE = Symbol.for("react.suspense");
+          var REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list");
+          var REACT_MEMO_TYPE = Symbol.for("react.memo");
+          var REACT_LAZY_TYPE = Symbol.for("react.lazy");
+          var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
+          var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
+          var FAUX_ITERATOR_SYMBOL = "@@iterator";
+          function getIteratorFn(maybeIterable) {
+            if (maybeIterable === null || typeof maybeIterable !== "object") {
+              return null;
+            }
+            var maybeIterator = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL];
+            if (typeof maybeIterator === "function") {
+              return maybeIterator;
+            }
+            return null;
+          }
+          var ReactSharedInternals = React77.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          function error(format) {
+            {
+              {
+                for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                  args[_key2 - 1] = arguments[_key2];
+                }
+                printWarning("error", format, args);
+              }
+            }
+          }
+          function printWarning(level, format, args) {
+            {
+              var ReactDebugCurrentFrame2 = ReactSharedInternals.ReactDebugCurrentFrame;
+              var stack = ReactDebugCurrentFrame2.getStackAddendum();
+              if (stack !== "") {
+                format += "%s";
+                args = args.concat([stack]);
+              }
+              var argsWithFormat = args.map(function(item) {
+                return String(item);
+              });
+              argsWithFormat.unshift("Warning: " + format);
+              Function.prototype.apply.call(console[level], console, argsWithFormat);
+            }
+          }
+          var enableScopeAPI = false;
+          var enableCacheElement = false;
+          var enableTransitionTracing = false;
+          var enableLegacyHidden = false;
+          var enableDebugTracing = false;
+          var REACT_MODULE_REFERENCE;
+          {
+            REACT_MODULE_REFERENCE = Symbol.for("react.module.reference");
+          }
+          function isValidElementType(type) {
+            if (typeof type === "string" || typeof type === "function") {
+              return true;
+            }
+            if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden || type === REACT_OFFSCREEN_TYPE || enableScopeAPI || enableCacheElement || enableTransitionTracing) {
+              return true;
+            }
+            if (typeof type === "object" && type !== null) {
+              if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
+              // types supported by any Flight configuration anywhere since
+              // we don't know which Flight build this will end up being used
+              // with.
+              type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== void 0) {
+                return true;
+              }
+            }
+            return false;
+          }
+          function getWrappedName(outerType, innerType, wrapperName) {
+            var displayName = outerType.displayName;
+            if (displayName) {
+              return displayName;
+            }
+            var functionName = innerType.displayName || innerType.name || "";
+            return functionName !== "" ? wrapperName + "(" + functionName + ")" : wrapperName;
+          }
+          function getContextName(type) {
+            return type.displayName || "Context";
+          }
+          function getComponentNameFromType(type) {
+            if (type == null) {
+              return null;
+            }
+            {
+              if (typeof type.tag === "number") {
+                error("Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue.");
+              }
+            }
+            if (typeof type === "function") {
+              return type.displayName || type.name || null;
+            }
+            if (typeof type === "string") {
+              return type;
+            }
+            switch (type) {
+              case REACT_FRAGMENT_TYPE:
+                return "Fragment";
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_PROFILER_TYPE:
+                return "Profiler";
+              case REACT_STRICT_MODE_TYPE:
+                return "StrictMode";
+              case REACT_SUSPENSE_TYPE:
+                return "Suspense";
+              case REACT_SUSPENSE_LIST_TYPE:
+                return "SuspenseList";
+            }
+            if (typeof type === "object") {
+              switch (type.$$typeof) {
+                case REACT_CONTEXT_TYPE:
+                  var context3 = type;
+                  return getContextName(context3) + ".Consumer";
+                case REACT_PROVIDER_TYPE:
+                  var provider = type;
+                  return getContextName(provider._context) + ".Provider";
+                case REACT_FORWARD_REF_TYPE:
+                  return getWrappedName(type, type.render, "ForwardRef");
+                case REACT_MEMO_TYPE:
+                  var outerName = type.displayName || null;
+                  if (outerName !== null) {
+                    return outerName;
+                  }
+                  return getComponentNameFromType(type.type) || "Memo";
+                case REACT_LAZY_TYPE: {
+                  var lazyComponent = type;
+                  var payload = lazyComponent._payload;
+                  var init = lazyComponent._init;
+                  try {
+                    return getComponentNameFromType(init(payload));
+                  } catch (x) {
+                    return null;
+                  }
+                }
+              }
+            }
+            return null;
+          }
+          var assign = Object.assign;
+          var disabledDepth = 0;
+          var prevLog;
+          var prevInfo;
+          var prevWarn;
+          var prevError;
+          var prevGroup;
+          var prevGroupCollapsed;
+          var prevGroupEnd;
+          function disabledLog() {
+          }
+          disabledLog.__reactDisabledLog = true;
+          function disableLogs() {
+            {
+              if (disabledDepth === 0) {
+                prevLog = console.log;
+                prevInfo = console.info;
+                prevWarn = console.warn;
+                prevError = console.error;
+                prevGroup = console.group;
+                prevGroupCollapsed = console.groupCollapsed;
+                prevGroupEnd = console.groupEnd;
+                var props = {
+                  configurable: true,
+                  enumerable: true,
+                  value: disabledLog,
+                  writable: true
+                };
+                Object.defineProperties(console, {
+                  info: props,
+                  log: props,
+                  warn: props,
+                  error: props,
+                  group: props,
+                  groupCollapsed: props,
+                  groupEnd: props
+                });
+              }
+              disabledDepth++;
+            }
+          }
+          function reenableLogs() {
+            {
+              disabledDepth--;
+              if (disabledDepth === 0) {
+                var props = {
+                  configurable: true,
+                  enumerable: true,
+                  writable: true
+                };
+                Object.defineProperties(console, {
+                  log: assign({}, props, {
+                    value: prevLog
+                  }),
+                  info: assign({}, props, {
+                    value: prevInfo
+                  }),
+                  warn: assign({}, props, {
+                    value: prevWarn
+                  }),
+                  error: assign({}, props, {
+                    value: prevError
+                  }),
+                  group: assign({}, props, {
+                    value: prevGroup
+                  }),
+                  groupCollapsed: assign({}, props, {
+                    value: prevGroupCollapsed
+                  }),
+                  groupEnd: assign({}, props, {
+                    value: prevGroupEnd
+                  })
+                });
+              }
+              if (disabledDepth < 0) {
+                error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
+              }
+            }
+          }
+          var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
+          var prefix;
+          function describeBuiltInComponentFrame(name, source, ownerFn) {
+            {
+              if (prefix === void 0) {
+                try {
+                  throw Error();
+                } catch (x) {
+                  var match = x.stack.trim().match(/\n( *(at )?)/);
+                  prefix = match && match[1] || "";
+                }
+              }
+              return "\n" + prefix + name;
+            }
+          }
+          var reentry = false;
+          var componentFrameCache;
+          {
+            var PossiblyWeakMap = typeof WeakMap === "function" ? WeakMap : Map;
+            componentFrameCache = new PossiblyWeakMap();
+          }
+          function describeNativeComponentFrame(fn, construct) {
+            if (!fn || reentry) {
+              return "";
+            }
+            {
+              var frame = componentFrameCache.get(fn);
+              if (frame !== void 0) {
+                return frame;
+              }
+            }
+            var control;
+            reentry = true;
+            var previousPrepareStackTrace = Error.prepareStackTrace;
+            Error.prepareStackTrace = void 0;
+            var previousDispatcher;
+            {
+              previousDispatcher = ReactCurrentDispatcher.current;
+              ReactCurrentDispatcher.current = null;
+              disableLogs();
+            }
+            try {
+              if (construct) {
+                var Fake = function() {
+                  throw Error();
+                };
+                Object.defineProperty(Fake.prototype, "props", {
+                  set: function() {
+                    throw Error();
+                  }
+                });
+                if (typeof Reflect === "object" && Reflect.construct) {
+                  try {
+                    Reflect.construct(Fake, []);
+                  } catch (x) {
+                    control = x;
+                  }
+                  Reflect.construct(fn, [], Fake);
+                } else {
+                  try {
+                    Fake.call();
+                  } catch (x) {
+                    control = x;
+                  }
+                  fn.call(Fake.prototype);
+                }
+              } else {
+                try {
+                  throw Error();
+                } catch (x) {
+                  control = x;
+                }
+                fn();
+              }
+            } catch (sample) {
+              if (sample && control && typeof sample.stack === "string") {
+                var sampleLines = sample.stack.split("\n");
+                var controlLines = control.stack.split("\n");
+                var s = sampleLines.length - 1;
+                var c = controlLines.length - 1;
+                while (s >= 1 && c >= 0 && sampleLines[s] !== controlLines[c]) {
+                  c--;
+                }
+                for (; s >= 1 && c >= 0; s--, c--) {
+                  if (sampleLines[s] !== controlLines[c]) {
+                    if (s !== 1 || c !== 1) {
+                      do {
+                        s--;
+                        c--;
+                        if (c < 0 || sampleLines[s] !== controlLines[c]) {
+                          var _frame = "\n" + sampleLines[s].replace(" at new ", " at ");
+                          if (fn.displayName && _frame.includes("<anonymous>")) {
+                            _frame = _frame.replace("<anonymous>", fn.displayName);
+                          }
+                          {
+                            if (typeof fn === "function") {
+                              componentFrameCache.set(fn, _frame);
+                            }
+                          }
+                          return _frame;
+                        }
+                      } while (s >= 1 && c >= 0);
+                    }
+                    break;
+                  }
+                }
+              }
+            } finally {
+              reentry = false;
+              {
+                ReactCurrentDispatcher.current = previousDispatcher;
+                reenableLogs();
+              }
+              Error.prepareStackTrace = previousPrepareStackTrace;
+            }
+            var name = fn ? fn.displayName || fn.name : "";
+            var syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
+            {
+              if (typeof fn === "function") {
+                componentFrameCache.set(fn, syntheticFrame);
+              }
+            }
+            return syntheticFrame;
+          }
+          function describeFunctionComponentFrame(fn, source, ownerFn) {
+            {
+              return describeNativeComponentFrame(fn, false);
+            }
+          }
+          function shouldConstruct(Component) {
+            var prototype = Component.prototype;
+            return !!(prototype && prototype.isReactComponent);
+          }
+          function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
+            if (type == null) {
+              return "";
+            }
+            if (typeof type === "function") {
+              {
+                return describeNativeComponentFrame(type, shouldConstruct(type));
+              }
+            }
+            if (typeof type === "string") {
+              return describeBuiltInComponentFrame(type);
+            }
+            switch (type) {
+              case REACT_SUSPENSE_TYPE:
+                return describeBuiltInComponentFrame("Suspense");
+              case REACT_SUSPENSE_LIST_TYPE:
+                return describeBuiltInComponentFrame("SuspenseList");
+            }
+            if (typeof type === "object") {
+              switch (type.$$typeof) {
+                case REACT_FORWARD_REF_TYPE:
+                  return describeFunctionComponentFrame(type.render);
+                case REACT_MEMO_TYPE:
+                  return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+                case REACT_LAZY_TYPE: {
+                  var lazyComponent = type;
+                  var payload = lazyComponent._payload;
+                  var init = lazyComponent._init;
+                  try {
+                    return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
+                  } catch (x) {
+                  }
+                }
+              }
+            }
+            return "";
+          }
+          var hasOwnProperty = Object.prototype.hasOwnProperty;
+          var loggedTypeFailures = {};
+          var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
+          function setCurrentlyValidatingElement(element) {
+            {
+              if (element) {
+                var owner = element._owner;
+                var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+                ReactDebugCurrentFrame.setExtraStackFrame(stack);
+              } else {
+                ReactDebugCurrentFrame.setExtraStackFrame(null);
+              }
+            }
+          }
+          function checkPropTypes(typeSpecs, values, location, componentName, element) {
+            {
+              var has = Function.call.bind(hasOwnProperty);
+              for (var typeSpecName in typeSpecs) {
+                if (has(typeSpecs, typeSpecName)) {
+                  var error$1 = void 0;
+                  try {
+                    if (typeof typeSpecs[typeSpecName] !== "function") {
+                      var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                      err.name = "Invariant Violation";
+                      throw err;
+                    }
+                    error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                  } catch (ex) {
+                    error$1 = ex;
+                  }
+                  if (error$1 && !(error$1 instanceof Error)) {
+                    setCurrentlyValidatingElement(element);
+                    error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1);
+                    setCurrentlyValidatingElement(null);
+                  }
+                  if (error$1 instanceof Error && !(error$1.message in loggedTypeFailures)) {
+                    loggedTypeFailures[error$1.message] = true;
+                    setCurrentlyValidatingElement(element);
+                    error("Failed %s type: %s", location, error$1.message);
+                    setCurrentlyValidatingElement(null);
+                  }
+                }
+              }
+            }
+          }
+          var isArrayImpl = Array.isArray;
+          function isArray(a) {
+            return isArrayImpl(a);
+          }
+          function typeName(value) {
+            {
+              var hasToStringTag = typeof Symbol === "function" && Symbol.toStringTag;
+              var type = hasToStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+              return type;
+            }
+          }
+          function willCoercionThrow(value) {
+            {
+              try {
+                testStringCoercion(value);
+                return false;
+              } catch (e) {
+                return true;
+              }
+            }
+          }
+          function testStringCoercion(value) {
+            return "" + value;
+          }
+          function checkKeyStringCoercion(value) {
+            {
+              if (willCoercionThrow(value)) {
+                error("The provided key is an unsupported type %s. This value must be coerced to a string before before using it here.", typeName(value));
+                return testStringCoercion(value);
+              }
+            }
+          }
+          var ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
+          var RESERVED_PROPS = {
+            key: true,
+            ref: true,
+            __self: true,
+            __source: true
+          };
+          var specialPropKeyWarningShown;
+          var specialPropRefWarningShown;
+          var didWarnAboutStringRefs;
+          {
+            didWarnAboutStringRefs = {};
+          }
+          function hasValidRef(config) {
+            {
+              if (hasOwnProperty.call(config, "ref")) {
+                var getter = Object.getOwnPropertyDescriptor(config, "ref").get;
+                if (getter && getter.isReactWarning) {
+                  return false;
+                }
+              }
+            }
+            return config.ref !== void 0;
+          }
+          function hasValidKey(config) {
+            {
+              if (hasOwnProperty.call(config, "key")) {
+                var getter = Object.getOwnPropertyDescriptor(config, "key").get;
+                if (getter && getter.isReactWarning) {
+                  return false;
+                }
+              }
+            }
+            return config.key !== void 0;
+          }
+          function warnIfStringRefCannotBeAutoConverted(config, self2) {
+            {
+              if (typeof config.ref === "string" && ReactCurrentOwner.current && self2 && ReactCurrentOwner.current.stateNode !== self2) {
+                var componentName = getComponentNameFromType(ReactCurrentOwner.current.type);
+                if (!didWarnAboutStringRefs[componentName]) {
+                  error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', getComponentNameFromType(ReactCurrentOwner.current.type), config.ref);
+                  didWarnAboutStringRefs[componentName] = true;
+                }
+              }
+            }
+          }
+          function defineKeyPropWarningGetter(props, displayName) {
+            {
+              var warnAboutAccessingKey = function() {
+                if (!specialPropKeyWarningShown) {
+                  specialPropKeyWarningShown = true;
+                  error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName);
+                }
+              };
+              warnAboutAccessingKey.isReactWarning = true;
+              Object.defineProperty(props, "key", {
+                get: warnAboutAccessingKey,
+                configurable: true
+              });
+            }
+          }
+          function defineRefPropWarningGetter(props, displayName) {
+            {
+              var warnAboutAccessingRef = function() {
+                if (!specialPropRefWarningShown) {
+                  specialPropRefWarningShown = true;
+                  error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName);
+                }
+              };
+              warnAboutAccessingRef.isReactWarning = true;
+              Object.defineProperty(props, "ref", {
+                get: warnAboutAccessingRef,
+                configurable: true
+              });
+            }
+          }
+          var ReactElement = function(type, key, ref, self2, source, owner, props) {
+            var element = {
+              // This tag allows us to uniquely identify this as a React Element
+              $$typeof: REACT_ELEMENT_TYPE,
+              // Built-in properties that belong on the element
+              type,
+              key,
+              ref,
+              props,
+              // Record the component responsible for creating this element.
+              _owner: owner
+            };
+            {
+              element._store = {};
+              Object.defineProperty(element._store, "validated", {
+                configurable: false,
+                enumerable: false,
+                writable: true,
+                value: false
+              });
+              Object.defineProperty(element, "_self", {
+                configurable: false,
+                enumerable: false,
+                writable: false,
+                value: self2
+              });
+              Object.defineProperty(element, "_source", {
+                configurable: false,
+                enumerable: false,
+                writable: false,
+                value: source
+              });
+              if (Object.freeze) {
+                Object.freeze(element.props);
+                Object.freeze(element);
+              }
+            }
+            return element;
+          };
+          function jsxDEV(type, config, maybeKey, source, self2) {
+            {
+              var propName;
+              var props = {};
+              var key = null;
+              var ref = null;
+              if (maybeKey !== void 0) {
+                {
+                  checkKeyStringCoercion(maybeKey);
+                }
+                key = "" + maybeKey;
+              }
+              if (hasValidKey(config)) {
+                {
+                  checkKeyStringCoercion(config.key);
+                }
+                key = "" + config.key;
+              }
+              if (hasValidRef(config)) {
+                ref = config.ref;
+                warnIfStringRefCannotBeAutoConverted(config, self2);
+              }
+              for (propName in config) {
+                if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+                  props[propName] = config[propName];
+                }
+              }
+              if (type && type.defaultProps) {
+                var defaultProps = type.defaultProps;
+                for (propName in defaultProps) {
+                  if (props[propName] === void 0) {
+                    props[propName] = defaultProps[propName];
+                  }
+                }
+              }
+              if (key || ref) {
+                var displayName = typeof type === "function" ? type.displayName || type.name || "Unknown" : type;
+                if (key) {
+                  defineKeyPropWarningGetter(props, displayName);
+                }
+                if (ref) {
+                  defineRefPropWarningGetter(props, displayName);
+                }
+              }
+              return ReactElement(type, key, ref, self2, source, ReactCurrentOwner.current, props);
+            }
+          }
+          var ReactCurrentOwner$1 = ReactSharedInternals.ReactCurrentOwner;
+          var ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
+          function setCurrentlyValidatingElement$1(element) {
+            {
+              if (element) {
+                var owner = element._owner;
+                var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+                ReactDebugCurrentFrame$1.setExtraStackFrame(stack);
+              } else {
+                ReactDebugCurrentFrame$1.setExtraStackFrame(null);
+              }
+            }
+          }
+          var propTypesMisspellWarningShown;
+          {
+            propTypesMisspellWarningShown = false;
+          }
+          function isValidElement2(object) {
+            {
+              return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+            }
+          }
+          function getDeclarationErrorAddendum() {
+            {
+              if (ReactCurrentOwner$1.current) {
+                var name = getComponentNameFromType(ReactCurrentOwner$1.current.type);
+                if (name) {
+                  return "\n\nCheck the render method of `" + name + "`.";
+                }
+              }
+              return "";
+            }
+          }
+          function getSourceInfoErrorAddendum(source) {
+            {
+              if (source !== void 0) {
+                var fileName = source.fileName.replace(/^.*[\\\/]/, "");
+                var lineNumber = source.lineNumber;
+                return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
+              }
+              return "";
+            }
+          }
+          var ownerHasKeyUseWarning = {};
+          function getCurrentComponentErrorInfo(parentType) {
+            {
+              var info = getDeclarationErrorAddendum();
+              if (!info) {
+                var parentName = typeof parentType === "string" ? parentType : parentType.displayName || parentType.name;
+                if (parentName) {
+                  info = "\n\nCheck the top-level render call using <" + parentName + ">.";
+                }
+              }
+              return info;
+            }
+          }
+          function validateExplicitKey(element, parentType) {
+            {
+              if (!element._store || element._store.validated || element.key != null) {
+                return;
+              }
+              element._store.validated = true;
+              var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
+              if (ownerHasKeyUseWarning[currentComponentErrorInfo]) {
+                return;
+              }
+              ownerHasKeyUseWarning[currentComponentErrorInfo] = true;
+              var childOwner = "";
+              if (element && element._owner && element._owner !== ReactCurrentOwner$1.current) {
+                childOwner = " It was passed a child from " + getComponentNameFromType(element._owner.type) + ".";
+              }
+              setCurrentlyValidatingElement$1(element);
+              error('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner);
+              setCurrentlyValidatingElement$1(null);
+            }
+          }
+          function validateChildKeys(node, parentType) {
+            {
+              if (typeof node !== "object") {
+                return;
+              }
+              if (isArray(node)) {
+                for (var i = 0; i < node.length; i++) {
+                  var child = node[i];
+                  if (isValidElement2(child)) {
+                    validateExplicitKey(child, parentType);
+                  }
+                }
+              } else if (isValidElement2(node)) {
+                if (node._store) {
+                  node._store.validated = true;
+                }
+              } else if (node) {
+                var iteratorFn = getIteratorFn(node);
+                if (typeof iteratorFn === "function") {
+                  if (iteratorFn !== node.entries) {
+                    var iterator = iteratorFn.call(node);
+                    var step;
+                    while (!(step = iterator.next()).done) {
+                      if (isValidElement2(step.value)) {
+                        validateExplicitKey(step.value, parentType);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          function validatePropTypes(element) {
+            {
+              var type = element.type;
+              if (type === null || type === void 0 || typeof type === "string") {
+                return;
+              }
+              var propTypes4;
+              if (typeof type === "function") {
+                propTypes4 = type.propTypes;
+              } else if (typeof type === "object" && (type.$$typeof === REACT_FORWARD_REF_TYPE || // Note: Memo only checks outer props here.
+              // Inner props are checked in the reconciler.
+              type.$$typeof === REACT_MEMO_TYPE)) {
+                propTypes4 = type.propTypes;
+              } else {
+                return;
+              }
+              if (propTypes4) {
+                var name = getComponentNameFromType(type);
+                checkPropTypes(propTypes4, element.props, "prop", name, element);
+              } else if (type.PropTypes !== void 0 && !propTypesMisspellWarningShown) {
+                propTypesMisspellWarningShown = true;
+                var _name = getComponentNameFromType(type);
+                error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", _name || "Unknown");
+              }
+              if (typeof type.getDefaultProps === "function" && !type.getDefaultProps.isReactClassApproved) {
+                error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
+              }
+            }
+          }
+          function validateFragmentProps(fragment) {
+            {
+              var keys = Object.keys(fragment.props);
+              for (var i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                if (key !== "children" && key !== "key") {
+                  setCurrentlyValidatingElement$1(fragment);
+                  error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key);
+                  setCurrentlyValidatingElement$1(null);
+                  break;
+                }
+              }
+              if (fragment.ref !== null) {
+                setCurrentlyValidatingElement$1(fragment);
+                error("Invalid attribute `ref` supplied to `React.Fragment`.");
+                setCurrentlyValidatingElement$1(null);
+              }
+            }
+          }
+          function jsxWithValidation(type, props, key, isStaticChildren, source, self2) {
+            {
+              var validType = isValidElementType(type);
+              if (!validType) {
+                var info = "";
+                if (type === void 0 || typeof type === "object" && type !== null && Object.keys(type).length === 0) {
+                  info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.";
+                }
+                var sourceInfo = getSourceInfoErrorAddendum(source);
+                if (sourceInfo) {
+                  info += sourceInfo;
+                } else {
+                  info += getDeclarationErrorAddendum();
+                }
+                var typeString;
+                if (type === null) {
+                  typeString = "null";
+                } else if (isArray(type)) {
+                  typeString = "array";
+                } else if (type !== void 0 && type.$$typeof === REACT_ELEMENT_TYPE) {
+                  typeString = "<" + (getComponentNameFromType(type.type) || "Unknown") + " />";
+                  info = " Did you accidentally export a JSX literal instead of a component?";
+                } else {
+                  typeString = typeof type;
+                }
+                error("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
+              }
+              var element = jsxDEV(type, props, key, source, self2);
+              if (element == null) {
+                return element;
+              }
+              if (validType) {
+                var children = props.children;
+                if (children !== void 0) {
+                  if (isStaticChildren) {
+                    if (isArray(children)) {
+                      for (var i = 0; i < children.length; i++) {
+                        validateChildKeys(children[i], type);
+                      }
+                      if (Object.freeze) {
+                        Object.freeze(children);
+                      }
+                    } else {
+                      error("React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead.");
+                    }
+                  } else {
+                    validateChildKeys(children, type);
+                  }
+                }
+              }
+              if (type === REACT_FRAGMENT_TYPE) {
+                validateFragmentProps(element);
+              } else {
+                validatePropTypes(element);
+              }
+              return element;
+            }
+          }
+          function jsxWithValidationStatic(type, props, key) {
+            {
+              return jsxWithValidation(type, props, key, true);
+            }
+          }
+          function jsxWithValidationDynamic(type, props, key) {
+            {
+              return jsxWithValidation(type, props, key, false);
+            }
+          }
+          var jsx = jsxWithValidationDynamic;
+          var jsxs = jsxWithValidationStatic;
+          exports.Fragment = REACT_FRAGMENT_TYPE;
+          exports.jsx = jsx;
+          exports.jsxs = jsxs;
+        })();
+      }
+    }
+  });
+
+  // node_modules/react/jsx-runtime.js
+  var require_jsx_runtime = __commonJS({
+    "node_modules/react/jsx-runtime.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_jsx_runtime_development();
+      }
     }
   });
 
@@ -23643,7 +30376,7 @@
           function isContextProvider(object) {
             return typeOf(object) === REACT_PROVIDER_TYPE;
           }
-          function isElement3(object) {
+          function isElement(object) {
             return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
           }
           function isForwardRef(object) {
@@ -23687,7 +30420,7 @@
           exports.isConcurrentMode = isConcurrentMode;
           exports.isContextConsumer = isContextConsumer;
           exports.isContextProvider = isContextProvider;
-          exports.isElement = isElement3;
+          exports.isElement = isElement;
           exports.isForwardRef = isForwardRef;
           exports.isFragment = isFragment;
           exports.isLazy = isLazy;
@@ -23893,7 +30626,7 @@
       function emptyFunctionThatReturnsNull() {
         return null;
       }
-      module.exports = function(isValidElement, throwOnDirectAccess) {
+      module.exports = function(isValidElement2, throwOnDirectAccess) {
         var ITERATOR_SYMBOL = typeof Symbol === "function" && Symbol.iterator;
         var FAUX_ITERATOR_SYMBOL = "@@iterator";
         function getIteratorFn(maybeIterable) {
@@ -24021,7 +30754,7 @@
         function createElementTypeChecker() {
           function validate(props, propName, componentName, location, propFullName) {
             var propValue = props[propName];
-            if (!isValidElement(propValue)) {
+            if (!isValidElement2(propValue)) {
               var propType = getPropType(propValue);
               return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected a single ReactElement."));
             }
@@ -24209,7 +30942,7 @@
               if (Array.isArray(propValue)) {
                 return propValue.every(isNode);
               }
-              if (propValue === null || isValidElement(propValue)) {
+              if (propValue === null || isValidElement2(propValue)) {
                 return true;
               }
               var iteratorFn = getIteratorFn(propValue);
@@ -24325,5434 +31058,4382 @@
     }
   });
 
+  // node_modules/warning/warning.js
+  var require_warning = __commonJS({
+    "node_modules/warning/warning.js"(exports, module) {
+      "use strict";
+      var __DEV__ = true;
+      var warning3 = function() {
+      };
+      if (__DEV__) {
+        printWarning = function printWarning2(format, args) {
+          var len = arguments.length;
+          args = new Array(len > 1 ? len - 1 : 0);
+          for (var key = 1; key < len; key++) {
+            args[key - 1] = arguments[key];
+          }
+          var argIndex = 0;
+          var message = "Warning: " + format.replace(/%s/g, function() {
+            return args[argIndex++];
+          });
+          if (typeof console !== "undefined") {
+            console.error(message);
+          }
+          try {
+            throw new Error(message);
+          } catch (x) {
+          }
+        };
+        warning3 = function(condition, format, args) {
+          var len = arguments.length;
+          args = new Array(len > 2 ? len - 2 : 0);
+          for (var key = 2; key < len; key++) {
+            args[key - 2] = arguments[key];
+          }
+          if (format === void 0) {
+            throw new Error(
+              "`warning(condition, format, ...args)` requires a warning message argument"
+            );
+          }
+          if (!condition) {
+            printWarning.apply(null, [format].concat(args));
+          }
+        };
+      }
+      var printWarning;
+      module.exports = warning3;
+    }
+  });
+
+  // node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js
+  var require_createChainableTypeChecker = __commonJS({
+    "node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js"(exports, module) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.default = createChainableTypeChecker;
+      function createChainableTypeChecker(validate) {
+        function checkType(isRequired, props, propName, componentName, location, propFullName) {
+          var componentNameSafe = componentName || "<<anonymous>>";
+          var propFullNameSafe = propFullName || propName;
+          if (props[propName] == null) {
+            if (isRequired) {
+              return new Error("Required " + location + " `" + propFullNameSafe + "` was not specified " + ("in `" + componentNameSafe + "`."));
+            }
+            return null;
+          }
+          for (var _len = arguments.length, args = Array(_len > 6 ? _len - 6 : 0), _key = 6; _key < _len; _key++) {
+            args[_key - 6] = arguments[_key];
+          }
+          return validate.apply(void 0, [props, propName, componentNameSafe, location, propFullNameSafe].concat(args));
+        }
+        var chainedCheckType = checkType.bind(null, false);
+        chainedCheckType.isRequired = checkType.bind(null, true);
+        return chainedCheckType;
+      }
+      module.exports = exports["default"];
+    }
+  });
+
+  // node_modules/prop-types-extra/lib/all.js
+  var require_all = __commonJS({
+    "node_modules/prop-types-extra/lib/all.js"(exports, module) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.default = all2;
+      var _createChainableTypeChecker = require_createChainableTypeChecker();
+      var _createChainableTypeChecker2 = _interopRequireDefault(_createChainableTypeChecker);
+      function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : { default: obj };
+      }
+      function all2() {
+        for (var _len = arguments.length, validators = Array(_len), _key = 0; _key < _len; _key++) {
+          validators[_key] = arguments[_key];
+        }
+        function allPropTypes() {
+          for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+          }
+          var error = null;
+          validators.forEach(function(validator) {
+            if (error != null) {
+              return;
+            }
+            var result = validator.apply(void 0, args);
+            if (result != null) {
+              error = result;
+            }
+          });
+          return error;
+        }
+        return (0, _createChainableTypeChecker2.default)(allPropTypes);
+      }
+      module.exports = exports["default"];
+    }
+  });
+
+  // node_modules/react-router-bootstrap/LinkContainer.js
+  var require_LinkContainer = __commonJS({
+    "node_modules/react-router-bootstrap/LinkContainer.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports["default"] = void 0;
+      var _react = _interopRequireDefault(require_react());
+      var _propTypes = _interopRequireDefault(require_prop_types());
+      var _reactRouterDom = require_main2();
+      var _excluded6 = ["children", "onClick", "replace", "to", "state", "activeClassName", "className", "activeStyle", "style", "isActive"];
+      function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : { "default": obj };
+      }
+      function ownKeys(object, enumerableOnly) {
+        var keys = Object.keys(object);
+        if (Object.getOwnPropertySymbols) {
+          var symbols = Object.getOwnPropertySymbols(object);
+          enumerableOnly && (symbols = symbols.filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+          })), keys.push.apply(keys, symbols);
+        }
+        return keys;
+      }
+      function _objectSpread(target) {
+        for (var i = 1; i < arguments.length; i++) {
+          var source = null != arguments[i] ? arguments[i] : {};
+          i % 2 ? ownKeys(Object(source), true).forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+          }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+          });
+        }
+        return target;
+      }
+      function _defineProperty(obj, key, value) {
+        if (key in obj) {
+          Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+        } else {
+          obj[key] = value;
+        }
+        return obj;
+      }
+      function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj2) {
+          return typeof obj2;
+        } : function(obj2) {
+          return obj2 && "function" == typeof Symbol && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+        }, _typeof(obj);
+      }
+      function _objectWithoutProperties(source, excluded) {
+        if (source == null)
+          return {};
+        var target = _objectWithoutPropertiesLoose7(source, excluded);
+        var key, i;
+        if (Object.getOwnPropertySymbols) {
+          var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+          for (i = 0; i < sourceSymbolKeys.length; i++) {
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0)
+              continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key))
+              continue;
+            target[key] = source[key];
+          }
+        }
+        return target;
+      }
+      function _objectWithoutPropertiesLoose7(source, excluded) {
+        if (source == null)
+          return {};
+        var target = {};
+        var sourceKeys = Object.keys(source);
+        var key, i;
+        for (i = 0; i < sourceKeys.length; i++) {
+          key = sourceKeys[i];
+          if (excluded.indexOf(key) >= 0)
+            continue;
+          target[key] = source[key];
+        }
+        return target;
+      }
+      var isModifiedEvent = function isModifiedEvent2(event) {
+        return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+      };
+      var LinkContainer2 = function LinkContainer3(_ref) {
+        var children = _ref.children, onClick = _ref.onClick, replace = _ref.replace, to = _ref.to, state = _ref.state, activeClassName = _ref.activeClassName, className = _ref.className, activeStyle = _ref.activeStyle, style2 = _ref.style, getIsActive = _ref.isActive, props = _objectWithoutProperties(_ref, _excluded6);
+        var path = _typeof(to) === "object" ? to.pathname || "" : to;
+        var navigate = (0, _reactRouterDom.useNavigate)();
+        var href = (0, _reactRouterDom.useHref)(typeof to === "string" ? {
+          pathname: to
+        } : to);
+        var match = (0, _reactRouterDom.useMatch)(path);
+        var location = (0, _reactRouterDom.useLocation)();
+        var child = _react["default"].Children.only(children);
+        var isActive = !!(getIsActive ? typeof getIsActive === "function" ? getIsActive(match, location) : getIsActive : match);
+        var handleClick = function handleClick2(event) {
+          if (children.props.onClick) {
+            children.props.onClick(event);
+          }
+          if (onClick) {
+            onClick(event);
+          }
+          if (!event.defaultPrevented && // onClick prevented default
+          event.button === 0 && // ignore right clicks
+          !isModifiedEvent(event)) {
+            event.preventDefault();
+            navigate(to, {
+              replace,
+              state
+            });
+          }
+        };
+        return /* @__PURE__ */ _react["default"].cloneElement(child, _objectSpread(_objectSpread({}, props), {}, {
+          className: [className, child.props.className, isActive ? activeClassName : null].join(" ").trim(),
+          style: isActive ? _objectSpread(_objectSpread({}, style2), activeStyle) : style2,
+          href,
+          onClick: handleClick
+        }));
+      };
+      LinkContainer2.propTypes = {
+        children: _propTypes["default"].element.isRequired,
+        onClick: _propTypes["default"].func,
+        replace: _propTypes["default"].bool,
+        to: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].object]).isRequired,
+        state: _propTypes["default"].object,
+        className: _propTypes["default"].string,
+        activeClassName: _propTypes["default"].string,
+        style: _propTypes["default"].objectOf(_propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number])),
+        activeStyle: _propTypes["default"].objectOf(_propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number])),
+        isActive: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].bool])
+      };
+      LinkContainer2.defaultProps = {
+        replace: false,
+        activeClassName: "active",
+        onClick: null,
+        className: null,
+        style: null,
+        activeStyle: null,
+        isActive: null
+      };
+      var _default = LinkContainer2;
+      exports["default"] = _default;
+    }
+  });
+
+  // node_modules/react-router-bootstrap/index.js
+  var require_react_router_bootstrap = __commonJS({
+    "node_modules/react-router-bootstrap/index.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      Object.defineProperty(exports, "LinkContainer", {
+        enumerable: true,
+        get: function get() {
+          return _LinkContainer["default"];
+        }
+      });
+      var _LinkContainer = _interopRequireDefault(require_LinkContainer());
+      function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : { "default": obj };
+      }
+    }
+  });
+
   // client/main.jsx
-  var import_react6 = __toESM(require_react(), 1);
+  var import_react62 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // client/components/App.jsx
-  var import_react5 = __toESM(require_react(), 1);
+  var import_react61 = __toESM(require_react(), 1);
+  var import_react_router_dom = __toESM(require_main2(), 1);
 
-  // client/components/PageHeader.jsx
-  var import_react = __toESM(require_react(), 1);
-  var import_prop_types = __toESM(require_prop_types(), 1);
-  function PageHeader(props) {
-    const { title, subTitle } = props;
-    return /* @__PURE__ */ import_react.default.createElement("div", { className: "pb-2 mt-4 mb-2 border-bottom", style: { width: "100%" } }, /* @__PURE__ */ import_react.default.createElement("h1", null, title), subTitle);
+  // client/components/Navigation/MyNavBar.jsx
+  var import_react51 = __toESM(require_react(), 1);
+
+  // node_modules/@babel/runtime/helpers/esm/extends.js
+  function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    };
+    return _extends.apply(this, arguments);
   }
-  PageHeader.propTypes = {
-    title: import_prop_types.default.string,
-    subTitle: import_prop_types.default.string
-  };
-  PageHeader.defaultProps = {
-    title: "Page Title",
-    subTitle: "Page Subtitle"
-  };
 
-  // client/components/StockDetails.jsx
-  var import_react2 = __toESM(require_react(), 1);
-  var import_prop_types2 = __toESM(require_prop_types(), 1);
-  function StockDetails(props) {
-    const { name, amount, price } = props;
-    return /* @__PURE__ */ import_react2.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5 image" }, /* @__PURE__ */ import_react2.default.createElement("img", { className: "image", id: "details-image", src: "", alt: "Full game poster for" })), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-7" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Stock Name: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, name), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Amount: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, amount), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, /* @__PURE__ */ import_react2.default.createElement("h4", null, "Price: ")), /* @__PURE__ */ import_react2.default.createElement("div", { className: "col-5" }, price)))));
+  // node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+  function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
   }
-  StockDetails.propTypes = {
-    name: import_prop_types2.default.string.isRequired,
-    amount: import_prop_types2.default.number.isRequired,
-    price: import_prop_types2.default.number.isRequired
-  };
-  StockDetails.defaultProps = {};
 
-  // client/components/BootstrapModal.jsx
-  var import_react3 = __toESM(require_react(), 1);
-  var import_prop_types3 = __toESM(require_prop_types(), 1);
+  // node_modules/uncontrollable/lib/esm/hook.js
+  var import_react = __toESM(require_react());
 
-  // node_modules/@popperjs/core/lib/index.js
-  var lib_exports = {};
-  __export(lib_exports, {
-    afterMain: () => afterMain,
-    afterRead: () => afterRead,
-    afterWrite: () => afterWrite,
-    applyStyles: () => applyStyles_default,
-    arrow: () => arrow_default,
-    auto: () => auto,
-    basePlacements: () => basePlacements,
-    beforeMain: () => beforeMain,
-    beforeRead: () => beforeRead,
-    beforeWrite: () => beforeWrite,
-    bottom: () => bottom,
-    clippingParents: () => clippingParents,
-    computeStyles: () => computeStyles_default,
-    createPopper: () => createPopper3,
-    createPopperBase: () => createPopper,
-    createPopperLite: () => createPopper2,
-    detectOverflow: () => detectOverflow,
-    end: () => end,
-    eventListeners: () => eventListeners_default,
-    flip: () => flip_default,
-    hide: () => hide_default,
-    left: () => left,
-    main: () => main,
-    modifierPhases: () => modifierPhases,
-    offset: () => offset_default,
-    placements: () => placements,
-    popper: () => popper,
-    popperGenerator: () => popperGenerator,
-    popperOffsets: () => popperOffsets_default,
-    preventOverflow: () => preventOverflow_default,
-    read: () => read,
-    reference: () => reference,
-    right: () => right,
-    start: () => start,
-    top: () => top,
-    variationPlacements: () => variationPlacements,
-    viewport: () => viewport,
-    write: () => write
+  // node_modules/uncontrollable/lib/esm/utils.js
+  var import_invariant = __toESM(require_browser());
+  function defaultKey(key) {
+    return "default" + key.charAt(0).toUpperCase() + key.substr(1);
+  }
+
+  // node_modules/uncontrollable/lib/esm/hook.js
+  function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
+  }
+  function _toPrimitive(input, hint) {
+    if (typeof input !== "object" || input === null)
+      return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== void 0) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object")
+        return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
+  function useUncontrolledProp(propValue, defaultValue, handler) {
+    var wasPropRef = (0, import_react.useRef)(propValue !== void 0);
+    var _useState = (0, import_react.useState)(defaultValue), stateValue = _useState[0], setState = _useState[1];
+    var isProp2 = propValue !== void 0;
+    var wasProp = wasPropRef.current;
+    wasPropRef.current = isProp2;
+    if (!isProp2 && wasProp && stateValue !== defaultValue) {
+      setState(defaultValue);
+    }
+    return [isProp2 ? propValue : stateValue, (0, import_react.useCallback)(function(value) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      if (handler)
+        handler.apply(void 0, [value].concat(args));
+      setState(value);
+    }, [handler])];
+  }
+  function useUncontrolled(props, config) {
+    return Object.keys(config).reduce(function(result, fieldName) {
+      var _extends2;
+      var _ref = result, defaultValue = _ref[defaultKey(fieldName)], propsValue = _ref[fieldName], rest = _objectWithoutPropertiesLoose(_ref, [defaultKey(fieldName), fieldName].map(_toPropertyKey));
+      var handlerName = config[fieldName];
+      var _useUncontrolledProp = useUncontrolledProp(propsValue, defaultValue, props[handlerName]), value = _useUncontrolledProp[0], handler = _useUncontrolledProp[1];
+      return _extends({}, rest, (_extends2 = {}, _extends2[fieldName] = value, _extends2[handlerName] = handler, _extends2));
+    }, props);
+  }
+
+  // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o2, p2) {
+      o2.__proto__ = p2;
+      return o2;
+    };
+    return _setPrototypeOf(o, p);
+  }
+
+  // node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+  function _inheritsLoose(subClass, superClass) {
+    subClass.prototype = Object.create(superClass.prototype);
+    subClass.prototype.constructor = subClass;
+    _setPrototypeOf(subClass, superClass);
+  }
+
+  // node_modules/uncontrollable/lib/esm/uncontrollable.js
+  var import_react2 = __toESM(require_react());
+
+  // node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js
+  function componentWillMount() {
+    var state = this.constructor.getDerivedStateFromProps(this.props, this.state);
+    if (state !== null && state !== void 0) {
+      this.setState(state);
+    }
+  }
+  function componentWillReceiveProps(nextProps) {
+    function updater(prevState) {
+      var state = this.constructor.getDerivedStateFromProps(nextProps, prevState);
+      return state !== null && state !== void 0 ? state : null;
+    }
+    this.setState(updater.bind(this));
+  }
+  function componentWillUpdate(nextProps, nextState) {
+    try {
+      var prevProps = this.props;
+      var prevState = this.state;
+      this.props = nextProps;
+      this.state = nextState;
+      this.__reactInternalSnapshotFlag = true;
+      this.__reactInternalSnapshot = this.getSnapshotBeforeUpdate(
+        prevProps,
+        prevState
+      );
+    } finally {
+      this.props = prevProps;
+      this.state = prevState;
+    }
+  }
+  componentWillMount.__suppressDeprecationWarning = true;
+  componentWillReceiveProps.__suppressDeprecationWarning = true;
+  componentWillUpdate.__suppressDeprecationWarning = true;
+
+  // node_modules/uncontrollable/lib/esm/uncontrollable.js
+  var import_invariant2 = __toESM(require_browser());
+
+  // node_modules/react-bootstrap/esm/ThemeProvider.js
+  var React2 = __toESM(require_react());
+  var import_react3 = __toESM(require_react());
+  var import_jsx_runtime = __toESM(require_jsx_runtime());
+  var DEFAULT_BREAKPOINTS = ["xxl", "xl", "lg", "md", "sm", "xs"];
+  var DEFAULT_MIN_BREAKPOINT = "xs";
+  var ThemeContext = /* @__PURE__ */ React2.createContext({
+    prefixes: {},
+    breakpoints: DEFAULT_BREAKPOINTS,
+    minBreakpoint: DEFAULT_MIN_BREAKPOINT
   });
-
-  // node_modules/@popperjs/core/lib/enums.js
-  var top = "top";
-  var bottom = "bottom";
-  var right = "right";
-  var left = "left";
-  var auto = "auto";
-  var basePlacements = [top, bottom, right, left];
-  var start = "start";
-  var end = "end";
-  var clippingParents = "clippingParents";
-  var viewport = "viewport";
-  var popper = "popper";
-  var reference = "reference";
-  var variationPlacements = /* @__PURE__ */ basePlacements.reduce(function(acc, placement) {
-    return acc.concat([placement + "-" + start, placement + "-" + end]);
-  }, []);
-  var placements = /* @__PURE__ */ [].concat(basePlacements, [auto]).reduce(function(acc, placement) {
-    return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
-  }, []);
-  var beforeRead = "beforeRead";
-  var read = "read";
-  var afterRead = "afterRead";
-  var beforeMain = "beforeMain";
-  var main = "main";
-  var afterMain = "afterMain";
-  var beforeWrite = "beforeWrite";
-  var write = "write";
-  var afterWrite = "afterWrite";
-  var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-
-  // node_modules/@popperjs/core/lib/dom-utils/getNodeName.js
-  function getNodeName(element) {
-    return element ? (element.nodeName || "").toLowerCase() : null;
+  var {
+    Consumer,
+    Provider
+  } = ThemeContext;
+  function useBootstrapPrefix(prefix, defaultPrefix) {
+    const {
+      prefixes
+    } = (0, import_react3.useContext)(ThemeContext);
+    return prefix || prefixes[defaultPrefix] || defaultPrefix;
+  }
+  function useBootstrapBreakpoints() {
+    const {
+      breakpoints
+    } = (0, import_react3.useContext)(ThemeContext);
+    return breakpoints;
+  }
+  function useBootstrapMinBreakpoint() {
+    const {
+      minBreakpoint
+    } = (0, import_react3.useContext)(ThemeContext);
+    return minBreakpoint;
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/getWindow.js
-  function getWindow(node) {
-    if (node == null) {
-      return window;
+  // node_modules/react-bootstrap/esm/Collapse.js
+  var import_classnames = __toESM(require_classnames());
+
+  // node_modules/dom-helpers/esm/ownerDocument.js
+  function ownerDocument(node) {
+    return node && node.ownerDocument || document;
+  }
+
+  // node_modules/dom-helpers/esm/ownerWindow.js
+  function ownerWindow(node) {
+    var doc = ownerDocument(node);
+    return doc && doc.defaultView || window;
+  }
+
+  // node_modules/dom-helpers/esm/getComputedStyle.js
+  function getComputedStyle(node, psuedoElement) {
+    return ownerWindow(node).getComputedStyle(node, psuedoElement);
+  }
+
+  // node_modules/dom-helpers/esm/hyphenate.js
+  var rUpper = /([A-Z])/g;
+  function hyphenate(string) {
+    return string.replace(rUpper, "-$1").toLowerCase();
+  }
+
+  // node_modules/dom-helpers/esm/hyphenateStyle.js
+  var msPattern = /^ms-/;
+  function hyphenateStyleName(string) {
+    return hyphenate(string).replace(msPattern, "-ms-");
+  }
+
+  // node_modules/dom-helpers/esm/isTransform.js
+  var supportedTransforms = /^((translate|rotate|scale)(X|Y|Z|3d)?|matrix(3d)?|perspective|skew(X|Y)?)$/i;
+  function isTransform(value) {
+    return !!(value && supportedTransforms.test(value));
+  }
+
+  // node_modules/dom-helpers/esm/css.js
+  function style(node, property) {
+    var css = "";
+    var transforms = "";
+    if (typeof property === "string") {
+      return node.style.getPropertyValue(hyphenateStyleName(property)) || getComputedStyle(node).getPropertyValue(hyphenateStyleName(property));
     }
-    if (node.toString() !== "[object Window]") {
-      var ownerDocument = node.ownerDocument;
-      return ownerDocument ? ownerDocument.defaultView || window : window;
+    Object.keys(property).forEach(function(key) {
+      var value = property[key];
+      if (!value && value !== 0) {
+        node.style.removeProperty(hyphenateStyleName(key));
+      } else if (isTransform(key)) {
+        transforms += key + "(" + value + ") ";
+      } else {
+        css += hyphenateStyleName(key) + ": " + value + ";";
+      }
+    });
+    if (transforms) {
+      css += "transform: " + transforms + ";";
     }
-    return node;
+    node.style.cssText += ";" + css;
   }
+  var css_default = style;
 
-  // node_modules/@popperjs/core/lib/dom-utils/instanceOf.js
-  function isElement(node) {
-    var OwnElement = getWindow(node).Element;
-    return node instanceof OwnElement || node instanceof Element;
-  }
-  function isHTMLElement(node) {
-    var OwnElement = getWindow(node).HTMLElement;
-    return node instanceof OwnElement || node instanceof HTMLElement;
-  }
-  function isShadowRoot(node) {
-    if (typeof ShadowRoot === "undefined") {
-      return false;
+  // node_modules/react-bootstrap/esm/Collapse.js
+  var import_react8 = __toESM(require_react());
+
+  // node_modules/react-transition-group/esm/Transition.js
+  var import_prop_types2 = __toESM(require_prop_types());
+  var import_react5 = __toESM(require_react());
+  var import_react_dom = __toESM(require_react_dom());
+
+  // node_modules/react-transition-group/esm/config.js
+  var config_default = {
+    disabled: false
+  };
+
+  // node_modules/react-transition-group/esm/utils/PropTypes.js
+  var import_prop_types = __toESM(require_prop_types());
+  var timeoutsShape = true ? import_prop_types.default.oneOfType([import_prop_types.default.number, import_prop_types.default.shape({
+    enter: import_prop_types.default.number,
+    exit: import_prop_types.default.number,
+    appear: import_prop_types.default.number
+  }).isRequired]) : null;
+  var classNamesShape = true ? import_prop_types.default.oneOfType([import_prop_types.default.string, import_prop_types.default.shape({
+    enter: import_prop_types.default.string,
+    exit: import_prop_types.default.string,
+    active: import_prop_types.default.string
+  }), import_prop_types.default.shape({
+    enter: import_prop_types.default.string,
+    enterDone: import_prop_types.default.string,
+    enterActive: import_prop_types.default.string,
+    exit: import_prop_types.default.string,
+    exitDone: import_prop_types.default.string,
+    exitActive: import_prop_types.default.string
+  })]) : null;
+
+  // node_modules/react-transition-group/esm/TransitionGroupContext.js
+  var import_react4 = __toESM(require_react());
+  var TransitionGroupContext_default = import_react4.default.createContext(null);
+
+  // node_modules/react-transition-group/esm/utils/reflow.js
+  var forceReflow = function forceReflow2(node) {
+    return node.scrollTop;
+  };
+
+  // node_modules/react-transition-group/esm/Transition.js
+  var UNMOUNTED = "unmounted";
+  var EXITED = "exited";
+  var ENTERING = "entering";
+  var ENTERED = "entered";
+  var EXITING = "exiting";
+  var Transition = /* @__PURE__ */ function(_React$Component) {
+    _inheritsLoose(Transition2, _React$Component);
+    function Transition2(props, context3) {
+      var _this;
+      _this = _React$Component.call(this, props, context3) || this;
+      var parentGroup = context3;
+      var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
+      var initialStatus;
+      _this.appearStatus = null;
+      if (props.in) {
+        if (appear) {
+          initialStatus = EXITED;
+          _this.appearStatus = ENTERING;
+        } else {
+          initialStatus = ENTERED;
+        }
+      } else {
+        if (props.unmountOnExit || props.mountOnEnter) {
+          initialStatus = UNMOUNTED;
+        } else {
+          initialStatus = EXITED;
+        }
+      }
+      _this.state = {
+        status: initialStatus
+      };
+      _this.nextCallback = null;
+      return _this;
     }
-    var OwnElement = getWindow(node).ShadowRoot;
-    return node instanceof OwnElement || node instanceof ShadowRoot;
-  }
-
-  // node_modules/@popperjs/core/lib/modifiers/applyStyles.js
-  function applyStyles(_ref) {
-    var state = _ref.state;
-    Object.keys(state.elements).forEach(function(name) {
-      var style = state.styles[name] || {};
-      var attributes = state.attributes[name] || {};
-      var element = state.elements[name];
-      if (!isHTMLElement(element) || !getNodeName(element)) {
+    Transition2.getDerivedStateFromProps = function getDerivedStateFromProps(_ref, prevState) {
+      var nextIn = _ref.in;
+      if (nextIn && prevState.status === UNMOUNTED) {
+        return {
+          status: EXITED
+        };
+      }
+      return null;
+    };
+    var _proto = Transition2.prototype;
+    _proto.componentDidMount = function componentDidMount() {
+      this.updateStatus(true, this.appearStatus);
+    };
+    _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+      var nextStatus = null;
+      if (prevProps !== this.props) {
+        var status = this.state.status;
+        if (this.props.in) {
+          if (status !== ENTERING && status !== ENTERED) {
+            nextStatus = ENTERING;
+          }
+        } else {
+          if (status === ENTERING || status === ENTERED) {
+            nextStatus = EXITING;
+          }
+        }
+      }
+      this.updateStatus(false, nextStatus);
+    };
+    _proto.componentWillUnmount = function componentWillUnmount() {
+      this.cancelNextCallback();
+    };
+    _proto.getTimeouts = function getTimeouts() {
+      var timeout2 = this.props.timeout;
+      var exit, enter, appear;
+      exit = enter = appear = timeout2;
+      if (timeout2 != null && typeof timeout2 !== "number") {
+        exit = timeout2.exit;
+        enter = timeout2.enter;
+        appear = timeout2.appear !== void 0 ? timeout2.appear : enter;
+      }
+      return {
+        exit,
+        enter,
+        appear
+      };
+    };
+    _proto.updateStatus = function updateStatus(mounting, nextStatus) {
+      if (mounting === void 0) {
+        mounting = false;
+      }
+      if (nextStatus !== null) {
+        this.cancelNextCallback();
+        if (nextStatus === ENTERING) {
+          if (this.props.unmountOnExit || this.props.mountOnEnter) {
+            var node = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom.default.findDOMNode(this);
+            if (node)
+              forceReflow(node);
+          }
+          this.performEnter(mounting);
+        } else {
+          this.performExit();
+        }
+      } else if (this.props.unmountOnExit && this.state.status === EXITED) {
+        this.setState({
+          status: UNMOUNTED
+        });
+      }
+    };
+    _proto.performEnter = function performEnter(mounting) {
+      var _this2 = this;
+      var enter = this.props.enter;
+      var appearing = this.context ? this.context.isMounting : mounting;
+      var _ref2 = this.props.nodeRef ? [appearing] : [import_react_dom.default.findDOMNode(this), appearing], maybeNode = _ref2[0], maybeAppearing = _ref2[1];
+      var timeouts = this.getTimeouts();
+      var enterTimeout = appearing ? timeouts.appear : timeouts.enter;
+      if (!mounting && !enter || config_default.disabled) {
+        this.safeSetState({
+          status: ENTERED
+        }, function() {
+          _this2.props.onEntered(maybeNode);
+        });
         return;
       }
-      Object.assign(element.style, style);
-      Object.keys(attributes).forEach(function(name2) {
-        var value = attributes[name2];
-        if (value === false) {
-          element.removeAttribute(name2);
-        } else {
-          element.setAttribute(name2, value === true ? "" : value);
-        }
-      });
-    });
-  }
-  function effect(_ref2) {
-    var state = _ref2.state;
-    var initialStyles = {
-      popper: {
-        position: state.options.strategy,
-        left: "0",
-        top: "0",
-        margin: "0"
-      },
-      arrow: {
-        position: "absolute"
-      },
-      reference: {}
-    };
-    Object.assign(state.elements.popper.style, initialStyles.popper);
-    state.styles = initialStyles;
-    if (state.elements.arrow) {
-      Object.assign(state.elements.arrow.style, initialStyles.arrow);
-    }
-    return function() {
-      Object.keys(state.elements).forEach(function(name) {
-        var element = state.elements[name];
-        var attributes = state.attributes[name] || {};
-        var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]);
-        var style = styleProperties.reduce(function(style2, property) {
-          style2[property] = "";
-          return style2;
-        }, {});
-        if (!isHTMLElement(element) || !getNodeName(element)) {
-          return;
-        }
-        Object.assign(element.style, style);
-        Object.keys(attributes).forEach(function(attribute) {
-          element.removeAttribute(attribute);
+      this.props.onEnter(maybeNode, maybeAppearing);
+      this.safeSetState({
+        status: ENTERING
+      }, function() {
+        _this2.props.onEntering(maybeNode, maybeAppearing);
+        _this2.onTransitionEnd(enterTimeout, function() {
+          _this2.safeSetState({
+            status: ENTERED
+          }, function() {
+            _this2.props.onEntered(maybeNode, maybeAppearing);
+          });
         });
       });
     };
-  }
-  var applyStyles_default = {
-    name: "applyStyles",
-    enabled: true,
-    phase: "write",
-    fn: applyStyles,
-    effect,
-    requires: ["computeStyles"]
-  };
-
-  // node_modules/@popperjs/core/lib/utils/getBasePlacement.js
-  function getBasePlacement(placement) {
-    return placement.split("-")[0];
-  }
-
-  // node_modules/@popperjs/core/lib/utils/math.js
-  var max = Math.max;
-  var min = Math.min;
-  var round = Math.round;
-
-  // node_modules/@popperjs/core/lib/utils/userAgent.js
-  function getUAString() {
-    var uaData = navigator.userAgentData;
-    if (uaData != null && uaData.brands) {
-      return uaData.brands.map(function(item) {
-        return item.brand + "/" + item.version;
-      }).join(" ");
-    }
-    return navigator.userAgent;
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js
-  function isLayoutViewport() {
-    return !/^((?!chrome|android).)*safari/i.test(getUAString());
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js
-  function getBoundingClientRect(element, includeScale, isFixedStrategy) {
-    if (includeScale === void 0) {
-      includeScale = false;
-    }
-    if (isFixedStrategy === void 0) {
-      isFixedStrategy = false;
-    }
-    var clientRect = element.getBoundingClientRect();
-    var scaleX = 1;
-    var scaleY = 1;
-    if (includeScale && isHTMLElement(element)) {
-      scaleX = element.offsetWidth > 0 ? round(clientRect.width) / element.offsetWidth || 1 : 1;
-      scaleY = element.offsetHeight > 0 ? round(clientRect.height) / element.offsetHeight || 1 : 1;
-    }
-    var _ref = isElement(element) ? getWindow(element) : window, visualViewport = _ref.visualViewport;
-    var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
-    var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
-    var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
-    var width = clientRect.width / scaleX;
-    var height = clientRect.height / scaleY;
-    return {
-      width,
-      height,
-      top: y,
-      right: x + width,
-      bottom: y + height,
-      left: x,
-      x,
-      y
+    _proto.performExit = function performExit() {
+      var _this3 = this;
+      var exit = this.props.exit;
+      var timeouts = this.getTimeouts();
+      var maybeNode = this.props.nodeRef ? void 0 : import_react_dom.default.findDOMNode(this);
+      if (!exit || config_default.disabled) {
+        this.safeSetState({
+          status: EXITED
+        }, function() {
+          _this3.props.onExited(maybeNode);
+        });
+        return;
+      }
+      this.props.onExit(maybeNode);
+      this.safeSetState({
+        status: EXITING
+      }, function() {
+        _this3.props.onExiting(maybeNode);
+        _this3.onTransitionEnd(timeouts.exit, function() {
+          _this3.safeSetState({
+            status: EXITED
+          }, function() {
+            _this3.props.onExited(maybeNode);
+          });
+        });
+      });
     };
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js
-  function getLayoutRect(element) {
-    var clientRect = getBoundingClientRect(element);
-    var width = element.offsetWidth;
-    var height = element.offsetHeight;
-    if (Math.abs(clientRect.width - width) <= 1) {
-      width = clientRect.width;
-    }
-    if (Math.abs(clientRect.height - height) <= 1) {
-      height = clientRect.height;
-    }
-    return {
-      x: element.offsetLeft,
-      y: element.offsetTop,
-      width,
-      height
+    _proto.cancelNextCallback = function cancelNextCallback() {
+      if (this.nextCallback !== null) {
+        this.nextCallback.cancel();
+        this.nextCallback = null;
+      }
     };
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/contains.js
-  function contains(parent, child) {
-    var rootNode = child.getRootNode && child.getRootNode();
-    if (parent.contains(child)) {
-      return true;
-    } else if (rootNode && isShadowRoot(rootNode)) {
-      var next = child;
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
+    _proto.safeSetState = function safeSetState(nextState, callback) {
+      callback = this.setNextCallback(callback);
+      this.setState(nextState, callback);
+    };
+    _proto.setNextCallback = function setNextCallback(callback) {
+      var _this4 = this;
+      var active = true;
+      this.nextCallback = function(event) {
+        if (active) {
+          active = false;
+          _this4.nextCallback = null;
+          callback(event);
         }
-        next = next.parentNode || next.host;
-      } while (next);
-    }
-    return false;
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js
-  function getComputedStyle2(element) {
-    return getWindow(element).getComputedStyle(element);
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/isTableElement.js
-  function isTableElement(element) {
-    return ["table", "td", "th"].indexOf(getNodeName(element)) >= 0;
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js
-  function getDocumentElement(element) {
-    return ((isElement(element) ? element.ownerDocument : (
-      // $FlowFixMe[prop-missing]
-      element.document
-    )) || window.document).documentElement;
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getParentNode.js
-  function getParentNode(element) {
-    if (getNodeName(element) === "html") {
-      return element;
-    }
-    return (
-      // this is a quicker (but less type safe) way to save quite some bytes from the bundle
-      // $FlowFixMe[incompatible-return]
-      // $FlowFixMe[prop-missing]
-      element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-      element.parentNode || // DOM Element detected
-      (isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
-      // $FlowFixMe[incompatible-call]: HTMLElement is a Node
-      getDocumentElement(element)
-    );
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js
-  function getTrueOffsetParent(element) {
-    if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-    getComputedStyle2(element).position === "fixed") {
-      return null;
-    }
-    return element.offsetParent;
-  }
-  function getContainingBlock(element) {
-    var isFirefox = /firefox/i.test(getUAString());
-    var isIE = /Trident/i.test(getUAString());
-    if (isIE && isHTMLElement(element)) {
-      var elementCss = getComputedStyle2(element);
-      if (elementCss.position === "fixed") {
+      };
+      this.nextCallback.cancel = function() {
+        active = false;
+      };
+      return this.nextCallback;
+    };
+    _proto.onTransitionEnd = function onTransitionEnd(timeout2, handler) {
+      this.setNextCallback(handler);
+      var node = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom.default.findDOMNode(this);
+      var doesNotHaveTimeoutOrListener = timeout2 == null && !this.props.addEndListener;
+      if (!node || doesNotHaveTimeoutOrListener) {
+        setTimeout(this.nextCallback, 0);
+        return;
+      }
+      if (this.props.addEndListener) {
+        var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node, this.nextCallback], maybeNode = _ref3[0], maybeNextCallback = _ref3[1];
+        this.props.addEndListener(maybeNode, maybeNextCallback);
+      }
+      if (timeout2 != null) {
+        setTimeout(this.nextCallback, timeout2);
+      }
+    };
+    _proto.render = function render() {
+      var status = this.state.status;
+      if (status === UNMOUNTED) {
         return null;
       }
-    }
-    var currentNode = getParentNode(element);
-    if (isShadowRoot(currentNode)) {
-      currentNode = currentNode.host;
-    }
-    while (isHTMLElement(currentNode) && ["html", "body"].indexOf(getNodeName(currentNode)) < 0) {
-      var css = getComputedStyle2(currentNode);
-      if (css.transform !== "none" || css.perspective !== "none" || css.contain === "paint" || ["transform", "perspective"].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === "filter" || isFirefox && css.filter && css.filter !== "none") {
-        return currentNode;
-      } else {
-        currentNode = currentNode.parentNode;
+      var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
+      return (
+        // allows for nested Transitions
+        /* @__PURE__ */ import_react5.default.createElement(TransitionGroupContext_default.Provider, {
+          value: null
+        }, typeof children === "function" ? children(status, childProps) : import_react5.default.cloneElement(import_react5.default.Children.only(children), childProps))
+      );
+    };
+    return Transition2;
+  }(import_react5.default.Component);
+  Transition.contextType = TransitionGroupContext_default;
+  Transition.propTypes = true ? {
+    /**
+     * A React reference to DOM element that need to transition:
+     * https://stackoverflow.com/a/51127130/4671932
+     *
+     *   - When `nodeRef` prop is used, `node` is not passed to callback functions
+     *      (e.g. `onEnter`) because user already has direct access to the node.
+     *   - When changing `key` prop of `Transition` in a `TransitionGroup` a new
+     *     `nodeRef` need to be provided to `Transition` with changed `key` prop
+     *     (see
+     *     [test/CSSTransition-test.js](https://github.com/reactjs/react-transition-group/blob/13435f897b3ab71f6e19d724f145596f5910581c/test/CSSTransition-test.js#L362-L437)).
+     */
+    nodeRef: import_prop_types2.default.shape({
+      current: typeof Element === "undefined" ? import_prop_types2.default.any : function(propValue, key, componentName, location, propFullName, secret) {
+        var value = propValue[key];
+        return import_prop_types2.default.instanceOf(value && "ownerDocument" in value ? value.ownerDocument.defaultView.Element : Element)(propValue, key, componentName, location, propFullName, secret);
       }
-    }
-    return null;
+    }),
+    /**
+     * A `function` child can be used instead of a React element. This function is
+     * called with the current transition status (`'entering'`, `'entered'`,
+     * `'exiting'`, `'exited'`), which can be used to apply context
+     * specific props to a component.
+     *
+     * ```jsx
+     * <Transition in={this.state.in} timeout={150}>
+     *   {state => (
+     *     <MyComponent className={`fade fade-${state}`} />
+     *   )}
+     * </Transition>
+     * ```
+     */
+    children: import_prop_types2.default.oneOfType([import_prop_types2.default.func.isRequired, import_prop_types2.default.element.isRequired]).isRequired,
+    /**
+     * Show the component; triggers the enter or exit states
+     */
+    in: import_prop_types2.default.bool,
+    /**
+     * By default the child component is mounted immediately along with
+     * the parent `Transition` component. If you want to "lazy mount" the component on the
+     * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
+     * mounted, even on "exited", unless you also specify `unmountOnExit`.
+     */
+    mountOnEnter: import_prop_types2.default.bool,
+    /**
+     * By default the child component stays mounted after it reaches the `'exited'` state.
+     * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
+     */
+    unmountOnExit: import_prop_types2.default.bool,
+    /**
+     * By default the child component does not perform the enter transition when
+     * it first mounts, regardless of the value of `in`. If you want this
+     * behavior, set both `appear` and `in` to `true`.
+     *
+     * > **Note**: there are no special appear states like `appearing`/`appeared`, this prop
+     * > only adds an additional enter transition. However, in the
+     * > `<CSSTransition>` component that first enter transition does result in
+     * > additional `.appear-*` classes, that way you can choose to style it
+     * > differently.
+     */
+    appear: import_prop_types2.default.bool,
+    /**
+     * Enable or disable enter transitions.
+     */
+    enter: import_prop_types2.default.bool,
+    /**
+     * Enable or disable exit transitions.
+     */
+    exit: import_prop_types2.default.bool,
+    /**
+     * The duration of the transition, in milliseconds.
+     * Required unless `addEndListener` is provided.
+     *
+     * You may specify a single timeout for all transitions:
+     *
+     * ```jsx
+     * timeout={500}
+     * ```
+     *
+     * or individually:
+     *
+     * ```jsx
+     * timeout={{
+     *  appear: 500,
+     *  enter: 300,
+     *  exit: 500,
+     * }}
+     * ```
+     *
+     * - `appear` defaults to the value of `enter`
+     * - `enter` defaults to `0`
+     * - `exit` defaults to `0`
+     *
+     * @type {number | { enter?: number, exit?: number, appear?: number }}
+     */
+    timeout: function timeout(props) {
+      var pt = timeoutsShape;
+      if (!props.addEndListener)
+        pt = pt.isRequired;
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      return pt.apply(void 0, [props].concat(args));
+    },
+    /**
+     * Add a custom transition end trigger. Called with the transitioning
+     * DOM node and a `done` callback. Allows for more fine grained transition end
+     * logic. Timeouts are still used as a fallback if provided.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * ```jsx
+     * addEndListener={(node, done) => {
+     *   // use the css transitionend event to mark the finish of a transition
+     *   node.addEventListener('transitionend', done, false);
+     * }}
+     * ```
+     */
+    addEndListener: import_prop_types2.default.func,
+    /**
+     * Callback fired before the "entering" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool) -> void
+     */
+    onEnter: import_prop_types2.default.func,
+    /**
+     * Callback fired after the "entering" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool)
+     */
+    onEntering: import_prop_types2.default.func,
+    /**
+     * Callback fired after the "entered" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool) -> void
+     */
+    onEntered: import_prop_types2.default.func,
+    /**
+     * Callback fired before the "exiting" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExit: import_prop_types2.default.func,
+    /**
+     * Callback fired after the "exiting" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExiting: import_prop_types2.default.func,
+    /**
+     * Callback fired after the "exited" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExited: import_prop_types2.default.func
+  } : {};
+  function noop() {
   }
-  function getOffsetParent(element) {
-    var window2 = getWindow(element);
-    var offsetParent = getTrueOffsetParent(element);
-    while (offsetParent && isTableElement(offsetParent) && getComputedStyle2(offsetParent).position === "static") {
-      offsetParent = getTrueOffsetParent(offsetParent);
+  Transition.defaultProps = {
+    in: false,
+    mountOnEnter: false,
+    unmountOnExit: false,
+    appear: false,
+    enter: true,
+    exit: true,
+    onEnter: noop,
+    onEntering: noop,
+    onEntered: noop,
+    onExit: noop,
+    onExiting: noop,
+    onExited: noop
+  };
+  Transition.UNMOUNTED = UNMOUNTED;
+  Transition.EXITED = EXITED;
+  Transition.ENTERING = ENTERING;
+  Transition.ENTERED = ENTERED;
+  Transition.EXITING = EXITING;
+  var Transition_default = Transition;
+
+  // node_modules/dom-helpers/esm/canUseDOM.js
+  var canUseDOM_default = !!(typeof window !== "undefined" && window.document && window.document.createElement);
+
+  // node_modules/dom-helpers/esm/addEventListener.js
+  var optionsSupported = false;
+  var onceSupported = false;
+  try {
+    options = {
+      get passive() {
+        return optionsSupported = true;
+      },
+      get once() {
+        return onceSupported = optionsSupported = true;
+      }
+    };
+    if (canUseDOM_default) {
+      window.addEventListener("test", options, options);
+      window.removeEventListener("test", options, true);
     }
-    if (offsetParent && (getNodeName(offsetParent) === "html" || getNodeName(offsetParent) === "body" && getComputedStyle2(offsetParent).position === "static")) {
-      return window2;
+  } catch (e) {
+  }
+  var options;
+  function addEventListener(node, eventName, handler, options) {
+    if (options && typeof options !== "boolean" && !onceSupported) {
+      var once = options.once, capture = options.capture;
+      var wrappedHandler = handler;
+      if (!onceSupported && once) {
+        wrappedHandler = handler.__once || function onceHandler(event) {
+          this.removeEventListener(eventName, onceHandler, capture);
+          handler.call(this, event);
+        };
+        handler.__once = wrappedHandler;
+      }
+      node.addEventListener(eventName, wrappedHandler, optionsSupported ? options : capture);
     }
-    return offsetParent || getContainingBlock(element) || window2;
+    node.addEventListener(eventName, handler, options);
+  }
+  var addEventListener_default = addEventListener;
+
+  // node_modules/dom-helpers/esm/removeEventListener.js
+  function removeEventListener(node, eventName, handler, options) {
+    var capture = options && typeof options !== "boolean" ? options.capture : options;
+    node.removeEventListener(eventName, handler, capture);
+    if (handler.__once) {
+      node.removeEventListener(eventName, handler.__once, capture);
+    }
+  }
+  var removeEventListener_default = removeEventListener;
+
+  // node_modules/dom-helpers/esm/listen.js
+  function listen(node, eventName, handler, options) {
+    addEventListener_default(node, eventName, handler, options);
+    return function() {
+      removeEventListener_default(node, eventName, handler, options);
+    };
+  }
+  var listen_default = listen;
+
+  // node_modules/dom-helpers/esm/triggerEvent.js
+  function triggerEvent(node, eventName, bubbles, cancelable) {
+    if (bubbles === void 0) {
+      bubbles = false;
+    }
+    if (cancelable === void 0) {
+      cancelable = true;
+    }
+    if (node) {
+      var event = document.createEvent("HTMLEvents");
+      event.initEvent(eventName, bubbles, cancelable);
+      node.dispatchEvent(event);
+    }
   }
 
-  // node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js
-  function getMainAxisFromPlacement(placement) {
-    return ["top", "bottom"].indexOf(placement) >= 0 ? "x" : "y";
+  // node_modules/dom-helpers/esm/transitionEnd.js
+  function parseDuration(node) {
+    var str = css_default(node, "transitionDuration") || "";
+    var mult = str.indexOf("ms") === -1 ? 1e3 : 1;
+    return parseFloat(str) * mult;
   }
-
-  // node_modules/@popperjs/core/lib/utils/within.js
-  function within(min2, value, max2) {
-    return max(min2, min(value, max2));
+  function emulateTransitionEnd(element, duration, padding) {
+    if (padding === void 0) {
+      padding = 5;
+    }
+    var called = false;
+    var handle = setTimeout(function() {
+      if (!called)
+        triggerEvent(element, "transitionend", true);
+    }, duration + padding);
+    var remove = listen_default(element, "transitionend", function() {
+      called = true;
+    }, {
+      once: true
+    });
+    return function() {
+      clearTimeout(handle);
+      remove();
+    };
   }
-  function withinMaxClamp(min2, value, max2) {
-    var v = within(min2, value, max2);
-    return v > max2 ? max2 : v;
-  }
-
-  // node_modules/@popperjs/core/lib/utils/getFreshSideObject.js
-  function getFreshSideObject() {
-    return {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
+  function transitionEnd(element, handler, duration, padding) {
+    if (duration == null)
+      duration = parseDuration(element) || 0;
+    var removeEmulate = emulateTransitionEnd(element, duration, padding);
+    var remove = listen_default(element, "transitionend", handler);
+    return function() {
+      removeEmulate();
+      remove();
     };
   }
 
-  // node_modules/@popperjs/core/lib/utils/mergePaddingObject.js
-  function mergePaddingObject(paddingObject) {
-    return Object.assign({}, getFreshSideObject(), paddingObject);
+  // node_modules/react-bootstrap/esm/transitionEndListener.js
+  function parseDuration2(node, property) {
+    const str = css_default(node, property) || "";
+    const mult = str.indexOf("ms") === -1 ? 1e3 : 1;
+    return parseFloat(str) * mult;
+  }
+  function transitionEndListener(element, handler) {
+    const duration = parseDuration2(element, "transitionDuration");
+    const delay = parseDuration2(element, "transitionDelay");
+    const remove = transitionEnd(element, (e) => {
+      if (e.target === element) {
+        remove();
+        handler(e);
+      }
+    }, duration + delay);
   }
 
-  // node_modules/@popperjs/core/lib/utils/expandToHashMap.js
-  function expandToHashMap(value, keys) {
-    return keys.reduce(function(hashMap, key) {
-      hashMap[key] = value;
-      return hashMap;
-    }, {});
+  // node_modules/react-bootstrap/esm/createChainedFunction.js
+  function createChainedFunction(...funcs) {
+    return funcs.filter((f) => f != null).reduce((acc, f) => {
+      if (typeof f !== "function") {
+        throw new Error("Invalid Argument Type, must only provide functions, undefined, or null.");
+      }
+      if (acc === null)
+        return f;
+      return function chainedFunction(...args) {
+        acc.apply(this, args);
+        f.apply(this, args);
+      };
+    }, null);
+  }
+  var createChainedFunction_default = createChainedFunction;
+
+  // node_modules/react-bootstrap/esm/triggerBrowserReflow.js
+  function triggerBrowserReflow(node) {
+    node.offsetHeight;
   }
 
-  // node_modules/@popperjs/core/lib/modifiers/arrow.js
-  var toPaddingObject = function toPaddingObject2(padding, state) {
-    padding = typeof padding === "function" ? padding(Object.assign({}, state.rects, {
-      placement: state.placement
-    })) : padding;
-    return mergePaddingObject(typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements));
+  // node_modules/react-bootstrap/esm/TransitionWrapper.js
+  var import_react7 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useMergedRefs.js
+  var import_react6 = __toESM(require_react());
+  var toFnRef = (ref) => !ref || typeof ref === "function" ? ref : (value) => {
+    ref.current = value;
   };
-  function arrow(_ref) {
-    var _state$modifiersData$;
-    var state = _ref.state, name = _ref.name, options = _ref.options;
-    var arrowElement = state.elements.arrow;
-    var popperOffsets2 = state.modifiersData.popperOffsets;
-    var basePlacement = getBasePlacement(state.placement);
-    var axis = getMainAxisFromPlacement(basePlacement);
-    var isVertical = [left, right].indexOf(basePlacement) >= 0;
-    var len = isVertical ? "height" : "width";
-    if (!arrowElement || !popperOffsets2) {
-      return;
-    }
-    var paddingObject = toPaddingObject(options.padding, state);
-    var arrowRect = getLayoutRect(arrowElement);
-    var minProp = axis === "y" ? top : left;
-    var maxProp = axis === "y" ? bottom : right;
-    var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets2[axis] - state.rects.popper[len];
-    var startDiff = popperOffsets2[axis] - state.rects.reference[axis];
-    var arrowOffsetParent = getOffsetParent(arrowElement);
-    var clientSize = arrowOffsetParent ? axis === "y" ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
-    var centerToReference = endDiff / 2 - startDiff / 2;
-    var min2 = paddingObject[minProp];
-    var max2 = clientSize - arrowRect[len] - paddingObject[maxProp];
-    var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
-    var offset2 = within(min2, center, max2);
-    var axisProp = axis;
-    state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset2, _state$modifiersData$.centerOffset = offset2 - center, _state$modifiersData$);
+  function mergeRefs(refA, refB) {
+    const a = toFnRef(refA);
+    const b = toFnRef(refB);
+    return (value) => {
+      if (a)
+        a(value);
+      if (b)
+        b(value);
+    };
   }
-  function effect2(_ref2) {
-    var state = _ref2.state, options = _ref2.options;
-    var _options$element = options.element, arrowElement = _options$element === void 0 ? "[data-popper-arrow]" : _options$element;
-    if (arrowElement == null) {
-      return;
+  function useMergedRefs(refA, refB) {
+    return (0, import_react6.useMemo)(() => mergeRefs(refA, refB), [refA, refB]);
+  }
+  var useMergedRefs_default = useMergedRefs;
+
+  // node_modules/react-bootstrap/esm/safeFindDOMNode.js
+  var import_react_dom2 = __toESM(require_react_dom());
+  function safeFindDOMNode(componentOrElement) {
+    if (componentOrElement && "setState" in componentOrElement) {
+      return import_react_dom2.default.findDOMNode(componentOrElement);
     }
-    if (typeof arrowElement === "string") {
-      arrowElement = state.elements.popper.querySelector(arrowElement);
-      if (!arrowElement) {
+    return componentOrElement != null ? componentOrElement : null;
+  }
+
+  // node_modules/react-bootstrap/esm/TransitionWrapper.js
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+  var TransitionWrapper = /* @__PURE__ */ import_react7.default.forwardRef((_a, ref) => {
+    var _b = _a, {
+      onEnter,
+      onEntering,
+      onEntered,
+      onExit,
+      onExiting,
+      onExited,
+      addEndListener,
+      children,
+      childRef
+    } = _b, props = __objRest(_b, [
+      "onEnter",
+      "onEntering",
+      "onEntered",
+      "onExit",
+      "onExiting",
+      "onExited",
+      "addEndListener",
+      "children",
+      "childRef"
+    ]);
+    const nodeRef = (0, import_react7.useRef)(null);
+    const mergedRef = useMergedRefs_default(nodeRef, childRef);
+    const attachRef = (r) => {
+      mergedRef(safeFindDOMNode(r));
+    };
+    const normalize = (callback) => (param) => {
+      if (callback && nodeRef.current) {
+        callback(nodeRef.current, param);
+      }
+    };
+    const handleEnter = (0, import_react7.useCallback)(normalize(onEnter), [onEnter]);
+    const handleEntering = (0, import_react7.useCallback)(normalize(onEntering), [onEntering]);
+    const handleEntered = (0, import_react7.useCallback)(normalize(onEntered), [onEntered]);
+    const handleExit = (0, import_react7.useCallback)(normalize(onExit), [onExit]);
+    const handleExiting = (0, import_react7.useCallback)(normalize(onExiting), [onExiting]);
+    const handleExited = (0, import_react7.useCallback)(normalize(onExited), [onExited]);
+    const handleAddEndListener = (0, import_react7.useCallback)(normalize(addEndListener), [addEndListener]);
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Transition_default, __spreadProps(__spreadValues({
+      ref
+    }, props), {
+      onEnter: handleEnter,
+      onEntered: handleEntered,
+      onEntering: handleEntering,
+      onExit: handleExit,
+      onExited: handleExited,
+      onExiting: handleExiting,
+      addEndListener: handleAddEndListener,
+      nodeRef,
+      children: typeof children === "function" ? (status, innerProps) => (
+        // TODO: Types for RTG missing innerProps, so need to cast.
+        children(status, __spreadProps(__spreadValues({}, innerProps), {
+          ref: attachRef
+        }))
+      ) : /* @__PURE__ */ import_react7.default.cloneElement(children, {
+        ref: attachRef
+      })
+    }));
+  });
+  var TransitionWrapper_default = TransitionWrapper;
+
+  // node_modules/react-bootstrap/esm/Collapse.js
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  var MARGINS = {
+    height: ["marginTop", "marginBottom"],
+    width: ["marginLeft", "marginRight"]
+  };
+  function getDefaultDimensionValue(dimension, elem) {
+    const offset = `offset${dimension[0].toUpperCase()}${dimension.slice(1)}`;
+    const value = elem[offset];
+    const margins = MARGINS[dimension];
+    return value + // @ts-ignore
+    parseInt(css_default(elem, margins[0]), 10) + // @ts-ignore
+    parseInt(css_default(elem, margins[1]), 10);
+  }
+  var collapseStyles = {
+    [EXITED]: "collapse",
+    [EXITING]: "collapsing",
+    [ENTERING]: "collapsing",
+    [ENTERED]: "collapse show"
+  };
+  var Collapse = /* @__PURE__ */ import_react8.default.forwardRef((_a, ref) => {
+    var _b = _a, {
+      onEnter,
+      onEntering,
+      onEntered,
+      onExit,
+      onExiting,
+      className,
+      children,
+      dimension = "height",
+      in: inProp = false,
+      timeout: timeout2 = 300,
+      mountOnEnter = false,
+      unmountOnExit = false,
+      appear = false,
+      getDimensionValue = getDefaultDimensionValue
+    } = _b, props = __objRest(_b, [
+      "onEnter",
+      "onEntering",
+      "onEntered",
+      "onExit",
+      "onExiting",
+      "className",
+      "children",
+      "dimension",
+      "in",
+      "timeout",
+      "mountOnEnter",
+      "unmountOnExit",
+      "appear",
+      "getDimensionValue"
+    ]);
+    const computedDimension = typeof dimension === "function" ? dimension() : dimension;
+    const handleEnter = (0, import_react8.useMemo)(() => createChainedFunction_default((elem) => {
+      elem.style[computedDimension] = "0";
+    }, onEnter), [computedDimension, onEnter]);
+    const handleEntering = (0, import_react8.useMemo)(() => createChainedFunction_default((elem) => {
+      const scroll = `scroll${computedDimension[0].toUpperCase()}${computedDimension.slice(1)}`;
+      elem.style[computedDimension] = `${elem[scroll]}px`;
+    }, onEntering), [computedDimension, onEntering]);
+    const handleEntered = (0, import_react8.useMemo)(() => createChainedFunction_default((elem) => {
+      elem.style[computedDimension] = null;
+    }, onEntered), [computedDimension, onEntered]);
+    const handleExit = (0, import_react8.useMemo)(() => createChainedFunction_default((elem) => {
+      elem.style[computedDimension] = `${getDimensionValue(computedDimension, elem)}px`;
+      triggerBrowserReflow(elem);
+    }, onExit), [onExit, getDimensionValue, computedDimension]);
+    const handleExiting = (0, import_react8.useMemo)(() => createChainedFunction_default((elem) => {
+      elem.style[computedDimension] = null;
+    }, onExiting), [computedDimension, onExiting]);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(TransitionWrapper_default, __spreadProps(__spreadValues({
+      ref,
+      addEndListener: transitionEndListener
+    }, props), {
+      "aria-expanded": props.role ? inProp : null,
+      onEnter: handleEnter,
+      onEntering: handleEntering,
+      onEntered: handleEntered,
+      onExit: handleExit,
+      onExiting: handleExiting,
+      childRef: children.ref,
+      in: inProp,
+      timeout: timeout2,
+      mountOnEnter,
+      unmountOnExit,
+      appear,
+      children: (state, innerProps) => /* @__PURE__ */ import_react8.default.cloneElement(children, __spreadProps(__spreadValues({}, innerProps), {
+        className: (0, import_classnames.default)(className, children.props.className, collapseStyles[state], computedDimension === "width" && "collapse-horizontal")
+      }))
+    }));
+  });
+  var Collapse_default = Collapse;
+
+  // node_modules/@restart/hooks/esm/useEventCallback.js
+  var import_react10 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useCommittedRef.js
+  var import_react9 = __toESM(require_react());
+  function useCommittedRef(value) {
+    const ref = (0, import_react9.useRef)(value);
+    (0, import_react9.useEffect)(() => {
+      ref.current = value;
+    }, [value]);
+    return ref;
+  }
+  var useCommittedRef_default = useCommittedRef;
+
+  // node_modules/@restart/hooks/esm/useEventCallback.js
+  function useEventCallback(fn) {
+    const ref = useCommittedRef_default(fn);
+    return (0, import_react10.useCallback)(function(...args) {
+      return ref.current && ref.current(...args);
+    }, [ref]);
+  }
+
+  // node_modules/react-bootstrap/esm/divWithClassName.js
+  var React7 = __toESM(require_react());
+  var import_classnames2 = __toESM(require_classnames());
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  var divWithClassName_default = (className) => /* @__PURE__ */ React7.forwardRef((p, ref) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", __spreadProps(__spreadValues({}, p), {
+    ref,
+    className: (0, import_classnames2.default)(p.className, className)
+  })));
+
+  // node_modules/@restart/ui/esm/Anchor.js
+  var React9 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useCallbackRef.js
+  var import_react11 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useEventListener.js
+  var import_react12 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useGlobalListener.js
+  var import_react13 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useInterval.js
+  var import_react14 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useRafInterval.js
+  var import_react15 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useMergeState.js
+  var import_react16 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useMounted.js
+  var import_react17 = __toESM(require_react());
+  function useMounted() {
+    const mounted = (0, import_react17.useRef)(true);
+    const isMounted = (0, import_react17.useRef)(() => mounted.current);
+    (0, import_react17.useEffect)(() => {
+      mounted.current = true;
+      return () => {
+        mounted.current = false;
+      };
+    }, []);
+    return isMounted.current;
+  }
+
+  // node_modules/@restart/hooks/esm/usePrevious.js
+  var import_react18 = __toESM(require_react());
+  function usePrevious(value) {
+    const ref = (0, import_react18.useRef)(null);
+    (0, import_react18.useEffect)(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  // node_modules/@restart/hooks/esm/useImage.js
+  var import_react19 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useResizeObserver.js
+  var import_react21 = __toESM(require_react());
+
+  // node_modules/@restart/hooks/esm/useIsomorphicEffect.js
+  var import_react20 = __toESM(require_react());
+  var isReactNative = typeof global !== "undefined" && // @ts-ignore
+  global.navigator && // @ts-ignore
+  global.navigator.product === "ReactNative";
+  var isDOM = typeof document !== "undefined";
+  var useIsomorphicEffect_default = isDOM || isReactNative ? import_react20.useLayoutEffect : import_react20.useEffect;
+
+  // node_modules/@restart/ui/esm/Button.js
+  var React8 = __toESM(require_react());
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  var _excluded = ["as", "disabled"];
+  function _objectWithoutPropertiesLoose2(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
+  }
+  function isTrivialHref(href) {
+    return !href || href.trim() === "#";
+  }
+  function useButtonProps({
+    tagName,
+    disabled,
+    href,
+    target,
+    rel,
+    role,
+    onClick,
+    tabIndex = 0,
+    type
+  }) {
+    if (!tagName) {
+      if (href != null || target != null || rel != null) {
+        tagName = "a";
+      } else {
+        tagName = "button";
+      }
+    }
+    const meta = {
+      tagName
+    };
+    if (tagName === "button") {
+      return [{
+        type: type || "button",
+        disabled
+      }, meta];
+    }
+    const handleClick = (event) => {
+      if (disabled || tagName === "a" && isTrivialHref(href)) {
+        event.preventDefault();
+      }
+      if (disabled) {
+        event.stopPropagation();
         return;
       }
-    }
-    if (true) {
-      if (!isHTMLElement(arrowElement)) {
-        console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', "To use an SVG arrow, wrap it in an HTMLElement that will be used as", "the arrow."].join(" "));
+      onClick == null ? void 0 : onClick(event);
+    };
+    const handleKeyDown = (event) => {
+      if (event.key === " ") {
+        event.preventDefault();
+        handleClick(event);
+      }
+    };
+    if (tagName === "a") {
+      href || (href = "#");
+      if (disabled) {
+        href = void 0;
       }
     }
-    if (!contains(state.elements.popper, arrowElement)) {
-      if (true) {
-        console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', "element."].join(" "));
-      }
-      return;
-    }
-    state.elements.arrow = arrowElement;
+    return [{
+      role: role != null ? role : "button",
+      // explicitly undefined so that it overrides the props disabled in a spread
+      // e.g. <Tag {...props} {...hookProps} />
+      disabled: void 0,
+      tabIndex: disabled ? void 0 : tabIndex,
+      href,
+      target: tagName === "a" ? target : void 0,
+      "aria-disabled": !disabled ? void 0 : disabled,
+      rel: tagName === "a" ? rel : void 0,
+      onClick: handleClick,
+      onKeyDown: handleKeyDown
+    }, meta];
   }
-  var arrow_default = {
-    name: "arrow",
-    enabled: true,
-    phase: "main",
-    fn: arrow,
-    effect: effect2,
-    requires: ["popperOffsets"],
-    requiresIfExists: ["preventOverflow"]
-  };
+  var Button = /* @__PURE__ */ React8.forwardRef((_ref, ref) => {
+    let {
+      as: asProp,
+      disabled
+    } = _ref, props = _objectWithoutPropertiesLoose2(_ref, _excluded);
+    const [buttonProps, {
+      tagName: Component
+    }] = useButtonProps(Object.assign({
+      tagName: asProp,
+      disabled
+    }, props));
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Component, Object.assign({}, props, buttonProps, {
+      ref
+    }));
+  });
+  Button.displayName = "Button";
+  var Button_default = Button;
 
-  // node_modules/@popperjs/core/lib/utils/getVariation.js
-  function getVariation(placement) {
-    return placement.split("-")[1];
+  // node_modules/@restart/ui/esm/Anchor.js
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  var _excluded2 = ["onKeyDown"];
+  function _objectWithoutPropertiesLoose3(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
   }
-
-  // node_modules/@popperjs/core/lib/modifiers/computeStyles.js
-  var unsetSides = {
-    top: "auto",
-    right: "auto",
-    bottom: "auto",
-    left: "auto"
-  };
-  function roundOffsetsByDPR(_ref) {
-    var x = _ref.x, y = _ref.y;
-    var win = window;
-    var dpr = win.devicePixelRatio || 1;
-    return {
-      x: round(x * dpr) / dpr || 0,
-      y: round(y * dpr) / dpr || 0
-    };
+  function isTrivialHref2(href) {
+    return !href || href.trim() === "#";
   }
-  function mapToStyles(_ref2) {
-    var _Object$assign2;
-    var popper2 = _ref2.popper, popperRect = _ref2.popperRect, placement = _ref2.placement, variation = _ref2.variation, offsets = _ref2.offsets, position = _ref2.position, gpuAcceleration = _ref2.gpuAcceleration, adaptive = _ref2.adaptive, roundOffsets = _ref2.roundOffsets, isFixed = _ref2.isFixed;
-    var _offsets$x = offsets.x, x = _offsets$x === void 0 ? 0 : _offsets$x, _offsets$y = offsets.y, y = _offsets$y === void 0 ? 0 : _offsets$y;
-    var _ref3 = typeof roundOffsets === "function" ? roundOffsets({
-      x,
-      y
-    }) : {
-      x,
-      y
-    };
-    x = _ref3.x;
-    y = _ref3.y;
-    var hasX = offsets.hasOwnProperty("x");
-    var hasY = offsets.hasOwnProperty("y");
-    var sideX = left;
-    var sideY = top;
-    var win = window;
-    if (adaptive) {
-      var offsetParent = getOffsetParent(popper2);
-      var heightProp = "clientHeight";
-      var widthProp = "clientWidth";
-      if (offsetParent === getWindow(popper2)) {
-        offsetParent = getDocumentElement(popper2);
-        if (getComputedStyle2(offsetParent).position !== "static" && position === "absolute") {
-          heightProp = "scrollHeight";
-          widthProp = "scrollWidth";
-        }
-      }
-      offsetParent = offsetParent;
-      if (placement === top || (placement === left || placement === right) && variation === end) {
-        sideY = bottom;
-        var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : (
-          // $FlowFixMe[prop-missing]
-          offsetParent[heightProp]
-        );
-        y -= offsetY - popperRect.height;
-        y *= gpuAcceleration ? 1 : -1;
-      }
-      if (placement === left || (placement === top || placement === bottom) && variation === end) {
-        sideX = right;
-        var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : (
-          // $FlowFixMe[prop-missing]
-          offsetParent[widthProp]
-        );
-        x -= offsetX - popperRect.width;
-        x *= gpuAcceleration ? 1 : -1;
-      }
-    }
-    var commonStyles = Object.assign({
-      position
-    }, adaptive && unsetSides);
-    var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
-      x,
-      y
-    }) : {
-      x,
-      y
-    };
-    x = _ref4.x;
-    y = _ref4.y;
-    if (gpuAcceleration) {
-      var _Object$assign;
-      return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? "0" : "", _Object$assign[sideX] = hasX ? "0" : "", _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
-    }
-    return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : "", _Object$assign2[sideX] = hasX ? x + "px" : "", _Object$assign2.transform = "", _Object$assign2));
-  }
-  function computeStyles(_ref5) {
-    var state = _ref5.state, options = _ref5.options;
-    var _options$gpuAccelerat = options.gpuAcceleration, gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat, _options$adaptive = options.adaptive, adaptive = _options$adaptive === void 0 ? true : _options$adaptive, _options$roundOffsets = options.roundOffsets, roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-    if (true) {
-      var transitionProperty = getComputedStyle2(state.elements.popper).transitionProperty || "";
-      if (adaptive && ["transform", "top", "right", "bottom", "left"].some(function(property) {
-        return transitionProperty.indexOf(property) >= 0;
-      })) {
-        console.warn(["Popper: Detected CSS transitions on at least one of the following", 'CSS properties: "transform", "top", "right", "bottom", "left".', "\n\n", 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', "for smooth transitions, or remove these properties from the CSS", "transition declaration on the popper element if only transitioning", "opacity or background-color for example.", "\n\n", "We recommend using the popper element as a wrapper around an inner", "element that can have any CSS property transitioned for animations."].join(" "));
-      }
-    }
-    var commonStyles = {
-      placement: getBasePlacement(state.placement),
-      variation: getVariation(state.placement),
-      popper: state.elements.popper,
-      popperRect: state.rects.popper,
-      gpuAcceleration,
-      isFixed: state.options.strategy === "fixed"
-    };
-    if (state.modifiersData.popperOffsets != null) {
-      state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
-        offsets: state.modifiersData.popperOffsets,
-        position: state.options.strategy,
-        adaptive,
-        roundOffsets
-      })));
-    }
-    if (state.modifiersData.arrow != null) {
-      state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
-        offsets: state.modifiersData.arrow,
-        position: "absolute",
-        adaptive: false,
-        roundOffsets
-      })));
-    }
-    state.attributes.popper = Object.assign({}, state.attributes.popper, {
-      "data-popper-placement": state.placement
+  var Anchor = /* @__PURE__ */ React9.forwardRef((_ref, ref) => {
+    let {
+      onKeyDown
+    } = _ref, props = _objectWithoutPropertiesLoose3(_ref, _excluded2);
+    const [buttonProps] = useButtonProps(Object.assign({
+      tagName: "a"
+    }, props));
+    const handleKeyDown = useEventCallback((e) => {
+      buttonProps.onKeyDown(e);
+      onKeyDown == null ? void 0 : onKeyDown(e);
     });
-  }
-  var computeStyles_default = {
-    name: "computeStyles",
-    enabled: true,
-    phase: "beforeWrite",
-    fn: computeStyles,
-    data: {}
-  };
-
-  // node_modules/@popperjs/core/lib/modifiers/eventListeners.js
-  var passive = {
-    passive: true
-  };
-  function effect3(_ref) {
-    var state = _ref.state, instance = _ref.instance, options = _ref.options;
-    var _options$scroll = options.scroll, scroll = _options$scroll === void 0 ? true : _options$scroll, _options$resize = options.resize, resize = _options$resize === void 0 ? true : _options$resize;
-    var window2 = getWindow(state.elements.popper);
-    var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-    if (scroll) {
-      scrollParents.forEach(function(scrollParent) {
-        scrollParent.addEventListener("scroll", instance.update, passive);
-      });
+    if (isTrivialHref2(props.href) || props.role === "button") {
+      return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", Object.assign({
+        ref
+      }, props, buttonProps, {
+        onKeyDown: handleKeyDown
+      }));
     }
-    if (resize) {
-      window2.addEventListener("resize", instance.update, passive);
-    }
-    return function() {
-      if (scroll) {
-        scrollParents.forEach(function(scrollParent) {
-          scrollParent.removeEventListener("scroll", instance.update, passive);
-        });
-      }
-      if (resize) {
-        window2.removeEventListener("resize", instance.update, passive);
-      }
-    };
-  }
-  var eventListeners_default = {
-    name: "eventListeners",
-    enabled: true,
-    phase: "write",
-    fn: function fn() {
-    },
-    effect: effect3,
-    data: {}
-  };
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("a", Object.assign({
+      ref
+    }, props, {
+      onKeyDown
+    }));
+  });
+  Anchor.displayName = "Anchor";
+  var Anchor_default = Anchor;
 
-  // node_modules/@popperjs/core/lib/utils/getOppositePlacement.js
-  var hash = {
-    left: "right",
-    right: "left",
-    bottom: "top",
-    top: "bottom"
+  // node_modules/react-bootstrap/esm/Fade.js
+  var import_classnames3 = __toESM(require_classnames());
+  var React10 = __toESM(require_react());
+  var import_react22 = __toESM(require_react());
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  var fadeStyles = {
+    [ENTERING]: "show",
+    [ENTERED]: "show"
   };
-  function getOppositePlacement(placement) {
-    return placement.replace(/left|right|bottom|top/g, function(matched) {
-      return hash[matched];
+  var Fade = /* @__PURE__ */ React10.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      children,
+      transitionClasses = {},
+      onEnter
+    } = _b, rest = __objRest(_b, [
+      "className",
+      "children",
+      "transitionClasses",
+      "onEnter"
+    ]);
+    const props = __spreadValues({
+      in: false,
+      timeout: 300,
+      mountOnEnter: false,
+      unmountOnExit: false,
+      appear: false
+    }, rest);
+    const handleEnter = (0, import_react22.useCallback)((node, isAppearing) => {
+      triggerBrowserReflow(node);
+      onEnter == null ? void 0 : onEnter(node, isAppearing);
+    }, [onEnter]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TransitionWrapper_default, __spreadProps(__spreadValues({
+      ref,
+      addEndListener: transitionEndListener
+    }, props), {
+      onEnter: handleEnter,
+      childRef: children.ref,
+      children: (status, innerProps) => /* @__PURE__ */ React10.cloneElement(children, __spreadProps(__spreadValues({}, innerProps), {
+        className: (0, import_classnames3.default)("fade", className, children.props.className, fadeStyles[status], transitionClasses[status])
+      }))
+    }));
+  });
+  Fade.displayName = "Fade";
+  var Fade_default = Fade;
+
+  // node_modules/react-bootstrap/esm/CloseButton.js
+  var import_prop_types3 = __toESM(require_prop_types());
+  var React11 = __toESM(require_react());
+  var import_classnames4 = __toESM(require_classnames());
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  var propTypes = {
+    /** An accessible label indicating the relevant information about the Close Button. */
+    "aria-label": import_prop_types3.default.string,
+    /** A callback fired after the Close Button is clicked. */
+    onClick: import_prop_types3.default.func,
+    /**
+     * Render different color variant for the button.
+     *
+     * Omitting this will render the default dark color.
+     */
+    variant: import_prop_types3.default.oneOf(["white"])
+  };
+  var CloseButton = /* @__PURE__ */ React11.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      variant,
+      "aria-label": ariaLabel = "Close"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "variant",
+      "aria-label"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", __spreadValues({
+      ref,
+      type: "button",
+      className: (0, import_classnames4.default)("btn-close", variant && `btn-close-${variant}`, className),
+      "aria-label": ariaLabel
+    }, props));
+  });
+  CloseButton.displayName = "CloseButton";
+  CloseButton.propTypes = propTypes;
+  var CloseButton_default = CloseButton;
+
+  // node_modules/react-bootstrap/esm/Button.js
+  var import_classnames5 = __toESM(require_classnames());
+  var React12 = __toESM(require_react());
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  var Button2 = /* @__PURE__ */ React12.forwardRef((_a, ref) => {
+    var _b = _a, {
+      as,
+      bsPrefix,
+      variant = "primary",
+      size,
+      active = false,
+      disabled = false,
+      className
+    } = _b, props = __objRest(_b, [
+      "as",
+      "bsPrefix",
+      "variant",
+      "size",
+      "active",
+      "disabled",
+      "className"
+    ]);
+    const prefix = useBootstrapPrefix(bsPrefix, "btn");
+    const [buttonProps, {
+      tagName
+    }] = useButtonProps(__spreadValues({
+      tagName: as,
+      disabled
+    }, props));
+    const Component = tagName;
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Component, __spreadProps(__spreadValues(__spreadValues({}, buttonProps), props), {
+      ref,
+      disabled,
+      className: (0, import_classnames5.default)(className, prefix, active && "active", variant && `${prefix}-${variant}`, size && `${prefix}-${size}`, props.href && disabled && "disabled")
+    }));
+  });
+  Button2.displayName = "Button";
+  var Button_default2 = Button2;
+
+  // node_modules/react-bootstrap/esm/Card.js
+  var import_classnames15 = __toESM(require_classnames());
+  var React23 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/CardBody.js
+  var React13 = __toESM(require_react());
+  var import_classnames6 = __toESM(require_classnames());
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
+  var CardBody = /* @__PURE__ */ React13.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-body");
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames6.default)(className, bsPrefix)
+    }, props));
+  });
+  CardBody.displayName = "CardBody";
+  var CardBody_default = CardBody;
+
+  // node_modules/react-bootstrap/esm/CardFooter.js
+  var React14 = __toESM(require_react());
+  var import_classnames7 = __toESM(require_classnames());
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+  var CardFooter = /* @__PURE__ */ React14.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-footer");
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames7.default)(className, bsPrefix)
+    }, props));
+  });
+  CardFooter.displayName = "CardFooter";
+  var CardFooter_default = CardFooter;
+
+  // node_modules/react-bootstrap/esm/CardHeader.js
+  var import_classnames8 = __toESM(require_classnames());
+  var React16 = __toESM(require_react());
+  var import_react23 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/CardHeaderContext.js
+  var React15 = __toESM(require_react());
+  var context = /* @__PURE__ */ React15.createContext(null);
+  context.displayName = "CardHeaderContext";
+  var CardHeaderContext_default = context;
+
+  // node_modules/react-bootstrap/esm/CardHeader.js
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
+  var CardHeader = /* @__PURE__ */ React16.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    const prefix = useBootstrapPrefix(bsPrefix, "card-header");
+    const contextValue = (0, import_react23.useMemo)(() => ({
+      cardHeaderBsPrefix: prefix
+    }), [prefix]);
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(CardHeaderContext_default.Provider, {
+      value: contextValue,
+      children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Component, __spreadProps(__spreadValues({
+        ref
+      }, props), {
+        className: (0, import_classnames8.default)(className, prefix)
+      }))
     });
+  });
+  CardHeader.displayName = "CardHeader";
+  var CardHeader_default = CardHeader;
+
+  // node_modules/react-bootstrap/esm/CardImg.js
+  var import_classnames9 = __toESM(require_classnames());
+  var React17 = __toESM(require_react());
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime());
+  var CardImg = /* @__PURE__ */ React17.forwardRef(
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    (_a, ref) => {
+      var _b = _a, {
+        bsPrefix,
+        className,
+        variant,
+        as: Component = "img"
+      } = _b, props = __objRest(_b, [
+        "bsPrefix",
+        "className",
+        "variant",
+        "as"
+      ]);
+      const prefix = useBootstrapPrefix(bsPrefix, "card-img");
+      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Component, __spreadValues({
+        ref,
+        className: (0, import_classnames9.default)(variant ? `${prefix}-${variant}` : prefix, className)
+      }, props));
+    }
+  );
+  CardImg.displayName = "CardImg";
+  var CardImg_default = CardImg;
+
+  // node_modules/react-bootstrap/esm/CardImgOverlay.js
+  var React18 = __toESM(require_react());
+  var import_classnames10 = __toESM(require_classnames());
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime());
+  var CardImgOverlay = /* @__PURE__ */ React18.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-img-overlay");
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames10.default)(className, bsPrefix)
+    }, props));
+  });
+  CardImgOverlay.displayName = "CardImgOverlay";
+  var CardImgOverlay_default = CardImgOverlay;
+
+  // node_modules/react-bootstrap/esm/CardLink.js
+  var React19 = __toESM(require_react());
+  var import_classnames11 = __toESM(require_classnames());
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+  var CardLink = /* @__PURE__ */ React19.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "a"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-link");
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames11.default)(className, bsPrefix)
+    }, props));
+  });
+  CardLink.displayName = "CardLink";
+  var CardLink_default = CardLink;
+
+  // node_modules/react-bootstrap/esm/CardSubtitle.js
+  var React20 = __toESM(require_react());
+  var import_classnames12 = __toESM(require_classnames());
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+  var DivStyledAsH6 = divWithClassName_default("h6");
+  var CardSubtitle = /* @__PURE__ */ React20.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = DivStyledAsH6
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-subtitle");
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames12.default)(className, bsPrefix)
+    }, props));
+  });
+  CardSubtitle.displayName = "CardSubtitle";
+  var CardSubtitle_default = CardSubtitle;
+
+  // node_modules/react-bootstrap/esm/CardText.js
+  var React21 = __toESM(require_react());
+  var import_classnames13 = __toESM(require_classnames());
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+  var CardText = /* @__PURE__ */ React21.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "p"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-text");
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames13.default)(className, bsPrefix)
+    }, props));
+  });
+  CardText.displayName = "CardText";
+  var CardText_default = CardText;
+
+  // node_modules/react-bootstrap/esm/CardTitle.js
+  var React22 = __toESM(require_react());
+  var import_classnames14 = __toESM(require_classnames());
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime());
+  var DivStyledAsH5 = divWithClassName_default("h5");
+  var CardTitle = /* @__PURE__ */ React22.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = DivStyledAsH5
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "card-title");
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames14.default)(className, bsPrefix)
+    }, props));
+  });
+  CardTitle.displayName = "CardTitle";
+  var CardTitle_default = CardTitle;
+
+  // node_modules/react-bootstrap/esm/Card.js
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime());
+  var Card = /* @__PURE__ */ React23.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      bg,
+      text,
+      border,
+      body = false,
+      children,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "bg",
+      "text",
+      "border",
+      "body",
+      "children",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    const prefix = useBootstrapPrefix(bsPrefix, "card");
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Component, __spreadProps(__spreadValues({
+      ref
+    }, props), {
+      className: (0, import_classnames15.default)(className, prefix, bg && `bg-${bg}`, text && `text-${text}`, border && `border-${border}`),
+      children: body ? /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(CardBody_default, {
+        children
+      }) : children
+    }));
+  });
+  Card.displayName = "Card";
+  var Card_default = Object.assign(Card, {
+    Img: CardImg_default,
+    Title: CardTitle_default,
+    Subtitle: CardSubtitle_default,
+    Body: CardBody_default,
+    Link: CardLink_default,
+    Text: CardText_default,
+    Header: CardHeader_default,
+    Footer: CardFooter_default,
+    ImgOverlay: CardImgOverlay_default
+  });
+
+  // node_modules/@restart/hooks/esm/useUpdatedRef.js
+  var import_react24 = __toESM(require_react());
+  function useUpdatedRef(value) {
+    const valueRef = (0, import_react24.useRef)(value);
+    valueRef.current = value;
+    return valueRef;
   }
 
-  // node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js
-  var hash2 = {
-    start: "end",
-    end: "start"
-  };
-  function getOppositeVariationPlacement(placement) {
-    return placement.replace(/start|end/g, function(matched) {
-      return hash2[matched];
-    });
+  // node_modules/@restart/hooks/esm/useWillUnmount.js
+  var import_react25 = __toESM(require_react());
+  function useWillUnmount(fn) {
+    const onUnmount = useUpdatedRef(fn);
+    (0, import_react25.useEffect)(() => () => onUnmount.current(), []);
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js
-  function getWindowScroll(node) {
-    var win = getWindow(node);
-    var scrollLeft = win.pageXOffset;
-    var scrollTop = win.pageYOffset;
-    return {
-      scrollLeft,
-      scrollTop
-    };
+  // node_modules/react-bootstrap/esm/ElementChildren.js
+  var React24 = __toESM(require_react());
+  function hasChildOfType(children, type) {
+    return React24.Children.toArray(children).some((child) => /* @__PURE__ */ React24.isValidElement(child) && child.type === type);
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js
-  function getWindowScrollBarX(element) {
-    return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js
-  function getViewportRect(element, strategy) {
-    var win = getWindow(element);
-    var html = getDocumentElement(element);
-    var visualViewport = win.visualViewport;
-    var width = html.clientWidth;
-    var height = html.clientHeight;
-    var x = 0;
-    var y = 0;
-    if (visualViewport) {
-      width = visualViewport.width;
-      height = visualViewport.height;
-      var layoutViewport = isLayoutViewport();
-      if (layoutViewport || !layoutViewport && strategy === "fixed") {
-        x = visualViewport.offsetLeft;
-        y = visualViewport.offsetTop;
+  // node_modules/react-bootstrap/esm/Col.js
+  var import_classnames16 = __toESM(require_classnames());
+  var React25 = __toESM(require_react());
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime());
+  function useCol(_a) {
+    var _b = _a, {
+      as,
+      bsPrefix,
+      className
+    } = _b, props = __objRest(_b, [
+      "as",
+      "bsPrefix",
+      "className"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "col");
+    const breakpoints = useBootstrapBreakpoints();
+    const minBreakpoint = useBootstrapMinBreakpoint();
+    const spans = [];
+    const classes = [];
+    breakpoints.forEach((brkPoint) => {
+      const propValue = props[brkPoint];
+      delete props[brkPoint];
+      let span;
+      let offset;
+      let order;
+      if (typeof propValue === "object" && propValue != null) {
+        ({
+          span,
+          offset,
+          order
+        } = propValue);
+      } else {
+        span = propValue;
       }
+      const infix = brkPoint !== minBreakpoint ? `-${brkPoint}` : "";
+      if (span)
+        spans.push(span === true ? `${bsPrefix}${infix}` : `${bsPrefix}${infix}-${span}`);
+      if (order != null)
+        classes.push(`order${infix}-${order}`);
+      if (offset != null)
+        classes.push(`offset${infix}-${offset}`);
+    });
+    return [__spreadProps(__spreadValues({}, props), {
+      className: (0, import_classnames16.default)(className, ...spans, ...classes)
+    }), {
+      as,
+      bsPrefix,
+      spans
+    }];
+  }
+  var Col = /* @__PURE__ */ React25.forwardRef(
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    (props, ref) => {
+      const [_a, ..._b] = useCol(props), _c = _a, {
+        className
+      } = _c, colProps = __objRest(_c, [
+        "className"
+      ]), [{
+        as: Component = "div",
+        bsPrefix,
+        spans
+      }] = _b;
+      return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Component, __spreadProps(__spreadValues({}, colProps), {
+        ref,
+        className: (0, import_classnames16.default)(className, !spans.length && bsPrefix)
+      }));
     }
-    return {
-      width,
-      height,
-      x: x + getWindowScrollBarX(element),
-      y
-    };
+  );
+  Col.displayName = "Col";
+  var Col_default = Col;
+
+  // node_modules/dom-helpers/esm/querySelectorAll.js
+  var toArray = Function.prototype.bind.call(Function.prototype.call, [].slice);
+  function qsa(element, selector) {
+    return toArray(element.querySelectorAll(selector));
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js
-  function getDocumentRect(element) {
-    var _element$ownerDocumen;
-    var html = getDocumentElement(element);
-    var winScroll = getWindowScroll(element);
-    var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-    var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-    var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-    var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
-    var y = -winScroll.scrollTop;
-    if (getComputedStyle2(body || html).direction === "rtl") {
-      x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
-    }
-    return {
-      width,
-      height,
-      x,
-      y
-    };
+  // node_modules/@restart/hooks/esm/useForceUpdate.js
+  var import_react26 = __toESM(require_react());
+  function useForceUpdate() {
+    const [, dispatch] = (0, import_react26.useReducer)((state) => !state, false);
+    return dispatch;
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js
-  function isScrollParent(element) {
-    var _getComputedStyle = getComputedStyle2(element), overflow = _getComputedStyle.overflow, overflowX = _getComputedStyle.overflowX, overflowY = _getComputedStyle.overflowY;
-    return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+  // node_modules/dom-helpers/esm/contains.js
+  function contains(context3, node) {
+    if (context3.contains)
+      return context3.contains(node);
+    if (context3.compareDocumentPosition)
+      return context3 === node || !!(context3.compareDocumentPosition(node) & 16);
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js
-  function getScrollParent(node) {
-    if (["html", "body", "#document"].indexOf(getNodeName(node)) >= 0) {
-      return node.ownerDocument.body;
-    }
-    if (isHTMLElement(node) && isScrollParent(node)) {
-      return node;
-    }
-    return getScrollParent(getParentNode(node));
+  // node_modules/@restart/ui/esm/SelectableContext.js
+  var React26 = __toESM(require_react());
+  var SelectableContext = /* @__PURE__ */ React26.createContext(null);
+  var makeEventKey = (eventKey, href = null) => {
+    if (eventKey != null)
+      return String(eventKey);
+    return href || null;
+  };
+  var SelectableContext_default = SelectableContext;
+
+  // node_modules/@restart/ui/esm/NavContext.js
+  var React27 = __toESM(require_react());
+  var NavContext = /* @__PURE__ */ React27.createContext(null);
+  NavContext.displayName = "NavContext";
+  var NavContext_default = NavContext;
+
+  // node_modules/@restart/ui/esm/DataKey.js
+  var ATTRIBUTE_PREFIX = `data-rr-ui-`;
+  var PROPERTY_PREFIX = `rrUi`;
+  function dataAttr(property) {
+    return `${ATTRIBUTE_PREFIX}${property}`;
+  }
+  function dataProp(property) {
+    return `${PROPERTY_PREFIX}${property}`;
   }
 
-  // node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js
-  function listScrollParents(element, list) {
-    var _element$ownerDocumen;
-    if (list === void 0) {
-      list = [];
+  // node_modules/@restart/ui/esm/useWindow.js
+  var import_react27 = __toESM(require_react());
+  var Context = /* @__PURE__ */ (0, import_react27.createContext)(canUseDOM_default ? window : void 0);
+  var WindowProvider = Context.Provider;
+  function useWindow() {
+    return (0, import_react27.useContext)(Context);
+  }
+
+  // node_modules/react-bootstrap/esm/NavbarContext.js
+  var React28 = __toESM(require_react());
+  var context2 = /* @__PURE__ */ React28.createContext(null);
+  context2.displayName = "NavbarContext";
+  var NavbarContext_default = context2;
+
+  // node_modules/react-bootstrap/esm/Form.js
+  var import_classnames28 = __toESM(require_classnames());
+  var import_prop_types5 = __toESM(require_prop_types());
+  var React43 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/FormCheck.js
+  var import_classnames20 = __toESM(require_classnames());
+  var React33 = __toESM(require_react());
+  var import_react30 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/Feedback.js
+  var import_classnames17 = __toESM(require_classnames());
+  var React29 = __toESM(require_react());
+  var import_prop_types4 = __toESM(require_prop_types());
+  var import_jsx_runtime21 = __toESM(require_jsx_runtime());
+  var propTypes2 = {
+    /**
+     * Specify whether the feedback is for valid or invalid fields
+     *
+     * @type {('valid'|'invalid')}
+     */
+    type: import_prop_types4.default.string,
+    /** Display feedback as a tooltip. */
+    tooltip: import_prop_types4.default.bool,
+    as: import_prop_types4.default.elementType
+  };
+  var Feedback = /* @__PURE__ */ React29.forwardRef(
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    (_a, ref) => {
+      var _b = _a, {
+        as: Component = "div",
+        className,
+        type = "valid",
+        tooltip = false
+      } = _b, props = __objRest(_b, [
+        "as",
+        "className",
+        "type",
+        "tooltip"
+      ]);
+      return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+        ref,
+        className: (0, import_classnames17.default)(className, `${type}-${tooltip ? "tooltip" : "feedback"}`)
+      }));
     }
-    var scrollParent = getScrollParent(element);
-    var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
-    var win = getWindow(scrollParent);
-    var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
-    var updatedList = list.concat(target);
-    return isBody ? updatedList : (
-      // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
-      updatedList.concat(listScrollParents(getParentNode(target)))
+  );
+  Feedback.displayName = "Feedback";
+  Feedback.propTypes = propTypes2;
+  var Feedback_default = Feedback;
+
+  // node_modules/react-bootstrap/esm/FormCheckInput.js
+  var import_classnames18 = __toESM(require_classnames());
+  var React31 = __toESM(require_react());
+  var import_react28 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/FormContext.js
+  var React30 = __toESM(require_react());
+  var FormContext = /* @__PURE__ */ React30.createContext({});
+  var FormContext_default = FormContext;
+
+  // node_modules/react-bootstrap/esm/FormCheckInput.js
+  var import_jsx_runtime22 = __toESM(require_jsx_runtime());
+  var FormCheckInput = /* @__PURE__ */ React31.forwardRef((_a, ref) => {
+    var _b = _a, {
+      id,
+      bsPrefix,
+      className,
+      type = "checkbox",
+      isValid = false,
+      isInvalid = false,
+      as: Component = "input"
+    } = _b, props = __objRest(_b, [
+      "id",
+      "bsPrefix",
+      "className",
+      "type",
+      "isValid",
+      "isInvalid",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    const {
+      controlId
+    } = (0, import_react28.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-check-input");
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+      ref,
+      type,
+      id: id || controlId,
+      className: (0, import_classnames18.default)(className, bsPrefix, isValid && "is-valid", isInvalid && "is-invalid")
+    }));
+  });
+  FormCheckInput.displayName = "FormCheckInput";
+  var FormCheckInput_default = FormCheckInput;
+
+  // node_modules/react-bootstrap/esm/FormCheckLabel.js
+  var import_classnames19 = __toESM(require_classnames());
+  var React32 = __toESM(require_react());
+  var import_react29 = __toESM(require_react());
+  var import_jsx_runtime23 = __toESM(require_jsx_runtime());
+  var FormCheckLabel = /* @__PURE__ */ React32.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      htmlFor
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "htmlFor"
+    ]);
+    const {
+      controlId
+    } = (0, import_react29.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-check-label");
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("label", __spreadProps(__spreadValues({}, props), {
+      ref,
+      htmlFor: htmlFor || controlId,
+      className: (0, import_classnames19.default)(className, bsPrefix)
+    }));
+  });
+  FormCheckLabel.displayName = "FormCheckLabel";
+  var FormCheckLabel_default = FormCheckLabel;
+
+  // node_modules/react-bootstrap/esm/FormCheck.js
+  var import_jsx_runtime24 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime25 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime26 = __toESM(require_jsx_runtime());
+  var FormCheck = /* @__PURE__ */ React33.forwardRef((_a, ref) => {
+    var _b = _a, {
+      id,
+      bsPrefix,
+      bsSwitchPrefix,
+      inline = false,
+      reverse = false,
+      disabled = false,
+      isValid = false,
+      isInvalid = false,
+      feedbackTooltip = false,
+      feedback,
+      feedbackType,
+      className,
+      style: style2,
+      title = "",
+      type = "checkbox",
+      label,
+      children,
+      as: as = "input"
+    } = _b, props = __objRest(_b, [
+      "id",
+      "bsPrefix",
+      "bsSwitchPrefix",
+      "inline",
+      "reverse",
+      "disabled",
+      "isValid",
+      "isInvalid",
+      "feedbackTooltip",
+      "feedback",
+      "feedbackType",
+      "className",
+      "style",
+      "title",
+      "type",
+      "label",
+      "children",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-check");
+    bsSwitchPrefix = useBootstrapPrefix(bsSwitchPrefix, "form-switch");
+    const {
+      controlId
+    } = (0, import_react30.useContext)(FormContext_default);
+    const innerFormContext = (0, import_react30.useMemo)(() => ({
+      controlId: id || controlId
+    }), [controlId, id]);
+    const hasLabel = !children && label != null && label !== false || hasChildOfType(children, FormCheckLabel_default);
+    const input = /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(FormCheckInput_default, __spreadProps(__spreadValues({}, props), {
+      type: type === "switch" ? "checkbox" : type,
+      ref,
+      isValid,
+      isInvalid,
+      disabled,
+      as
+    }));
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(FormContext_default.Provider, {
+      value: innerFormContext,
+      children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("div", {
+        style: style2,
+        className: (0, import_classnames20.default)(className, hasLabel && bsPrefix, inline && `${bsPrefix}-inline`, reverse && `${bsPrefix}-reverse`, type === "switch" && bsSwitchPrefix),
+        children: children || /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime25.Fragment, {
+          children: [input, hasLabel && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(FormCheckLabel_default, {
+            title,
+            children: label
+          }), feedback && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Feedback_default, {
+            type: feedbackType,
+            tooltip: feedbackTooltip,
+            children: feedback
+          })]
+        })
+      })
+    });
+  });
+  FormCheck.displayName = "FormCheck";
+  var FormCheck_default = Object.assign(FormCheck, {
+    Input: FormCheckInput_default,
+    Label: FormCheckLabel_default
+  });
+
+  // node_modules/react-bootstrap/esm/FormControl.js
+  var import_classnames21 = __toESM(require_classnames());
+  var React34 = __toESM(require_react());
+  var import_react31 = __toESM(require_react());
+  var import_warning = __toESM(require_warning());
+  var import_jsx_runtime27 = __toESM(require_jsx_runtime());
+  var FormControl = /* @__PURE__ */ React34.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      type,
+      size,
+      htmlSize,
+      id,
+      className,
+      isValid = false,
+      isInvalid = false,
+      plaintext,
+      readOnly,
+      as: Component = "input"
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "type",
+      "size",
+      "htmlSize",
+      "id",
+      "className",
+      "isValid",
+      "isInvalid",
+      "plaintext",
+      "readOnly",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    const {
+      controlId
+    } = (0, import_react31.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-control");
+    true ? (0, import_warning.default)(controlId == null || !id, "`controlId` is ignored on `<FormControl>` when `id` is specified.") : void 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+      type,
+      size: htmlSize,
+      ref,
+      readOnly,
+      id: id || controlId,
+      className: (0, import_classnames21.default)(className, plaintext ? `${bsPrefix}-plaintext` : bsPrefix, size && `${bsPrefix}-${size}`, type === "color" && `${bsPrefix}-color`, isValid && "is-valid", isInvalid && "is-invalid")
+    }));
+  });
+  FormControl.displayName = "FormControl";
+  var FormControl_default = Object.assign(FormControl, {
+    Feedback: Feedback_default
+  });
+
+  // node_modules/react-bootstrap/esm/FormFloating.js
+  var React35 = __toESM(require_react());
+  var import_classnames22 = __toESM(require_classnames());
+  var import_jsx_runtime28 = __toESM(require_jsx_runtime());
+  var FormFloating = /* @__PURE__ */ React35.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-floating");
+    return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames22.default)(className, bsPrefix)
+    }, props));
+  });
+  FormFloating.displayName = "FormFloating";
+  var FormFloating_default = FormFloating;
+
+  // node_modules/react-bootstrap/esm/FormGroup.js
+  var React36 = __toESM(require_react());
+  var import_react32 = __toESM(require_react());
+  var import_jsx_runtime29 = __toESM(require_jsx_runtime());
+  var FormGroup = /* @__PURE__ */ React36.forwardRef((_a, ref) => {
+    var _b = _a, {
+      controlId,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "controlId",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    const context3 = (0, import_react32.useMemo)(() => ({
+      controlId
+    }), [controlId]);
+    return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(FormContext_default.Provider, {
+      value: context3,
+      children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+        ref
+      }))
+    });
+  });
+  FormGroup.displayName = "FormGroup";
+  var FormGroup_default = FormGroup;
+
+  // node_modules/react-bootstrap/esm/FormLabel.js
+  var import_classnames23 = __toESM(require_classnames());
+  var React37 = __toESM(require_react());
+  var import_react33 = __toESM(require_react());
+  var import_warning2 = __toESM(require_warning());
+  var import_jsx_runtime30 = __toESM(require_jsx_runtime());
+  var FormLabel = /* @__PURE__ */ React37.forwardRef((_a, ref) => {
+    var _b = _a, {
+      as: Component = "label",
+      bsPrefix,
+      column = false,
+      visuallyHidden = false,
+      className,
+      htmlFor
+    } = _b, props = __objRest(_b, [
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as",
+      "bsPrefix",
+      "column",
+      "visuallyHidden",
+      "className",
+      "htmlFor"
+    ]);
+    const {
+      controlId
+    } = (0, import_react33.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-label");
+    let columnClass = "col-form-label";
+    if (typeof column === "string")
+      columnClass = `${columnClass} ${columnClass}-${column}`;
+    const classes = (0, import_classnames23.default)(className, bsPrefix, visuallyHidden && "visually-hidden", column && columnClass);
+    true ? (0, import_warning2.default)(controlId == null || !htmlFor, "`controlId` is ignored on `<FormLabel>` when `htmlFor` is specified.") : void 0;
+    htmlFor = htmlFor || controlId;
+    if (column)
+      return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Col_default, __spreadValues({
+        ref,
+        as: "label",
+        className: classes,
+        htmlFor
+      }, props));
+    return (
+      // eslint-disable-next-line jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Component, __spreadValues({
+        ref,
+        className: classes,
+        htmlFor
+      }, props))
     );
-  }
+  });
+  FormLabel.displayName = "FormLabel";
+  var FormLabel_default = FormLabel;
 
-  // node_modules/@popperjs/core/lib/utils/rectToClientRect.js
-  function rectToClientRect(rect) {
-    return Object.assign({}, rect, {
-      left: rect.x,
-      top: rect.y,
-      right: rect.x + rect.width,
-      bottom: rect.y + rect.height
-    });
-  }
+  // node_modules/react-bootstrap/esm/FormRange.js
+  var import_classnames24 = __toESM(require_classnames());
+  var React38 = __toESM(require_react());
+  var import_react34 = __toESM(require_react());
+  var import_jsx_runtime31 = __toESM(require_jsx_runtime());
+  var FormRange = /* @__PURE__ */ React38.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      id
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "id"
+    ]);
+    const {
+      controlId
+    } = (0, import_react34.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-range");
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("input", __spreadProps(__spreadValues({}, props), {
+      type: "range",
+      ref,
+      className: (0, import_classnames24.default)(className, bsPrefix),
+      id: id || controlId
+    }));
+  });
+  FormRange.displayName = "FormRange";
+  var FormRange_default = FormRange;
 
-  // node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js
-  function getInnerBoundingClientRect(element, strategy) {
-    var rect = getBoundingClientRect(element, false, strategy === "fixed");
-    rect.top = rect.top + element.clientTop;
-    rect.left = rect.left + element.clientLeft;
-    rect.bottom = rect.top + element.clientHeight;
-    rect.right = rect.left + element.clientWidth;
-    rect.width = element.clientWidth;
-    rect.height = element.clientHeight;
-    rect.x = rect.left;
-    rect.y = rect.top;
-    return rect;
-  }
-  function getClientRectFromMixedType(element, clippingParent, strategy) {
-    return clippingParent === viewport ? rectToClientRect(getViewportRect(element, strategy)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
-  }
-  function getClippingParents(element) {
-    var clippingParents2 = listScrollParents(getParentNode(element));
-    var canEscapeClipping = ["absolute", "fixed"].indexOf(getComputedStyle2(element).position) >= 0;
-    var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-    if (!isElement(clipperElement)) {
-      return [];
+  // node_modules/react-bootstrap/esm/FormSelect.js
+  var import_classnames25 = __toESM(require_classnames());
+  var React39 = __toESM(require_react());
+  var import_react35 = __toESM(require_react());
+  var import_jsx_runtime32 = __toESM(require_jsx_runtime());
+  var FormSelect = /* @__PURE__ */ React39.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      size,
+      htmlSize,
+      className,
+      isValid = false,
+      isInvalid = false,
+      id
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "size",
+      "htmlSize",
+      "className",
+      "isValid",
+      "isInvalid",
+      "id"
+    ]);
+    const {
+      controlId
+    } = (0, import_react35.useContext)(FormContext_default);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-select");
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("select", __spreadProps(__spreadValues({}, props), {
+      size: htmlSize,
+      ref,
+      className: (0, import_classnames25.default)(className, bsPrefix, size && `${bsPrefix}-${size}`, isValid && `is-valid`, isInvalid && `is-invalid`),
+      id: id || controlId
+    }));
+  });
+  FormSelect.displayName = "FormSelect";
+  var FormSelect_default = FormSelect;
+
+  // node_modules/react-bootstrap/esm/FormText.js
+  var import_classnames26 = __toESM(require_classnames());
+  var React40 = __toESM(require_react());
+  var import_jsx_runtime33 = __toESM(require_jsx_runtime());
+  var FormText = /* @__PURE__ */ React40.forwardRef(
+    // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+    (_a, ref) => {
+      var _b = _a, {
+        bsPrefix,
+        className,
+        as: Component = "small",
+        muted
+      } = _b, props = __objRest(_b, [
+        "bsPrefix",
+        "className",
+        "as",
+        "muted"
+      ]);
+      bsPrefix = useBootstrapPrefix(bsPrefix, "form-text");
+      return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+        ref,
+        className: (0, import_classnames26.default)(className, bsPrefix, muted && "text-muted")
+      }));
     }
-    return clippingParents2.filter(function(clippingParent) {
-      return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== "body";
-    });
-  }
-  function getClippingRect(element, boundary, rootBoundary, strategy) {
-    var mainClippingParents = boundary === "clippingParents" ? getClippingParents(element) : [].concat(boundary);
-    var clippingParents2 = [].concat(mainClippingParents, [rootBoundary]);
-    var firstClippingParent = clippingParents2[0];
-    var clippingRect = clippingParents2.reduce(function(accRect, clippingParent) {
-      var rect = getClientRectFromMixedType(element, clippingParent, strategy);
-      accRect.top = max(rect.top, accRect.top);
-      accRect.right = min(rect.right, accRect.right);
-      accRect.bottom = min(rect.bottom, accRect.bottom);
-      accRect.left = max(rect.left, accRect.left);
-      return accRect;
-    }, getClientRectFromMixedType(element, firstClippingParent, strategy));
-    clippingRect.width = clippingRect.right - clippingRect.left;
-    clippingRect.height = clippingRect.bottom - clippingRect.top;
-    clippingRect.x = clippingRect.left;
-    clippingRect.y = clippingRect.top;
-    return clippingRect;
-  }
+  );
+  FormText.displayName = "FormText";
+  var FormText_default = FormText;
 
-  // node_modules/@popperjs/core/lib/utils/computeOffsets.js
-  function computeOffsets(_ref) {
-    var reference2 = _ref.reference, element = _ref.element, placement = _ref.placement;
-    var basePlacement = placement ? getBasePlacement(placement) : null;
-    var variation = placement ? getVariation(placement) : null;
-    var commonX = reference2.x + reference2.width / 2 - element.width / 2;
-    var commonY = reference2.y + reference2.height / 2 - element.height / 2;
-    var offsets;
-    switch (basePlacement) {
-      case top:
-        offsets = {
-          x: commonX,
-          y: reference2.y - element.height
-        };
-        break;
-      case bottom:
-        offsets = {
-          x: commonX,
-          y: reference2.y + reference2.height
-        };
-        break;
-      case right:
-        offsets = {
-          x: reference2.x + reference2.width,
-          y: commonY
-        };
-        break;
-      case left:
-        offsets = {
-          x: reference2.x - element.width,
-          y: commonY
-        };
-        break;
-      default:
-        offsets = {
-          x: reference2.x,
-          y: reference2.y
-        };
+  // node_modules/react-bootstrap/esm/Switch.js
+  var React41 = __toESM(require_react());
+  var import_jsx_runtime34 = __toESM(require_jsx_runtime());
+  var Switch = /* @__PURE__ */ React41.forwardRef((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(FormCheck_default, __spreadProps(__spreadValues({}, props), {
+    ref,
+    type: "switch"
+  })));
+  Switch.displayName = "Switch";
+  var Switch_default = Object.assign(Switch, {
+    Input: FormCheck_default.Input,
+    Label: FormCheck_default.Label
+  });
+
+  // node_modules/react-bootstrap/esm/FloatingLabel.js
+  var import_classnames27 = __toESM(require_classnames());
+  var React42 = __toESM(require_react());
+  var import_jsx_runtime35 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime36 = __toESM(require_jsx_runtime());
+  var FloatingLabel = /* @__PURE__ */ React42.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      children,
+      controlId,
+      label
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "children",
+      "controlId",
+      "label"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "form-floating");
+    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(FormGroup_default, __spreadProps(__spreadValues({
+      ref,
+      className: (0, import_classnames27.default)(className, bsPrefix),
+      controlId
+    }, props), {
+      children: [children, /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("label", {
+        htmlFor: controlId,
+        children: label
+      })]
+    }));
+  });
+  FloatingLabel.displayName = "FloatingLabel";
+  var FloatingLabel_default = FloatingLabel;
+
+  // node_modules/react-bootstrap/esm/Form.js
+  var import_jsx_runtime37 = __toESM(require_jsx_runtime());
+  var propTypes3 = {
+    /**
+     * The Form `ref` will be forwarded to the underlying element,
+     * which means, unless it's rendered `as` a composite component,
+     * it will be a DOM node, when resolved.
+     *
+     * @type {ReactRef}
+     * @alias ref
+     */
+    _ref: import_prop_types5.default.any,
+    /**
+     * Mark a form as having been validated. Setting it to `true` will
+     * toggle any validation styles on the forms elements.
+     */
+    validated: import_prop_types5.default.bool,
+    as: import_prop_types5.default.elementType
+  };
+  var Form = /* @__PURE__ */ React43.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      validated,
+      as: Component = "form"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "validated",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+      ref,
+      className: (0, import_classnames28.default)(className, validated && "was-validated")
+    }));
+  });
+  Form.displayName = "Form";
+  Form.propTypes = propTypes3;
+  var Form_default = Object.assign(Form, {
+    Group: FormGroup_default,
+    Control: FormControl_default,
+    Floating: FormFloating_default,
+    Check: FormCheck_default,
+    Switch: Switch_default,
+    Label: FormLabel_default,
+    Text: FormText_default,
+    Range: FormRange_default,
+    Select: FormSelect_default,
+    FloatingLabel: FloatingLabel_default
+  });
+
+  // node_modules/@restart/ui/esm/Nav.js
+  var React46 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
+
+  // node_modules/@restart/ui/esm/TabContext.js
+  var React44 = __toESM(require_react());
+  var TabContext = /* @__PURE__ */ React44.createContext(null);
+  var TabContext_default = TabContext;
+
+  // node_modules/@restart/ui/esm/NavItem.js
+  var React45 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
+  var import_jsx_runtime38 = __toESM(require_jsx_runtime());
+  var _excluded3 = ["as", "active", "eventKey"];
+  function _objectWithoutPropertiesLoose4(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
     }
-    var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-    if (mainAxis != null) {
-      var len = mainAxis === "y" ? "height" : "width";
-      switch (variation) {
-        case start:
-          offsets[mainAxis] = offsets[mainAxis] - (reference2[len] / 2 - element[len] / 2);
+    return target;
+  }
+  function useNavItem({
+    key,
+    onClick,
+    active,
+    id,
+    role,
+    disabled
+  }) {
+    const parentOnSelect = (0, import_react36.useContext)(SelectableContext_default);
+    const navContext = (0, import_react36.useContext)(NavContext_default);
+    const tabContext = (0, import_react36.useContext)(TabContext_default);
+    let isActive = active;
+    const props = {
+      role
+    };
+    if (navContext) {
+      if (!role && navContext.role === "tablist")
+        props.role = "tab";
+      const contextControllerId = navContext.getControllerId(key != null ? key : null);
+      const contextControlledId = navContext.getControlledId(key != null ? key : null);
+      props[dataAttr("event-key")] = key;
+      props.id = contextControllerId || id;
+      isActive = active == null && key != null ? navContext.activeKey === key : active;
+      if (isActive || !(tabContext != null && tabContext.unmountOnExit) && !(tabContext != null && tabContext.mountOnEnter))
+        props["aria-controls"] = contextControlledId;
+    }
+    if (props.role === "tab") {
+      props["aria-selected"] = isActive;
+      if (!isActive) {
+        props.tabIndex = -1;
+      }
+      if (disabled) {
+        props.tabIndex = -1;
+        props["aria-disabled"] = true;
+      }
+    }
+    props.onClick = useEventCallback((e) => {
+      if (disabled)
+        return;
+      onClick == null ? void 0 : onClick(e);
+      if (key == null) {
+        return;
+      }
+      if (parentOnSelect && !e.isPropagationStopped()) {
+        parentOnSelect(key, e);
+      }
+    });
+    return [props, {
+      isActive
+    }];
+  }
+  var NavItem = /* @__PURE__ */ React45.forwardRef((_ref, ref) => {
+    let {
+      as: Component = Button_default,
+      active,
+      eventKey
+    } = _ref, options = _objectWithoutPropertiesLoose4(_ref, _excluded3);
+    const [props, meta] = useNavItem(Object.assign({
+      key: makeEventKey(eventKey, options.href),
+      active
+    }, options));
+    props[dataAttr("active")] = meta.isActive;
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Component, Object.assign({}, options, props, {
+      ref
+    }));
+  });
+  NavItem.displayName = "NavItem";
+  var NavItem_default = NavItem;
+
+  // node_modules/@restart/ui/esm/Nav.js
+  var import_jsx_runtime39 = __toESM(require_jsx_runtime());
+  var _excluded4 = ["as", "onSelect", "activeKey", "role", "onKeyDown"];
+  function _objectWithoutPropertiesLoose5(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
+  }
+  var noop2 = () => {
+  };
+  var EVENT_KEY_ATTR = dataAttr("event-key");
+  var Nav = /* @__PURE__ */ React46.forwardRef((_ref, ref) => {
+    let {
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      as: Component = "div",
+      onSelect,
+      activeKey,
+      role,
+      onKeyDown
+    } = _ref, props = _objectWithoutPropertiesLoose5(_ref, _excluded4);
+    const forceUpdate = useForceUpdate();
+    const needsRefocusRef = (0, import_react37.useRef)(false);
+    const parentOnSelect = (0, import_react37.useContext)(SelectableContext_default);
+    const tabContext = (0, import_react37.useContext)(TabContext_default);
+    let getControlledId, getControllerId;
+    if (tabContext) {
+      role = role || "tablist";
+      activeKey = tabContext.activeKey;
+      getControlledId = tabContext.getControlledId;
+      getControllerId = tabContext.getControllerId;
+    }
+    const listNode = (0, import_react37.useRef)(null);
+    const getNextActiveTab = (offset) => {
+      const currentListNode = listNode.current;
+      if (!currentListNode)
+        return null;
+      const items = qsa(currentListNode, `[${EVENT_KEY_ATTR}]:not([aria-disabled=true])`);
+      const activeChild = currentListNode.querySelector("[aria-selected=true]");
+      if (!activeChild || activeChild !== document.activeElement)
+        return null;
+      const index = items.indexOf(activeChild);
+      if (index === -1)
+        return null;
+      let nextIndex = index + offset;
+      if (nextIndex >= items.length)
+        nextIndex = 0;
+      if (nextIndex < 0)
+        nextIndex = items.length - 1;
+      return items[nextIndex];
+    };
+    const handleSelect = (key, event) => {
+      if (key == null)
+        return;
+      onSelect == null ? void 0 : onSelect(key, event);
+      parentOnSelect == null ? void 0 : parentOnSelect(key, event);
+    };
+    const handleKeyDown = (event) => {
+      onKeyDown == null ? void 0 : onKeyDown(event);
+      if (!tabContext) {
+        return;
+      }
+      let nextActiveChild;
+      switch (event.key) {
+        case "ArrowLeft":
+        case "ArrowUp":
+          nextActiveChild = getNextActiveTab(-1);
           break;
-        case end:
-          offsets[mainAxis] = offsets[mainAxis] + (reference2[len] / 2 - element[len] / 2);
+        case "ArrowRight":
+        case "ArrowDown":
+          nextActiveChild = getNextActiveTab(1);
           break;
         default:
-      }
-    }
-    return offsets;
-  }
-
-  // node_modules/@popperjs/core/lib/utils/detectOverflow.js
-  function detectOverflow(state, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var _options = options, _options$placement = _options.placement, placement = _options$placement === void 0 ? state.placement : _options$placement, _options$strategy = _options.strategy, strategy = _options$strategy === void 0 ? state.strategy : _options$strategy, _options$boundary = _options.boundary, boundary = _options$boundary === void 0 ? clippingParents : _options$boundary, _options$rootBoundary = _options.rootBoundary, rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary, _options$elementConte = _options.elementContext, elementContext = _options$elementConte === void 0 ? popper : _options$elementConte, _options$altBoundary = _options.altBoundary, altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary, _options$padding = _options.padding, padding = _options$padding === void 0 ? 0 : _options$padding;
-    var paddingObject = mergePaddingObject(typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements));
-    var altContext = elementContext === popper ? reference : popper;
-    var popperRect = state.rects.popper;
-    var element = state.elements[altBoundary ? altContext : elementContext];
-    var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary, strategy);
-    var referenceClientRect = getBoundingClientRect(state.elements.reference);
-    var popperOffsets2 = computeOffsets({
-      reference: referenceClientRect,
-      element: popperRect,
-      strategy: "absolute",
-      placement
-    });
-    var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets2));
-    var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect;
-    var overflowOffsets = {
-      top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
-      bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
-      left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
-      right: elementClientRect.right - clippingClientRect.right + paddingObject.right
-    };
-    var offsetData = state.modifiersData.offset;
-    if (elementContext === popper && offsetData) {
-      var offset2 = offsetData[placement];
-      Object.keys(overflowOffsets).forEach(function(key) {
-        var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
-        var axis = [top, bottom].indexOf(key) >= 0 ? "y" : "x";
-        overflowOffsets[key] += offset2[axis] * multiply;
-      });
-    }
-    return overflowOffsets;
-  }
-
-  // node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js
-  function computeAutoPlacement(state, options) {
-    if (options === void 0) {
-      options = {};
-    }
-    var _options = options, placement = _options.placement, boundary = _options.boundary, rootBoundary = _options.rootBoundary, padding = _options.padding, flipVariations = _options.flipVariations, _options$allowedAutoP = _options.allowedAutoPlacements, allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
-    var variation = getVariation(placement);
-    var placements2 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function(placement2) {
-      return getVariation(placement2) === variation;
-    }) : basePlacements;
-    var allowedPlacements = placements2.filter(function(placement2) {
-      return allowedAutoPlacements.indexOf(placement2) >= 0;
-    });
-    if (allowedPlacements.length === 0) {
-      allowedPlacements = placements2;
-      if (true) {
-        console.error(["Popper: The `allowedAutoPlacements` option did not allow any", "placements. Ensure the `placement` option matches the variation", "of the allowed placements.", 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(" "));
-      }
-    }
-    var overflows = allowedPlacements.reduce(function(acc, placement2) {
-      acc[placement2] = detectOverflow(state, {
-        placement: placement2,
-        boundary,
-        rootBoundary,
-        padding
-      })[getBasePlacement(placement2)];
-      return acc;
-    }, {});
-    return Object.keys(overflows).sort(function(a, b) {
-      return overflows[a] - overflows[b];
-    });
-  }
-
-  // node_modules/@popperjs/core/lib/modifiers/flip.js
-  function getExpandedFallbackPlacements(placement) {
-    if (getBasePlacement(placement) === auto) {
-      return [];
-    }
-    var oppositePlacement = getOppositePlacement(placement);
-    return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
-  }
-  function flip(_ref) {
-    var state = _ref.state, options = _ref.options, name = _ref.name;
-    if (state.modifiersData[name]._skip) {
-      return;
-    }
-    var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis, specifiedFallbackPlacements = options.fallbackPlacements, padding = options.padding, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, _options$flipVariatio = options.flipVariations, flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio, allowedAutoPlacements = options.allowedAutoPlacements;
-    var preferredPlacement = state.options.placement;
-    var basePlacement = getBasePlacement(preferredPlacement);
-    var isBasePlacement = basePlacement === preferredPlacement;
-    var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
-    var placements2 = [preferredPlacement].concat(fallbackPlacements).reduce(function(acc, placement2) {
-      return acc.concat(getBasePlacement(placement2) === auto ? computeAutoPlacement(state, {
-        placement: placement2,
-        boundary,
-        rootBoundary,
-        padding,
-        flipVariations,
-        allowedAutoPlacements
-      }) : placement2);
-    }, []);
-    var referenceRect = state.rects.reference;
-    var popperRect = state.rects.popper;
-    var checksMap = /* @__PURE__ */ new Map();
-    var makeFallbackChecks = true;
-    var firstFittingPlacement = placements2[0];
-    for (var i = 0; i < placements2.length; i++) {
-      var placement = placements2[i];
-      var _basePlacement = getBasePlacement(placement);
-      var isStartVariation = getVariation(placement) === start;
-      var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
-      var len = isVertical ? "width" : "height";
-      var overflow = detectOverflow(state, {
-        placement,
-        boundary,
-        rootBoundary,
-        altBoundary,
-        padding
-      });
-      var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-      if (referenceRect[len] > popperRect[len]) {
-        mainVariationSide = getOppositePlacement(mainVariationSide);
-      }
-      var altVariationSide = getOppositePlacement(mainVariationSide);
-      var checks = [];
-      if (checkMainAxis) {
-        checks.push(overflow[_basePlacement] <= 0);
-      }
-      if (checkAltAxis) {
-        checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
-      }
-      if (checks.every(function(check) {
-        return check;
-      })) {
-        firstFittingPlacement = placement;
-        makeFallbackChecks = false;
-        break;
-      }
-      checksMap.set(placement, checks);
-    }
-    if (makeFallbackChecks) {
-      var numberOfChecks = flipVariations ? 3 : 1;
-      var _loop = function _loop2(_i2) {
-        var fittingPlacement = placements2.find(function(placement2) {
-          var checks2 = checksMap.get(placement2);
-          if (checks2) {
-            return checks2.slice(0, _i2).every(function(check) {
-              return check;
-            });
-          }
-        });
-        if (fittingPlacement) {
-          firstFittingPlacement = fittingPlacement;
-          return "break";
-        }
-      };
-      for (var _i = numberOfChecks; _i > 0; _i--) {
-        var _ret = _loop(_i);
-        if (_ret === "break")
-          break;
-      }
-    }
-    if (state.placement !== firstFittingPlacement) {
-      state.modifiersData[name]._skip = true;
-      state.placement = firstFittingPlacement;
-      state.reset = true;
-    }
-  }
-  var flip_default = {
-    name: "flip",
-    enabled: true,
-    phase: "main",
-    fn: flip,
-    requiresIfExists: ["offset"],
-    data: {
-      _skip: false
-    }
-  };
-
-  // node_modules/@popperjs/core/lib/modifiers/hide.js
-  function getSideOffsets(overflow, rect, preventedOffsets) {
-    if (preventedOffsets === void 0) {
-      preventedOffsets = {
-        x: 0,
-        y: 0
-      };
-    }
-    return {
-      top: overflow.top - rect.height - preventedOffsets.y,
-      right: overflow.right - rect.width + preventedOffsets.x,
-      bottom: overflow.bottom - rect.height + preventedOffsets.y,
-      left: overflow.left - rect.width - preventedOffsets.x
-    };
-  }
-  function isAnySideFullyClipped(overflow) {
-    return [top, right, bottom, left].some(function(side) {
-      return overflow[side] >= 0;
-    });
-  }
-  function hide(_ref) {
-    var state = _ref.state, name = _ref.name;
-    var referenceRect = state.rects.reference;
-    var popperRect = state.rects.popper;
-    var preventedOffsets = state.modifiersData.preventOverflow;
-    var referenceOverflow = detectOverflow(state, {
-      elementContext: "reference"
-    });
-    var popperAltOverflow = detectOverflow(state, {
-      altBoundary: true
-    });
-    var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
-    var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
-    var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
-    var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
-    state.modifiersData[name] = {
-      referenceClippingOffsets,
-      popperEscapeOffsets,
-      isReferenceHidden,
-      hasPopperEscaped
-    };
-    state.attributes.popper = Object.assign({}, state.attributes.popper, {
-      "data-popper-reference-hidden": isReferenceHidden,
-      "data-popper-escaped": hasPopperEscaped
-    });
-  }
-  var hide_default = {
-    name: "hide",
-    enabled: true,
-    phase: "main",
-    requiresIfExists: ["preventOverflow"],
-    fn: hide
-  };
-
-  // node_modules/@popperjs/core/lib/modifiers/offset.js
-  function distanceAndSkiddingToXY(placement, rects, offset2) {
-    var basePlacement = getBasePlacement(placement);
-    var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-    var _ref = typeof offset2 === "function" ? offset2(Object.assign({}, rects, {
-      placement
-    })) : offset2, skidding = _ref[0], distance = _ref[1];
-    skidding = skidding || 0;
-    distance = (distance || 0) * invertDistance;
-    return [left, right].indexOf(basePlacement) >= 0 ? {
-      x: distance,
-      y: skidding
-    } : {
-      x: skidding,
-      y: distance
-    };
-  }
-  function offset(_ref2) {
-    var state = _ref2.state, options = _ref2.options, name = _ref2.name;
-    var _options$offset = options.offset, offset2 = _options$offset === void 0 ? [0, 0] : _options$offset;
-    var data = placements.reduce(function(acc, placement) {
-      acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset2);
-      return acc;
-    }, {});
-    var _data$state$placement = data[state.placement], x = _data$state$placement.x, y = _data$state$placement.y;
-    if (state.modifiersData.popperOffsets != null) {
-      state.modifiersData.popperOffsets.x += x;
-      state.modifiersData.popperOffsets.y += y;
-    }
-    state.modifiersData[name] = data;
-  }
-  var offset_default = {
-    name: "offset",
-    enabled: true,
-    phase: "main",
-    requires: ["popperOffsets"],
-    fn: offset
-  };
-
-  // node_modules/@popperjs/core/lib/modifiers/popperOffsets.js
-  function popperOffsets(_ref) {
-    var state = _ref.state, name = _ref.name;
-    state.modifiersData[name] = computeOffsets({
-      reference: state.rects.reference,
-      element: state.rects.popper,
-      strategy: "absolute",
-      placement: state.placement
-    });
-  }
-  var popperOffsets_default = {
-    name: "popperOffsets",
-    enabled: true,
-    phase: "read",
-    fn: popperOffsets,
-    data: {}
-  };
-
-  // node_modules/@popperjs/core/lib/utils/getAltAxis.js
-  function getAltAxis(axis) {
-    return axis === "x" ? "y" : "x";
-  }
-
-  // node_modules/@popperjs/core/lib/modifiers/preventOverflow.js
-  function preventOverflow(_ref) {
-    var state = _ref.state, options = _ref.options, name = _ref.name;
-    var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, padding = options.padding, _options$tether = options.tether, tether = _options$tether === void 0 ? true : _options$tether, _options$tetherOffset = options.tetherOffset, tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
-    var overflow = detectOverflow(state, {
-      boundary,
-      rootBoundary,
-      padding,
-      altBoundary
-    });
-    var basePlacement = getBasePlacement(state.placement);
-    var variation = getVariation(state.placement);
-    var isBasePlacement = !variation;
-    var mainAxis = getMainAxisFromPlacement(basePlacement);
-    var altAxis = getAltAxis(mainAxis);
-    var popperOffsets2 = state.modifiersData.popperOffsets;
-    var referenceRect = state.rects.reference;
-    var popperRect = state.rects.popper;
-    var tetherOffsetValue = typeof tetherOffset === "function" ? tetherOffset(Object.assign({}, state.rects, {
-      placement: state.placement
-    })) : tetherOffset;
-    var normalizedTetherOffsetValue = typeof tetherOffsetValue === "number" ? {
-      mainAxis: tetherOffsetValue,
-      altAxis: tetherOffsetValue
-    } : Object.assign({
-      mainAxis: 0,
-      altAxis: 0
-    }, tetherOffsetValue);
-    var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
-    var data = {
-      x: 0,
-      y: 0
-    };
-    if (!popperOffsets2) {
-      return;
-    }
-    if (checkMainAxis) {
-      var _offsetModifierState$;
-      var mainSide = mainAxis === "y" ? top : left;
-      var altSide = mainAxis === "y" ? bottom : right;
-      var len = mainAxis === "y" ? "height" : "width";
-      var offset2 = popperOffsets2[mainAxis];
-      var min2 = offset2 + overflow[mainSide];
-      var max2 = offset2 - overflow[altSide];
-      var additive = tether ? -popperRect[len] / 2 : 0;
-      var minLen = variation === start ? referenceRect[len] : popperRect[len];
-      var maxLen = variation === start ? -popperRect[len] : -referenceRect[len];
-      var arrowElement = state.elements.arrow;
-      var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
-        width: 0,
-        height: 0
-      };
-      var arrowPaddingObject = state.modifiersData["arrow#persistent"] ? state.modifiersData["arrow#persistent"].padding : getFreshSideObject();
-      var arrowPaddingMin = arrowPaddingObject[mainSide];
-      var arrowPaddingMax = arrowPaddingObject[altSide];
-      var arrowLen = within(0, referenceRect[len], arrowRect[len]);
-      var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
-      var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
-      var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
-      var clientOffset = arrowOffsetParent ? mainAxis === "y" ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
-      var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
-      var tetherMin = offset2 + minOffset - offsetModifierValue - clientOffset;
-      var tetherMax = offset2 + maxOffset - offsetModifierValue;
-      var preventedOffset = within(tether ? min(min2, tetherMin) : min2, offset2, tether ? max(max2, tetherMax) : max2);
-      popperOffsets2[mainAxis] = preventedOffset;
-      data[mainAxis] = preventedOffset - offset2;
-    }
-    if (checkAltAxis) {
-      var _offsetModifierState$2;
-      var _mainSide = mainAxis === "x" ? top : left;
-      var _altSide = mainAxis === "x" ? bottom : right;
-      var _offset = popperOffsets2[altAxis];
-      var _len = altAxis === "y" ? "height" : "width";
-      var _min = _offset + overflow[_mainSide];
-      var _max = _offset - overflow[_altSide];
-      var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-      var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-      var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-      var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-      var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-      popperOffsets2[altAxis] = _preventedOffset;
-      data[altAxis] = _preventedOffset - _offset;
-    }
-    state.modifiersData[name] = data;
-  }
-  var preventOverflow_default = {
-    name: "preventOverflow",
-    enabled: true,
-    phase: "main",
-    fn: preventOverflow,
-    requiresIfExists: ["offset"]
-  };
-
-  // node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js
-  function getHTMLElementScroll(element) {
-    return {
-      scrollLeft: element.scrollLeft,
-      scrollTop: element.scrollTop
-    };
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js
-  function getNodeScroll(node) {
-    if (node === getWindow(node) || !isHTMLElement(node)) {
-      return getWindowScroll(node);
-    } else {
-      return getHTMLElementScroll(node);
-    }
-  }
-
-  // node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js
-  function isElementScaled(element) {
-    var rect = element.getBoundingClientRect();
-    var scaleX = round(rect.width) / element.offsetWidth || 1;
-    var scaleY = round(rect.height) / element.offsetHeight || 1;
-    return scaleX !== 1 || scaleY !== 1;
-  }
-  function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
-    if (isFixed === void 0) {
-      isFixed = false;
-    }
-    var isOffsetParentAnElement = isHTMLElement(offsetParent);
-    var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
-    var documentElement = getDocumentElement(offsetParent);
-    var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled, isFixed);
-    var scroll = {
-      scrollLeft: 0,
-      scrollTop: 0
-    };
-    var offsets = {
-      x: 0,
-      y: 0
-    };
-    if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-      if (getNodeName(offsetParent) !== "body" || // https://github.com/popperjs/popper-core/issues/1078
-      isScrollParent(documentElement)) {
-        scroll = getNodeScroll(offsetParent);
-      }
-      if (isHTMLElement(offsetParent)) {
-        offsets = getBoundingClientRect(offsetParent, true);
-        offsets.x += offsetParent.clientLeft;
-        offsets.y += offsetParent.clientTop;
-      } else if (documentElement) {
-        offsets.x = getWindowScrollBarX(documentElement);
-      }
-    }
-    return {
-      x: rect.left + scroll.scrollLeft - offsets.x,
-      y: rect.top + scroll.scrollTop - offsets.y,
-      width: rect.width,
-      height: rect.height
-    };
-  }
-
-  // node_modules/@popperjs/core/lib/utils/orderModifiers.js
-  function order(modifiers) {
-    var map = /* @__PURE__ */ new Map();
-    var visited = /* @__PURE__ */ new Set();
-    var result = [];
-    modifiers.forEach(function(modifier) {
-      map.set(modifier.name, modifier);
-    });
-    function sort(modifier) {
-      visited.add(modifier.name);
-      var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
-      requires.forEach(function(dep) {
-        if (!visited.has(dep)) {
-          var depModifier = map.get(dep);
-          if (depModifier) {
-            sort(depModifier);
-          }
-        }
-      });
-      result.push(modifier);
-    }
-    modifiers.forEach(function(modifier) {
-      if (!visited.has(modifier.name)) {
-        sort(modifier);
-      }
-    });
-    return result;
-  }
-  function orderModifiers(modifiers) {
-    var orderedModifiers = order(modifiers);
-    return modifierPhases.reduce(function(acc, phase) {
-      return acc.concat(orderedModifiers.filter(function(modifier) {
-        return modifier.phase === phase;
-      }));
-    }, []);
-  }
-
-  // node_modules/@popperjs/core/lib/utils/debounce.js
-  function debounce(fn2) {
-    var pending;
-    return function() {
-      if (!pending) {
-        pending = new Promise(function(resolve) {
-          Promise.resolve().then(function() {
-            pending = void 0;
-            resolve(fn2());
-          });
-        });
-      }
-      return pending;
-    };
-  }
-
-  // node_modules/@popperjs/core/lib/utils/format.js
-  function format(str) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-    return [].concat(args).reduce(function(p, c) {
-      return p.replace(/%s/, c);
-    }, str);
-  }
-
-  // node_modules/@popperjs/core/lib/utils/validateModifiers.js
-  var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
-  var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
-  var VALID_PROPERTIES = ["name", "enabled", "phase", "fn", "effect", "requires", "options"];
-  function validateModifiers(modifiers) {
-    modifiers.forEach(function(modifier) {
-      [].concat(Object.keys(modifier), VALID_PROPERTIES).filter(function(value, index, self) {
-        return self.indexOf(value) === index;
-      }).forEach(function(key) {
-        switch (key) {
-          case "name":
-            if (typeof modifier.name !== "string") {
-              console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', '"' + String(modifier.name) + '"'));
-            }
-            break;
-          case "enabled":
-            if (typeof modifier.enabled !== "boolean") {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', '"' + String(modifier.enabled) + '"'));
-            }
-            break;
-          case "phase":
-            if (modifierPhases.indexOf(modifier.phase) < 0) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(", "), '"' + String(modifier.phase) + '"'));
-            }
-            break;
-          case "fn":
-            if (typeof modifier.fn !== "function") {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', '"' + String(modifier.fn) + '"'));
-            }
-            break;
-          case "effect":
-            if (modifier.effect != null && typeof modifier.effect !== "function") {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', '"' + String(modifier.fn) + '"'));
-            }
-            break;
-          case "requires":
-            if (modifier.requires != null && !Array.isArray(modifier.requires)) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', '"' + String(modifier.requires) + '"'));
-            }
-            break;
-          case "requiresIfExists":
-            if (!Array.isArray(modifier.requiresIfExists)) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', '"' + String(modifier.requiresIfExists) + '"'));
-            }
-            break;
-          case "options":
-          case "data":
-            break;
-          default:
-            console.error('PopperJS: an invalid property has been provided to the "' + modifier.name + '" modifier, valid properties are ' + VALID_PROPERTIES.map(function(s) {
-              return '"' + s + '"';
-            }).join(", ") + '; but "' + key + '" was provided.');
-        }
-        modifier.requires && modifier.requires.forEach(function(requirement) {
-          if (modifiers.find(function(mod) {
-            return mod.name === requirement;
-          }) == null) {
-            console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
-          }
-        });
-      });
-    });
-  }
-
-  // node_modules/@popperjs/core/lib/utils/uniqueBy.js
-  function uniqueBy(arr, fn2) {
-    var identifiers = /* @__PURE__ */ new Set();
-    return arr.filter(function(item) {
-      var identifier = fn2(item);
-      if (!identifiers.has(identifier)) {
-        identifiers.add(identifier);
-        return true;
-      }
-    });
-  }
-
-  // node_modules/@popperjs/core/lib/utils/mergeByName.js
-  function mergeByName(modifiers) {
-    var merged = modifiers.reduce(function(merged2, current) {
-      var existing = merged2[current.name];
-      merged2[current.name] = existing ? Object.assign({}, existing, current, {
-        options: Object.assign({}, existing.options, current.options),
-        data: Object.assign({}, existing.data, current.data)
-      }) : current;
-      return merged2;
-    }, {});
-    return Object.keys(merged).map(function(key) {
-      return merged[key];
-    });
-  }
-
-  // node_modules/@popperjs/core/lib/createPopper.js
-  var INVALID_ELEMENT_ERROR = "Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.";
-  var INFINITE_LOOP_ERROR = "Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.";
-  var DEFAULT_OPTIONS = {
-    placement: "bottom",
-    modifiers: [],
-    strategy: "absolute"
-  };
-  function areValidElements() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    return !args.some(function(element) {
-      return !(element && typeof element.getBoundingClientRect === "function");
-    });
-  }
-  function popperGenerator(generatorOptions) {
-    if (generatorOptions === void 0) {
-      generatorOptions = {};
-    }
-    var _generatorOptions = generatorOptions, _generatorOptions$def = _generatorOptions.defaultModifiers, defaultModifiers3 = _generatorOptions$def === void 0 ? [] : _generatorOptions$def, _generatorOptions$def2 = _generatorOptions.defaultOptions, defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
-    return function createPopper4(reference2, popper2, options) {
-      if (options === void 0) {
-        options = defaultOptions;
-      }
-      var state = {
-        placement: "bottom",
-        orderedModifiers: [],
-        options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
-        modifiersData: {},
-        elements: {
-          reference: reference2,
-          popper: popper2
-        },
-        attributes: {},
-        styles: {}
-      };
-      var effectCleanupFns = [];
-      var isDestroyed = false;
-      var instance = {
-        state,
-        setOptions: function setOptions(setOptionsAction) {
-          var options2 = typeof setOptionsAction === "function" ? setOptionsAction(state.options) : setOptionsAction;
-          cleanupModifierEffects();
-          state.options = Object.assign({}, defaultOptions, state.options, options2);
-          state.scrollParents = {
-            reference: isElement(reference2) ? listScrollParents(reference2) : reference2.contextElement ? listScrollParents(reference2.contextElement) : [],
-            popper: listScrollParents(popper2)
-          };
-          var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers3, state.options.modifiers)));
-          state.orderedModifiers = orderedModifiers.filter(function(m) {
-            return m.enabled;
-          });
-          if (true) {
-            var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function(_ref) {
-              var name = _ref.name;
-              return name;
-            });
-            validateModifiers(modifiers);
-            if (getBasePlacement(state.options.placement) === auto) {
-              var flipModifier = state.orderedModifiers.find(function(_ref2) {
-                var name = _ref2.name;
-                return name === "flip";
-              });
-              if (!flipModifier) {
-                console.error(['Popper: "auto" placements require the "flip" modifier be', "present and enabled to work."].join(" "));
-              }
-            }
-            var _getComputedStyle = getComputedStyle2(popper2), marginTop = _getComputedStyle.marginTop, marginRight = _getComputedStyle.marginRight, marginBottom = _getComputedStyle.marginBottom, marginLeft = _getComputedStyle.marginLeft;
-            if ([marginTop, marginRight, marginBottom, marginLeft].some(function(margin) {
-              return parseFloat(margin);
-            })) {
-              console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', "between the popper and its reference element or boundary.", "To replicate margin, use the `offset` modifier, as well as", "the `padding` option in the `preventOverflow` and `flip`", "modifiers."].join(" "));
-            }
-          }
-          runModifierEffects();
-          return instance.update();
-        },
-        // Sync update – it will always be executed, even if not necessary. This
-        // is useful for low frequency updates where sync behavior simplifies the
-        // logic.
-        // For high frequency updates (e.g. `resize` and `scroll` events), always
-        // prefer the async Popper#update method
-        forceUpdate: function forceUpdate() {
-          if (isDestroyed) {
-            return;
-          }
-          var _state$elements = state.elements, reference3 = _state$elements.reference, popper3 = _state$elements.popper;
-          if (!areValidElements(reference3, popper3)) {
-            if (true) {
-              console.error(INVALID_ELEMENT_ERROR);
-            }
-            return;
-          }
-          state.rects = {
-            reference: getCompositeRect(reference3, getOffsetParent(popper3), state.options.strategy === "fixed"),
-            popper: getLayoutRect(popper3)
-          };
-          state.reset = false;
-          state.placement = state.options.placement;
-          state.orderedModifiers.forEach(function(modifier) {
-            return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
-          });
-          var __debug_loops__ = 0;
-          for (var index = 0; index < state.orderedModifiers.length; index++) {
-            if (true) {
-              __debug_loops__ += 1;
-              if (__debug_loops__ > 100) {
-                console.error(INFINITE_LOOP_ERROR);
-                break;
-              }
-            }
-            if (state.reset === true) {
-              state.reset = false;
-              index = -1;
-              continue;
-            }
-            var _state$orderedModifie = state.orderedModifiers[index], fn2 = _state$orderedModifie.fn, _state$orderedModifie2 = _state$orderedModifie.options, _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2, name = _state$orderedModifie.name;
-            if (typeof fn2 === "function") {
-              state = fn2({
-                state,
-                options: _options,
-                name,
-                instance
-              }) || state;
-            }
-          }
-        },
-        // Async and optimistically optimized update – it will not be executed if
-        // not necessary (debounced to run at most once-per-tick)
-        update: debounce(function() {
-          return new Promise(function(resolve) {
-            instance.forceUpdate();
-            resolve(state);
-          });
-        }),
-        destroy: function destroy() {
-          cleanupModifierEffects();
-          isDestroyed = true;
-        }
-      };
-      if (!areValidElements(reference2, popper2)) {
-        if (true) {
-          console.error(INVALID_ELEMENT_ERROR);
-        }
-        return instance;
-      }
-      instance.setOptions(options).then(function(state2) {
-        if (!isDestroyed && options.onFirstUpdate) {
-          options.onFirstUpdate(state2);
-        }
-      });
-      function runModifierEffects() {
-        state.orderedModifiers.forEach(function(_ref3) {
-          var name = _ref3.name, _ref3$options = _ref3.options, options2 = _ref3$options === void 0 ? {} : _ref3$options, effect4 = _ref3.effect;
-          if (typeof effect4 === "function") {
-            var cleanupFn = effect4({
-              state,
-              name,
-              instance,
-              options: options2
-            });
-            var noopFn = function noopFn2() {
-            };
-            effectCleanupFns.push(cleanupFn || noopFn);
-          }
-        });
-      }
-      function cleanupModifierEffects() {
-        effectCleanupFns.forEach(function(fn2) {
-          return fn2();
-        });
-        effectCleanupFns = [];
-      }
-      return instance;
-    };
-  }
-  var createPopper = /* @__PURE__ */ popperGenerator();
-
-  // node_modules/@popperjs/core/lib/popper-lite.js
-  var defaultModifiers = [eventListeners_default, popperOffsets_default, computeStyles_default, applyStyles_default];
-  var createPopper2 = /* @__PURE__ */ popperGenerator({
-    defaultModifiers
-  });
-
-  // node_modules/@popperjs/core/lib/popper.js
-  var defaultModifiers2 = [eventListeners_default, popperOffsets_default, computeStyles_default, applyStyles_default, offset_default, flip_default, preventOverflow_default, arrow_default, hide_default];
-  var createPopper3 = /* @__PURE__ */ popperGenerator({
-    defaultModifiers: defaultModifiers2
-  });
-
-  // node_modules/bootstrap/dist/js/bootstrap.esm.js
-  var MAX_UID = 1e6;
-  var MILLISECONDS_MULTIPLIER = 1e3;
-  var TRANSITION_END = "transitionend";
-  var toType = (object) => {
-    if (object === null || object === void 0) {
-      return `${object}`;
-    }
-    return Object.prototype.toString.call(object).match(/\s([a-z]+)/i)[1].toLowerCase();
-  };
-  var getUID = (prefix) => {
-    do {
-      prefix += Math.floor(Math.random() * MAX_UID);
-    } while (document.getElementById(prefix));
-    return prefix;
-  };
-  var getSelector = (element) => {
-    let selector = element.getAttribute("data-bs-target");
-    if (!selector || selector === "#") {
-      let hrefAttribute = element.getAttribute("href");
-      if (!hrefAttribute || !hrefAttribute.includes("#") && !hrefAttribute.startsWith(".")) {
-        return null;
-      }
-      if (hrefAttribute.includes("#") && !hrefAttribute.startsWith("#")) {
-        hrefAttribute = `#${hrefAttribute.split("#")[1]}`;
-      }
-      selector = hrefAttribute && hrefAttribute !== "#" ? hrefAttribute.trim() : null;
-    }
-    return selector;
-  };
-  var getSelectorFromElement = (element) => {
-    const selector = getSelector(element);
-    if (selector) {
-      return document.querySelector(selector) ? selector : null;
-    }
-    return null;
-  };
-  var getElementFromSelector = (element) => {
-    const selector = getSelector(element);
-    return selector ? document.querySelector(selector) : null;
-  };
-  var getTransitionDurationFromElement = (element) => {
-    if (!element) {
-      return 0;
-    }
-    let {
-      transitionDuration,
-      transitionDelay
-    } = window.getComputedStyle(element);
-    const floatTransitionDuration = Number.parseFloat(transitionDuration);
-    const floatTransitionDelay = Number.parseFloat(transitionDelay);
-    if (!floatTransitionDuration && !floatTransitionDelay) {
-      return 0;
-    }
-    transitionDuration = transitionDuration.split(",")[0];
-    transitionDelay = transitionDelay.split(",")[0];
-    return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
-  };
-  var triggerTransitionEnd = (element) => {
-    element.dispatchEvent(new Event(TRANSITION_END));
-  };
-  var isElement2 = (object) => {
-    if (!object || typeof object !== "object") {
-      return false;
-    }
-    if (typeof object.jquery !== "undefined") {
-      object = object[0];
-    }
-    return typeof object.nodeType !== "undefined";
-  };
-  var getElement = (object) => {
-    if (isElement2(object)) {
-      return object.jquery ? object[0] : object;
-    }
-    if (typeof object === "string" && object.length > 0) {
-      return document.querySelector(object);
-    }
-    return null;
-  };
-  var isVisible = (element) => {
-    if (!isElement2(element) || element.getClientRects().length === 0) {
-      return false;
-    }
-    const elementIsVisible = getComputedStyle(element).getPropertyValue("visibility") === "visible";
-    const closedDetails = element.closest("details:not([open])");
-    if (!closedDetails) {
-      return elementIsVisible;
-    }
-    if (closedDetails !== element) {
-      const summary = element.closest("summary");
-      if (summary && summary.parentNode !== closedDetails) {
-        return false;
-      }
-      if (summary === null) {
-        return false;
-      }
-    }
-    return elementIsVisible;
-  };
-  var isDisabled = (element) => {
-    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
-      return true;
-    }
-    if (element.classList.contains("disabled")) {
-      return true;
-    }
-    if (typeof element.disabled !== "undefined") {
-      return element.disabled;
-    }
-    return element.hasAttribute("disabled") && element.getAttribute("disabled") !== "false";
-  };
-  var findShadowRoot = (element) => {
-    if (!document.documentElement.attachShadow) {
-      return null;
-    }
-    if (typeof element.getRootNode === "function") {
-      const root2 = element.getRootNode();
-      return root2 instanceof ShadowRoot ? root2 : null;
-    }
-    if (element instanceof ShadowRoot) {
-      return element;
-    }
-    if (!element.parentNode) {
-      return null;
-    }
-    return findShadowRoot(element.parentNode);
-  };
-  var noop = () => {
-  };
-  var reflow = (element) => {
-    element.offsetHeight;
-  };
-  var getjQuery = () => {
-    if (window.jQuery && !document.body.hasAttribute("data-bs-no-jquery")) {
-      return window.jQuery;
-    }
-    return null;
-  };
-  var DOMContentLoadedCallbacks = [];
-  var onDOMContentLoaded = (callback) => {
-    if (document.readyState === "loading") {
-      if (!DOMContentLoadedCallbacks.length) {
-        document.addEventListener("DOMContentLoaded", () => {
-          for (const callback2 of DOMContentLoadedCallbacks) {
-            callback2();
-          }
-        });
-      }
-      DOMContentLoadedCallbacks.push(callback);
-    } else {
-      callback();
-    }
-  };
-  var isRTL = () => document.documentElement.dir === "rtl";
-  var defineJQueryPlugin = (plugin) => {
-    onDOMContentLoaded(() => {
-      const $ = getjQuery();
-      if ($) {
-        const name = plugin.NAME;
-        const JQUERY_NO_CONFLICT = $.fn[name];
-        $.fn[name] = plugin.jQueryInterface;
-        $.fn[name].Constructor = plugin;
-        $.fn[name].noConflict = () => {
-          $.fn[name] = JQUERY_NO_CONFLICT;
-          return plugin.jQueryInterface;
-        };
-      }
-    });
-  };
-  var execute = (callback) => {
-    if (typeof callback === "function") {
-      callback();
-    }
-  };
-  var executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-    if (!waitForTransition) {
-      execute(callback);
-      return;
-    }
-    const durationPadding = 5;
-    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-    let called = false;
-    const handler = ({
-      target
-    }) => {
-      if (target !== transitionElement) {
-        return;
-      }
-      called = true;
-      transitionElement.removeEventListener(TRANSITION_END, handler);
-      execute(callback);
-    };
-    transitionElement.addEventListener(TRANSITION_END, handler);
-    setTimeout(() => {
-      if (!called) {
-        triggerTransitionEnd(transitionElement);
-      }
-    }, emulatedDuration);
-  };
-  var getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
-    const listLength = list.length;
-    let index = list.indexOf(activeElement);
-    if (index === -1) {
-      return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
-    }
-    index += shouldGetNext ? 1 : -1;
-    if (isCycleAllowed) {
-      index = (index + listLength) % listLength;
-    }
-    return list[Math.max(0, Math.min(index, listLength - 1))];
-  };
-  var namespaceRegex = /[^.]*(?=\..*)\.|.*/;
-  var stripNameRegex = /\..*/;
-  var stripUidRegex = /::\d+$/;
-  var eventRegistry = {};
-  var uidEvent = 1;
-  var customEvents = {
-    mouseenter: "mouseover",
-    mouseleave: "mouseout"
-  };
-  var nativeEvents = /* @__PURE__ */ new Set(["click", "dblclick", "mouseup", "mousedown", "contextmenu", "mousewheel", "DOMMouseScroll", "mouseover", "mouseout", "mousemove", "selectstart", "selectend", "keydown", "keypress", "keyup", "orientationchange", "touchstart", "touchmove", "touchend", "touchcancel", "pointerdown", "pointermove", "pointerup", "pointerleave", "pointercancel", "gesturestart", "gesturechange", "gestureend", "focus", "blur", "change", "reset", "select", "submit", "focusin", "focusout", "load", "unload", "beforeunload", "resize", "move", "DOMContentLoaded", "readystatechange", "error", "abort", "scroll"]);
-  function makeEventUid(element, uid) {
-    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
-  }
-  function getElementEvents(element) {
-    const uid = makeEventUid(element);
-    element.uidEvent = uid;
-    eventRegistry[uid] = eventRegistry[uid] || {};
-    return eventRegistry[uid];
-  }
-  function bootstrapHandler(element, fn2) {
-    return function handler(event) {
-      hydrateObj(event, {
-        delegateTarget: element
-      });
-      if (handler.oneOff) {
-        EventHandler.off(element, event.type, fn2);
-      }
-      return fn2.apply(element, [event]);
-    };
-  }
-  function bootstrapDelegationHandler(element, selector, fn2) {
-    return function handler(event) {
-      const domElements = element.querySelectorAll(selector);
-      for (let {
-        target
-      } = event; target && target !== this; target = target.parentNode) {
-        for (const domElement of domElements) {
-          if (domElement !== target) {
-            continue;
-          }
-          hydrateObj(event, {
-            delegateTarget: target
-          });
-          if (handler.oneOff) {
-            EventHandler.off(element, event.type, selector, fn2);
-          }
-          return fn2.apply(target, [event]);
-        }
-      }
-    };
-  }
-  function findHandler(events, callable, delegationSelector = null) {
-    return Object.values(events).find((event) => event.callable === callable && event.delegationSelector === delegationSelector);
-  }
-  function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
-    const isDelegated = typeof handler === "string";
-    const callable = isDelegated ? delegationFunction : handler || delegationFunction;
-    let typeEvent = getTypeEvent(originalTypeEvent);
-    if (!nativeEvents.has(typeEvent)) {
-      typeEvent = originalTypeEvent;
-    }
-    return [isDelegated, callable, typeEvent];
-  }
-  function addHandler(element, originalTypeEvent, handler, delegationFunction, oneOff) {
-    if (typeof originalTypeEvent !== "string" || !element) {
-      return;
-    }
-    let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
-    if (originalTypeEvent in customEvents) {
-      const wrapFunction = (fn3) => {
-        return function(event) {
-          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
-            return fn3.call(this, event);
-          }
-        };
-      };
-      callable = wrapFunction(callable);
-    }
-    const events = getElementEvents(element);
-    const handlers = events[typeEvent] || (events[typeEvent] = {});
-    const previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
-    if (previousFunction) {
-      previousFunction.oneOff = previousFunction.oneOff && oneOff;
-      return;
-    }
-    const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ""));
-    const fn2 = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
-    fn2.delegationSelector = isDelegated ? handler : null;
-    fn2.callable = callable;
-    fn2.oneOff = oneOff;
-    fn2.uidEvent = uid;
-    handlers[uid] = fn2;
-    element.addEventListener(typeEvent, fn2, isDelegated);
-  }
-  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
-    const fn2 = findHandler(events[typeEvent], handler, delegationSelector);
-    if (!fn2) {
-      return;
-    }
-    element.removeEventListener(typeEvent, fn2, Boolean(delegationSelector));
-    delete events[typeEvent][fn2.uidEvent];
-  }
-  function removeNamespacedHandlers(element, events, typeEvent, namespace) {
-    const storeElementEvent = events[typeEvent] || {};
-    for (const handlerKey of Object.keys(storeElementEvent)) {
-      if (handlerKey.includes(namespace)) {
-        const event = storeElementEvent[handlerKey];
-        removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
-      }
-    }
-  }
-  function getTypeEvent(event) {
-    event = event.replace(stripNameRegex, "");
-    return customEvents[event] || event;
-  }
-  var EventHandler = {
-    on(element, event, handler, delegationFunction) {
-      addHandler(element, event, handler, delegationFunction, false);
-    },
-    one(element, event, handler, delegationFunction) {
-      addHandler(element, event, handler, delegationFunction, true);
-    },
-    off(element, originalTypeEvent, handler, delegationFunction) {
-      if (typeof originalTypeEvent !== "string" || !element) {
-        return;
-      }
-      const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
-      const inNamespace = typeEvent !== originalTypeEvent;
-      const events = getElementEvents(element);
-      const storeElementEvent = events[typeEvent] || {};
-      const isNamespace = originalTypeEvent.startsWith(".");
-      if (typeof callable !== "undefined") {
-        if (!Object.keys(storeElementEvent).length) {
           return;
-        }
-        removeHandler(element, events, typeEvent, callable, isDelegated ? handler : null);
+      }
+      if (!nextActiveChild)
         return;
+      event.preventDefault();
+      handleSelect(nextActiveChild.dataset[dataProp("EventKey")] || null, event);
+      needsRefocusRef.current = true;
+      forceUpdate();
+    };
+    (0, import_react37.useEffect)(() => {
+      if (listNode.current && needsRefocusRef.current) {
+        const activeChild = listNode.current.querySelector(`[${EVENT_KEY_ATTR}][aria-selected=true]`);
+        activeChild == null ? void 0 : activeChild.focus();
       }
-      if (isNamespace) {
-        for (const elementEvent of Object.keys(events)) {
-          removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
-        }
-      }
-      for (const keyHandlers of Object.keys(storeElementEvent)) {
-        const handlerKey = keyHandlers.replace(stripUidRegex, "");
-        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
-          const event = storeElementEvent[keyHandlers];
-          removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
-        }
-      }
-    },
-    trigger(element, event, args) {
-      if (typeof event !== "string" || !element) {
-        return null;
-      }
-      const $ = getjQuery();
-      const typeEvent = getTypeEvent(event);
-      const inNamespace = event !== typeEvent;
-      let jQueryEvent = null;
-      let bubbles = true;
-      let nativeDispatch = true;
-      let defaultPrevented = false;
-      if (inNamespace && $) {
-        jQueryEvent = $.Event(event, args);
-        $(element).trigger(jQueryEvent);
-        bubbles = !jQueryEvent.isPropagationStopped();
-        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
-        defaultPrevented = jQueryEvent.isDefaultPrevented();
-      }
-      let evt = new Event(event, {
-        bubbles,
-        cancelable: true
-      });
-      evt = hydrateObj(evt, args);
-      if (defaultPrevented) {
-        evt.preventDefault();
-      }
-      if (nativeDispatch) {
-        element.dispatchEvent(evt);
-      }
-      if (evt.defaultPrevented && jQueryEvent) {
-        jQueryEvent.preventDefault();
-      }
-      return evt;
-    }
-  };
-  function hydrateObj(obj, meta) {
-    for (const [key, value] of Object.entries(meta || {})) {
-      try {
-        obj[key] = value;
-      } catch (_unused) {
-        Object.defineProperty(obj, key, {
-          configurable: true,
-          get() {
-            return value;
-          }
-        });
-      }
-    }
-    return obj;
-  }
-  var elementMap = /* @__PURE__ */ new Map();
-  var Data = {
-    set(element, key, instance) {
-      if (!elementMap.has(element)) {
-        elementMap.set(element, /* @__PURE__ */ new Map());
-      }
-      const instanceMap = elementMap.get(element);
-      if (!instanceMap.has(key) && instanceMap.size !== 0) {
-        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-        return;
-      }
-      instanceMap.set(key, instance);
-    },
-    get(element, key) {
-      if (elementMap.has(element)) {
-        return elementMap.get(element).get(key) || null;
-      }
-      return null;
-    },
-    remove(element, key) {
-      if (!elementMap.has(element)) {
-        return;
-      }
-      const instanceMap = elementMap.get(element);
-      instanceMap.delete(key);
-      if (instanceMap.size === 0) {
-        elementMap.delete(element);
-      }
-    }
-  };
-  function normalizeData(value) {
-    if (value === "true") {
-      return true;
-    }
-    if (value === "false") {
-      return false;
-    }
-    if (value === Number(value).toString()) {
-      return Number(value);
-    }
-    if (value === "" || value === "null") {
-      return null;
-    }
-    if (typeof value !== "string") {
-      return value;
+      needsRefocusRef.current = false;
+    });
+    const mergedRef = useMergedRefs_default(ref, listNode);
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(SelectableContext_default.Provider, {
+      value: handleSelect,
+      children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(NavContext_default.Provider, {
+        value: {
+          role,
+          // used by NavLink to determine it's role
+          activeKey: makeEventKey(activeKey),
+          getControlledId: getControlledId || noop2,
+          getControllerId: getControllerId || noop2
+        },
+        children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Component, Object.assign({}, props, {
+          onKeyDown: handleKeyDown,
+          ref: mergedRef,
+          role
+        }))
+      })
+    });
+  });
+  Nav.displayName = "Nav";
+  var Nav_default = Object.assign(Nav, {
+    Item: NavItem_default
+  });
+
+  // node_modules/dom-helpers/esm/activeElement.js
+  function activeElement(doc) {
+    if (doc === void 0) {
+      doc = ownerDocument();
     }
     try {
-      return JSON.parse(decodeURIComponent(value));
-    } catch (_unused) {
-      return value;
+      var active = doc.activeElement;
+      if (!active || !active.nodeName)
+        return null;
+      return active;
+    } catch (e) {
+      return doc.body;
     }
   }
-  function normalizeDataKey(key) {
-    return key.replace(/[A-Z]/g, (chr) => `-${chr.toLowerCase()}`);
+
+  // node_modules/@restart/ui/esm/Modal.js
+  var import_react41 = __toESM(require_react());
+  var React48 = __toESM(require_react());
+  var import_react_dom3 = __toESM(require_react_dom());
+
+  // node_modules/@restart/ui/esm/getScrollbarWidth.js
+  function getBodyScrollbarWidth(ownerDocument2 = document) {
+    const window2 = ownerDocument2.defaultView;
+    return Math.abs(window2.innerWidth - ownerDocument2.documentElement.clientWidth);
   }
-  var Manipulator = {
-    setDataAttribute(element, key, value) {
-      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
-    },
-    removeDataAttribute(element, key) {
-      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
-    },
-    getDataAttributes(element) {
-      if (!element) {
-        return {};
-      }
-      const attributes = {};
-      const bsKeys = Object.keys(element.dataset).filter((key) => key.startsWith("bs") && !key.startsWith("bsConfig"));
-      for (const key of bsKeys) {
-        let pureKey = key.replace(/^bs/, "");
-        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
-        attributes[pureKey] = normalizeData(element.dataset[key]);
-      }
-      return attributes;
-    },
-    getDataAttribute(element, key) {
-      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
+
+  // node_modules/@restart/ui/esm/ModalManager.js
+  var OPEN_DATA_ATTRIBUTE = dataAttr("modal-open");
+  var ModalManager = class {
+    constructor({
+      ownerDocument: ownerDocument2,
+      handleContainerOverflow = true,
+      isRTL = false
+    } = {}) {
+      this.handleContainerOverflow = handleContainerOverflow;
+      this.isRTL = isRTL;
+      this.modals = [];
+      this.ownerDocument = ownerDocument2;
     }
-  };
-  var Config = class {
-    // Getters
-    static get Default() {
-      return {};
+    getScrollbarWidth() {
+      return getBodyScrollbarWidth(this.ownerDocument);
     }
-    static get DefaultType() {
-      return {};
+    getElement() {
+      return (this.ownerDocument || document).body;
     }
-    static get NAME() {
-      throw new Error('You have to implement the static method "NAME", for each component!');
+    setModalAttributes(_modal) {
     }
-    _getConfig(config) {
-      config = this._mergeConfigObj(config);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
+    removeModalAttributes(_modal) {
     }
-    _configAfterMerge(config) {
-      return config;
-    }
-    _mergeConfigObj(config, element) {
-      const jsonConfig = isElement2(element) ? Manipulator.getDataAttribute(element, "config") : {};
-      return __spreadValues(__spreadValues(__spreadValues(__spreadValues({}, this.constructor.Default), typeof jsonConfig === "object" ? jsonConfig : {}), isElement2(element) ? Manipulator.getDataAttributes(element) : {}), typeof config === "object" ? config : {});
-    }
-    _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
-      for (const property of Object.keys(configTypes)) {
-        const expectedTypes = configTypes[property];
-        const value = config[property];
-        const valueType = isElement2(value) ? "element" : toType(value);
-        if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
-        }
-      }
-    }
-  };
-  var VERSION = "5.2.3";
-  var BaseComponent = class extends Config {
-    constructor(element, config) {
-      super();
-      element = getElement(element);
-      if (!element) {
-        return;
-      }
-      this._element = element;
-      this._config = this._getConfig(config);
-      Data.set(this._element, this.constructor.DATA_KEY, this);
-    }
-    // Public
-    dispose() {
-      Data.remove(this._element, this.constructor.DATA_KEY);
-      EventHandler.off(this._element, this.constructor.EVENT_KEY);
-      for (const propertyName of Object.getOwnPropertyNames(this)) {
-        this[propertyName] = null;
-      }
-    }
-    _queueCallback(callback, element, isAnimated = true) {
-      executeAfterTransition(callback, element, isAnimated);
-    }
-    _getConfig(config) {
-      config = this._mergeConfigObj(config, this._element);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
-    }
-    // Static
-    static getInstance(element) {
-      return Data.get(getElement(element), this.DATA_KEY);
-    }
-    static getOrCreateInstance(element, config = {}) {
-      return this.getInstance(element) || new this(element, typeof config === "object" ? config : null);
-    }
-    static get VERSION() {
-      return VERSION;
-    }
-    static get DATA_KEY() {
-      return `bs.${this.NAME}`;
-    }
-    static get EVENT_KEY() {
-      return `.${this.DATA_KEY}`;
-    }
-    static eventName(name) {
-      return `${name}${this.EVENT_KEY}`;
-    }
-  };
-  var enableDismissTrigger = (component, method = "hide") => {
-    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-    const name = component.NAME;
-    EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function(event) {
-      if (["A", "AREA"].includes(this.tagName)) {
-        event.preventDefault();
-      }
-      if (isDisabled(this)) {
-        return;
-      }
-      const target = getElementFromSelector(this) || this.closest(`.${name}`);
-      const instance = component.getOrCreateInstance(target);
-      instance[method]();
-    });
-  };
-  var NAME$f = "alert";
-  var DATA_KEY$a = "bs.alert";
-  var EVENT_KEY$b = `.${DATA_KEY$a}`;
-  var EVENT_CLOSE = `close${EVENT_KEY$b}`;
-  var EVENT_CLOSED = `closed${EVENT_KEY$b}`;
-  var CLASS_NAME_FADE$5 = "fade";
-  var CLASS_NAME_SHOW$8 = "show";
-  var Alert = class extends BaseComponent {
-    // Getters
-    static get NAME() {
-      return NAME$f;
-    }
-    // Public
-    close() {
-      const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
-      if (closeEvent.defaultPrevented) {
-        return;
-      }
-      this._element.classList.remove(CLASS_NAME_SHOW$8);
-      const isAnimated = this._element.classList.contains(CLASS_NAME_FADE$5);
-      this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
-    }
-    // Private
-    _destroyElement() {
-      this._element.remove();
-      EventHandler.trigger(this._element, EVENT_CLOSED);
-      this.dispose();
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Alert.getOrCreateInstance(this);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config](this);
-      });
-    }
-  };
-  enableDismissTrigger(Alert, "close");
-  defineJQueryPlugin(Alert);
-  var NAME$e = "button";
-  var DATA_KEY$9 = "bs.button";
-  var EVENT_KEY$a = `.${DATA_KEY$9}`;
-  var DATA_API_KEY$6 = ".data-api";
-  var CLASS_NAME_ACTIVE$3 = "active";
-  var SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
-  var EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
-  var Button = class extends BaseComponent {
-    // Getters
-    static get NAME() {
-      return NAME$e;
-    }
-    // Public
-    toggle() {
-      this._element.setAttribute("aria-pressed", this._element.classList.toggle(CLASS_NAME_ACTIVE$3));
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Button.getOrCreateInstance(this);
-        if (config === "toggle") {
-          data[config]();
-        }
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$5, (event) => {
-    event.preventDefault();
-    const button = event.target.closest(SELECTOR_DATA_TOGGLE$5);
-    const data = Button.getOrCreateInstance(button);
-    data.toggle();
-  });
-  defineJQueryPlugin(Button);
-  var SelectorEngine = {
-    find(selector, element = document.documentElement) {
-      return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
-    },
-    findOne(selector, element = document.documentElement) {
-      return Element.prototype.querySelector.call(element, selector);
-    },
-    children(element, selector) {
-      return [].concat(...element.children).filter((child) => child.matches(selector));
-    },
-    parents(element, selector) {
-      const parents = [];
-      let ancestor = element.parentNode.closest(selector);
-      while (ancestor) {
-        parents.push(ancestor);
-        ancestor = ancestor.parentNode.closest(selector);
-      }
-      return parents;
-    },
-    prev(element, selector) {
-      let previous = element.previousElementSibling;
-      while (previous) {
-        if (previous.matches(selector)) {
-          return [previous];
-        }
-        previous = previous.previousElementSibling;
-      }
-      return [];
-    },
-    // TODO: this is now unused; remove later along with prev()
-    next(element, selector) {
-      let next = element.nextElementSibling;
-      while (next) {
-        if (next.matches(selector)) {
-          return [next];
-        }
-        next = next.nextElementSibling;
-      }
-      return [];
-    },
-    focusableChildren(element) {
-      const focusables = ["a", "button", "input", "textarea", "select", "details", "[tabindex]", '[contenteditable="true"]'].map((selector) => `${selector}:not([tabindex^="-"])`).join(",");
-      return this.find(focusables, element).filter((el) => !isDisabled(el) && isVisible(el));
-    }
-  };
-  var NAME$d = "swipe";
-  var EVENT_KEY$9 = ".bs.swipe";
-  var EVENT_TOUCHSTART = `touchstart${EVENT_KEY$9}`;
-  var EVENT_TOUCHMOVE = `touchmove${EVENT_KEY$9}`;
-  var EVENT_TOUCHEND = `touchend${EVENT_KEY$9}`;
-  var EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$9}`;
-  var EVENT_POINTERUP = `pointerup${EVENT_KEY$9}`;
-  var POINTER_TYPE_TOUCH = "touch";
-  var POINTER_TYPE_PEN = "pen";
-  var CLASS_NAME_POINTER_EVENT = "pointer-event";
-  var SWIPE_THRESHOLD = 40;
-  var Default$c = {
-    endCallback: null,
-    leftCallback: null,
-    rightCallback: null
-  };
-  var DefaultType$c = {
-    endCallback: "(function|null)",
-    leftCallback: "(function|null)",
-    rightCallback: "(function|null)"
-  };
-  var Swipe = class extends Config {
-    constructor(element, config) {
-      super();
-      this._element = element;
-      if (!element || !Swipe.isSupported()) {
-        return;
-      }
-      this._config = this._getConfig(config);
-      this._deltaX = 0;
-      this._supportPointerEvents = Boolean(window.PointerEvent);
-      this._initEvents();
-    }
-    // Getters
-    static get Default() {
-      return Default$c;
-    }
-    static get DefaultType() {
-      return DefaultType$c;
-    }
-    static get NAME() {
-      return NAME$d;
-    }
-    // Public
-    dispose() {
-      EventHandler.off(this._element, EVENT_KEY$9);
-    }
-    // Private
-    _start(event) {
-      if (!this._supportPointerEvents) {
-        this._deltaX = event.touches[0].clientX;
-        return;
-      }
-      if (this._eventIsPointerPenTouch(event)) {
-        this._deltaX = event.clientX;
-      }
-    }
-    _end(event) {
-      if (this._eventIsPointerPenTouch(event)) {
-        this._deltaX = event.clientX - this._deltaX;
-      }
-      this._handleSwipe();
-      execute(this._config.endCallback);
-    }
-    _move(event) {
-      this._deltaX = event.touches && event.touches.length > 1 ? 0 : event.touches[0].clientX - this._deltaX;
-    }
-    _handleSwipe() {
-      const absDeltaX = Math.abs(this._deltaX);
-      if (absDeltaX <= SWIPE_THRESHOLD) {
-        return;
-      }
-      const direction = absDeltaX / this._deltaX;
-      this._deltaX = 0;
-      if (!direction) {
-        return;
-      }
-      execute(direction > 0 ? this._config.rightCallback : this._config.leftCallback);
-    }
-    _initEvents() {
-      if (this._supportPointerEvents) {
-        EventHandler.on(this._element, EVENT_POINTERDOWN, (event) => this._start(event));
-        EventHandler.on(this._element, EVENT_POINTERUP, (event) => this._end(event));
-        this._element.classList.add(CLASS_NAME_POINTER_EVENT);
-      } else {
-        EventHandler.on(this._element, EVENT_TOUCHSTART, (event) => this._start(event));
-        EventHandler.on(this._element, EVENT_TOUCHMOVE, (event) => this._move(event));
-        EventHandler.on(this._element, EVENT_TOUCHEND, (event) => this._end(event));
-      }
-    }
-    _eventIsPointerPenTouch(event) {
-      return this._supportPointerEvents && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
-    }
-    // Static
-    static isSupported() {
-      return "ontouchstart" in document.documentElement || navigator.maxTouchPoints > 0;
-    }
-  };
-  var NAME$c = "carousel";
-  var DATA_KEY$8 = "bs.carousel";
-  var EVENT_KEY$8 = `.${DATA_KEY$8}`;
-  var DATA_API_KEY$5 = ".data-api";
-  var ARROW_LEFT_KEY$1 = "ArrowLeft";
-  var ARROW_RIGHT_KEY$1 = "ArrowRight";
-  var TOUCHEVENT_COMPAT_WAIT = 500;
-  var ORDER_NEXT = "next";
-  var ORDER_PREV = "prev";
-  var DIRECTION_LEFT = "left";
-  var DIRECTION_RIGHT = "right";
-  var EVENT_SLIDE = `slide${EVENT_KEY$8}`;
-  var EVENT_SLID = `slid${EVENT_KEY$8}`;
-  var EVENT_KEYDOWN$1 = `keydown${EVENT_KEY$8}`;
-  var EVENT_MOUSEENTER$1 = `mouseenter${EVENT_KEY$8}`;
-  var EVENT_MOUSELEAVE$1 = `mouseleave${EVENT_KEY$8}`;
-  var EVENT_DRAG_START = `dragstart${EVENT_KEY$8}`;
-  var EVENT_LOAD_DATA_API$3 = `load${EVENT_KEY$8}${DATA_API_KEY$5}`;
-  var EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$8}${DATA_API_KEY$5}`;
-  var CLASS_NAME_CAROUSEL = "carousel";
-  var CLASS_NAME_ACTIVE$2 = "active";
-  var CLASS_NAME_SLIDE = "slide";
-  var CLASS_NAME_END = "carousel-item-end";
-  var CLASS_NAME_START = "carousel-item-start";
-  var CLASS_NAME_NEXT = "carousel-item-next";
-  var CLASS_NAME_PREV = "carousel-item-prev";
-  var SELECTOR_ACTIVE = ".active";
-  var SELECTOR_ITEM = ".carousel-item";
-  var SELECTOR_ACTIVE_ITEM = SELECTOR_ACTIVE + SELECTOR_ITEM;
-  var SELECTOR_ITEM_IMG = ".carousel-item img";
-  var SELECTOR_INDICATORS = ".carousel-indicators";
-  var SELECTOR_DATA_SLIDE = "[data-bs-slide], [data-bs-slide-to]";
-  var SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
-  var KEY_TO_DIRECTION = {
-    [ARROW_LEFT_KEY$1]: DIRECTION_RIGHT,
-    [ARROW_RIGHT_KEY$1]: DIRECTION_LEFT
-  };
-  var Default$b = {
-    interval: 5e3,
-    keyboard: true,
-    pause: "hover",
-    ride: false,
-    touch: true,
-    wrap: true
-  };
-  var DefaultType$b = {
-    interval: "(number|boolean)",
-    // TODO:v6 remove boolean support
-    keyboard: "boolean",
-    pause: "(string|boolean)",
-    ride: "(boolean|string)",
-    touch: "boolean",
-    wrap: "boolean"
-  };
-  var Carousel = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._interval = null;
-      this._activeElement = null;
-      this._isSliding = false;
-      this.touchTimeout = null;
-      this._swipeHelper = null;
-      this._indicatorsElement = SelectorEngine.findOne(SELECTOR_INDICATORS, this._element);
-      this._addEventListeners();
-      if (this._config.ride === CLASS_NAME_CAROUSEL) {
-        this.cycle();
-      }
-    }
-    // Getters
-    static get Default() {
-      return Default$b;
-    }
-    static get DefaultType() {
-      return DefaultType$b;
-    }
-    static get NAME() {
-      return NAME$c;
-    }
-    // Public
-    next() {
-      this._slide(ORDER_NEXT);
-    }
-    nextWhenVisible() {
-      if (!document.hidden && isVisible(this._element)) {
-        this.next();
-      }
-    }
-    prev() {
-      this._slide(ORDER_PREV);
-    }
-    pause() {
-      if (this._isSliding) {
-        triggerTransitionEnd(this._element);
-      }
-      this._clearInterval();
-    }
-    cycle() {
-      this._clearInterval();
-      this._updateInterval();
-      this._interval = setInterval(() => this.nextWhenVisible(), this._config.interval);
-    }
-    _maybeEnableCycle() {
-      if (!this._config.ride) {
-        return;
-      }
-      if (this._isSliding) {
-        EventHandler.one(this._element, EVENT_SLID, () => this.cycle());
-        return;
-      }
-      this.cycle();
-    }
-    to(index) {
-      const items = this._getItems();
-      if (index > items.length - 1 || index < 0) {
-        return;
-      }
-      if (this._isSliding) {
-        EventHandler.one(this._element, EVENT_SLID, () => this.to(index));
-        return;
-      }
-      const activeIndex = this._getItemIndex(this._getActive());
-      if (activeIndex === index) {
-        return;
-      }
-      const order2 = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
-      this._slide(order2, items[index]);
-    }
-    dispose() {
-      if (this._swipeHelper) {
-        this._swipeHelper.dispose();
-      }
-      super.dispose();
-    }
-    // Private
-    _configAfterMerge(config) {
-      config.defaultInterval = config.interval;
-      return config;
-    }
-    _addEventListeners() {
-      if (this._config.keyboard) {
-        EventHandler.on(this._element, EVENT_KEYDOWN$1, (event) => this._keydown(event));
-      }
-      if (this._config.pause === "hover") {
-        EventHandler.on(this._element, EVENT_MOUSEENTER$1, () => this.pause());
-        EventHandler.on(this._element, EVENT_MOUSELEAVE$1, () => this._maybeEnableCycle());
-      }
-      if (this._config.touch && Swipe.isSupported()) {
-        this._addTouchEventListeners();
-      }
-    }
-    _addTouchEventListeners() {
-      for (const img of SelectorEngine.find(SELECTOR_ITEM_IMG, this._element)) {
-        EventHandler.on(img, EVENT_DRAG_START, (event) => event.preventDefault());
-      }
-      const endCallBack = () => {
-        if (this._config.pause !== "hover") {
-          return;
-        }
-        this.pause();
-        if (this.touchTimeout) {
-          clearTimeout(this.touchTimeout);
-        }
-        this.touchTimeout = setTimeout(() => this._maybeEnableCycle(), TOUCHEVENT_COMPAT_WAIT + this._config.interval);
+    setContainerStyle(containerState) {
+      const style2 = {
+        overflow: "hidden"
       };
-      const swipeConfig = {
-        leftCallback: () => this._slide(this._directionToOrder(DIRECTION_LEFT)),
-        rightCallback: () => this._slide(this._directionToOrder(DIRECTION_RIGHT)),
-        endCallback: endCallBack
+      const paddingProp = this.isRTL ? "paddingLeft" : "paddingRight";
+      const container = this.getElement();
+      containerState.style = {
+        overflow: container.style.overflow,
+        [paddingProp]: container.style[paddingProp]
       };
-      this._swipeHelper = new Swipe(this._element, swipeConfig);
-    }
-    _keydown(event) {
-      if (/input|textarea/i.test(event.target.tagName)) {
-        return;
+      if (containerState.scrollBarWidth) {
+        style2[paddingProp] = `${parseInt(css_default(container, paddingProp) || "0", 10) + containerState.scrollBarWidth}px`;
       }
-      const direction = KEY_TO_DIRECTION[event.key];
-      if (direction) {
-        event.preventDefault();
-        this._slide(this._directionToOrder(direction));
-      }
-    }
-    _getItemIndex(element) {
-      return this._getItems().indexOf(element);
-    }
-    _setActiveIndicatorElement(index) {
-      if (!this._indicatorsElement) {
-        return;
-      }
-      const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
-      activeIndicator.classList.remove(CLASS_NAME_ACTIVE$2);
-      activeIndicator.removeAttribute("aria-current");
-      const newActiveIndicator = SelectorEngine.findOne(`[data-bs-slide-to="${index}"]`, this._indicatorsElement);
-      if (newActiveIndicator) {
-        newActiveIndicator.classList.add(CLASS_NAME_ACTIVE$2);
-        newActiveIndicator.setAttribute("aria-current", "true");
-      }
-    }
-    _updateInterval() {
-      const element = this._activeElement || this._getActive();
-      if (!element) {
-        return;
-      }
-      const elementInterval = Number.parseInt(element.getAttribute("data-bs-interval"), 10);
-      this._config.interval = elementInterval || this._config.defaultInterval;
-    }
-    _slide(order2, element = null) {
-      if (this._isSliding) {
-        return;
-      }
-      const activeElement = this._getActive();
-      const isNext = order2 === ORDER_NEXT;
-      const nextElement = element || getNextActiveElement(this._getItems(), activeElement, isNext, this._config.wrap);
-      if (nextElement === activeElement) {
-        return;
-      }
-      const nextElementIndex = this._getItemIndex(nextElement);
-      const triggerEvent = (eventName) => {
-        return EventHandler.trigger(this._element, eventName, {
-          relatedTarget: nextElement,
-          direction: this._orderToDirection(order2),
-          from: this._getItemIndex(activeElement),
-          to: nextElementIndex
-        });
-      };
-      const slideEvent = triggerEvent(EVENT_SLIDE);
-      if (slideEvent.defaultPrevented) {
-        return;
-      }
-      if (!activeElement || !nextElement) {
-        return;
-      }
-      const isCycling = Boolean(this._interval);
-      this.pause();
-      this._isSliding = true;
-      this._setActiveIndicatorElement(nextElementIndex);
-      this._activeElement = nextElement;
-      const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-      const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
-      nextElement.classList.add(orderClassName);
-      reflow(nextElement);
-      activeElement.classList.add(directionalClassName);
-      nextElement.classList.add(directionalClassName);
-      const completeCallBack = () => {
-        nextElement.classList.remove(directionalClassName, orderClassName);
-        nextElement.classList.add(CLASS_NAME_ACTIVE$2);
-        activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
-        this._isSliding = false;
-        triggerEvent(EVENT_SLID);
-      };
-      this._queueCallback(completeCallBack, activeElement, this._isAnimated());
-      if (isCycling) {
-        this.cycle();
-      }
-    }
-    _isAnimated() {
-      return this._element.classList.contains(CLASS_NAME_SLIDE);
-    }
-    _getActive() {
-      return SelectorEngine.findOne(SELECTOR_ACTIVE_ITEM, this._element);
-    }
-    _getItems() {
-      return SelectorEngine.find(SELECTOR_ITEM, this._element);
-    }
-    _clearInterval() {
-      if (this._interval) {
-        clearInterval(this._interval);
-        this._interval = null;
-      }
-    }
-    _directionToOrder(direction) {
-      if (isRTL()) {
-        return direction === DIRECTION_LEFT ? ORDER_PREV : ORDER_NEXT;
-      }
-      return direction === DIRECTION_LEFT ? ORDER_NEXT : ORDER_PREV;
-    }
-    _orderToDirection(order2) {
-      if (isRTL()) {
-        return order2 === ORDER_PREV ? DIRECTION_LEFT : DIRECTION_RIGHT;
-      }
-      return order2 === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Carousel.getOrCreateInstance(this, config);
-        if (typeof config === "number") {
-          data.to(config);
-          return;
-        }
-        if (typeof config === "string") {
-          if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-            throw new TypeError(`No method named "${config}"`);
-          }
-          data[config]();
-        }
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, function(event) {
-    const target = getElementFromSelector(this);
-    if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
-      return;
-    }
-    event.preventDefault();
-    const carousel = Carousel.getOrCreateInstance(target);
-    const slideIndex = this.getAttribute("data-bs-slide-to");
-    if (slideIndex) {
-      carousel.to(slideIndex);
-      carousel._maybeEnableCycle();
-      return;
-    }
-    if (Manipulator.getDataAttribute(this, "slide") === "next") {
-      carousel.next();
-      carousel._maybeEnableCycle();
-      return;
-    }
-    carousel.prev();
-    carousel._maybeEnableCycle();
-  });
-  EventHandler.on(window, EVENT_LOAD_DATA_API$3, () => {
-    const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
-    for (const carousel of carousels) {
-      Carousel.getOrCreateInstance(carousel);
-    }
-  });
-  defineJQueryPlugin(Carousel);
-  var NAME$b = "collapse";
-  var DATA_KEY$7 = "bs.collapse";
-  var EVENT_KEY$7 = `.${DATA_KEY$7}`;
-  var DATA_API_KEY$4 = ".data-api";
-  var EVENT_SHOW$6 = `show${EVENT_KEY$7}`;
-  var EVENT_SHOWN$6 = `shown${EVENT_KEY$7}`;
-  var EVENT_HIDE$6 = `hide${EVENT_KEY$7}`;
-  var EVENT_HIDDEN$6 = `hidden${EVENT_KEY$7}`;
-  var EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$7}${DATA_API_KEY$4}`;
-  var CLASS_NAME_SHOW$7 = "show";
-  var CLASS_NAME_COLLAPSE = "collapse";
-  var CLASS_NAME_COLLAPSING = "collapsing";
-  var CLASS_NAME_COLLAPSED = "collapsed";
-  var CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
-  var CLASS_NAME_HORIZONTAL = "collapse-horizontal";
-  var WIDTH = "width";
-  var HEIGHT = "height";
-  var SELECTOR_ACTIVES = ".collapse.show, .collapse.collapsing";
-  var SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
-  var Default$a = {
-    parent: null,
-    toggle: true
-  };
-  var DefaultType$a = {
-    parent: "(null|element)",
-    toggle: "boolean"
-  };
-  var Collapse = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._isTransitioning = false;
-      this._triggerArray = [];
-      const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
-      for (const elem of toggleList) {
-        const selector = getSelectorFromElement(elem);
-        const filterElement = SelectorEngine.find(selector).filter((foundElement) => foundElement === this._element);
-        if (selector !== null && filterElement.length) {
-          this._triggerArray.push(elem);
-        }
-      }
-      this._initializeChildren();
-      if (!this._config.parent) {
-        this._addAriaAndCollapsedClass(this._triggerArray, this._isShown());
-      }
-      if (this._config.toggle) {
-        this.toggle();
-      }
-    }
-    // Getters
-    static get Default() {
-      return Default$a;
-    }
-    static get DefaultType() {
-      return DefaultType$a;
-    }
-    static get NAME() {
-      return NAME$b;
-    }
-    // Public
-    toggle() {
-      if (this._isShown()) {
-        this.hide();
-      } else {
-        this.show();
-      }
-    }
-    show() {
-      if (this._isTransitioning || this._isShown()) {
-        return;
-      }
-      let activeChildren = [];
-      if (this._config.parent) {
-        activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES).filter((element) => element !== this._element).map((element) => Collapse.getOrCreateInstance(element, {
-          toggle: false
-        }));
-      }
-      if (activeChildren.length && activeChildren[0]._isTransitioning) {
-        return;
-      }
-      const startEvent = EventHandler.trigger(this._element, EVENT_SHOW$6);
-      if (startEvent.defaultPrevented) {
-        return;
-      }
-      for (const activeInstance of activeChildren) {
-        activeInstance.hide();
-      }
-      const dimension = this._getDimension();
-      this._element.classList.remove(CLASS_NAME_COLLAPSE);
-      this._element.classList.add(CLASS_NAME_COLLAPSING);
-      this._element.style[dimension] = 0;
-      this._addAriaAndCollapsedClass(this._triggerArray, true);
-      this._isTransitioning = true;
-      const complete = () => {
-        this._isTransitioning = false;
-        this._element.classList.remove(CLASS_NAME_COLLAPSING);
-        this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
-        this._element.style[dimension] = "";
-        EventHandler.trigger(this._element, EVENT_SHOWN$6);
-      };
-      const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-      const scrollSize = `scroll${capitalizedDimension}`;
-      this._queueCallback(complete, this._element, true);
-      this._element.style[dimension] = `${this._element[scrollSize]}px`;
-    }
-    hide() {
-      if (this._isTransitioning || !this._isShown()) {
-        return;
-      }
-      const startEvent = EventHandler.trigger(this._element, EVENT_HIDE$6);
-      if (startEvent.defaultPrevented) {
-        return;
-      }
-      const dimension = this._getDimension();
-      this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
-      reflow(this._element);
-      this._element.classList.add(CLASS_NAME_COLLAPSING);
-      this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
-      for (const trigger of this._triggerArray) {
-        const element = getElementFromSelector(trigger);
-        if (element && !this._isShown(element)) {
-          this._addAriaAndCollapsedClass([trigger], false);
-        }
-      }
-      this._isTransitioning = true;
-      const complete = () => {
-        this._isTransitioning = false;
-        this._element.classList.remove(CLASS_NAME_COLLAPSING);
-        this._element.classList.add(CLASS_NAME_COLLAPSE);
-        EventHandler.trigger(this._element, EVENT_HIDDEN$6);
-      };
-      this._element.style[dimension] = "";
-      this._queueCallback(complete, this._element, true);
-    }
-    _isShown(element = this._element) {
-      return element.classList.contains(CLASS_NAME_SHOW$7);
-    }
-    // Private
-    _configAfterMerge(config) {
-      config.toggle = Boolean(config.toggle);
-      config.parent = getElement(config.parent);
-      return config;
-    }
-    _getDimension() {
-      return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
-    }
-    _initializeChildren() {
-      if (!this._config.parent) {
-        return;
-      }
-      const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$4);
-      for (const element of children) {
-        const selected = getElementFromSelector(element);
-        if (selected) {
-          this._addAriaAndCollapsedClass([element], this._isShown(selected));
-        }
-      }
-    }
-    _getFirstLevelChildren(selector) {
-      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
-      return SelectorEngine.find(selector, this._config.parent).filter((element) => !children.includes(element));
-    }
-    _addAriaAndCollapsedClass(triggerArray, isOpen) {
-      if (!triggerArray.length) {
-        return;
-      }
-      for (const element of triggerArray) {
-        element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
-        element.setAttribute("aria-expanded", isOpen);
-      }
-    }
-    // Static
-    static jQueryInterface(config) {
-      const _config = {};
-      if (typeof config === "string" && /show|hide/.test(config)) {
-        _config.toggle = false;
-      }
-      return this.each(function() {
-        const data = Collapse.getOrCreateInstance(this, _config);
-        if (typeof config === "string") {
-          if (typeof data[config] === "undefined") {
-            throw new TypeError(`No method named "${config}"`);
-          }
-          data[config]();
-        }
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$4, function(event) {
-    if (event.target.tagName === "A" || event.delegateTarget && event.delegateTarget.tagName === "A") {
-      event.preventDefault();
-    }
-    const selector = getSelectorFromElement(this);
-    const selectorElements = SelectorEngine.find(selector);
-    for (const element of selectorElements) {
-      Collapse.getOrCreateInstance(element, {
-        toggle: false
-      }).toggle();
-    }
-  });
-  defineJQueryPlugin(Collapse);
-  var NAME$a = "dropdown";
-  var DATA_KEY$6 = "bs.dropdown";
-  var EVENT_KEY$6 = `.${DATA_KEY$6}`;
-  var DATA_API_KEY$3 = ".data-api";
-  var ESCAPE_KEY$2 = "Escape";
-  var TAB_KEY$1 = "Tab";
-  var ARROW_UP_KEY$1 = "ArrowUp";
-  var ARROW_DOWN_KEY$1 = "ArrowDown";
-  var RIGHT_MOUSE_BUTTON = 2;
-  var EVENT_HIDE$5 = `hide${EVENT_KEY$6}`;
-  var EVENT_HIDDEN$5 = `hidden${EVENT_KEY$6}`;
-  var EVENT_SHOW$5 = `show${EVENT_KEY$6}`;
-  var EVENT_SHOWN$5 = `shown${EVENT_KEY$6}`;
-  var EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
-  var EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$6}${DATA_API_KEY$3}`;
-  var EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$6}${DATA_API_KEY$3}`;
-  var CLASS_NAME_SHOW$6 = "show";
-  var CLASS_NAME_DROPUP = "dropup";
-  var CLASS_NAME_DROPEND = "dropend";
-  var CLASS_NAME_DROPSTART = "dropstart";
-  var CLASS_NAME_DROPUP_CENTER = "dropup-center";
-  var CLASS_NAME_DROPDOWN_CENTER = "dropdown-center";
-  var SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
-  var SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE$3}.${CLASS_NAME_SHOW$6}`;
-  var SELECTOR_MENU = ".dropdown-menu";
-  var SELECTOR_NAVBAR = ".navbar";
-  var SELECTOR_NAVBAR_NAV = ".navbar-nav";
-  var SELECTOR_VISIBLE_ITEMS = ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)";
-  var PLACEMENT_TOP = isRTL() ? "top-end" : "top-start";
-  var PLACEMENT_TOPEND = isRTL() ? "top-start" : "top-end";
-  var PLACEMENT_BOTTOM = isRTL() ? "bottom-end" : "bottom-start";
-  var PLACEMENT_BOTTOMEND = isRTL() ? "bottom-start" : "bottom-end";
-  var PLACEMENT_RIGHT = isRTL() ? "left-start" : "right-start";
-  var PLACEMENT_LEFT = isRTL() ? "right-start" : "left-start";
-  var PLACEMENT_TOPCENTER = "top";
-  var PLACEMENT_BOTTOMCENTER = "bottom";
-  var Default$9 = {
-    autoClose: true,
-    boundary: "clippingParents",
-    display: "dynamic",
-    offset: [0, 2],
-    popperConfig: null,
-    reference: "toggle"
-  };
-  var DefaultType$9 = {
-    autoClose: "(boolean|string)",
-    boundary: "(string|element)",
-    display: "string",
-    offset: "(array|string|function)",
-    popperConfig: "(null|object|function)",
-    reference: "(string|element|object)"
-  };
-  var Dropdown = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._popper = null;
-      this._parent = this._element.parentNode;
-      this._menu = SelectorEngine.next(this._element, SELECTOR_MENU)[0] || SelectorEngine.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine.findOne(SELECTOR_MENU, this._parent);
-      this._inNavbar = this._detectNavbar();
-    }
-    // Getters
-    static get Default() {
-      return Default$9;
-    }
-    static get DefaultType() {
-      return DefaultType$9;
-    }
-    static get NAME() {
-      return NAME$a;
-    }
-    // Public
-    toggle() {
-      return this._isShown() ? this.hide() : this.show();
-    }
-    show() {
-      if (isDisabled(this._element) || this._isShown()) {
-        return;
-      }
-      const relatedTarget = {
-        relatedTarget: this._element
-      };
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$5, relatedTarget);
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-      this._createPopper();
-      if ("ontouchstart" in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
-        for (const element of [].concat(...document.body.children)) {
-          EventHandler.on(element, "mouseover", noop);
-        }
-      }
-      this._element.focus();
-      this._element.setAttribute("aria-expanded", true);
-      this._menu.classList.add(CLASS_NAME_SHOW$6);
-      this._element.classList.add(CLASS_NAME_SHOW$6);
-      EventHandler.trigger(this._element, EVENT_SHOWN$5, relatedTarget);
-    }
-    hide() {
-      if (isDisabled(this._element) || !this._isShown()) {
-        return;
-      }
-      const relatedTarget = {
-        relatedTarget: this._element
-      };
-      this._completeHide(relatedTarget);
-    }
-    dispose() {
-      if (this._popper) {
-        this._popper.destroy();
-      }
-      super.dispose();
-    }
-    update() {
-      this._inNavbar = this._detectNavbar();
-      if (this._popper) {
-        this._popper.update();
-      }
-    }
-    // Private
-    _completeHide(relatedTarget) {
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget);
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      if ("ontouchstart" in document.documentElement) {
-        for (const element of [].concat(...document.body.children)) {
-          EventHandler.off(element, "mouseover", noop);
-        }
-      }
-      if (this._popper) {
-        this._popper.destroy();
-      }
-      this._menu.classList.remove(CLASS_NAME_SHOW$6);
-      this._element.classList.remove(CLASS_NAME_SHOW$6);
-      this._element.setAttribute("aria-expanded", "false");
-      Manipulator.removeDataAttribute(this._menu, "popper");
-      EventHandler.trigger(this._element, EVENT_HIDDEN$5, relatedTarget);
-    }
-    _getConfig(config) {
-      config = super._getConfig(config);
-      if (typeof config.reference === "object" && !isElement2(config.reference) && typeof config.reference.getBoundingClientRect !== "function") {
-        throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
-      }
-      return config;
-    }
-    _createPopper() {
-      if (typeof lib_exports === "undefined") {
-        throw new TypeError("Bootstrap's dropdowns require Popper (https://popper.js.org)");
-      }
-      let referenceElement = this._element;
-      if (this._config.reference === "parent") {
-        referenceElement = this._parent;
-      } else if (isElement2(this._config.reference)) {
-        referenceElement = getElement(this._config.reference);
-      } else if (typeof this._config.reference === "object") {
-        referenceElement = this._config.reference;
-      }
-      const popperConfig = this._getPopperConfig();
-      this._popper = createPopper3(referenceElement, this._menu, popperConfig);
-    }
-    _isShown() {
-      return this._menu.classList.contains(CLASS_NAME_SHOW$6);
-    }
-    _getPlacement() {
-      const parentDropdown = this._parent;
-      if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
-        return PLACEMENT_RIGHT;
-      }
-      if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
-        return PLACEMENT_LEFT;
-      }
-      if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_CENTER)) {
-        return PLACEMENT_TOPCENTER;
-      }
-      if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
-        return PLACEMENT_BOTTOMCENTER;
-      }
-      const isEnd = getComputedStyle(this._menu).getPropertyValue("--bs-position").trim() === "end";
-      if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
-        return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
-      }
-      return isEnd ? PLACEMENT_BOTTOMEND : PLACEMENT_BOTTOM;
-    }
-    _detectNavbar() {
-      return this._element.closest(SELECTOR_NAVBAR) !== null;
-    }
-    _getOffset() {
-      const {
-        offset: offset2
-      } = this._config;
-      if (typeof offset2 === "string") {
-        return offset2.split(",").map((value) => Number.parseInt(value, 10));
-      }
-      if (typeof offset2 === "function") {
-        return (popperData) => offset2(popperData, this._element);
-      }
-      return offset2;
-    }
-    _getPopperConfig() {
-      const defaultBsPopperConfig = {
-        placement: this._getPlacement(),
-        modifiers: [{
-          name: "preventOverflow",
-          options: {
-            boundary: this._config.boundary
-          }
-        }, {
-          name: "offset",
-          options: {
-            offset: this._getOffset()
-          }
-        }]
-      };
-      if (this._inNavbar || this._config.display === "static") {
-        Manipulator.setDataAttribute(this._menu, "popper", "static");
-        defaultBsPopperConfig.modifiers = [{
-          name: "applyStyles",
-          enabled: false
-        }];
-      }
-      return __spreadValues(__spreadValues({}, defaultBsPopperConfig), typeof this._config.popperConfig === "function" ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig);
-    }
-    _selectMenuItem({
-      key,
-      target
-    }) {
-      const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter((element) => isVisible(element));
-      if (!items.length) {
-        return;
-      }
-      getNextActiveElement(items, target, key === ARROW_DOWN_KEY$1, !items.includes(target)).focus();
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Dropdown.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config]();
-      });
-    }
-    static clearMenus(event) {
-      if (event.button === RIGHT_MOUSE_BUTTON || event.type === "keyup" && event.key !== TAB_KEY$1) {
-        return;
-      }
-      const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
-      for (const toggle of openToggles) {
-        const context = Dropdown.getInstance(toggle);
-        if (!context || context._config.autoClose === false) {
-          continue;
-        }
-        const composedPath = event.composedPath();
-        const isMenuTarget = composedPath.includes(context._menu);
-        if (composedPath.includes(context._element) || context._config.autoClose === "inside" && !isMenuTarget || context._config.autoClose === "outside" && isMenuTarget) {
-          continue;
-        }
-        if (context._menu.contains(event.target) && (event.type === "keyup" && event.key === TAB_KEY$1 || /input|select|option|textarea|form/i.test(event.target.tagName))) {
-          continue;
-        }
-        const relatedTarget = {
-          relatedTarget: context._element
-        };
-        if (event.type === "click") {
-          relatedTarget.clickEvent = event;
-        }
-        context._completeHide(relatedTarget);
-      }
-    }
-    static dataApiKeydownHandler(event) {
-      const isInput = /input|textarea/i.test(event.target.tagName);
-      const isEscapeEvent = event.key === ESCAPE_KEY$2;
-      const isUpOrDownEvent = [ARROW_UP_KEY$1, ARROW_DOWN_KEY$1].includes(event.key);
-      if (!isUpOrDownEvent && !isEscapeEvent) {
-        return;
-      }
-      if (isInput && !isEscapeEvent) {
-        return;
-      }
-      event.preventDefault();
-      const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$3, event.delegateTarget.parentNode);
-      const instance = Dropdown.getOrCreateInstance(getToggleButton);
-      if (isUpOrDownEvent) {
-        event.stopPropagation();
-        instance.show();
-        instance._selectMenuItem(event);
-        return;
-      }
-      if (instance._isShown()) {
-        event.stopPropagation();
-        instance.hide();
-        getToggleButton.focus();
-      }
-    }
-  };
-  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$3, Dropdown.dataApiKeydownHandler);
-  EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
-  EventHandler.on(document, EVENT_CLICK_DATA_API$3, Dropdown.clearMenus);
-  EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-  EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$3, function(event) {
-    event.preventDefault();
-    Dropdown.getOrCreateInstance(this).toggle();
-  });
-  defineJQueryPlugin(Dropdown);
-  var SELECTOR_FIXED_CONTENT = ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top";
-  var SELECTOR_STICKY_CONTENT = ".sticky-top";
-  var PROPERTY_PADDING = "padding-right";
-  var PROPERTY_MARGIN = "margin-right";
-  var ScrollBarHelper = class {
-    constructor() {
-      this._element = document.body;
-    }
-    // Public
-    getWidth() {
-      const documentWidth = document.documentElement.clientWidth;
-      return Math.abs(window.innerWidth - documentWidth);
-    }
-    hide() {
-      const width = this.getWidth();
-      this._disableOverFlow();
-      this._setElementAttributes(this._element, PROPERTY_PADDING, (calculatedValue) => calculatedValue + width);
-      this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, (calculatedValue) => calculatedValue + width);
-      this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, (calculatedValue) => calculatedValue - width);
+      container.setAttribute(OPEN_DATA_ATTRIBUTE, "");
+      css_default(container, style2);
     }
     reset() {
-      this._resetElementAttributes(this._element, "overflow");
-      this._resetElementAttributes(this._element, PROPERTY_PADDING);
-      this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
-      this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
+      [...this.modals].forEach((m) => this.remove(m));
     }
-    isOverflowing() {
-      return this.getWidth() > 0;
+    removeContainerStyle(containerState) {
+      const container = this.getElement();
+      container.removeAttribute(OPEN_DATA_ATTRIBUTE);
+      Object.assign(container.style, containerState.style);
     }
-    // Private
-    _disableOverFlow() {
-      this._saveInitialAttribute(this._element, "overflow");
-      this._element.style.overflow = "hidden";
-    }
-    _setElementAttributes(selector, styleProperty, callback) {
-      const scrollbarWidth = this.getWidth();
-      const manipulationCallBack = (element) => {
-        if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
-          return;
-        }
-        this._saveInitialAttribute(element, styleProperty);
-        const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
-        element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
+    add(modal) {
+      let modalIdx = this.modals.indexOf(modal);
+      if (modalIdx !== -1) {
+        return modalIdx;
+      }
+      modalIdx = this.modals.length;
+      this.modals.push(modal);
+      this.setModalAttributes(modal);
+      if (modalIdx !== 0) {
+        return modalIdx;
+      }
+      this.state = {
+        scrollBarWidth: this.getScrollbarWidth(),
+        style: {}
       };
-      this._applyManipulationCallback(selector, manipulationCallBack);
-    }
-    _saveInitialAttribute(element, styleProperty) {
-      const actualValue = element.style.getPropertyValue(styleProperty);
-      if (actualValue) {
-        Manipulator.setDataAttribute(element, styleProperty, actualValue);
+      if (this.handleContainerOverflow) {
+        this.setContainerStyle(this.state);
       }
+      return modalIdx;
     }
-    _resetElementAttributes(selector, styleProperty) {
-      const manipulationCallBack = (element) => {
-        const value = Manipulator.getDataAttribute(element, styleProperty);
-        if (value === null) {
-          element.style.removeProperty(styleProperty);
-          return;
-        }
-        Manipulator.removeDataAttribute(element, styleProperty);
-        element.style.setProperty(styleProperty, value);
-      };
-      this._applyManipulationCallback(selector, manipulationCallBack);
-    }
-    _applyManipulationCallback(selector, callBack) {
-      if (isElement2(selector)) {
-        callBack(selector);
+    remove(modal) {
+      const modalIdx = this.modals.indexOf(modal);
+      if (modalIdx === -1) {
         return;
       }
-      for (const sel of SelectorEngine.find(selector, this._element)) {
-        callBack(sel);
+      this.modals.splice(modalIdx, 1);
+      if (!this.modals.length && this.handleContainerOverflow) {
+        this.removeContainerStyle(this.state);
       }
+      this.removeModalAttributes(modal);
+    }
+    isTopModal(modal) {
+      return !!this.modals.length && this.modals[this.modals.length - 1] === modal;
     }
   };
-  var NAME$9 = "backdrop";
-  var CLASS_NAME_FADE$4 = "fade";
-  var CLASS_NAME_SHOW$5 = "show";
-  var EVENT_MOUSEDOWN = `mousedown.bs.${NAME$9}`;
-  var Default$8 = {
-    className: "modal-backdrop",
-    clickCallback: null,
-    isAnimated: false,
-    isVisible: true,
-    // if false, we use the backdrop helper without adding any element to the dom
-    rootElement: "body"
-    // give the choice to place backdrop under different elements
+  var ModalManager_default = ModalManager;
+
+  // node_modules/@restart/ui/esm/useWaitForDOMRef.js
+  var import_react38 = __toESM(require_react());
+  var resolveContainerRef = (ref, document2) => {
+    if (!canUseDOM_default)
+      return null;
+    if (ref == null)
+      return (document2 || ownerDocument()).body;
+    if (typeof ref === "function")
+      ref = ref();
+    if (ref && "current" in ref)
+      ref = ref.current;
+    if (ref && ("nodeType" in ref || ref.getBoundingClientRect))
+      return ref;
+    return null;
   };
-  var DefaultType$8 = {
-    className: "string",
-    clickCallback: "(function|null)",
-    isAnimated: "boolean",
-    isVisible: "boolean",
-    rootElement: "(element|string)"
-  };
-  var Backdrop = class extends Config {
-    constructor(config) {
-      super();
-      this._config = this._getConfig(config);
-      this._isAppended = false;
-      this._element = null;
+  function useWaitForDOMRef(ref, onResolved) {
+    const window2 = useWindow();
+    const [resolvedRef, setRef] = (0, import_react38.useState)(() => resolveContainerRef(ref, window2 == null ? void 0 : window2.document));
+    if (!resolvedRef) {
+      const earlyRef = resolveContainerRef(ref);
+      if (earlyRef)
+        setRef(earlyRef);
     }
-    // Getters
-    static get Default() {
-      return Default$8;
-    }
-    static get DefaultType() {
-      return DefaultType$8;
-    }
-    static get NAME() {
-      return NAME$9;
-    }
-    // Public
-    show(callback) {
-      if (!this._config.isVisible) {
-        execute(callback);
-        return;
+    (0, import_react38.useEffect)(() => {
+      if (onResolved && resolvedRef) {
+        onResolved(resolvedRef);
       }
-      this._append();
-      const element = this._getElement();
-      if (this._config.isAnimated) {
-        reflow(element);
+    }, [onResolved, resolvedRef]);
+    (0, import_react38.useEffect)(() => {
+      const nextRef = resolveContainerRef(ref);
+      if (nextRef !== resolvedRef) {
+        setRef(nextRef);
       }
-      element.classList.add(CLASS_NAME_SHOW$5);
-      this._emulateAnimation(() => {
-        execute(callback);
-      });
-    }
-    hide(callback) {
-      if (!this._config.isVisible) {
-        execute(callback);
-        return;
-      }
-      this._getElement().classList.remove(CLASS_NAME_SHOW$5);
-      this._emulateAnimation(() => {
-        this.dispose();
-        execute(callback);
-      });
-    }
-    dispose() {
-      if (!this._isAppended) {
-        return;
-      }
-      EventHandler.off(this._element, EVENT_MOUSEDOWN);
-      this._element.remove();
-      this._isAppended = false;
-    }
-    // Private
-    _getElement() {
-      if (!this._element) {
-        const backdrop = document.createElement("div");
-        backdrop.className = this._config.className;
-        if (this._config.isAnimated) {
-          backdrop.classList.add(CLASS_NAME_FADE$4);
-        }
-        this._element = backdrop;
-      }
-      return this._element;
-    }
-    _configAfterMerge(config) {
-      config.rootElement = getElement(config.rootElement);
-      return config;
-    }
-    _append() {
-      if (this._isAppended) {
-        return;
-      }
-      const element = this._getElement();
-      this._config.rootElement.append(element);
-      EventHandler.on(element, EVENT_MOUSEDOWN, () => {
-        execute(this._config.clickCallback);
-      });
-      this._isAppended = true;
-    }
-    _emulateAnimation(callback) {
-      executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
-    }
-  };
-  var NAME$8 = "focustrap";
-  var DATA_KEY$5 = "bs.focustrap";
-  var EVENT_KEY$5 = `.${DATA_KEY$5}`;
-  var EVENT_FOCUSIN$2 = `focusin${EVENT_KEY$5}`;
-  var EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$5}`;
-  var TAB_KEY = "Tab";
-  var TAB_NAV_FORWARD = "forward";
-  var TAB_NAV_BACKWARD = "backward";
-  var Default$7 = {
-    autofocus: true,
-    trapElement: null
-    // The element to trap focus inside of
-  };
-  var DefaultType$7 = {
-    autofocus: "boolean",
-    trapElement: "element"
-  };
-  var FocusTrap = class extends Config {
-    constructor(config) {
-      super();
-      this._config = this._getConfig(config);
-      this._isActive = false;
-      this._lastTabNavDirection = null;
-    }
-    // Getters
-    static get Default() {
-      return Default$7;
-    }
-    static get DefaultType() {
-      return DefaultType$7;
-    }
-    static get NAME() {
-      return NAME$8;
-    }
-    // Public
-    activate() {
-      if (this._isActive) {
-        return;
-      }
-      if (this._config.autofocus) {
-        this._config.trapElement.focus();
-      }
-      EventHandler.off(document, EVENT_KEY$5);
-      EventHandler.on(document, EVENT_FOCUSIN$2, (event) => this._handleFocusin(event));
-      EventHandler.on(document, EVENT_KEYDOWN_TAB, (event) => this._handleKeydown(event));
-      this._isActive = true;
-    }
-    deactivate() {
-      if (!this._isActive) {
-        return;
-      }
-      this._isActive = false;
-      EventHandler.off(document, EVENT_KEY$5);
-    }
-    // Private
-    _handleFocusin(event) {
-      const {
-        trapElement
-      } = this._config;
-      if (event.target === document || event.target === trapElement || trapElement.contains(event.target)) {
-        return;
-      }
-      const elements = SelectorEngine.focusableChildren(trapElement);
-      if (elements.length === 0) {
-        trapElement.focus();
-      } else if (this._lastTabNavDirection === TAB_NAV_BACKWARD) {
-        elements[elements.length - 1].focus();
-      } else {
-        elements[0].focus();
-      }
-    }
-    _handleKeydown(event) {
-      if (event.key !== TAB_KEY) {
-        return;
-      }
-      this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
-    }
-  };
-  var NAME$7 = "modal";
-  var DATA_KEY$4 = "bs.modal";
-  var EVENT_KEY$4 = `.${DATA_KEY$4}`;
-  var DATA_API_KEY$2 = ".data-api";
-  var ESCAPE_KEY$1 = "Escape";
-  var EVENT_HIDE$4 = `hide${EVENT_KEY$4}`;
-  var EVENT_HIDE_PREVENTED$1 = `hidePrevented${EVENT_KEY$4}`;
-  var EVENT_HIDDEN$4 = `hidden${EVENT_KEY$4}`;
-  var EVENT_SHOW$4 = `show${EVENT_KEY$4}`;
-  var EVENT_SHOWN$4 = `shown${EVENT_KEY$4}`;
-  var EVENT_RESIZE$1 = `resize${EVENT_KEY$4}`;
-  var EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$4}`;
-  var EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$4}`;
-  var EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$4}`;
-  var EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$4}${DATA_API_KEY$2}`;
-  var CLASS_NAME_OPEN = "modal-open";
-  var CLASS_NAME_FADE$3 = "fade";
-  var CLASS_NAME_SHOW$4 = "show";
-  var CLASS_NAME_STATIC = "modal-static";
-  var OPEN_SELECTOR$1 = ".modal.show";
-  var SELECTOR_DIALOG = ".modal-dialog";
-  var SELECTOR_MODAL_BODY = ".modal-body";
-  var SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
-  var Default$6 = {
-    backdrop: true,
-    focus: true,
-    keyboard: true
-  };
-  var DefaultType$6 = {
-    backdrop: "(boolean|string)",
-    focus: "boolean",
-    keyboard: "boolean"
-  };
-  var Modal = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, this._element);
-      this._backdrop = this._initializeBackDrop();
-      this._focustrap = this._initializeFocusTrap();
-      this._isShown = false;
-      this._isTransitioning = false;
-      this._scrollBar = new ScrollBarHelper();
-      this._addEventListeners();
-    }
-    // Getters
-    static get Default() {
-      return Default$6;
-    }
-    static get DefaultType() {
-      return DefaultType$6;
-    }
-    static get NAME() {
-      return NAME$7;
-    }
-    // Public
-    toggle(relatedTarget) {
-      return this._isShown ? this.hide() : this.show(relatedTarget);
-    }
-    show(relatedTarget) {
-      if (this._isShown || this._isTransitioning) {
-        return;
-      }
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4, {
-        relatedTarget
-      });
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-      this._isShown = true;
-      this._isTransitioning = true;
-      this._scrollBar.hide();
-      document.body.classList.add(CLASS_NAME_OPEN);
-      this._adjustDialog();
-      this._backdrop.show(() => this._showElement(relatedTarget));
-    }
-    hide() {
-      if (!this._isShown || this._isTransitioning) {
-        return;
-      }
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4);
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      this._isShown = false;
-      this._isTransitioning = true;
-      this._focustrap.deactivate();
-      this._element.classList.remove(CLASS_NAME_SHOW$4);
-      this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
-    }
-    dispose() {
-      for (const htmlElement of [window, this._dialog]) {
-        EventHandler.off(htmlElement, EVENT_KEY$4);
-      }
-      this._backdrop.dispose();
-      this._focustrap.deactivate();
-      super.dispose();
-    }
-    handleUpdate() {
-      this._adjustDialog();
-    }
-    // Private
-    _initializeBackDrop() {
-      return new Backdrop({
-        isVisible: Boolean(this._config.backdrop),
-        // 'static' option will be translated to true, and booleans will keep their value,
-        isAnimated: this._isAnimated()
-      });
-    }
-    _initializeFocusTrap() {
-      return new FocusTrap({
-        trapElement: this._element
-      });
-    }
-    _showElement(relatedTarget) {
-      if (!document.body.contains(this._element)) {
-        document.body.append(this._element);
-      }
-      this._element.style.display = "block";
-      this._element.removeAttribute("aria-hidden");
-      this._element.setAttribute("aria-modal", true);
-      this._element.setAttribute("role", "dialog");
-      this._element.scrollTop = 0;
-      const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
-      if (modalBody) {
-        modalBody.scrollTop = 0;
-      }
-      reflow(this._element);
-      this._element.classList.add(CLASS_NAME_SHOW$4);
-      const transitionComplete = () => {
-        if (this._config.focus) {
-          this._focustrap.activate();
-        }
-        this._isTransitioning = false;
-        EventHandler.trigger(this._element, EVENT_SHOWN$4, {
-          relatedTarget
-        });
-      };
-      this._queueCallback(transitionComplete, this._dialog, this._isAnimated());
-    }
-    _addEventListeners() {
-      EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS$1, (event) => {
-        if (event.key !== ESCAPE_KEY$1) {
-          return;
-        }
-        if (this._config.keyboard) {
-          event.preventDefault();
-          this.hide();
-          return;
-        }
-        this._triggerBackdropTransition();
-      });
-      EventHandler.on(window, EVENT_RESIZE$1, () => {
-        if (this._isShown && !this._isTransitioning) {
-          this._adjustDialog();
-        }
-      });
-      EventHandler.on(this._element, EVENT_MOUSEDOWN_DISMISS, (event) => {
-        EventHandler.one(this._element, EVENT_CLICK_DISMISS, (event2) => {
-          if (this._element !== event.target || this._element !== event2.target) {
-            return;
-          }
-          if (this._config.backdrop === "static") {
-            this._triggerBackdropTransition();
-            return;
-          }
-          if (this._config.backdrop) {
-            this.hide();
-          }
-        });
-      });
-    }
-    _hideModal() {
-      this._element.style.display = "none";
-      this._element.setAttribute("aria-hidden", true);
-      this._element.removeAttribute("aria-modal");
-      this._element.removeAttribute("role");
-      this._isTransitioning = false;
-      this._backdrop.hide(() => {
-        document.body.classList.remove(CLASS_NAME_OPEN);
-        this._resetAdjustments();
-        this._scrollBar.reset();
-        EventHandler.trigger(this._element, EVENT_HIDDEN$4);
-      });
-    }
-    _isAnimated() {
-      return this._element.classList.contains(CLASS_NAME_FADE$3);
-    }
-    _triggerBackdropTransition() {
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED$1);
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-      const initialOverflowY = this._element.style.overflowY;
-      if (initialOverflowY === "hidden" || this._element.classList.contains(CLASS_NAME_STATIC)) {
-        return;
-      }
-      if (!isModalOverflowing) {
-        this._element.style.overflowY = "hidden";
-      }
-      this._element.classList.add(CLASS_NAME_STATIC);
-      this._queueCallback(() => {
-        this._element.classList.remove(CLASS_NAME_STATIC);
-        this._queueCallback(() => {
-          this._element.style.overflowY = initialOverflowY;
-        }, this._dialog);
-      }, this._dialog);
-      this._element.focus();
-    }
-    /**
-     * The following methods are used to handle overflowing modals
-     */
-    _adjustDialog() {
-      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-      const scrollbarWidth = this._scrollBar.getWidth();
-      const isBodyOverflowing = scrollbarWidth > 0;
-      if (isBodyOverflowing && !isModalOverflowing) {
-        const property = isRTL() ? "paddingLeft" : "paddingRight";
-        this._element.style[property] = `${scrollbarWidth}px`;
-      }
-      if (!isBodyOverflowing && isModalOverflowing) {
-        const property = isRTL() ? "paddingRight" : "paddingLeft";
-        this._element.style[property] = `${scrollbarWidth}px`;
-      }
-    }
-    _resetAdjustments() {
-      this._element.style.paddingLeft = "";
-      this._element.style.paddingRight = "";
-    }
-    // Static
-    static jQueryInterface(config, relatedTarget) {
-      return this.each(function() {
-        const data = Modal.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config](relatedTarget);
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$2, function(event) {
-    const target = getElementFromSelector(this);
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-    EventHandler.one(target, EVENT_SHOW$4, (showEvent) => {
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-      EventHandler.one(target, EVENT_HIDDEN$4, () => {
-        if (isVisible(this)) {
-          this.focus();
-        }
-      });
-    });
-    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
-    if (alreadyOpen) {
-      Modal.getInstance(alreadyOpen).hide();
-    }
-    const data = Modal.getOrCreateInstance(target);
-    data.toggle(this);
-  });
-  enableDismissTrigger(Modal);
-  defineJQueryPlugin(Modal);
-  var NAME$6 = "offcanvas";
-  var DATA_KEY$3 = "bs.offcanvas";
-  var EVENT_KEY$3 = `.${DATA_KEY$3}`;
-  var DATA_API_KEY$1 = ".data-api";
-  var EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$3}${DATA_API_KEY$1}`;
-  var ESCAPE_KEY = "Escape";
-  var CLASS_NAME_SHOW$3 = "show";
-  var CLASS_NAME_SHOWING$1 = "showing";
-  var CLASS_NAME_HIDING = "hiding";
-  var CLASS_NAME_BACKDROP = "offcanvas-backdrop";
-  var OPEN_SELECTOR = ".offcanvas.show";
-  var EVENT_SHOW$3 = `show${EVENT_KEY$3}`;
-  var EVENT_SHOWN$3 = `shown${EVENT_KEY$3}`;
-  var EVENT_HIDE$3 = `hide${EVENT_KEY$3}`;
-  var EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY$3}`;
-  var EVENT_HIDDEN$3 = `hidden${EVENT_KEY$3}`;
-  var EVENT_RESIZE = `resize${EVENT_KEY$3}`;
-  var EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$3}${DATA_API_KEY$1}`;
-  var EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$3}`;
-  var SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
-  var Default$5 = {
-    backdrop: true,
-    keyboard: true,
-    scroll: false
-  };
-  var DefaultType$5 = {
-    backdrop: "(boolean|string)",
-    keyboard: "boolean",
-    scroll: "boolean"
-  };
-  var Offcanvas = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._isShown = false;
-      this._backdrop = this._initializeBackDrop();
-      this._focustrap = this._initializeFocusTrap();
-      this._addEventListeners();
-    }
-    // Getters
-    static get Default() {
-      return Default$5;
-    }
-    static get DefaultType() {
-      return DefaultType$5;
-    }
-    static get NAME() {
-      return NAME$6;
-    }
-    // Public
-    toggle(relatedTarget) {
-      return this._isShown ? this.hide() : this.show(relatedTarget);
-    }
-    show(relatedTarget) {
-      if (this._isShown) {
-        return;
-      }
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
-        relatedTarget
-      });
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-      this._isShown = true;
-      this._backdrop.show();
-      if (!this._config.scroll) {
-        new ScrollBarHelper().hide();
-      }
-      this._element.setAttribute("aria-modal", true);
-      this._element.setAttribute("role", "dialog");
-      this._element.classList.add(CLASS_NAME_SHOWING$1);
-      const completeCallBack = () => {
-        if (!this._config.scroll || this._config.backdrop) {
-          this._focustrap.activate();
-        }
-        this._element.classList.add(CLASS_NAME_SHOW$3);
-        this._element.classList.remove(CLASS_NAME_SHOWING$1);
-        EventHandler.trigger(this._element, EVENT_SHOWN$3, {
-          relatedTarget
-        });
-      };
-      this._queueCallback(completeCallBack, this._element, true);
-    }
-    hide() {
-      if (!this._isShown) {
-        return;
-      }
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$3);
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      this._focustrap.deactivate();
-      this._element.blur();
-      this._isShown = false;
-      this._element.classList.add(CLASS_NAME_HIDING);
-      this._backdrop.hide();
-      const completeCallback = () => {
-        this._element.classList.remove(CLASS_NAME_SHOW$3, CLASS_NAME_HIDING);
-        this._element.removeAttribute("aria-modal");
-        this._element.removeAttribute("role");
-        if (!this._config.scroll) {
-          new ScrollBarHelper().reset();
-        }
-        EventHandler.trigger(this._element, EVENT_HIDDEN$3);
-      };
-      this._queueCallback(completeCallback, this._element, true);
-    }
-    dispose() {
-      this._backdrop.dispose();
-      this._focustrap.deactivate();
-      super.dispose();
-    }
-    // Private
-    _initializeBackDrop() {
-      const clickCallback = () => {
-        if (this._config.backdrop === "static") {
-          EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
-          return;
-        }
-        this.hide();
-      };
-      const isVisible2 = Boolean(this._config.backdrop);
-      return new Backdrop({
-        className: CLASS_NAME_BACKDROP,
-        isVisible: isVisible2,
-        isAnimated: true,
-        rootElement: this._element.parentNode,
-        clickCallback: isVisible2 ? clickCallback : null
-      });
-    }
-    _initializeFocusTrap() {
-      return new FocusTrap({
-        trapElement: this._element
-      });
-    }
-    _addEventListeners() {
-      EventHandler.on(this._element, EVENT_KEYDOWN_DISMISS, (event) => {
-        if (event.key !== ESCAPE_KEY) {
-          return;
-        }
-        if (!this._config.keyboard) {
-          EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
-          return;
-        }
-        this.hide();
-      });
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Offcanvas.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config](this);
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, function(event) {
-    const target = getElementFromSelector(this);
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-    if (isDisabled(this)) {
-      return;
-    }
-    EventHandler.one(target, EVENT_HIDDEN$3, () => {
-      if (isVisible(this)) {
-        this.focus();
-      }
-    });
-    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
-    if (alreadyOpen && alreadyOpen !== target) {
-      Offcanvas.getInstance(alreadyOpen).hide();
-    }
-    const data = Offcanvas.getOrCreateInstance(target);
-    data.toggle(this);
-  });
-  EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
-    for (const selector of SelectorEngine.find(OPEN_SELECTOR)) {
-      Offcanvas.getOrCreateInstance(selector).show();
-    }
-  });
-  EventHandler.on(window, EVENT_RESIZE, () => {
-    for (const element of SelectorEngine.find("[aria-modal][class*=show][class*=offcanvas-]")) {
-      if (getComputedStyle(element).position !== "fixed") {
-        Offcanvas.getOrCreateInstance(element).hide();
-      }
-    }
-  });
-  enableDismissTrigger(Offcanvas);
-  defineJQueryPlugin(Offcanvas);
-  var uriAttributes = /* @__PURE__ */ new Set(["background", "cite", "href", "itemtype", "longdesc", "poster", "src", "xlink:href"]);
-  var ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
-  var SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
-  var DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
-  var allowedAttribute = (attribute, allowedAttributeList) => {
-    const attributeName = attribute.nodeName.toLowerCase();
-    if (allowedAttributeList.includes(attributeName)) {
-      if (uriAttributes.has(attributeName)) {
-        return Boolean(SAFE_URL_PATTERN.test(attribute.nodeValue) || DATA_URL_PATTERN.test(attribute.nodeValue));
-      }
-      return true;
-    }
-    return allowedAttributeList.filter((attributeRegex) => attributeRegex instanceof RegExp).some((regex) => regex.test(attributeName));
-  };
-  var DefaultAllowlist = {
-    // Global attributes allowed on any supplied element below.
-    "*": ["class", "dir", "id", "lang", "role", ARIA_ATTRIBUTE_PATTERN],
-    a: ["target", "href", "title", "rel"],
-    area: [],
-    b: [],
-    br: [],
-    col: [],
-    code: [],
-    div: [],
-    em: [],
-    hr: [],
-    h1: [],
-    h2: [],
-    h3: [],
-    h4: [],
-    h5: [],
-    h6: [],
-    i: [],
-    img: ["src", "srcset", "alt", "title", "width", "height"],
-    li: [],
-    ol: [],
-    p: [],
-    pre: [],
-    s: [],
-    small: [],
-    span: [],
-    sub: [],
-    sup: [],
-    strong: [],
-    u: [],
-    ul: []
-  };
-  function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
-    if (!unsafeHtml.length) {
-      return unsafeHtml;
-    }
-    if (sanitizeFunction && typeof sanitizeFunction === "function") {
-      return sanitizeFunction(unsafeHtml);
-    }
-    const domParser = new window.DOMParser();
-    const createdDocument = domParser.parseFromString(unsafeHtml, "text/html");
-    const elements = [].concat(...createdDocument.body.querySelectorAll("*"));
-    for (const element of elements) {
-      const elementName = element.nodeName.toLowerCase();
-      if (!Object.keys(allowList).includes(elementName)) {
-        element.remove();
-        continue;
-      }
-      const attributeList = [].concat(...element.attributes);
-      const allowedAttributes = [].concat(allowList["*"] || [], allowList[elementName] || []);
-      for (const attribute of attributeList) {
-        if (!allowedAttribute(attribute, allowedAttributes)) {
-          element.removeAttribute(attribute.nodeName);
-        }
-      }
-    }
-    return createdDocument.body.innerHTML;
+    }, [ref, resolvedRef]);
+    return resolvedRef;
   }
-  var NAME$5 = "TemplateFactory";
-  var Default$4 = {
-    allowList: DefaultAllowlist,
-    content: {},
-    // { selector : text ,  selector2 : text2 , }
-    extraClass: "",
-    html: false,
-    sanitize: true,
-    sanitizeFn: null,
-    template: "<div></div>"
-  };
-  var DefaultType$4 = {
-    allowList: "object",
-    content: "object",
-    extraClass: "(string|function)",
-    html: "boolean",
-    sanitize: "boolean",
-    sanitizeFn: "(null|function)",
-    template: "string"
-  };
-  var DefaultContentType = {
-    entry: "(string|element|function|null)",
-    selector: "(string|element)"
-  };
-  var TemplateFactory = class extends Config {
-    constructor(config) {
-      super();
-      this._config = this._getConfig(config);
-    }
-    // Getters
-    static get Default() {
-      return Default$4;
-    }
-    static get DefaultType() {
-      return DefaultType$4;
-    }
-    static get NAME() {
-      return NAME$5;
-    }
-    // Public
-    getContent() {
-      return Object.values(this._config.content).map((config) => this._resolvePossibleFunction(config)).filter(Boolean);
-    }
-    hasContent() {
-      return this.getContent().length > 0;
-    }
-    changeContent(content) {
-      this._checkContent(content);
-      this._config.content = __spreadValues(__spreadValues({}, this._config.content), content);
-      return this;
-    }
-    toHtml() {
-      const templateWrapper = document.createElement("div");
-      templateWrapper.innerHTML = this._maybeSanitize(this._config.template);
-      for (const [selector, text] of Object.entries(this._config.content)) {
-        this._setContent(templateWrapper, text, selector);
+
+  // node_modules/@restart/ui/esm/ImperativeTransition.js
+  var import_react40 = __toESM(require_react());
+
+  // node_modules/@restart/ui/esm/NoopTransition.js
+  var import_react39 = __toESM(require_react());
+  function NoopTransition({
+    children,
+    in: inProp,
+    onExited,
+    mountOnEnter,
+    unmountOnExit
+  }) {
+    const ref = (0, import_react39.useRef)(null);
+    const hasEnteredRef = (0, import_react39.useRef)(inProp);
+    const handleExited = useEventCallback(onExited);
+    (0, import_react39.useEffect)(() => {
+      if (inProp)
+        hasEnteredRef.current = true;
+      else {
+        handleExited(ref.current);
       }
-      const template = templateWrapper.children[0];
-      const extraClass = this._resolvePossibleFunction(this._config.extraClass);
-      if (extraClass) {
-        template.classList.add(...extraClass.split(" "));
-      }
-      return template;
+    }, [inProp, handleExited]);
+    const combinedRef = useMergedRefs_default(ref, children.ref);
+    const child = /* @__PURE__ */ (0, import_react39.cloneElement)(children, {
+      ref: combinedRef
+    });
+    if (inProp)
+      return child;
+    if (unmountOnExit) {
+      return null;
     }
-    // Private
-    _typeCheckConfig(config) {
-      super._typeCheckConfig(config);
-      this._checkContent(config.content);
+    if (!hasEnteredRef.current && mountOnEnter) {
+      return null;
     }
-    _checkContent(arg) {
-      for (const [selector, content] of Object.entries(arg)) {
-        super._typeCheckConfig({
-          selector,
-          entry: content
-        }, DefaultContentType);
+    return child;
+  }
+  var NoopTransition_default = NoopTransition;
+
+  // node_modules/@restart/ui/esm/ImperativeTransition.js
+  var import_jsx_runtime40 = __toESM(require_jsx_runtime());
+  function useTransition({
+    in: inProp,
+    onTransition
+  }) {
+    const ref = (0, import_react40.useRef)(null);
+    const isInitialRef = (0, import_react40.useRef)(true);
+    const handleTransition = useEventCallback(onTransition);
+    useIsomorphicEffect_default(() => {
+      if (!ref.current) {
+        return void 0;
       }
-    }
-    _setContent(template, content, selector) {
-      const templateElement = SelectorEngine.findOne(selector, template);
-      if (!templateElement) {
-        return;
-      }
-      content = this._resolvePossibleFunction(content);
-      if (!content) {
-        templateElement.remove();
-        return;
-      }
-      if (isElement2(content)) {
-        this._putElementInTemplate(getElement(content), templateElement);
-        return;
-      }
-      if (this._config.html) {
-        templateElement.innerHTML = this._maybeSanitize(content);
-        return;
-      }
-      templateElement.textContent = content;
-    }
-    _maybeSanitize(arg) {
-      return this._config.sanitize ? sanitizeHtml(arg, this._config.allowList, this._config.sanitizeFn) : arg;
-    }
-    _resolvePossibleFunction(arg) {
-      return typeof arg === "function" ? arg(this) : arg;
-    }
-    _putElementInTemplate(element, templateElement) {
-      if (this._config.html) {
-        templateElement.innerHTML = "";
-        templateElement.append(element);
-        return;
-      }
-      templateElement.textContent = element.textContent;
-    }
-  };
-  var NAME$4 = "tooltip";
-  var DISALLOWED_ATTRIBUTES = /* @__PURE__ */ new Set(["sanitize", "allowList", "sanitizeFn"]);
-  var CLASS_NAME_FADE$2 = "fade";
-  var CLASS_NAME_MODAL = "modal";
-  var CLASS_NAME_SHOW$2 = "show";
-  var SELECTOR_TOOLTIP_INNER = ".tooltip-inner";
-  var SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
-  var EVENT_MODAL_HIDE = "hide.bs.modal";
-  var TRIGGER_HOVER = "hover";
-  var TRIGGER_FOCUS = "focus";
-  var TRIGGER_CLICK = "click";
-  var TRIGGER_MANUAL = "manual";
-  var EVENT_HIDE$2 = "hide";
-  var EVENT_HIDDEN$2 = "hidden";
-  var EVENT_SHOW$2 = "show";
-  var EVENT_SHOWN$2 = "shown";
-  var EVENT_INSERTED = "inserted";
-  var EVENT_CLICK$1 = "click";
-  var EVENT_FOCUSIN$1 = "focusin";
-  var EVENT_FOCUSOUT$1 = "focusout";
-  var EVENT_MOUSEENTER = "mouseenter";
-  var EVENT_MOUSELEAVE = "mouseleave";
-  var AttachmentMap = {
-    AUTO: "auto",
-    TOP: "top",
-    RIGHT: isRTL() ? "left" : "right",
-    BOTTOM: "bottom",
-    LEFT: isRTL() ? "right" : "left"
-  };
-  var Default$3 = {
-    allowList: DefaultAllowlist,
-    animation: true,
-    boundary: "clippingParents",
-    container: false,
-    customClass: "",
-    delay: 0,
-    fallbackPlacements: ["top", "right", "bottom", "left"],
-    html: false,
-    offset: [0, 0],
-    placement: "top",
-    popperConfig: null,
-    sanitize: true,
-    sanitizeFn: null,
-    selector: false,
-    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-    title: "",
-    trigger: "hover focus"
-  };
-  var DefaultType$3 = {
-    allowList: "object",
-    animation: "boolean",
-    boundary: "(string|element)",
-    container: "(string|element|boolean)",
-    customClass: "(string|function)",
-    delay: "(number|object)",
-    fallbackPlacements: "array",
-    html: "boolean",
-    offset: "(array|string|function)",
-    placement: "(string|function)",
-    popperConfig: "(null|object|function)",
-    sanitize: "boolean",
-    sanitizeFn: "(null|function)",
-    selector: "(string|boolean)",
-    template: "string",
-    title: "(string|element|function)",
-    trigger: "string"
-  };
-  var Tooltip = class extends BaseComponent {
-    constructor(element, config) {
-      if (typeof lib_exports === "undefined") {
-        throw new TypeError("Bootstrap's tooltips require Popper (https://popper.js.org)");
-      }
-      super(element, config);
-      this._isEnabled = true;
-      this._timeout = 0;
-      this._isHovered = null;
-      this._activeTrigger = {};
-      this._popper = null;
-      this._templateFactory = null;
-      this._newContent = null;
-      this.tip = null;
-      this._setListeners();
-      if (!this._config.selector) {
-        this._fixTitle();
-      }
-    }
-    // Getters
-    static get Default() {
-      return Default$3;
-    }
-    static get DefaultType() {
-      return DefaultType$3;
-    }
-    static get NAME() {
-      return NAME$4;
-    }
-    // Public
-    enable() {
-      this._isEnabled = true;
-    }
-    disable() {
-      this._isEnabled = false;
-    }
-    toggleEnabled() {
-      this._isEnabled = !this._isEnabled;
-    }
-    toggle() {
-      if (!this._isEnabled) {
-        return;
-      }
-      this._activeTrigger.click = !this._activeTrigger.click;
-      if (this._isShown()) {
-        this._leave();
-        return;
-      }
-      this._enter();
-    }
-    dispose() {
-      clearTimeout(this._timeout);
-      EventHandler.off(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
-      if (this._element.getAttribute("data-bs-original-title")) {
-        this._element.setAttribute("title", this._element.getAttribute("data-bs-original-title"));
-      }
-      this._disposePopper();
-      super.dispose();
-    }
-    show() {
-      if (this._element.style.display === "none") {
-        throw new Error("Please use show on visible elements");
-      }
-      if (!(this._isWithContent() && this._isEnabled)) {
-        return;
-      }
-      const showEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOW$2));
-      const shadowRoot = findShadowRoot(this._element);
-      const isInTheDom = (shadowRoot || this._element.ownerDocument.documentElement).contains(this._element);
-      if (showEvent.defaultPrevented || !isInTheDom) {
-        return;
-      }
-      this._disposePopper();
-      const tip = this._getTipElement();
-      this._element.setAttribute("aria-describedby", tip.getAttribute("id"));
-      const {
-        container
-      } = this._config;
-      if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
-        container.append(tip);
-        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_INSERTED));
-      }
-      this._popper = this._createPopper(tip);
-      tip.classList.add(CLASS_NAME_SHOW$2);
-      if ("ontouchstart" in document.documentElement) {
-        for (const element of [].concat(...document.body.children)) {
-          EventHandler.on(element, "mouseover", noop);
-        }
-      }
-      const complete = () => {
-        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOWN$2));
-        if (this._isHovered === false) {
-          this._leave();
-        }
-        this._isHovered = false;
+      let stale = false;
+      handleTransition({
+        in: inProp,
+        element: ref.current,
+        initial: isInitialRef.current,
+        isStale: () => stale
+      });
+      return () => {
+        stale = true;
       };
-      this._queueCallback(complete, this.tip, this._isAnimated());
-    }
-    hide() {
-      if (!this._isShown()) {
-        return;
-      }
-      const hideEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDE$2));
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      const tip = this._getTipElement();
-      tip.classList.remove(CLASS_NAME_SHOW$2);
-      if ("ontouchstart" in document.documentElement) {
-        for (const element of [].concat(...document.body.children)) {
-          EventHandler.off(element, "mouseover", noop);
-        }
-      }
-      this._activeTrigger[TRIGGER_CLICK] = false;
-      this._activeTrigger[TRIGGER_FOCUS] = false;
-      this._activeTrigger[TRIGGER_HOVER] = false;
-      this._isHovered = null;
-      const complete = () => {
-        if (this._isWithActiveTrigger()) {
-          return;
-        }
-        if (!this._isHovered) {
-          this._disposePopper();
-        }
-        this._element.removeAttribute("aria-describedby");
-        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDDEN$2));
+    }, [inProp, handleTransition]);
+    useIsomorphicEffect_default(() => {
+      isInitialRef.current = false;
+      return () => {
+        isInitialRef.current = true;
       };
-      this._queueCallback(complete, this.tip, this._isAnimated());
+    }, []);
+    return ref;
+  }
+  function ImperativeTransition({
+    children,
+    in: inProp,
+    onExited,
+    onEntered,
+    transition
+  }) {
+    const [exited, setExited] = (0, import_react40.useState)(!inProp);
+    if (inProp && exited) {
+      setExited(false);
     }
-    update() {
-      if (this._popper) {
-        this._popper.update();
+    const ref = useTransition({
+      in: !!inProp,
+      onTransition: (options) => {
+        const onFinish = () => {
+          if (options.isStale())
+            return;
+          if (options.in) {
+            onEntered == null ? void 0 : onEntered(options.element, options.initial);
+          } else {
+            setExited(true);
+            onExited == null ? void 0 : onExited(options.element);
+          }
+        };
+        Promise.resolve(transition(options)).then(onFinish, (error) => {
+          if (!options.in)
+            setExited(true);
+          throw error;
+        });
+      }
+    });
+    const combinedRef = useMergedRefs_default(ref, children.ref);
+    return exited && !inProp ? null : /* @__PURE__ */ (0, import_react40.cloneElement)(children, {
+      ref: combinedRef
+    });
+  }
+  function renderTransition(Component, runTransition, props) {
+    if (Component) {
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Component, Object.assign({}, props));
+    }
+    if (runTransition) {
+      return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ImperativeTransition, Object.assign({}, props, {
+        transition: runTransition
+      }));
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NoopTransition_default, Object.assign({}, props));
+  }
+
+  // node_modules/@restart/ui/esm/utils.js
+  function isEscKey(e) {
+    return e.code === "Escape" || e.keyCode === 27;
+  }
+
+  // node_modules/@restart/ui/esm/Modal.js
+  var import_jsx_runtime41 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime42 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime43 = __toESM(require_jsx_runtime());
+  var _excluded5 = ["show", "role", "className", "style", "children", "backdrop", "keyboard", "onBackdropClick", "onEscapeKeyDown", "transition", "runTransition", "backdropTransition", "runBackdropTransition", "autoFocus", "enforceFocus", "restoreFocus", "restoreFocusOptions", "renderDialog", "renderBackdrop", "manager", "container", "onShow", "onHide", "onExit", "onExited", "onExiting", "onEnter", "onEntering", "onEntered"];
+  function _objectWithoutPropertiesLoose6(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
+  }
+  var manager;
+  function getManager(window2) {
+    if (!manager)
+      manager = new ModalManager_default({
+        ownerDocument: window2 == null ? void 0 : window2.document
+      });
+    return manager;
+  }
+  function useModalManager(provided) {
+    const window2 = useWindow();
+    const modalManager = provided || getManager(window2);
+    const modal = (0, import_react41.useRef)({
+      dialog: null,
+      backdrop: null
+    });
+    return Object.assign(modal.current, {
+      add: () => modalManager.add(modal.current),
+      remove: () => modalManager.remove(modal.current),
+      isTopModal: () => modalManager.isTopModal(modal.current),
+      setDialogRef: (0, import_react41.useCallback)((ref) => {
+        modal.current.dialog = ref;
+      }, []),
+      setBackdropRef: (0, import_react41.useCallback)((ref) => {
+        modal.current.backdrop = ref;
+      }, [])
+    });
+  }
+  var Modal = /* @__PURE__ */ (0, import_react41.forwardRef)((_ref, ref) => {
+    let {
+      show = false,
+      role = "dialog",
+      className,
+      style: style2,
+      children,
+      backdrop = true,
+      keyboard = true,
+      onBackdropClick,
+      onEscapeKeyDown,
+      transition,
+      runTransition,
+      backdropTransition,
+      runBackdropTransition,
+      autoFocus = true,
+      enforceFocus = true,
+      restoreFocus = true,
+      restoreFocusOptions,
+      renderDialog,
+      renderBackdrop = (props) => /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", Object.assign({}, props)),
+      manager: providedManager,
+      container: containerRef,
+      onShow,
+      onHide = () => {
+      },
+      onExit,
+      onExited,
+      onExiting,
+      onEnter,
+      onEntering,
+      onEntered
+    } = _ref, rest = _objectWithoutPropertiesLoose6(_ref, _excluded5);
+    const ownerWindow2 = useWindow();
+    const container = useWaitForDOMRef(containerRef);
+    const modal = useModalManager(providedManager);
+    const isMounted = useMounted();
+    const prevShow = usePrevious(show);
+    const [exited, setExited] = (0, import_react41.useState)(!show);
+    const lastFocusRef = (0, import_react41.useRef)(null);
+    (0, import_react41.useImperativeHandle)(ref, () => modal, [modal]);
+    if (canUseDOM_default && !prevShow && show) {
+      lastFocusRef.current = activeElement(ownerWindow2 == null ? void 0 : ownerWindow2.document);
+    }
+    if (show && exited) {
+      setExited(false);
+    }
+    const handleShow = useEventCallback(() => {
+      modal.add();
+      removeKeydownListenerRef.current = listen_default(document, "keydown", handleDocumentKeyDown);
+      removeFocusListenerRef.current = listen_default(
+        document,
+        "focus",
+        // the timeout is necessary b/c this will run before the new modal is mounted
+        // and so steals focus from it
+        () => setTimeout(handleEnforceFocus),
+        true
+      );
+      if (onShow) {
+        onShow();
+      }
+      if (autoFocus) {
+        var _modal$dialog$ownerDo, _modal$dialog;
+        const currentActiveElement = activeElement((_modal$dialog$ownerDo = (_modal$dialog = modal.dialog) == null ? void 0 : _modal$dialog.ownerDocument) != null ? _modal$dialog$ownerDo : ownerWindow2 == null ? void 0 : ownerWindow2.document);
+        if (modal.dialog && currentActiveElement && !contains(modal.dialog, currentActiveElement)) {
+          lastFocusRef.current = currentActiveElement;
+          modal.dialog.focus();
+        }
+      }
+    });
+    const handleHide = useEventCallback(() => {
+      modal.remove();
+      removeKeydownListenerRef.current == null ? void 0 : removeKeydownListenerRef.current();
+      removeFocusListenerRef.current == null ? void 0 : removeFocusListenerRef.current();
+      if (restoreFocus) {
+        var _lastFocusRef$current;
+        (_lastFocusRef$current = lastFocusRef.current) == null ? void 0 : _lastFocusRef$current.focus == null ? void 0 : _lastFocusRef$current.focus(restoreFocusOptions);
+        lastFocusRef.current = null;
+      }
+    });
+    (0, import_react41.useEffect)(() => {
+      if (!show || !container)
+        return;
+      handleShow();
+    }, [
+      show,
+      container,
+      /* should never change: */
+      handleShow
+    ]);
+    (0, import_react41.useEffect)(() => {
+      if (!exited)
+        return;
+      handleHide();
+    }, [exited, handleHide]);
+    useWillUnmount(() => {
+      handleHide();
+    });
+    const handleEnforceFocus = useEventCallback(() => {
+      if (!enforceFocus || !isMounted() || !modal.isTopModal()) {
+        return;
+      }
+      const currentActiveElement = activeElement(ownerWindow2 == null ? void 0 : ownerWindow2.document);
+      if (modal.dialog && currentActiveElement && !contains(modal.dialog, currentActiveElement)) {
+        modal.dialog.focus();
+      }
+    });
+    const handleBackdropClick = useEventCallback((e) => {
+      if (e.target !== e.currentTarget) {
+        return;
+      }
+      onBackdropClick == null ? void 0 : onBackdropClick(e);
+      if (backdrop === true) {
+        onHide();
+      }
+    });
+    const handleDocumentKeyDown = useEventCallback((e) => {
+      if (keyboard && isEscKey(e) && modal.isTopModal()) {
+        onEscapeKeyDown == null ? void 0 : onEscapeKeyDown(e);
+        if (!e.defaultPrevented) {
+          onHide();
+        }
+      }
+    });
+    const removeFocusListenerRef = (0, import_react41.useRef)();
+    const removeKeydownListenerRef = (0, import_react41.useRef)();
+    const handleHidden = (...args) => {
+      setExited(true);
+      onExited == null ? void 0 : onExited(...args);
+    };
+    if (!container) {
+      return null;
+    }
+    const dialogProps = Object.assign({
+      role,
+      ref: modal.setDialogRef,
+      // apparently only works on the dialog role element
+      "aria-modal": role === "dialog" ? true : void 0
+    }, rest, {
+      style: style2,
+      className,
+      tabIndex: -1
+    });
+    let dialog = renderDialog ? renderDialog(dialogProps) : /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", Object.assign({}, dialogProps, {
+      children: /* @__PURE__ */ React48.cloneElement(children, {
+        role: "document"
+      })
+    }));
+    dialog = renderTransition(transition, runTransition, {
+      unmountOnExit: true,
+      mountOnEnter: true,
+      appear: true,
+      in: !!show,
+      onExit,
+      onExiting,
+      onExited: handleHidden,
+      onEnter,
+      onEntering,
+      onEntered,
+      children: dialog
+    });
+    let backdropElement = null;
+    if (backdrop) {
+      backdropElement = renderBackdrop({
+        ref: modal.setBackdropRef,
+        onClick: handleBackdropClick
+      });
+      backdropElement = renderTransition(backdropTransition, runBackdropTransition, {
+        in: !!show,
+        appear: true,
+        mountOnEnter: true,
+        unmountOnExit: true,
+        children: backdropElement
+      });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_jsx_runtime42.Fragment, {
+      children: /* @__PURE__ */ import_react_dom3.default.createPortal(/* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(import_jsx_runtime42.Fragment, {
+        children: [backdropElement, dialog]
+      }), container)
+    });
+  });
+  Modal.displayName = "Modal";
+  var Modal_default = Object.assign(Modal, {
+    Manager: ModalManager_default
+  });
+
+  // node_modules/dom-helpers/esm/hasClass.js
+  function hasClass(element, className) {
+    if (element.classList)
+      return !!className && element.classList.contains(className);
+    return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
+  }
+
+  // node_modules/dom-helpers/esm/addClass.js
+  function addClass(element, className) {
+    if (element.classList)
+      element.classList.add(className);
+    else if (!hasClass(element, className))
+      if (typeof element.className === "string")
+        element.className = element.className + " " + className;
+      else
+        element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
+  }
+
+  // node_modules/dom-helpers/esm/removeClass.js
+  function replaceClassName(origClass, classToRemove) {
+    return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
+  }
+  function removeClass(element, className) {
+    if (element.classList) {
+      element.classList.remove(className);
+    } else if (typeof element.className === "string") {
+      element.className = replaceClassName(element.className, className);
+    } else {
+      element.setAttribute("class", replaceClassName(element.className && element.className.baseVal || "", className));
+    }
+  }
+
+  // node_modules/react-bootstrap/esm/BootstrapModalManager.js
+  var Selector = {
+    FIXED_CONTENT: ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top",
+    STICKY_CONTENT: ".sticky-top",
+    NAVBAR_TOGGLER: ".navbar-toggler"
+  };
+  var BootstrapModalManager = class extends ModalManager_default {
+    adjustAndStore(prop, element, adjust) {
+      const actual = element.style[prop];
+      element.dataset[prop] = actual;
+      css_default(element, {
+        [prop]: `${parseFloat(css_default(element, prop)) + adjust}px`
+      });
+    }
+    restore(prop, element) {
+      const value = element.dataset[prop];
+      if (value !== void 0) {
+        delete element.dataset[prop];
+        css_default(element, {
+          [prop]: value
+        });
       }
     }
-    // Protected
-    _isWithContent() {
-      return Boolean(this._getTitle());
+    setContainerStyle(containerState) {
+      super.setContainerStyle(containerState);
+      const container = this.getElement();
+      addClass(container, "modal-open");
+      if (!containerState.scrollBarWidth)
+        return;
+      const paddingProp = this.isRTL ? "paddingLeft" : "paddingRight";
+      const marginProp = this.isRTL ? "marginLeft" : "marginRight";
+      qsa(container, Selector.FIXED_CONTENT).forEach((el) => this.adjustAndStore(paddingProp, el, containerState.scrollBarWidth));
+      qsa(container, Selector.STICKY_CONTENT).forEach((el) => this.adjustAndStore(marginProp, el, -containerState.scrollBarWidth));
+      qsa(container, Selector.NAVBAR_TOGGLER).forEach((el) => this.adjustAndStore(marginProp, el, containerState.scrollBarWidth));
     }
-    _getTipElement() {
-      if (!this.tip) {
-        this.tip = this._createTipElement(this._newContent || this._getContentForTemplate());
-      }
-      return this.tip;
+    removeContainerStyle(containerState) {
+      super.removeContainerStyle(containerState);
+      const container = this.getElement();
+      removeClass(container, "modal-open");
+      const paddingProp = this.isRTL ? "paddingLeft" : "paddingRight";
+      const marginProp = this.isRTL ? "marginLeft" : "marginRight";
+      qsa(container, Selector.FIXED_CONTENT).forEach((el) => this.restore(paddingProp, el));
+      qsa(container, Selector.STICKY_CONTENT).forEach((el) => this.restore(marginProp, el));
+      qsa(container, Selector.NAVBAR_TOGGLER).forEach((el) => this.restore(marginProp, el));
     }
-    _createTipElement(content) {
-      const tip = this._getTemplateFactory(content).toHtml();
-      if (!tip) {
-        return null;
-      }
-      tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2);
-      tip.classList.add(`bs-${this.constructor.NAME}-auto`);
-      const tipId = getUID(this.constructor.NAME).toString();
-      tip.setAttribute("id", tipId);
-      if (this._isAnimated()) {
-        tip.classList.add(CLASS_NAME_FADE$2);
-      }
-      return tip;
+  };
+  var sharedManager;
+  function getSharedManager(options) {
+    if (!sharedManager)
+      sharedManager = new BootstrapModalManager(options);
+    return sharedManager;
+  }
+  var BootstrapModalManager_default = BootstrapModalManager;
+
+  // node_modules/react-bootstrap/esm/ModalContext.js
+  var React49 = __toESM(require_react());
+  var ModalContext = /* @__PURE__ */ React49.createContext({
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onHide() {
     }
-    setContent(content) {
-      this._newContent = content;
-      if (this._isShown()) {
-        this._disposePopper();
-        this.show();
-      }
+  });
+  var ModalContext_default = ModalContext;
+
+  // node_modules/react-bootstrap/esm/AbstractModalHeader.js
+  var React50 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
+  var import_jsx_runtime44 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime45 = __toESM(require_jsx_runtime());
+  var AbstractModalHeader = /* @__PURE__ */ React50.forwardRef((_a, ref) => {
+    var _b = _a, {
+      closeLabel = "Close",
+      closeVariant,
+      closeButton = false,
+      onHide,
+      children
+    } = _b, props = __objRest(_b, [
+      "closeLabel",
+      "closeVariant",
+      "closeButton",
+      "onHide",
+      "children"
+    ]);
+    const context3 = (0, import_react42.useContext)(ModalContext_default);
+    const handleClick = useEventCallback(() => {
+      context3 == null ? void 0 : context3.onHide();
+      onHide == null ? void 0 : onHide();
+    });
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", __spreadProps(__spreadValues({
+      ref
+    }, props), {
+      children: [children, closeButton && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(CloseButton_default, {
+        "aria-label": closeLabel,
+        variant: closeVariant,
+        onClick: handleClick
+      })]
+    }));
+  });
+  var AbstractModalHeader_default = AbstractModalHeader;
+
+  // node_modules/react-bootstrap/esm/Nav.js
+  var import_classnames31 = __toESM(require_classnames());
+  var import_all = __toESM(require_all());
+  var React53 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/NavItem.js
+  var React51 = __toESM(require_react());
+  var import_classnames29 = __toESM(require_classnames());
+  var import_jsx_runtime46 = __toESM(require_jsx_runtime());
+  var NavItem2 = /* @__PURE__ */ React51.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "nav-item");
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames29.default)(className, bsPrefix)
+    }, props));
+  });
+  NavItem2.displayName = "NavItem";
+  var NavItem_default2 = NavItem2;
+
+  // node_modules/react-bootstrap/esm/NavLink.js
+  var import_classnames30 = __toESM(require_classnames());
+  var React52 = __toESM(require_react());
+  var import_jsx_runtime47 = __toESM(require_jsx_runtime());
+  var NavLink = /* @__PURE__ */ React52.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      as: Component = Anchor_default,
+      active,
+      eventKey,
+      disabled = false
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "as",
+      "active",
+      "eventKey",
+      "disabled"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "nav-link");
+    const [navItemProps, meta] = useNavItem(__spreadValues({
+      key: makeEventKey(eventKey, props.href),
+      active,
+      disabled
+    }, props));
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Component, __spreadProps(__spreadValues(__spreadValues({}, props), navItemProps), {
+      ref,
+      disabled,
+      className: (0, import_classnames30.default)(className, bsPrefix, disabled && "disabled", meta.isActive && "active")
+    }));
+  });
+  NavLink.displayName = "NavLink";
+  var NavLink_default = NavLink;
+
+  // node_modules/react-bootstrap/esm/Nav.js
+  var import_jsx_runtime48 = __toESM(require_jsx_runtime());
+  var Nav2 = /* @__PURE__ */ React53.forwardRef((uncontrolledProps, ref) => {
+    const _a = useUncontrolled(uncontrolledProps, {
+      activeKey: "onSelect"
+    }), {
+      as = "div",
+      bsPrefix: initialBsPrefix,
+      variant,
+      fill = false,
+      justify = false,
+      navbar,
+      navbarScroll,
+      className,
+      activeKey
+    } = _a, props = __objRest(_a, [
+      "as",
+      "bsPrefix",
+      "variant",
+      "fill",
+      "justify",
+      "navbar",
+      "navbarScroll",
+      "className",
+      "activeKey"
+    ]);
+    const bsPrefix = useBootstrapPrefix(initialBsPrefix, "nav");
+    let navbarBsPrefix;
+    let cardHeaderBsPrefix;
+    let isNavbar = false;
+    const navbarContext = (0, import_react43.useContext)(NavbarContext_default);
+    const cardHeaderContext = (0, import_react43.useContext)(CardHeaderContext_default);
+    if (navbarContext) {
+      navbarBsPrefix = navbarContext.bsPrefix;
+      isNavbar = navbar == null ? true : navbar;
+    } else if (cardHeaderContext) {
+      ({
+        cardHeaderBsPrefix
+      } = cardHeaderContext);
     }
-    _getTemplateFactory(content) {
-      if (this._templateFactory) {
-        this._templateFactory.changeContent(content);
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(Nav_default, __spreadValues({
+      as,
+      ref,
+      activeKey,
+      className: (0, import_classnames31.default)(className, {
+        [bsPrefix]: !isNavbar,
+        [`${navbarBsPrefix}-nav`]: isNavbar,
+        [`${navbarBsPrefix}-nav-scroll`]: isNavbar && navbarScroll,
+        [`${cardHeaderBsPrefix}-${variant}`]: !!cardHeaderBsPrefix,
+        [`${bsPrefix}-${variant}`]: !!variant,
+        [`${bsPrefix}-fill`]: fill,
+        [`${bsPrefix}-justified`]: justify
+      })
+    }, props));
+  });
+  Nav2.displayName = "Nav";
+  var Nav_default2 = Object.assign(Nav2, {
+    Item: NavItem_default2,
+    Link: NavLink_default
+  });
+
+  // node_modules/react-bootstrap/esm/Navbar.js
+  var import_classnames40 = __toESM(require_classnames());
+  var React64 = __toESM(require_react());
+  var import_react50 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/NavbarBrand.js
+  var import_classnames32 = __toESM(require_classnames());
+  var React54 = __toESM(require_react());
+  var import_jsx_runtime49 = __toESM(require_jsx_runtime());
+  var NavbarBrand = /* @__PURE__ */ React54.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      as
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "navbar-brand");
+    const Component = as || (props.href ? "a" : "span");
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+      ref,
+      className: (0, import_classnames32.default)(className, bsPrefix)
+    }));
+  });
+  NavbarBrand.displayName = "NavbarBrand";
+  var NavbarBrand_default = NavbarBrand;
+
+  // node_modules/react-bootstrap/esm/NavbarCollapse.js
+  var React55 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
+  var import_jsx_runtime50 = __toESM(require_jsx_runtime());
+  var NavbarCollapse = /* @__PURE__ */ React55.forwardRef((_a, ref) => {
+    var _b = _a, {
+      children,
+      bsPrefix
+    } = _b, props = __objRest(_b, [
+      "children",
+      "bsPrefix"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "navbar-collapse");
+    const context3 = (0, import_react44.useContext)(NavbarContext_default);
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Collapse_default, __spreadProps(__spreadValues({
+      in: !!(context3 && context3.expanded)
+    }, props), {
+      children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", {
+        ref,
+        className: bsPrefix,
+        children
+      })
+    }));
+  });
+  NavbarCollapse.displayName = "NavbarCollapse";
+  var NavbarCollapse_default = NavbarCollapse;
+
+  // node_modules/react-bootstrap/esm/NavbarToggle.js
+  var import_classnames33 = __toESM(require_classnames());
+  var React56 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
+  var import_jsx_runtime51 = __toESM(require_jsx_runtime());
+  var NavbarToggle = /* @__PURE__ */ React56.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      children,
+      label = "Toggle navigation",
+      as: Component = "button",
+      onClick
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "children",
+      "label",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as",
+      "onClick"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "navbar-toggler");
+    const {
+      onToggle,
+      expanded
+    } = (0, import_react45.useContext)(NavbarContext_default) || {};
+    const handleClick = useEventCallback((e) => {
+      if (onClick)
+        onClick(e);
+      if (onToggle)
+        onToggle();
+    });
+    if (Component === "button") {
+      props.type = "button";
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Component, __spreadProps(__spreadValues({}, props), {
+      ref,
+      onClick: handleClick,
+      "aria-label": label,
+      className: (0, import_classnames33.default)(className, bsPrefix, !expanded && "collapsed"),
+      children: children || /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", {
+        className: `${bsPrefix}-icon`
+      })
+    }));
+  });
+  NavbarToggle.displayName = "NavbarToggle";
+  var NavbarToggle_default = NavbarToggle;
+
+  // node_modules/react-bootstrap/esm/NavbarOffcanvas.js
+  var React62 = __toESM(require_react());
+  var import_react49 = __toESM(require_react());
+
+  // node_modules/react-bootstrap/esm/Offcanvas.js
+  var import_classnames38 = __toESM(require_classnames());
+
+  // node_modules/@restart/hooks/esm/useMediaQuery.js
+  var import_react46 = __toESM(require_react());
+  var matchersByWindow = /* @__PURE__ */ new WeakMap();
+  var getMatcher = (query, targetWindow) => {
+    if (!query || !targetWindow)
+      return void 0;
+    const matchers = matchersByWindow.get(targetWindow) || /* @__PURE__ */ new Map();
+    matchersByWindow.set(targetWindow, matchers);
+    let mql = matchers.get(query);
+    if (!mql) {
+      mql = targetWindow.matchMedia(query);
+      mql.refCount = 0;
+      matchers.set(mql.media, mql);
+    }
+    return mql;
+  };
+  function useMediaQuery(query, targetWindow = typeof window === "undefined" ? void 0 : window) {
+    const mql = getMatcher(query, targetWindow);
+    const [matches, setMatches] = (0, import_react46.useState)(() => mql ? mql.matches : false);
+    useIsomorphicEffect_default(() => {
+      let mql2 = getMatcher(query, targetWindow);
+      if (!mql2) {
+        return setMatches(false);
+      }
+      let matchers = matchersByWindow.get(targetWindow);
+      const handleChange = () => {
+        setMatches(mql2.matches);
+      };
+      mql2.refCount++;
+      mql2.addListener(handleChange);
+      handleChange();
+      return () => {
+        mql2.removeListener(handleChange);
+        mql2.refCount--;
+        if (mql2.refCount <= 0) {
+          matchers == null ? void 0 : matchers.delete(mql2.media);
+        }
+        mql2 = void 0;
+      };
+    }, [query]);
+    return matches;
+  }
+
+  // node_modules/@restart/hooks/esm/useBreakpoint.js
+  var import_react47 = __toESM(require_react());
+  function createBreakpointHook(breakpointValues) {
+    const names = Object.keys(breakpointValues);
+    function and(query, next) {
+      if (query === next) {
+        return next;
+      }
+      return query ? `${query} and ${next}` : next;
+    }
+    function getNext(breakpoint) {
+      return names[Math.min(names.indexOf(breakpoint) + 1, names.length - 1)];
+    }
+    function getMaxQuery(breakpoint) {
+      const next = getNext(breakpoint);
+      let value = breakpointValues[next];
+      if (typeof value === "number")
+        value = `${value - 0.2}px`;
+      else
+        value = `calc(${value} - 0.2px)`;
+      return `(max-width: ${value})`;
+    }
+    function getMinQuery(breakpoint) {
+      let value = breakpointValues[breakpoint];
+      if (typeof value === "number") {
+        value = `${value}px`;
+      }
+      return `(min-width: ${value})`;
+    }
+    function useBreakpoint2(breakpointOrMap, direction, window2) {
+      let breakpointMap;
+      if (typeof breakpointOrMap === "object") {
+        breakpointMap = breakpointOrMap;
+        window2 = direction;
+        direction = true;
       } else {
-        this._templateFactory = new TemplateFactory(__spreadProps(__spreadValues({}, this._config), {
-          // the `content` var has to be after `this._config`
-          // to override config.content in case of popover
-          content,
-          extraClass: this._resolvePossibleFunction(this._config.customClass)
-        }));
-      }
-      return this._templateFactory;
-    }
-    _getContentForTemplate() {
-      return {
-        [SELECTOR_TOOLTIP_INNER]: this._getTitle()
-      };
-    }
-    _getTitle() {
-      return this._resolvePossibleFunction(this._config.title) || this._element.getAttribute("data-bs-original-title");
-    }
-    // Private
-    _initializeOnDelegatedTarget(event) {
-      return this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
-    }
-    _isAnimated() {
-      return this._config.animation || this.tip && this.tip.classList.contains(CLASS_NAME_FADE$2);
-    }
-    _isShown() {
-      return this.tip && this.tip.classList.contains(CLASS_NAME_SHOW$2);
-    }
-    _createPopper(tip) {
-      const placement = typeof this._config.placement === "function" ? this._config.placement.call(this, tip, this._element) : this._config.placement;
-      const attachment = AttachmentMap[placement.toUpperCase()];
-      return createPopper3(this._element, tip, this._getPopperConfig(attachment));
-    }
-    _getOffset() {
-      const {
-        offset: offset2
-      } = this._config;
-      if (typeof offset2 === "string") {
-        return offset2.split(",").map((value) => Number.parseInt(value, 10));
-      }
-      if (typeof offset2 === "function") {
-        return (popperData) => offset2(popperData, this._element);
-      }
-      return offset2;
-    }
-    _resolvePossibleFunction(arg) {
-      return typeof arg === "function" ? arg.call(this._element) : arg;
-    }
-    _getPopperConfig(attachment) {
-      const defaultBsPopperConfig = {
-        placement: attachment,
-        modifiers: [{
-          name: "flip",
-          options: {
-            fallbackPlacements: this._config.fallbackPlacements
-          }
-        }, {
-          name: "offset",
-          options: {
-            offset: this._getOffset()
-          }
-        }, {
-          name: "preventOverflow",
-          options: {
-            boundary: this._config.boundary
-          }
-        }, {
-          name: "arrow",
-          options: {
-            element: `.${this.constructor.NAME}-arrow`
-          }
-        }, {
-          name: "preSetPlacement",
-          enabled: true,
-          phase: "beforeMain",
-          fn: (data) => {
-            this._getTipElement().setAttribute("data-popper-placement", data.state.placement);
-          }
-        }]
-      };
-      return __spreadValues(__spreadValues({}, defaultBsPopperConfig), typeof this._config.popperConfig === "function" ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig);
-    }
-    _setListeners() {
-      const triggers = this._config.trigger.split(" ");
-      for (const trigger of triggers) {
-        if (trigger === "click") {
-          EventHandler.on(this._element, this.constructor.eventName(EVENT_CLICK$1), this._config.selector, (event) => {
-            const context = this._initializeOnDelegatedTarget(event);
-            context.toggle();
-          });
-        } else if (trigger !== TRIGGER_MANUAL) {
-          const eventIn = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSEENTER) : this.constructor.eventName(EVENT_FOCUSIN$1);
-          const eventOut = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSELEAVE) : this.constructor.eventName(EVENT_FOCUSOUT$1);
-          EventHandler.on(this._element, eventIn, this._config.selector, (event) => {
-            const context = this._initializeOnDelegatedTarget(event);
-            context._activeTrigger[event.type === "focusin" ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
-            context._enter();
-          });
-          EventHandler.on(this._element, eventOut, this._config.selector, (event) => {
-            const context = this._initializeOnDelegatedTarget(event);
-            context._activeTrigger[event.type === "focusout" ? TRIGGER_FOCUS : TRIGGER_HOVER] = context._element.contains(event.relatedTarget);
-            context._leave();
-          });
-        }
-      }
-      this._hideModalHandler = () => {
-        if (this._element) {
-          this.hide();
-        }
-      };
-      EventHandler.on(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
-    }
-    _fixTitle() {
-      const title = this._element.getAttribute("title");
-      if (!title) {
-        return;
-      }
-      if (!this._element.getAttribute("aria-label") && !this._element.textContent.trim()) {
-        this._element.setAttribute("aria-label", title);
-      }
-      this._element.setAttribute("data-bs-original-title", title);
-      this._element.removeAttribute("title");
-    }
-    _enter() {
-      if (this._isShown() || this._isHovered) {
-        this._isHovered = true;
-        return;
-      }
-      this._isHovered = true;
-      this._setTimeout(() => {
-        if (this._isHovered) {
-          this.show();
-        }
-      }, this._config.delay.show);
-    }
-    _leave() {
-      if (this._isWithActiveTrigger()) {
-        return;
-      }
-      this._isHovered = false;
-      this._setTimeout(() => {
-        if (!this._isHovered) {
-          this.hide();
-        }
-      }, this._config.delay.hide);
-    }
-    _setTimeout(handler, timeout) {
-      clearTimeout(this._timeout);
-      this._timeout = setTimeout(handler, timeout);
-    }
-    _isWithActiveTrigger() {
-      return Object.values(this._activeTrigger).includes(true);
-    }
-    _getConfig(config) {
-      const dataAttributes = Manipulator.getDataAttributes(this._element);
-      for (const dataAttribute of Object.keys(dataAttributes)) {
-        if (DISALLOWED_ATTRIBUTES.has(dataAttribute)) {
-          delete dataAttributes[dataAttribute];
-        }
-      }
-      config = __spreadValues(__spreadValues({}, dataAttributes), typeof config === "object" && config ? config : {});
-      config = this._mergeConfigObj(config);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
-    }
-    _configAfterMerge(config) {
-      config.container = config.container === false ? document.body : getElement(config.container);
-      if (typeof config.delay === "number") {
-        config.delay = {
-          show: config.delay,
-          hide: config.delay
+        direction = direction || true;
+        breakpointMap = {
+          [breakpointOrMap]: direction
         };
       }
-      if (typeof config.title === "number") {
-        config.title = config.title.toString();
-      }
-      if (typeof config.content === "number") {
-        config.content = config.content.toString();
-      }
-      return config;
-    }
-    _getDelegateConfig() {
-      const config = {};
-      for (const key in this._config) {
-        if (this.constructor.Default[key] !== this._config[key]) {
-          config[key] = this._config[key];
+      let query = (0, import_react47.useMemo)(() => Object.entries(breakpointMap).reduce((query2, [key, direction2]) => {
+        if (direction2 === "up" || direction2 === true) {
+          query2 = and(query2, getMinQuery(key));
         }
-      }
-      config.selector = false;
-      config.trigger = "manual";
-      return config;
-    }
-    _disposePopper() {
-      if (this._popper) {
-        this._popper.destroy();
-        this._popper = null;
-      }
-      if (this.tip) {
-        this.tip.remove();
-        this.tip = null;
-      }
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Tooltip.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
+        if (direction2 === "down" || direction2 === true) {
+          query2 = and(query2, getMaxQuery(key));
         }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config]();
-      });
+        return query2;
+      }, ""), [JSON.stringify(breakpointMap)]);
+      return useMediaQuery(query, window2);
     }
-  };
-  defineJQueryPlugin(Tooltip);
-  var NAME$3 = "popover";
-  var SELECTOR_TITLE = ".popover-header";
-  var SELECTOR_CONTENT = ".popover-body";
-  var Default$2 = __spreadProps(__spreadValues({}, Tooltip.Default), {
-    content: "",
-    offset: [0, 8],
-    placement: "right",
-    template: '<div class="popover" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
-    trigger: "click"
-  });
-  var DefaultType$2 = __spreadProps(__spreadValues({}, Tooltip.DefaultType), {
-    content: "(null|string|element|function)"
-  });
-  var Popover = class extends Tooltip {
-    // Getters
-    static get Default() {
-      return Default$2;
-    }
-    static get DefaultType() {
-      return DefaultType$2;
-    }
-    static get NAME() {
-      return NAME$3;
-    }
-    // Overrides
-    _isWithContent() {
-      return this._getTitle() || this._getContent();
-    }
-    // Private
-    _getContentForTemplate() {
-      return {
-        [SELECTOR_TITLE]: this._getTitle(),
-        [SELECTOR_CONTENT]: this._getContent()
-      };
-    }
-    _getContent() {
-      return this._resolvePossibleFunction(this._config.content);
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Popover.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config]();
-      });
-    }
-  };
-  defineJQueryPlugin(Popover);
-  var NAME$2 = "scrollspy";
-  var DATA_KEY$2 = "bs.scrollspy";
-  var EVENT_KEY$2 = `.${DATA_KEY$2}`;
-  var DATA_API_KEY = ".data-api";
-  var EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
-  var EVENT_CLICK = `click${EVENT_KEY$2}`;
-  var EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$2}${DATA_API_KEY}`;
-  var CLASS_NAME_DROPDOWN_ITEM = "dropdown-item";
-  var CLASS_NAME_ACTIVE$1 = "active";
-  var SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
-  var SELECTOR_TARGET_LINKS = "[href]";
-  var SELECTOR_NAV_LIST_GROUP = ".nav, .list-group";
-  var SELECTOR_NAV_LINKS = ".nav-link";
-  var SELECTOR_NAV_ITEMS = ".nav-item";
-  var SELECTOR_LIST_ITEMS = ".list-group-item";
-  var SELECTOR_LINK_ITEMS = `${SELECTOR_NAV_LINKS}, ${SELECTOR_NAV_ITEMS} > ${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`;
-  var SELECTOR_DROPDOWN = ".dropdown";
-  var SELECTOR_DROPDOWN_TOGGLE$1 = ".dropdown-toggle";
-  var Default$1 = {
-    offset: null,
-    // TODO: v6 @deprecated, keep it for backwards compatibility reasons
-    rootMargin: "0px 0px -25%",
-    smoothScroll: false,
-    target: null,
-    threshold: [0.1, 0.5, 1]
-  };
-  var DefaultType$1 = {
-    offset: "(number|null)",
-    // TODO v6 @deprecated, keep it for backwards compatibility reasons
-    rootMargin: "string",
-    smoothScroll: "boolean",
-    target: "element",
-    threshold: "array"
-  };
-  var ScrollSpy = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._targetLinks = /* @__PURE__ */ new Map();
-      this._observableSections = /* @__PURE__ */ new Map();
-      this._rootElement = getComputedStyle(this._element).overflowY === "visible" ? null : this._element;
-      this._activeTarget = null;
-      this._observer = null;
-      this._previousScrollData = {
-        visibleEntryTop: 0,
-        parentScrollTop: 0
-      };
-      this.refresh();
-    }
-    // Getters
-    static get Default() {
-      return Default$1;
-    }
-    static get DefaultType() {
-      return DefaultType$1;
-    }
-    static get NAME() {
-      return NAME$2;
-    }
-    // Public
-    refresh() {
-      this._initializeTargetsAndObservables();
-      this._maybeEnableSmoothScroll();
-      if (this._observer) {
-        this._observer.disconnect();
-      } else {
-        this._observer = this._getNewObserver();
-      }
-      for (const section of this._observableSections.values()) {
-        this._observer.observe(section);
-      }
-    }
-    dispose() {
-      this._observer.disconnect();
-      super.dispose();
-    }
-    // Private
-    _configAfterMerge(config) {
-      config.target = getElement(config.target) || document.body;
-      config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
-      if (typeof config.threshold === "string") {
-        config.threshold = config.threshold.split(",").map((value) => Number.parseFloat(value));
-      }
-      return config;
-    }
-    _maybeEnableSmoothScroll() {
-      if (!this._config.smoothScroll) {
-        return;
-      }
-      EventHandler.off(this._config.target, EVENT_CLICK);
-      EventHandler.on(this._config.target, EVENT_CLICK, SELECTOR_TARGET_LINKS, (event) => {
-        const observableSection = this._observableSections.get(event.target.hash);
-        if (observableSection) {
-          event.preventDefault();
-          const root2 = this._rootElement || window;
-          const height = observableSection.offsetTop - this._element.offsetTop;
-          if (root2.scrollTo) {
-            root2.scrollTo({
-              top: height,
-              behavior: "smooth"
-            });
-            return;
-          }
-          root2.scrollTop = height;
-        }
-      });
-    }
-    _getNewObserver() {
-      const options = {
-        root: this._rootElement,
-        threshold: this._config.threshold,
-        rootMargin: this._config.rootMargin
-      };
-      return new IntersectionObserver((entries) => this._observerCallback(entries), options);
-    }
-    // The logic of selection
-    _observerCallback(entries) {
-      const targetElement = (entry) => this._targetLinks.get(`#${entry.target.id}`);
-      const activate = (entry) => {
-        this._previousScrollData.visibleEntryTop = entry.target.offsetTop;
-        this._process(targetElement(entry));
-      };
-      const parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
-      const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
-      this._previousScrollData.parentScrollTop = parentScrollTop;
-      for (const entry of entries) {
-        if (!entry.isIntersecting) {
-          this._activeTarget = null;
-          this._clearActiveClass(targetElement(entry));
-          continue;
-        }
-        const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop;
-        if (userScrollsDown && entryIsLowerThanPrevious) {
-          activate(entry);
-          if (!parentScrollTop) {
-            return;
-          }
-          continue;
-        }
-        if (!userScrollsDown && !entryIsLowerThanPrevious) {
-          activate(entry);
-        }
-      }
-    }
-    _initializeTargetsAndObservables() {
-      this._targetLinks = /* @__PURE__ */ new Map();
-      this._observableSections = /* @__PURE__ */ new Map();
-      const targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
-      for (const anchor of targetLinks) {
-        if (!anchor.hash || isDisabled(anchor)) {
-          continue;
-        }
-        const observableSection = SelectorEngine.findOne(anchor.hash, this._element);
-        if (isVisible(observableSection)) {
-          this._targetLinks.set(anchor.hash, anchor);
-          this._observableSections.set(anchor.hash, observableSection);
-        }
-      }
-    }
-    _process(target) {
-      if (this._activeTarget === target) {
-        return;
-      }
-      this._clearActiveClass(this._config.target);
-      this._activeTarget = target;
-      target.classList.add(CLASS_NAME_ACTIVE$1);
-      this._activateParents(target);
-      EventHandler.trigger(this._element, EVENT_ACTIVATE, {
-        relatedTarget: target
-      });
-    }
-    _activateParents(target) {
-      if (target.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
-        SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$1);
-        return;
-      }
-      for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
-        for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
-          item.classList.add(CLASS_NAME_ACTIVE$1);
-        }
-      }
-    }
-    _clearActiveClass(parent) {
-      parent.classList.remove(CLASS_NAME_ACTIVE$1);
-      const activeNodes = SelectorEngine.find(`${SELECTOR_TARGET_LINKS}.${CLASS_NAME_ACTIVE$1}`, parent);
-      for (const node of activeNodes) {
-        node.classList.remove(CLASS_NAME_ACTIVE$1);
-      }
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = ScrollSpy.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config]();
-      });
-    }
-  };
-  EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => {
-    for (const spy of SelectorEngine.find(SELECTOR_DATA_SPY)) {
-      ScrollSpy.getOrCreateInstance(spy);
-    }
-  });
-  defineJQueryPlugin(ScrollSpy);
-  var NAME$1 = "tab";
-  var DATA_KEY$1 = "bs.tab";
-  var EVENT_KEY$1 = `.${DATA_KEY$1}`;
-  var EVENT_HIDE$1 = `hide${EVENT_KEY$1}`;
-  var EVENT_HIDDEN$1 = `hidden${EVENT_KEY$1}`;
-  var EVENT_SHOW$1 = `show${EVENT_KEY$1}`;
-  var EVENT_SHOWN$1 = `shown${EVENT_KEY$1}`;
-  var EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}`;
-  var EVENT_KEYDOWN = `keydown${EVENT_KEY$1}`;
-  var EVENT_LOAD_DATA_API = `load${EVENT_KEY$1}`;
-  var ARROW_LEFT_KEY = "ArrowLeft";
-  var ARROW_RIGHT_KEY = "ArrowRight";
-  var ARROW_UP_KEY = "ArrowUp";
-  var ARROW_DOWN_KEY = "ArrowDown";
-  var CLASS_NAME_ACTIVE = "active";
-  var CLASS_NAME_FADE$1 = "fade";
-  var CLASS_NAME_SHOW$1 = "show";
-  var CLASS_DROPDOWN = "dropdown";
-  var SELECTOR_DROPDOWN_TOGGLE = ".dropdown-toggle";
-  var SELECTOR_DROPDOWN_MENU = ".dropdown-menu";
-  var NOT_SELECTOR_DROPDOWN_TOGGLE = ":not(.dropdown-toggle)";
-  var SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
-  var SELECTOR_OUTER = ".nav-item, .list-group-item";
-  var SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
-  var SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]';
-  var SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
-  var SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
-  var Tab = class extends BaseComponent {
-    constructor(element) {
-      super(element);
-      this._parent = this._element.closest(SELECTOR_TAB_PANEL);
-      if (!this._parent) {
-        return;
-      }
-      this._setInitialAttributes(this._parent, this._getChildren());
-      EventHandler.on(this._element, EVENT_KEYDOWN, (event) => this._keydown(event));
-    }
-    // Getters
-    static get NAME() {
-      return NAME$1;
-    }
-    // Public
-    show() {
-      const innerElem = this._element;
-      if (this._elemIsActive(innerElem)) {
-        return;
-      }
-      const active = this._getActiveElem();
-      const hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
-        relatedTarget: innerElem
-      }) : null;
-      const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW$1, {
-        relatedTarget: active
-      });
-      if (showEvent.defaultPrevented || hideEvent && hideEvent.defaultPrevented) {
-        return;
-      }
-      this._deactivate(active, innerElem);
-      this._activate(innerElem, active);
-    }
-    // Private
-    _activate(element, relatedElem) {
-      if (!element) {
-        return;
-      }
-      element.classList.add(CLASS_NAME_ACTIVE);
-      this._activate(getElementFromSelector(element));
-      const complete = () => {
-        if (element.getAttribute("role") !== "tab") {
-          element.classList.add(CLASS_NAME_SHOW$1);
-          return;
-        }
-        element.removeAttribute("tabindex");
-        element.setAttribute("aria-selected", true);
-        this._toggleDropDown(element, true);
-        EventHandler.trigger(element, EVENT_SHOWN$1, {
-          relatedTarget: relatedElem
-        });
-      };
-      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
-    }
-    _deactivate(element, relatedElem) {
-      if (!element) {
-        return;
-      }
-      element.classList.remove(CLASS_NAME_ACTIVE);
-      element.blur();
-      this._deactivate(getElementFromSelector(element));
-      const complete = () => {
-        if (element.getAttribute("role") !== "tab") {
-          element.classList.remove(CLASS_NAME_SHOW$1);
-          return;
-        }
-        element.setAttribute("aria-selected", false);
-        element.setAttribute("tabindex", "-1");
-        this._toggleDropDown(element, false);
-        EventHandler.trigger(element, EVENT_HIDDEN$1, {
-          relatedTarget: relatedElem
-        });
-      };
-      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE$1));
-    }
-    _keydown(event) {
-      if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
-        return;
-      }
-      event.stopPropagation();
-      event.preventDefault();
-      const isNext = [ARROW_RIGHT_KEY, ARROW_DOWN_KEY].includes(event.key);
-      const nextActiveElement = getNextActiveElement(this._getChildren().filter((element) => !isDisabled(element)), event.target, isNext, true);
-      if (nextActiveElement) {
-        nextActiveElement.focus({
-          preventScroll: true
-        });
-        Tab.getOrCreateInstance(nextActiveElement).show();
-      }
-    }
-    _getChildren() {
-      return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
-    }
-    _getActiveElem() {
-      return this._getChildren().find((child) => this._elemIsActive(child)) || null;
-    }
-    _setInitialAttributes(parent, children) {
-      this._setAttributeIfNotExists(parent, "role", "tablist");
-      for (const child of children) {
-        this._setInitialAttributesOnChild(child);
-      }
-    }
-    _setInitialAttributesOnChild(child) {
-      child = this._getInnerElement(child);
-      const isActive = this._elemIsActive(child);
-      const outerElem = this._getOuterElement(child);
-      child.setAttribute("aria-selected", isActive);
-      if (outerElem !== child) {
-        this._setAttributeIfNotExists(outerElem, "role", "presentation");
-      }
-      if (!isActive) {
-        child.setAttribute("tabindex", "-1");
-      }
-      this._setAttributeIfNotExists(child, "role", "tab");
-      this._setInitialAttributesOnTargetPanel(child);
-    }
-    _setInitialAttributesOnTargetPanel(child) {
-      const target = getElementFromSelector(child);
-      if (!target) {
-        return;
-      }
-      this._setAttributeIfNotExists(target, "role", "tabpanel");
-      if (child.id) {
-        this._setAttributeIfNotExists(target, "aria-labelledby", `#${child.id}`);
-      }
-    }
-    _toggleDropDown(element, open) {
-      const outerElem = this._getOuterElement(element);
-      if (!outerElem.classList.contains(CLASS_DROPDOWN)) {
-        return;
-      }
-      const toggle = (selector, className) => {
-        const element2 = SelectorEngine.findOne(selector, outerElem);
-        if (element2) {
-          element2.classList.toggle(className, open);
-        }
-      };
-      toggle(SELECTOR_DROPDOWN_TOGGLE, CLASS_NAME_ACTIVE);
-      toggle(SELECTOR_DROPDOWN_MENU, CLASS_NAME_SHOW$1);
-      outerElem.setAttribute("aria-expanded", open);
-    }
-    _setAttributeIfNotExists(element, attribute, value) {
-      if (!element.hasAttribute(attribute)) {
-        element.setAttribute(attribute, value);
-      }
-    }
-    _elemIsActive(elem) {
-      return elem.classList.contains(CLASS_NAME_ACTIVE);
-    }
-    // Try to get the inner element (usually the .nav-link)
-    _getInnerElement(elem) {
-      return elem.matches(SELECTOR_INNER_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_INNER_ELEM, elem);
-    }
-    // Try to get the outer element (usually the .nav-item)
-    _getOuterElement(elem) {
-      return elem.closest(SELECTOR_OUTER) || elem;
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Tab.getOrCreateInstance(this);
-        if (typeof config !== "string") {
-          return;
-        }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
-        }
-        data[config]();
-      });
-    }
-  };
-  EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function(event) {
-    if (["A", "AREA"].includes(this.tagName)) {
-      event.preventDefault();
-    }
-    if (isDisabled(this)) {
-      return;
-    }
-    Tab.getOrCreateInstance(this).show();
-  });
-  EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-    for (const element of SelectorEngine.find(SELECTOR_DATA_TOGGLE_ACTIVE)) {
-      Tab.getOrCreateInstance(element);
-    }
-  });
-  defineJQueryPlugin(Tab);
-  var NAME = "toast";
-  var DATA_KEY = "bs.toast";
-  var EVENT_KEY = `.${DATA_KEY}`;
-  var EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
-  var EVENT_MOUSEOUT = `mouseout${EVENT_KEY}`;
-  var EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
-  var EVENT_FOCUSOUT = `focusout${EVENT_KEY}`;
-  var EVENT_HIDE = `hide${EVENT_KEY}`;
-  var EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-  var EVENT_SHOW = `show${EVENT_KEY}`;
-  var EVENT_SHOWN = `shown${EVENT_KEY}`;
-  var CLASS_NAME_FADE = "fade";
-  var CLASS_NAME_HIDE = "hide";
-  var CLASS_NAME_SHOW = "show";
-  var CLASS_NAME_SHOWING = "showing";
-  var DefaultType = {
-    animation: "boolean",
-    autohide: "boolean",
-    delay: "number"
-  };
-  var Default = {
-    animation: true,
-    autohide: true,
-    delay: 5e3
-  };
-  var Toast = class extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
-      this._timeout = null;
-      this._hasMouseInteraction = false;
-      this._hasKeyboardInteraction = false;
-      this._setListeners();
-    }
-    // Getters
-    static get Default() {
-      return Default;
-    }
-    static get DefaultType() {
-      return DefaultType;
-    }
-    static get NAME() {
-      return NAME;
-    }
-    // Public
-    show() {
-      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
-      if (showEvent.defaultPrevented) {
-        return;
-      }
-      this._clearTimeout();
-      if (this._config.animation) {
-        this._element.classList.add(CLASS_NAME_FADE);
-      }
-      const complete = () => {
-        this._element.classList.remove(CLASS_NAME_SHOWING);
-        EventHandler.trigger(this._element, EVENT_SHOWN);
-        this._maybeScheduleHide();
-      };
-      this._element.classList.remove(CLASS_NAME_HIDE);
-      reflow(this._element);
-      this._element.classList.add(CLASS_NAME_SHOW, CLASS_NAME_SHOWING);
-      this._queueCallback(complete, this._element, this._config.animation);
-    }
-    hide() {
-      if (!this.isShown()) {
-        return;
-      }
-      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
-      if (hideEvent.defaultPrevented) {
-        return;
-      }
-      const complete = () => {
-        this._element.classList.add(CLASS_NAME_HIDE);
-        this._element.classList.remove(CLASS_NAME_SHOWING, CLASS_NAME_SHOW);
-        EventHandler.trigger(this._element, EVENT_HIDDEN);
-      };
-      this._element.classList.add(CLASS_NAME_SHOWING);
-      this._queueCallback(complete, this._element, this._config.animation);
-    }
-    dispose() {
-      this._clearTimeout();
-      if (this.isShown()) {
-        this._element.classList.remove(CLASS_NAME_SHOW);
-      }
-      super.dispose();
-    }
-    isShown() {
-      return this._element.classList.contains(CLASS_NAME_SHOW);
-    }
-    // Private
-    _maybeScheduleHide() {
-      if (!this._config.autohide) {
-        return;
-      }
-      if (this._hasMouseInteraction || this._hasKeyboardInteraction) {
-        return;
-      }
-      this._timeout = setTimeout(() => {
-        this.hide();
-      }, this._config.delay);
-    }
-    _onInteraction(event, isInteracting) {
-      switch (event.type) {
-        case "mouseover":
-        case "mouseout": {
-          this._hasMouseInteraction = isInteracting;
-          break;
-        }
-        case "focusin":
-        case "focusout": {
-          this._hasKeyboardInteraction = isInteracting;
-          break;
-        }
-      }
-      if (isInteracting) {
-        this._clearTimeout();
-        return;
-      }
-      const nextElement = event.relatedTarget;
-      if (this._element === nextElement || this._element.contains(nextElement)) {
-        return;
-      }
-      this._maybeScheduleHide();
-    }
-    _setListeners() {
-      EventHandler.on(this._element, EVENT_MOUSEOVER, (event) => this._onInteraction(event, true));
-      EventHandler.on(this._element, EVENT_MOUSEOUT, (event) => this._onInteraction(event, false));
-      EventHandler.on(this._element, EVENT_FOCUSIN, (event) => this._onInteraction(event, true));
-      EventHandler.on(this._element, EVENT_FOCUSOUT, (event) => this._onInteraction(event, false));
-    }
-    _clearTimeout() {
-      clearTimeout(this._timeout);
-      this._timeout = null;
-    }
-    // Static
-    static jQueryInterface(config) {
-      return this.each(function() {
-        const data = Toast.getOrCreateInstance(this, config);
-        if (typeof config === "string") {
-          if (typeof data[config] === "undefined") {
-            throw new TypeError(`No method named "${config}"`);
-          }
-          data[config](this);
-        }
-      });
-    }
-  };
-  enableDismissTrigger(Toast);
-  defineJQueryPlugin(Toast);
-
-  // client/components/BootstrapModal.jsx
-  function BootstrapModal(props) {
-    const { open, onClose, gameName, children } = props;
-    const modalRef = import_react3.default.useRef();
-    const [modalObj, setModalObj] = import_react3.default.useState(null);
-    import_react3.default.useEffect(() => {
-      if (modalRef.current && !modalObj) {
-        const gameDetailsModal = new Modal(modalRef.current);
-        modalRef.current.addEventListener("hidden.bs.modal", (event) => {
-          onClose();
-        });
-        setModalObj(gameDetailsModal);
-      }
-    }, [onClose, modalObj]);
-    import_react3.default.useEffect(() => {
-      if (modalObj) {
-        if (open) {
-          modalObj.show();
-        } else {
-          modalObj.hide();
-        }
-      }
-    }, [open, modalObj]);
-    return /* @__PURE__ */ import_react3.default.createElement("div", { ref: modalRef, className: "modal fade", tabIndex: "-1", "aria-hidden": "true" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-dialog modal-xl" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-content" }, /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-header" }, /* @__PURE__ */ import_react3.default.createElement("h1", { className: "modal-title fs-5", id: "detailsModalLabel" }, /* @__PURE__ */ import_react3.default.createElement("span", null, gameName)), /* @__PURE__ */ import_react3.default.createElement("button", { type: "button", className: "btn-close", "data-bs-dismiss": "modal", "aria-label": "Close" })), /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-body" }, children), /* @__PURE__ */ import_react3.default.createElement("div", { className: "modal-footer" }, /* @__PURE__ */ import_react3.default.createElement("button", { type: "button", className: "btn btn-secondary", "data-bs-dismiss": "modal" }, "Close")))));
+    return useBreakpoint2;
   }
-  BootstrapModal.propTypes = {
-    open: import_prop_types3.default.bool.isRequired,
-    onClose: import_prop_types3.default.func.isRequired,
-    gameName: import_prop_types3.default.string,
-    children: import_prop_types3.default.node
-  };
-  BootstrapModal.defaultProps = {
-    gameName: "Modal Title",
-    children: null
-  };
+  var useBreakpoint = createBreakpointHook({
+    xs: 0,
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400
+  });
+  var useBreakpoint_default = useBreakpoint;
 
-  // client/components/FormModal.jsx
-  var import_react4 = __toESM(require_react(), 1);
-  var import_prop_types4 = __toESM(require_prop_types(), 1);
-  BootstrapModal.propTypes = {
-    open: import_prop_types4.default.bool.isRequired,
-    onClose: import_prop_types4.default.func.isRequired,
-    gameName: import_prop_types4.default.string,
-    children: import_prop_types4.default.node
-  };
-  BootstrapModal.defaultProps = {
-    gameName: "Modal Title",
-    children: null
-  };
+  // node_modules/react-bootstrap/esm/Offcanvas.js
+  var React61 = __toESM(require_react());
+  var import_react48 = __toESM(require_react());
 
-  // client/mbdataHelper.js
-  function retrieveStockDetails(stockID) {
-    return __async(this, null, function* () {
-      try {
-        const response = yield fetch(`http://localhost:3000/api/stocks/${stockID}`);
-        if (response.status >= 400) {
-          throw new Error(`Request failed with response code ${response.status}`);
-        }
-        return yield response.json();
-      } catch (err) {
-        console.error("Failed to retrieve stock details");
-        console.error(err);
-        return null;
-      }
+  // node_modules/react-bootstrap/esm/OffcanvasBody.js
+  var React57 = __toESM(require_react());
+  var import_classnames34 = __toESM(require_classnames());
+  var import_jsx_runtime52 = __toESM(require_jsx_runtime());
+  var OffcanvasBody = /* @__PURE__ */ React57.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "div"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "offcanvas-body");
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames34.default)(className, bsPrefix)
+    }, props));
+  });
+  OffcanvasBody.displayName = "OffcanvasBody";
+  var OffcanvasBody_default = OffcanvasBody;
+
+  // node_modules/react-bootstrap/esm/OffcanvasToggling.js
+  var import_classnames35 = __toESM(require_classnames());
+  var React58 = __toESM(require_react());
+  var import_jsx_runtime53 = __toESM(require_jsx_runtime());
+  var transitionStyles = {
+    [ENTERING]: "show",
+    [ENTERED]: "show"
+  };
+  var OffcanvasToggling = /* @__PURE__ */ React58.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      children,
+      in: inProp = false,
+      mountOnEnter = false,
+      unmountOnExit = false,
+      appear = false
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "children",
+      "in",
+      "mountOnEnter",
+      "unmountOnExit",
+      "appear"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "offcanvas");
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(TransitionWrapper_default, __spreadProps(__spreadValues({
+      ref,
+      addEndListener: transitionEndListener,
+      in: inProp,
+      mountOnEnter,
+      unmountOnExit,
+      appear
+    }, props), {
+      childRef: children.ref,
+      children: (status, innerProps) => /* @__PURE__ */ React58.cloneElement(children, __spreadProps(__spreadValues({}, innerProps), {
+        className: (0, import_classnames35.default)(className, children.props.className, (status === ENTERING || status === EXITING) && `${bsPrefix}-toggling`, transitionStyles[status])
+      }))
+    }));
+  });
+  OffcanvasToggling.displayName = "OffcanvasToggling";
+  var OffcanvasToggling_default = OffcanvasToggling;
+
+  // node_modules/react-bootstrap/esm/OffcanvasHeader.js
+  var import_classnames36 = __toESM(require_classnames());
+  var React59 = __toESM(require_react());
+  var import_jsx_runtime54 = __toESM(require_jsx_runtime());
+  var OffcanvasHeader = /* @__PURE__ */ React59.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      closeLabel = "Close",
+      closeButton = false
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "closeLabel",
+      "closeButton"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "offcanvas-header");
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AbstractModalHeader_default, __spreadProps(__spreadValues({
+      ref
+    }, props), {
+      className: (0, import_classnames36.default)(className, bsPrefix),
+      closeLabel,
+      closeButton
+    }));
+  });
+  OffcanvasHeader.displayName = "OffcanvasHeader";
+  var OffcanvasHeader_default = OffcanvasHeader;
+
+  // node_modules/react-bootstrap/esm/OffcanvasTitle.js
+  var React60 = __toESM(require_react());
+  var import_classnames37 = __toESM(require_classnames());
+  var import_jsx_runtime55 = __toESM(require_jsx_runtime());
+  var DivStyledAsH52 = divWithClassName_default("h5");
+  var OffcanvasTitle = /* @__PURE__ */ React60.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = DivStyledAsH52
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "offcanvas-title");
+    return /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames37.default)(className, bsPrefix)
+    }, props));
+  });
+  OffcanvasTitle.displayName = "OffcanvasTitle";
+  var OffcanvasTitle_default = OffcanvasTitle;
+
+  // node_modules/react-bootstrap/esm/Offcanvas.js
+  var import_jsx_runtime56 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime57 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime58 = __toESM(require_jsx_runtime());
+  function DialogTransition(props) {
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OffcanvasToggling_default, __spreadValues({}, props));
+  }
+  function BackdropTransition(props) {
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Fade_default, __spreadValues({}, props));
+  }
+  var Offcanvas = /* @__PURE__ */ React61.forwardRef((_a, ref) => {
+    var _b = _a, {
+      bsPrefix,
+      className,
+      children,
+      "aria-labelledby": ariaLabelledby,
+      placement = "start",
+      responsive,
+      show: show = false,
+      backdrop = true,
+      keyboard = true,
+      scroll = false,
+      onEscapeKeyDown,
+      onShow,
+      onHide,
+      container,
+      autoFocus = true,
+      enforceFocus = true,
+      restoreFocus = true,
+      restoreFocusOptions,
+      onEntered,
+      onExit,
+      onExiting,
+      onEnter,
+      onEntering,
+      onExited,
+      backdropClassName,
+      manager: propsManager,
+      renderStaticNode = false
+    } = _b, props = __objRest(_b, [
+      "bsPrefix",
+      "className",
+      "children",
+      "aria-labelledby",
+      "placement",
+      "responsive",
+      /* BaseModal props */
+      "show",
+      "backdrop",
+      "keyboard",
+      "scroll",
+      "onEscapeKeyDown",
+      "onShow",
+      "onHide",
+      "container",
+      "autoFocus",
+      "enforceFocus",
+      "restoreFocus",
+      "restoreFocusOptions",
+      "onEntered",
+      "onExit",
+      "onExiting",
+      "onEnter",
+      "onEntering",
+      "onExited",
+      "backdropClassName",
+      "manager",
+      "renderStaticNode"
+    ]);
+    const modalManager = (0, import_react48.useRef)();
+    bsPrefix = useBootstrapPrefix(bsPrefix, "offcanvas");
+    const {
+      onToggle
+    } = (0, import_react48.useContext)(NavbarContext_default) || {};
+    const [showOffcanvas, setShowOffcanvas] = (0, import_react48.useState)(false);
+    const hideResponsiveOffcanvas = useBreakpoint_default(responsive || "xs", "up");
+    (0, import_react48.useEffect)(() => {
+      setShowOffcanvas(responsive ? show && !hideResponsiveOffcanvas : show);
+    }, [show, responsive, hideResponsiveOffcanvas]);
+    const handleHide = useEventCallback(() => {
+      onToggle == null ? void 0 : onToggle();
+      onHide == null ? void 0 : onHide();
     });
+    const modalContext = (0, import_react48.useMemo)(() => ({
+      onHide: handleHide
+    }), [handleHide]);
+    function getModalManager() {
+      if (propsManager)
+        return propsManager;
+      if (scroll) {
+        if (!modalManager.current)
+          modalManager.current = new BootstrapModalManager_default({
+            handleContainerOverflow: false
+          });
+        return modalManager.current;
+      }
+      return getSharedManager();
+    }
+    const handleEnter = (node, ...args) => {
+      if (node)
+        node.style.visibility = "visible";
+      onEnter == null ? void 0 : onEnter(node, ...args);
+    };
+    const handleExited = (node, ...args) => {
+      if (node)
+        node.style.visibility = "";
+      onExited == null ? void 0 : onExited(...args);
+    };
+    const renderBackdrop = (0, import_react48.useCallback)((backdropProps) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", __spreadProps(__spreadValues({}, backdropProps), {
+      className: (0, import_classnames38.default)(`${bsPrefix}-backdrop`, backdropClassName)
+    })), [backdropClassName, bsPrefix]);
+    const renderDialog = (dialogProps) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", __spreadProps(__spreadValues(__spreadValues({}, dialogProps), props), {
+      className: (0, import_classnames38.default)(className, responsive ? `${bsPrefix}-${responsive}` : bsPrefix, `${bsPrefix}-${placement}`),
+      "aria-labelledby": ariaLabelledby,
+      children
+    }));
+    return /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(import_jsx_runtime57.Fragment, {
+      children: [!showOffcanvas && (responsive || renderStaticNode) && renderDialog({}), /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ModalContext_default.Provider, {
+        value: modalContext,
+        children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Modal_default, {
+          show: showOffcanvas,
+          ref,
+          backdrop,
+          container,
+          keyboard,
+          autoFocus,
+          enforceFocus: enforceFocus && !scroll,
+          restoreFocus,
+          restoreFocusOptions,
+          onEscapeKeyDown,
+          onShow,
+          onHide: handleHide,
+          onEnter: handleEnter,
+          onEntering,
+          onEntered,
+          onExit,
+          onExiting,
+          onExited: handleExited,
+          manager: getModalManager(),
+          transition: DialogTransition,
+          backdropTransition: BackdropTransition,
+          renderBackdrop,
+          renderDialog
+        })
+      })]
+    });
+  });
+  Offcanvas.displayName = "Offcanvas";
+  var Offcanvas_default = Object.assign(Offcanvas, {
+    Body: OffcanvasBody_default,
+    Header: OffcanvasHeader_default,
+    Title: OffcanvasTitle_default
+  });
+
+  // node_modules/react-bootstrap/esm/NavbarOffcanvas.js
+  var import_jsx_runtime59 = __toESM(require_jsx_runtime());
+  var NavbarOffcanvas = /* @__PURE__ */ React62.forwardRef((props, ref) => {
+    const context3 = (0, import_react49.useContext)(NavbarContext_default);
+    return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(Offcanvas_default, __spreadProps(__spreadValues({
+      ref,
+      show: !!(context3 != null && context3.expanded)
+    }, props), {
+      renderStaticNode: true
+    }));
+  });
+  NavbarOffcanvas.displayName = "NavbarOffcanvas";
+  var NavbarOffcanvas_default = NavbarOffcanvas;
+
+  // node_modules/react-bootstrap/esm/NavbarText.js
+  var React63 = __toESM(require_react());
+  var import_classnames39 = __toESM(require_classnames());
+  var import_jsx_runtime60 = __toESM(require_jsx_runtime());
+  var NavbarText = /* @__PURE__ */ React63.forwardRef((_a, ref) => {
+    var _b = _a, {
+      className,
+      bsPrefix,
+      as: Component = "span"
+    } = _b, props = __objRest(_b, [
+      "className",
+      "bsPrefix",
+      "as"
+    ]);
+    bsPrefix = useBootstrapPrefix(bsPrefix, "navbar-text");
+    return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(Component, __spreadValues({
+      ref,
+      className: (0, import_classnames39.default)(className, bsPrefix)
+    }, props));
+  });
+  NavbarText.displayName = "NavbarText";
+  var NavbarText_default = NavbarText;
+
+  // node_modules/react-bootstrap/esm/Navbar.js
+  var import_jsx_runtime61 = __toESM(require_jsx_runtime());
+  var Navbar = /* @__PURE__ */ React64.forwardRef((props, ref) => {
+    const _a = useUncontrolled(props, {
+      expanded: "onToggle"
+    }), {
+      bsPrefix: initialBsPrefix,
+      expand = true,
+      variant = "light",
+      bg,
+      fixed,
+      sticky,
+      className,
+      as: Component = "nav",
+      expanded,
+      onToggle,
+      onSelect,
+      collapseOnSelect = false
+    } = _a, controlledProps = __objRest(_a, [
+      "bsPrefix",
+      "expand",
+      "variant",
+      "bg",
+      "fixed",
+      "sticky",
+      "className",
+      // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+      "as",
+      "expanded",
+      "onToggle",
+      "onSelect",
+      "collapseOnSelect"
+    ]);
+    const bsPrefix = useBootstrapPrefix(initialBsPrefix, "navbar");
+    const handleCollapse = (0, import_react50.useCallback)((...args) => {
+      onSelect == null ? void 0 : onSelect(...args);
+      if (collapseOnSelect && expanded) {
+        onToggle == null ? void 0 : onToggle(false);
+      }
+    }, [onSelect, collapseOnSelect, expanded, onToggle]);
+    if (controlledProps.role === void 0 && Component !== "nav") {
+      controlledProps.role = "navigation";
+    }
+    let expandClass = `${bsPrefix}-expand`;
+    if (typeof expand === "string")
+      expandClass = `${expandClass}-${expand}`;
+    const navbarContext = (0, import_react50.useMemo)(() => ({
+      onToggle: () => onToggle == null ? void 0 : onToggle(!expanded),
+      bsPrefix,
+      expanded: !!expanded,
+      expand
+    }), [bsPrefix, expanded, expand, onToggle]);
+    return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(NavbarContext_default.Provider, {
+      value: navbarContext,
+      children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(SelectableContext_default.Provider, {
+        value: handleCollapse,
+        children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(Component, __spreadProps(__spreadValues({
+          ref
+        }, controlledProps), {
+          className: (0, import_classnames40.default)(className, bsPrefix, expand && expandClass, variant && `${bsPrefix}-${variant}`, bg && `bg-${bg}`, sticky && `sticky-${sticky}`, fixed && `fixed-${fixed}`)
+        }))
+      })
+    });
+  });
+  Navbar.displayName = "Navbar";
+  var Navbar_default = Object.assign(Navbar, {
+    Brand: NavbarBrand_default,
+    Collapse: NavbarCollapse_default,
+    Offcanvas: NavbarOffcanvas_default,
+    Text: NavbarText_default,
+    Toggle: NavbarToggle_default
+  });
+
+  // client/components/Navigation/MyNavBar.jsx
+  var import_react_router_bootstrap = __toESM(require_react_router_bootstrap(), 1);
+  function MyNavBar() {
+    return /* @__PURE__ */ import_react51.default.createElement(Navbar_default, { bg: "primary", variant: "dark" }, /* @__PURE__ */ import_react51.default.createElement(Navbar_default.Brand, null, "Monkey Business"), /* @__PURE__ */ import_react51.default.createElement(Navbar_default.Toggle, { "aria-controls": "basic-navbar-nav" }), /* @__PURE__ */ import_react51.default.createElement(Navbar_default.Collapse, { id: "basic-navbar-nav" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2, { className: "mr-auto" }, /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Home ")), /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/stats" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Statistics ")), /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/monkeyTech" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Monkey Technology ")), /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/about" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " About Us ")), /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/setting" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Setting "))), /* @__PURE__ */ import_react51.default.createElement(Nav_default2, { className: "justify-content-end", style: { width: "60%" } }, /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/login" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Log In ")), /* @__PURE__ */ import_react51.default.createElement(import_react_router_bootstrap.LinkContainer, { to: "/signup" }, /* @__PURE__ */ import_react51.default.createElement(Nav_default2.Link, null, " Sign Up ")))));
   }
+
+  // client/components/Home/HomePage.jsx
+  var import_react52 = __toESM(require_react(), 1);
+  function Home() {
+    return /* @__PURE__ */ import_react52.default.createElement(import_react52.default.Fragment, null, /* @__PURE__ */ import_react52.default.createElement("div", null, " Home page placeholder"));
+  }
+  var HomePage_default = Home;
+
+  // client/components/Login_Signup/LoginRegisterForm.jsx
+  var import_react53 = __toESM(require_react(), 1);
+  function LoginCard() {
+    return /* @__PURE__ */ import_react53.default.createElement(Card_default, { style: { width: "18rem" }, className: "mx-auto" }, /* @__PURE__ */ import_react53.default.createElement(Card_default.Body, null, /* @__PURE__ */ import_react53.default.createElement(Card_default.Title, null, "Log In"), /* @__PURE__ */ import_react53.default.createElement(Card_default.Text, null, "Enter your username:"), /* @__PURE__ */ import_react53.default.createElement(
+      Form_default.Control,
+      {
+        type: "text",
+        placeholder: "Your username here",
+        className: " mr-sm-2",
+        id: "username"
+      }
+    ), /* @__PURE__ */ import_react53.default.createElement(Card_default.Text, null, "Enter your password:"), /* @__PURE__ */ import_react53.default.createElement(
+      Form_default.Control,
+      {
+        type: "text",
+        placeholder: "Your password here",
+        className: " mr-sm-2",
+        id: "password"
+      }
+    ), /* @__PURE__ */ import_react53.default.createElement(Button_default2, { variant: "primary" }, "Log In")));
+  }
+  var LoginRegisterForm_default = LoginCard;
+
+  // client/components/Login_Signup/LoginPage.jsx
+  var import_react54 = __toESM(require_react(), 1);
+  function LoginPage() {
+    return /* @__PURE__ */ import_react54.default.createElement(import_react54.default.Fragment, null, /* @__PURE__ */ import_react54.default.createElement(LoginRegisterForm_default, null));
+  }
+  var LoginPage_default = LoginPage;
+
+  // client/components/Login_Signup/SignUpRegisterForm.jsx
+  var import_react55 = __toESM(require_react(), 1);
+  function SignUpCard() {
+    return /* @__PURE__ */ import_react55.default.createElement(Card_default, { style: { width: "18rem" }, className: "mx-auto" }, /* @__PURE__ */ import_react55.default.createElement(Card_default.Body, null, /* @__PURE__ */ import_react55.default.createElement(Card_default.Title, null, "Sign Up"), /* @__PURE__ */ import_react55.default.createElement(Card_default.Text, null, "Enter your gmail:"), /* @__PURE__ */ import_react55.default.createElement(
+      Form_default.Control,
+      {
+        type: "text",
+        placeholder: "Ex: abc@gmail.com",
+        className: " mr-sm-2",
+        id: "gmail"
+      }
+    ), /* @__PURE__ */ import_react55.default.createElement(Card_default.Text, null, "Enter your username:"), /* @__PURE__ */ import_react55.default.createElement(
+      Form_default.Control,
+      {
+        type: "text",
+        placeholder: "Ex: Babykute1234",
+        className: " mr-sm-2",
+        id: "username"
+      }
+    ), /* @__PURE__ */ import_react55.default.createElement(Card_default.Text, null, "Enter your password:"), /* @__PURE__ */ import_react55.default.createElement(
+      Form_default.Control,
+      {
+        type: "text",
+        placeholder: "Ex: password",
+        className: " mr-sm-2",
+        id: "password"
+      }
+    ), /* @__PURE__ */ import_react55.default.createElement(Button_default2, { variant: "primary" }, "Sign Up")));
+  }
+  var SignUpRegisterForm_default = SignUpCard;
+
+  // client/components/Login_Signup/SignupPage.jsx
+  var import_react56 = __toESM(require_react(), 1);
+  function SignupPage() {
+    return /* @__PURE__ */ import_react56.default.createElement(import_react56.default.Fragment, null, /* @__PURE__ */ import_react56.default.createElement(SignUpRegisterForm_default, null));
+  }
+  var SignupPage_default = SignupPage;
+
+  // client/components/MonkeyTech/MonkeyTechPage.jsx
+  var import_react57 = __toESM(require_react(), 1);
+  function MonkeTech() {
+    return /* @__PURE__ */ import_react57.default.createElement(import_react57.default.Fragment, null, /* @__PURE__ */ import_react57.default.createElement("div", null, "Monkey Tech Page - just a place holder"), /* @__PURE__ */ import_react57.default.createElement("img", { className: "image-fluid", src: "https://t3.ftcdn.net/jpg/05/66/26/98/360_F_566269813_8VisUzV5qqdN7nQ7De4FcVEVxnRuKh2E.jpg", alt: "Image" }));
+  }
+  var MonkeyTechPage_default = MonkeTech;
+
+  // client/components/Intro/IntroPage.jsx
+  var import_react58 = __toESM(require_react(), 1);
+  function IntroPage() {
+    return /* @__PURE__ */ import_react58.default.createElement(import_react58.default.Fragment, null, /* @__PURE__ */ import_react58.default.createElement("h1", null, " Placeholder "), /* @__PURE__ */ import_react58.default.createElement("h2", null, " Devs "), /* @__PURE__ */ import_react58.default.createElement("div", null, " info about us"));
+  }
+  var IntroPage_default = IntroPage;
+
+  // client/components/Setting/SettingsPage.jsx
+  var import_react59 = __toESM(require_react(), 1);
+  function SettingsPage() {
+    return /* @__PURE__ */ import_react59.default.createElement("div", null, /* @__PURE__ */ import_react59.default.createElement("div", null, /* @__PURE__ */ import_react59.default.createElement("h1", null, "Settings Page"), /* @__PURE__ */ import_react59.default.createElement("h2", null, "This is where the settings will be")), /* @__PURE__ */ import_react59.default.createElement("div", null, /* @__PURE__ */ import_react59.default.createElement("p", null, "Theme mode:", /* @__PURE__ */ import_react59.default.createElement("label", null, /* @__PURE__ */ import_react59.default.createElement("input", { type: "radio", name: "settingsRadio", value: "option1" }), "Light Mode"), /* @__PURE__ */ import_react59.default.createElement("label", null, /* @__PURE__ */ import_react59.default.createElement("input", { type: "radio", name: "settingsRadio", value: "option2" }), "Dark Mode"))));
+  }
+  var SettingsPage_default = SettingsPage;
+
+  // client/components/Stat/StatsPage.jsx
+  var import_react60 = __toESM(require_react(), 1);
+  function StatsPage() {
+    return /* @__PURE__ */ import_react60.default.createElement("div", null, /* @__PURE__ */ import_react60.default.createElement("div", null, /* @__PURE__ */ import_react60.default.createElement("h1", null, "Stats Page")), /* @__PURE__ */ import_react60.default.createElement("div", null, /* @__PURE__ */ import_react60.default.createElement("p", null, "This is where Stats stuff will go")));
+  }
+  var StatsPage_default = StatsPage;
 
   // client/components/App.jsx
-  function App(props) {
-    const [currentStock, setCurrentStockID] = import_react5.default.useState("");
-    const [showDetailsModal, setShowDetailsModal] = import_react5.default.useState(false);
-    const [showFormModal, setShowFormModal] = import_react5.default.useState(false);
-    const detailsRequested = (stockID) => {
-      console.log("details requested for stockID: " + stockID);
-      setCurrentStockID(stockID);
-      setShowDetailsModal(true);
-    };
-    const [currentStockData, setCurrentStockData] = import_react5.default.useState(null);
-    import_react5.default.useEffect(() => {
-      const fetchStockData = () => __async(this, null, function* () {
-        const stockData = yield retrieveStockDetails(currentStock);
-        setCurrentStockData(stockData);
-      });
-      if (currentStock !== "") {
-        fetchStockData(currentStock);
-      }
-    }, [currentStock]);
-    return (
-      // <div className='container'>
-      //   <PageHeader title='Stock Browser' subTitle='' />
-      //   <StockGrid onDetailsRequested={detailsRequested}/>
-      //   <BootstrapModal
-      //   open={showDetailsModal}
-      //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
-      //   onClose={() => setShowDetailsModal(false)}
-      //   >
-      //     {!!currentStockData && <StockDetails {...currentStockData} />}
-      //   </BootstrapModal>
-      //   <FormModal
-      //   open={showFormModal}
-      //   stockName={`${currentStockData?.name} (${currentStockData?.stockID})`}
-      //   onClose={() => setShowFormModal(false)}
-      //   >
-      //     {!!currentStockData && <StockForm {...currentStockData} />}
-      //   </FormModal>
-      // </div>
-      /* @__PURE__ */ import_react5.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react5.default.createElement("p", null, "Hello World!"), "\\")
-    );
+  function App() {
+    return /* @__PURE__ */ import_react61.default.createElement(import_react61.default.Fragment, null, /* @__PURE__ */ import_react61.default.createElement(MyNavBar, null), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Routes, null, /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/", exact: true, Component: HomePage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/login", Component: LoginPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/about", Component: IntroPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/signup", Component: SignupPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/monkeyTech", Component: MonkeyTechPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/setting", Component: SettingsPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/stats", Component: StatsPage_default })));
   }
 
   // client/main.jsx
+  var import_react_router_dom2 = __toESM(require_main2(), 1);
   var root = (0, import_client.createRoot)(document.getElementById("root"));
   root.render(
-    /* @__PURE__ */ import_react6.default.createElement(App, null)
+    /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom2.BrowserRouter, null, /* @__PURE__ */ import_react62.default.createElement(App, null))
+    // <SignupPage/>
+    // <LoginPage/>
+    // <IntroPage/>
+    // <MonkeTech/>
   );
 })();
 /*! Bundled license information:
@@ -29803,6 +35484,84 @@ react-dom/cjs/react-dom.development.js:
    * @license Modernizr 3.0.0pre (Custom Build) | MIT
    *)
 
+@remix-run/router/dist/router.cjs.js:
+  (**
+   * @remix-run/router v1.9.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+react-router/dist/umd/react-router.development.js:
+  (**
+   * React Router v6.16.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+react-router/dist/main.js:
+  (**
+   * React Router v6.16.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+react-router-dom/dist/umd/react-router-dom.development.js:
+  (**
+   * React Router DOM v6.16.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+react-router-dom/dist/main.js:
+  (**
+   * React Router DOM v6.16.0
+   *
+   * Copyright (c) Remix Software Inc.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE.md file in the root directory of this source tree.
+   *
+   * @license MIT
+   *)
+
+classnames/index.js:
+  (*!
+  	Copyright (c) 2018 Jed Watson.
+  	Licensed under the MIT License (MIT), see
+  	http://jedwatson.github.io/classnames
+  *)
+
+react/cjs/react-jsx-runtime.development.js:
+  (**
+   * @license React
+   * react-jsx-runtime.development.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
 react-is/cjs/react-is.development.js:
   (** @license React v16.13.1
    * react-is.development.js
@@ -29819,12 +35578,5 @@ object-assign/index.js:
   (c) Sindre Sorhus
   @license MIT
   *)
-
-bootstrap/dist/js/bootstrap.esm.js:
-  (*!
-    * Bootstrap v5.2.3 (https://getbootstrap.com/)
-    * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-    *)
 */
 //# sourceMappingURL=main.js.map

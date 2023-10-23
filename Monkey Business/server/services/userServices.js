@@ -1,8 +1,8 @@
 import queryMongoDatabase from '../data/mongoController.js'
 import { validateEmail, deleteInvestor } from '../middleware/generalServerFunctions.js'
 import { ObjectId } from 'mongodb'
-
-export function login (req, res) {
+import { hashPassword } from '../controllers/signupController.js'
+export async function login (req, res) {
   const username = req.body.username
   const password = req.body.password
 
@@ -40,7 +40,7 @@ export function login (req, res) {
   }, 'MonkeyBusinessWebApp')
 }
 
-export function signup (req, res) { // working without authentication ------------------TO DO --------------------
+export async function signup (req, res) { // working without authentication ------------------TO DO --------------------
   const username = req.body.username
   const password = req.body.password
   const passwordConfirm = req.body.passwordConfirm
@@ -60,13 +60,13 @@ export function signup (req, res) { // working without authentication ----------
       }
 
       // Encrypt Password before database insertion ------------------TO DO --------------------
-      // const encryptedPassword = bcryptjs.hash(password, 1)
+      const hashedPassword = await hashPassword(password)
       const adminID = null
       const preferencesID = new ObjectId('651dec44f8c800a5da81622b')
       // initialize new_investor
       const investorID = await db.collection('Investor').insertOne({ username, stocks: [], monkey: [] })
       if (investorID.insertedCount !== null) {
-        const insertDoc = await db.collection('Users').insertOne({ username, password, email, preferencesID, adminID })
+        const insertDoc = await db.collection('Users').insertOne({ username, password: hashedPassword, email, preferencesID, adminID })
         if (insertDoc.insertedCount !== null) {
           res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
         } else {
@@ -88,7 +88,7 @@ export function signup (req, res) { // working without authentication ----------
   }, 'MonkeyBusinessWebApp')
 }
 
-export function logout (next, req, res) { // maybe POST to introduce authentication ------------------TO DO --------------------
+export async function logout (next, req, res) { // maybe POST to introduce authentication ------------------TO DO --------------------
   // if authenticated, logout, else redirect to login page
   req.session.user = null
   req.session.save(function (err) {
@@ -105,7 +105,7 @@ export function logout (next, req, res) { // maybe POST to introduce authenticat
   })
 }
 
-export function updatePreferences (req, res) {
+export async function updatePreferences (req, res) {
   // turn parameters into variables
   const username = req.body.username // going to be session.user
   const colorScheme = req.body.colorScheme
@@ -145,7 +145,7 @@ export function updatePreferences (req, res) {
   }, 'MonkeyBusinessWebApp')
 }
 
-export function deleteUser (req, res) {
+export async function deleteUser (req, res) {
   // need to add authentication to this route ------------------TO DO --------------------
   // user must be logged in to delete account
   // ie req.session.user must be equal to req.params.username

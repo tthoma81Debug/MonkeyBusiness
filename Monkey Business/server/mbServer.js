@@ -1,7 +1,7 @@
 import Express from 'express'
-import fs from 'fs'
 import dataRouter from './api/mbRoutes.js'
-import cp from 'child_process'
+import { testNodeCall, getStockShort, getStockDetails, searchStockAPI } from './services/callPythonScripts.js'
+import { testLogin } from './controllers/loginController.js'
 
 const PORT = 3000
 const app = new Express()
@@ -20,18 +20,7 @@ app.use('/api', dataRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
+const temp = getStockDetails('AAPL')
+console.log(temp)
 
-//const spawn = require('child_process').spawn;
-const ls = cp.spawn('python', ['./python/monkeytracking.py']);
-
-ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-ls.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  //console.log(`child process exited with code ${code}`);
-});
+// testLogin()
