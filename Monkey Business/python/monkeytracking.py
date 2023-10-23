@@ -12,6 +12,7 @@ import urllib
 import m3u8
 import streamlink
 import os
+import sys
 
 def get_live(url):
     tries = 10
@@ -124,7 +125,7 @@ def openCVProcessing(saved_video_file):
 
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
-videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
+videoURL = sys.argv[1]
 if(os.path.isfile(tempFile)): os.remove(tempFile)
-dl_stream(videoURL, tempFile, 3)
+dl_stream(videoURL, tempFile, 1)
 openCVProcessing(tempFile)
