@@ -1,4 +1,4 @@
-# after getting your python environment running, run these commands in the terminal to finihs setting up.
+# after getting your python environment running, run these commands in the terminal to finish setting up.
 # py -m pip install m3u8
 # py -m pip install streamlink
 # py -m pip install numpy
@@ -20,7 +20,7 @@ def get_live(url):
             streams = streamlink.streams(url)
         except:
             if i < tries - 1:  # i is zero indexed
-                print(f"Attempt {i + 1} of {tries}")
+                #print(f"Attempt {i + 1} of {tries}")
                 time.sleep(0.1)  # Wait half a second, avoid overload
                 continue
             else:
@@ -57,12 +57,12 @@ def dl_stream(url, filename, chunks):
         # Only get next time step, wait if it's not new yet
         if cur_time_stamp <= pre_time_stamp:
             # Don't increment counter until we have a new chunk
-            print("NO   pre: ", pre_time_stamp, "curr:", cur_time_stamp)
+            #print("NO   pre: ", pre_time_stamp, "curr:", cur_time_stamp)
             time.sleep(0.5)  # Wait half a sec
             pass
         else:
-            print("YES: pre: ", pre_time_stamp, "curr:", cur_time_stamp)
-            print(f'#{i} at time {cur_time_stamp}')
+            #print("YES: pre: ", pre_time_stamp, "curr:", cur_time_stamp)
+            #print(f'#{i} at time {cur_time_stamp}')
             # Open file for writing stream
             file = open(filename, 'ab+')  # ab+ means keep adding to file
             # Write stream to file
@@ -128,5 +128,3 @@ videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
 if(os.path.isfile(tempFile)): os.remove(tempFile)
 dl_stream(videoURL, tempFile, 3)
 openCVProcessing(tempFile)
-
-
