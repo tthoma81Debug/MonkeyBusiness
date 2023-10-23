@@ -1,7 +1,7 @@
 import queryMongoDatabase from '../data/mongoController.js'
 import { validateEmail, deleteInvestor } from '../middleware/generalServerFunctions.js'
 import { ObjectId } from 'mongodb'
-
+import { hashPassword } from '../controllers/signupController.js'
 export async function login (req, res) {
   const username = req.body.username
   const password = req.body.password
@@ -60,13 +60,13 @@ export async function signup (req, res) { // working without authentication ----
       }
 
       // Encrypt Password before database insertion ------------------TO DO --------------------
-      // const encryptedPassword = bcryptjs.hash(password, 1)
+      const hashedPassword = await hashPassword(password)
       const adminID = null
       const preferencesID = new ObjectId('651dec44f8c800a5da81622b')
       // initialize new_investor
       const investorID = await db.collection('Investor').insertOne({ username, stocks: [], monkey: [] })
       if (investorID.insertedCount !== null) {
-        const insertDoc = await db.collection('Users').insertOne({ username, password, email, preferencesID, adminID })
+        const insertDoc = await db.collection('Users').insertOne({ username, password: hashedPassword, email, preferencesID, adminID })
         if (insertDoc.insertedCount !== null) {
           res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
         } else {
