@@ -10,6 +10,7 @@ import SettingsPage from './Setting/SettingsPage.jsx'
 import StatsPage from './Stat/StatsPage.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button } from 'react-bootstrap'
+import { tutorialModal } from './Tutorial/tutModal.jsx'
 
 export default function App (props) {
   const [darkMode, setDarkMode] = React.useState(false)
@@ -19,12 +20,18 @@ export default function App (props) {
   const theme = (darkMode ? 'dark' : 'light')
   document.getElementById('html').setAttribute('data-bs-theme', darkMode ? 'dark' : 'light')
   console.log(darkMode)
+  const [modalShow, setModalShow] = React.useState(false);
+  console.log("modal log ",modalShow)
 
   return (
     <React.Fragment>
       <div data-bs-theme={theme}>
         <Button onClick={handleDarkMode} data-bs-theme={theme}>Dark Mode</Button>
+        
+        
         <MyNavBar data-bs-theme={theme}/>
+        
+
         <Routes>
           <Route path="/" exact element= {<Home theme={theme}/>}/>
           <Route path="/login" Component={LoginPage} />
@@ -34,7 +41,14 @@ export default function App (props) {
           <Route path="/setting" Component={SettingsPage} />
           <Route path="/stats" Component={StatsPage} />
         </Routes>
+        
+      </div>
+      <div>
+      console.log("hit")
+      <Button variant="primary" onClick={() => setModalShow(true)}>Help</Button>
+      <tutorialModal show={modalShow} onHide={() => setModalShow(false)}></tutorialModal>
       </div>
     </React.Fragment>
+    
   )
 }

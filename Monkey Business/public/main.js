@@ -2431,9 +2431,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React77 = require_react();
+          var React78 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React77.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React78.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4038,7 +4038,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React77.Children.forEach(props.children, function(child) {
+                  React78.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12485,7 +12485,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React77.Component().refs;
+          var emptyRefsObject = new React78.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -26938,7 +26938,7 @@
     "node_modules/react-router-dom/node_modules/react-router/dist/umd/react-router.development.js"(exports, module) {
       (function(global2, factory) {
         typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouter = {}, global2.React, global2.RemixRouter));
-      })(exports, function(exports2, React77, router) {
+      })(exports, function(exports2, React78, router) {
         "use strict";
         function _interopNamespace(e) {
           if (e && e.__esModule)
@@ -26960,7 +26960,7 @@
           n["default"] = e;
           return Object.freeze(n);
         }
-        var React__namespace = /* @__PURE__ */ _interopNamespace(React77);
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React78);
         function _extends2() {
           _extends2 = Object.assign ? Object.assign.bind() : function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -28080,7 +28080,7 @@
     "node_modules/react-router-dom/dist/umd/react-router-dom.development.js"(exports, module) {
       (function(global2, factory) {
         typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react(), require_main(), require_router_cjs()) : typeof define === "function" && define.amd ? define(["exports", "react", "react-router", "@remix-run/router"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactRouterDOM = {}, global2.React, global2.ReactRouter, global2.RemixRouter));
-      })(exports, function(exports2, React77, reactRouter, router) {
+      })(exports, function(exports2, React78, reactRouter, router) {
         "use strict";
         function _interopNamespace(e) {
           if (e && e.__esModule)
@@ -28102,7 +28102,7 @@
           n["default"] = e;
           return Object.freeze(n);
         }
-        var React__namespace = /* @__PURE__ */ _interopNamespace(React77);
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React78);
         function _extends2() {
           _extends2 = Object.assign ? Object.assign.bind() : function(target) {
             for (var i = 1; i < arguments.length; i++) {
@@ -29398,7 +29398,7 @@
       if (true) {
         (function() {
           "use strict";
-          var React77 = require_react();
+          var React78 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -29424,7 +29424,7 @@
             }
             return null;
           }
-          var ReactSharedInternals = React77.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React78.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -31344,11 +31344,11 @@
   });
 
   // client/main.jsx
-  var import_react62 = __toESM(require_react(), 1);
+  var import_react63 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // client/components/App.jsx
-  var import_react61 = __toESM(require_react(), 1);
+  var import_react62 = __toESM(require_react(), 1);
   var import_react_router_dom = __toESM(require_main2(), 1);
 
   // client/components/Navigation/MyNavBar.jsx
@@ -35424,23 +35424,28 @@
   }
   var StatsPage_default = StatsPage;
 
+  // client/components/Tutorial/tutModal.jsx
+  var import_react61 = __toESM(require_react(), 1);
+
   // client/components/App.jsx
   function App(props) {
-    const [darkMode, setDarkMode] = import_react61.default.useState(false);
+    const [darkMode, setDarkMode] = import_react62.default.useState(false);
     const handleDarkMode = () => {
       setDarkMode(!darkMode);
     };
     const theme = darkMode ? "dark" : "light";
     document.getElementById("html").setAttribute("data-bs-theme", darkMode ? "dark" : "light");
     console.log(darkMode);
-    return /* @__PURE__ */ import_react61.default.createElement(import_react61.default.Fragment, null, /* @__PURE__ */ import_react61.default.createElement("div", { "data-bs-theme": theme }, /* @__PURE__ */ import_react61.default.createElement(Button_default2, { onClick: handleDarkMode, "data-bs-theme": theme }, "Dark Mode"), /* @__PURE__ */ import_react61.default.createElement(MyNavBar, { "data-bs-theme": theme }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Routes, null, /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/", exact: true, element: /* @__PURE__ */ import_react61.default.createElement(Home, { theme }) }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/login", Component: LoginPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/about", Component: IntroPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/signup", Component: SignupPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/monkeyTech", Component: MonkeyTechPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/setting", Component: SettingsPage_default }), /* @__PURE__ */ import_react61.default.createElement(import_react_router_dom.Route, { path: "/stats", Component: StatsPage_default }))));
+    const [modalShow, setModalShow] = import_react62.default.useState(false);
+    console.log("modal log ", modalShow);
+    return /* @__PURE__ */ import_react62.default.createElement(import_react62.default.Fragment, null, /* @__PURE__ */ import_react62.default.createElement("div", { "data-bs-theme": theme }, /* @__PURE__ */ import_react62.default.createElement(Button_default2, { onClick: handleDarkMode, "data-bs-theme": theme }, "Dark Mode"), /* @__PURE__ */ import_react62.default.createElement(MyNavBar, { "data-bs-theme": theme }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Routes, null, /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/", exact: true, element: /* @__PURE__ */ import_react62.default.createElement(Home, { theme }) }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/login", Component: LoginPage_default }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/about", Component: IntroPage_default }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/signup", Component: SignupPage_default }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/monkeyTech", Component: MonkeyTechPage_default }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/setting", Component: SettingsPage_default }), /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom.Route, { path: "/stats", Component: StatsPage_default }))), /* @__PURE__ */ import_react62.default.createElement("div", null, 'console.log("hit")', /* @__PURE__ */ import_react62.default.createElement(Button_default2, { variant: "primary", onClick: () => setModalShow(true) }, "Help"), /* @__PURE__ */ import_react62.default.createElement("tutorialModal", { show: modalShow, onHide: () => setModalShow(false) })));
   }
 
   // client/main.jsx
   var import_react_router_dom2 = __toESM(require_main2(), 1);
   var root = (0, import_client.createRoot)(document.getElementById("root"));
   root.render(
-    /* @__PURE__ */ import_react62.default.createElement(import_react_router_dom2.BrowserRouter, null, /* @__PURE__ */ import_react62.default.createElement(App, null))
+    /* @__PURE__ */ import_react63.default.createElement(import_react_router_dom2.BrowserRouter, null, /* @__PURE__ */ import_react63.default.createElement(App, null))
     // <SignupPage/>
     // <LoginPage/>
     // <IntroPage/>
