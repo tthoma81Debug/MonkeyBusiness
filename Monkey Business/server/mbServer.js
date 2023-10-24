@@ -20,7 +20,22 @@ app.use('/api', dataRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
-const temp = getStockDetails('AAPL')
-console.log(temp)
+
+
+//const temp = getStockDetails('AAPL')
+//console.log(temp)
+
+//function that calls it is async
+async function runStockDetails() {
+  try {
+    const result = await getStockDetails('stockName');
+    console.log(result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+//call the async function
+runStockDetails();
 
 // testLogin()

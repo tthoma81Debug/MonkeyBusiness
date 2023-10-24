@@ -15,6 +15,9 @@ export async function getStockShort (stockName) {
   return ls.stdout.toString()
 }
 
+
+
+
 // export function getStockDetails (stockName) {
 //   const ls = cp.spawnSync('python', ['./python/script.py', stockName])
 //   if (ls.status !== 0) {
@@ -30,6 +33,39 @@ export async function getStockShort (stockName) {
 //   return ls.stdout.toString()
 // }
 
+
+
+
+
+export function getStockDetails (stockName) {
+  return new Promise((resolve, reject) => {
+    const ls = cp.spawn('python', ['./python/script.py', stockName])
+    let stdoutData = ''
+    let stderrData = ''
+
+    ls.stdout.on('data', (data) => {
+      stdoutData += data
+    })
+
+    ls.stderr.on('data', (data) => {
+      stderrData += data
+    })
+
+    ls.on('error', (err) => {
+      reject(err)
+    })
+
+    ls.on('close', (code) => {
+      if (code !== 0) {
+        reject(new Error(`child process exited with code ${code}: ${stderrData}`))
+      } else {
+        resolve(stdoutData)
+      }
+    })
+  })
+}
+
+/*
 export function getStockDetails (stockName) {
   const ls = cp.spawn('python', ['./python/script.py', stockName])
   ls.stdout.on('data', (data) => {
@@ -42,6 +78,8 @@ export function getStockDetails (stockName) {
     console.log(`child process exited with code ${code}`)
   })
 }
+
+*/
 
 export function searchStockAPI (searchQuery) {
   const ls = cp.spawnSync('python', ['./python/script.py', searchQuery])
