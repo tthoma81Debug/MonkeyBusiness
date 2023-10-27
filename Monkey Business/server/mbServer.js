@@ -20,7 +20,7 @@ app.use('/api', dataRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
+
 const temp = getMonkeyPosition("https://www.youtube.com/watch?v=jaPx8uOE5_0")
-console.log(temp)
 
 // testLogin()
