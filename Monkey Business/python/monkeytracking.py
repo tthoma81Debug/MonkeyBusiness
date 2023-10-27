@@ -12,6 +12,7 @@ import urllib
 import m3u8
 import streamlink
 import os
+import sys
 
 def get_live(url):
     tries = 10
@@ -104,7 +105,7 @@ def openCVProcessing(saved_video_file):
                 continue
 
             cv2.rectangle(frame1, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            print("x: ", x, " y: ", y)
+            print( x, y)
             cv2.putText(frame1, "Status: {}".format('Movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
                         1, (0, 0, 255), 3)
         #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2) #Not always desired, but keep available
@@ -124,7 +125,7 @@ def openCVProcessing(saved_video_file):
 
 
 tempFile = "temp.ts"  #files are format ts, open cv can view them
-videoURL = "https://www.youtube.com/watch?v=jaPx8uOE5_0"
+videoURL = sys.argv[1]
 if(os.path.isfile(tempFile)): os.remove(tempFile)
-dl_stream(videoURL, tempFile, 3)
+dl_stream(videoURL, tempFile, 1)
 openCVProcessing(tempFile)
