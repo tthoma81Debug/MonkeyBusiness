@@ -1,5 +1,6 @@
 import React from 'react'
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
+
 // import { useNavigation } from 'react-navigation'
 
 export default function Home (props) {
@@ -29,6 +30,9 @@ export default function Home (props) {
         </tbody>
         </table>
         </div>
+    </div>
+    <div>
+      <tHome></tHome>
     </div>
   </React.Fragment>
   )

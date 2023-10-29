@@ -25,6 +25,9 @@ export default function MyNavBar () {
         <LinkContainer to = "/setting" >
           <Nav.Link> Setting </Nav.Link>
         </LinkContainer>
+        <LinkContainer to = "/TutorialPage" >
+          <Nav.Link> Tutorial </Nav.Link>
+        </LinkContainer>
         </Nav>
         <Nav className="justify-content-end" style={{ width: '60%' }}>
         <LinkContainer to = "/login" >
