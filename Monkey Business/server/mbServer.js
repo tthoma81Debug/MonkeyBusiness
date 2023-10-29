@@ -1,6 +1,6 @@
 import Express from 'express'
 import dataRouter from './api/mbRoutes.js'
-import { testNodeCall, getStockShort, getStockDetails, searchStockAPI } from './services/callPythonScripts.js'
+import { getStockShort, getStockDetails, searchStockAPI } from './services/callPythonScripts.js'
 import { testLogin } from './controllers/loginController.js'
 
 const PORT = 3000
@@ -20,7 +20,7 @@ app.use('/api', dataRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
-const temp = getStockDetails('AAPL')
+const temp = searchStockAPI('AAPL', 1, 5)
 console.log(temp)
 
 // testLogin()

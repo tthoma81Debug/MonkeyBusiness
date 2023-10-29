@@ -1,9 +1,10 @@
 import Express from 'express'
 import { validationErrorMiddleware, validator, loginSchema, signupSchema, stockSchema, monkeySchema } from './../middleware/validation.js'
-
+import verifyJWT from '../middleware/verifyJWT.js'
 import { updateMonkey, getMonkeyInvestments, getMonkeyStocks, getMonkeyHistory } from './../services/monkeyServices.js'
-import { getStocks, getInvestorStocks, searchForStock, getAllStocks, getUserStocks } from './../services/stockServices.js'
+import { getStockInfo, getInvestorStocks, searchForStock, getAllStocks, getUserStocks } from './../services/stockServices.js'
 import { login, signup, logout, updatePreferences, deleteUser } from './../services/userServices.js'
+import { changeAccount } from '../services/accountServices.js'
 
 const dataRouter = new Express.Router()
 
@@ -12,6 +13,7 @@ dataRouter.use(validationErrorMiddleware)
 // ------------------------------------ Stock Routes ------------------------------------
 dataRouter.get('/stocks/:search', searchForStock) // anyone can access * with restrictions to prevent abuse
 dataRouter.get('/stocks', getInvestorStocks) // corresponding user can get their stocks
+dataRouter.post('/stocks', getStockInfo)
 
 // ------------------------------------ Temp Stock Routes ------------------------------------
 dataRouter.get('/stocksTemp/:username', getUserStocks)
@@ -22,7 +24,8 @@ dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.url
 dataRouter.get('/logout', logout) // open to only logged in users
 dataRouter.post('/signup', validator.validate({ body: signupSchema }), signup) // open
 dataRouter.delete('/account/:username', deleteUser) // corresponding user or admin can delete account
-dataRouter.post('/preferences', updatePreferences) // corresponding user can update preferences
+dataRouter.post('/account', changeAccount)
+dataRouter.post('/preferences', verifyJWT, updatePreferences) // corresponding user can update preferences
 
 // ------------------------------------ Monkey Routes ------------------------------------
 dataRouter.post('/monkey', validator.validate({ body: monkeySchema }), updateMonkey) // corresponding user can update monkey

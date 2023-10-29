@@ -1,5 +1,7 @@
 import bcryptjs from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export async function testLogin (req, res) {
   const saltRounds = 10
@@ -7,56 +9,17 @@ export async function testLogin (req, res) {
   const someOtherPlaintextPassword = 'not_bacon'
   let tempHash
   let tempHash2
+}
 
-  // tech 1
-  bcryptjs.genSalt(saltRounds, function (err, salt) {
-    bcryptjs.hash(myPlaintextPassword, salt, function (err, hash) {
-    // Store hash in your password DB.
-      console.log(hash)
-      tempHash = hash
-      if (err) {
-        console.log(err)
-      }
-    })
-    if (err) {
-      console.log(err)
-    }
-  })
-
-  // tech 2
-  bcryptjs.hash(myPlaintextPassword, saltRounds, async (err, hash) => {
-  // Store hash in your password DB.
-    console.log(hash)
-    tempHash2 = hash
-    const result1 = await bcryptjs.compare(myPlaintextPassword, tempHash2)
-    console.log(result1)
-
-    if (err) {
-      console.log(err)
-    }
-  })
-
-  // Check Password
-
-  // if (await bcryptjs.compare(myPlaintextPassword, tempHash)) {
-  //   console.log('Match')
-  // } else {
-  //   console.log('No Match')
-  // }
-
-  // bcryptjs.compare(myPlaintextPassword, tempHash, function (err, result) {
-  // // result == true
-  //   if (err) {
-  //     console.log(err)
-  //   }
-  //   console.log(result)
-  // })
-
-  // bcryptjs.compare(someOtherPlaintextPassword, tempHash, function (err, result) {
-  // // result == false
-  //   if (err) {
-  //     console.log(err)
-  //   }
-  //   console.log(result)
-  // })
+export async function comparePasswords (password, hash) {
+  const result = await bcryptjs.compare(password, hash)
+  return result
+}
+export async function genAccessToken (username) {
+  const accessToken = await jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
+  return { accessToken }
+}
+export async function genRefreshToken (username) {
+  const refreshToken = await jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
+  return { refreshToken }
 }

@@ -2,40 +2,24 @@ import queryMongoDatabase from '../data/mongoController.js'
 import { validateEmail, deleteInvestor } from '../middleware/generalServerFunctions.js'
 import { ObjectId } from 'mongodb'
 import { hashPassword } from '../controllers/signupController.js'
+import { comparePasswords, genAccessToken, genRefreshToken } from '../controllers/loginController.js'
+
 export async function login (req, res) {
   const username = req.body.username
   const password = req.body.password
 
   queryMongoDatabase(async db => {
-    const loginSuccess = await db.collection('Users').find({ username })
-    const numDocs = await db.collection('Users').countDocuments({ username })
-    if ((numDocs) === 0) {
-      // Function to set login state or token?? ------------------TO DO --------------------
-      res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
-    } else if (numDocs > 1) {
-      res.status(500).json({ error: true, message: 'Multiple Users with same Username.' })
-    } else {
-      // Login Failed
-      for await (const doc of loginSuccess) {
-        const match = (password === doc.password) // await bcryptjs.compare(password, doc.password))
-        if (match) {
-          // const accessToken = jwt.sign({ username: username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' })
-          // const refreshToken = jwt.sign({ username: username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' })
-          // const otherUsers = "Array of other users' usernames, excluding current user"
-          // const currentUser = { username, refreshToken }
-          res.json({ error: false, message: `User: ${username} Logged In Successfully` })
-        } else {
-          res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
-        }
+    const loginSuccess = await db.collection('Users').findOne({ username })
+    if (loginSuccess < 1) { res.status(404).json({ error: true, message: 'Username or Password could not be found.' }) } else {
+      const match = await comparePasswords(password, loginSuccess.password)
+      if (match) {
+        const accessToken = genAccessToken(username)
+        const refreshToken = genRefreshToken(username)
+        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.json({ accessToken })
+      } else {
+        res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
       }
-      // req.session.regenerate(function (err) {
-      //   if (err) next(err)
-      //   req.session.user = username
-      //   req.session.save(function (err) {
-      //     if (err) return next(err)
-      //     res.redirect('/')
-      //   })
-      // })
     }
   }, 'MonkeyBusinessWebApp')
 }
@@ -49,15 +33,8 @@ export async function signup (req, res) { // working without authentication ----
   queryMongoDatabase(async db => {
     const signupSuccess = await db.collection('Users').findOne({ username })
 
-    if ((signupSuccess) !== null) {
-      res.status(404).json({ error: true, message: 'Username Already Exists.' })
-    } else {
-      // Login Failed
-      if (password !== passwordConfirm) {
-        res.status(404).json({ error: true, message: 'Passwords do not match.' })
-      } else if (validateEmail(email) === false) {
-        res.status(404).json({ error: true, message: 'Invalid Email.' })
-      }
+    if ((signupSuccess) !== null) { res.status(404).json({ error: true, message: 'Username Already Exists.' }) } else {
+      if (password !== passwordConfirm) { res.status(404).json({ error: true, message: 'Passwords do not match.' }) } else if (validateEmail(email) === false) { res.status(404).json({ error: true, message: 'Invalid Email.' }) }
 
       // Encrypt Password before database insertion ------------------TO DO --------------------
       const hashedPassword = await hashPassword(password)
@@ -67,14 +44,12 @@ export async function signup (req, res) { // working without authentication ----
       const investorID = await db.collection('Investor').insertOne({ username, stocks: [], monkey: [] })
       if (investorID.insertedCount !== null) {
         const insertDoc = await db.collection('Users').insertOne({ username, password: hashedPassword, email, preferencesID, adminID })
-        if (insertDoc.insertedCount !== null) {
-          res.json({ error: false, message: `User: ${username} Signed Up Successfully` })
-        } else {
-          res.status(404).json({ error: true, message: 'Failed to insert user info!' })
-        }
-      } else {
-        res.status(404).json({ error: true, message: 'Failed to insert investor info!' })
-      }
+        if (insertDoc.insertedCount !== null) { res.json({ error: false, message: `User: ${username} Signed Up Successfully` }) } else { res.status(404).json({ error: true, message: 'Failed to insert user info!' }) }
+      } else { res.status(404).json({ error: true, message: 'Failed to insert investor info!' }) }
+
+      // logs the user in after signup ------------------TO DO --------------------
+
+      // redirect the user to the home page after signup ------------------TO DO --------------------
 
       // req.session.regenerate(function (err) {
       //   if (err) next(err)
