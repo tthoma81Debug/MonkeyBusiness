@@ -81,3 +81,104 @@ export async function getInvestorStocks (req, res) {
   }
   res.json(userStockData)
 }
+
+export async function updateStockCount (req, res) {
+  const username = req.body.username
+  const stockName = req.body.stockName
+  const changeAmount = req.body.changeAmount
+ 
+  queryMongoDatabase(async db => {
+    //check if investor collection exists
+    const data = await db.collection('Investor').findOne({ username })
+    console.log("investor: " + data)
+    if (data < 1) {
+      res.status(404).json({ error: true, message: 'No Investor Found' })
+    }
+    //check if stock already exists in investor array
+    const foundStock = await db.collection('Investor').findOne(
+      { username, stockNames : {$in:[stockName]} },
+      { projection: { _id:0, stockNames:1 }}
+    )
+    console.log("foundStock: " + foundStock)
+
+    //does not result in specific array index -----TO DO-----
+    var index
+    if (foundStock !== null) {
+      const stockArr = foundStock.toArray()
+      console.log("stockArr: " + stockArr)
+      index = stockArr.indexOf(stockName)
+    }
+
+    if (foundStock === null && changeAmount <= 0) { //error if subtracting from nonexistent stock
+      res.status(404).json({ error:true, message: 'Stock Not Found'})
+
+    } else if (foundStock === null && changeAmount > 0) { //add to db if adding to stock not in array
+
+      const newStock = db.collection('Investors').updateOne({username}, {$push:{stockNames : stockName}})
+      const newCount = db.collection('Investors').updateOne({username}, {$push: {stockCounts : changeAmount}})
+      
+      if(newStock.modifiedCount === null || newCount.modifiedCount === null) {
+        res.status(404).json({error:true, message: 'Stock Could Not Be Added'})
+
+      } else {
+        const updateString = 'Purchased ' + changeAmount + ' shares of ' + stockName
+        const histUpdate = db.collection('Investors').updateOne({username}, {$push:{stockHistory : updateString}})
+        if (histUpdate.modifiedCount === null) {
+          res.status(404).json({error:true, message: 'History Could Not Be Updated'})
+        }
+
+        res.json({error: false, message: 'Stock Successfully Added'})
+      }
+    
+    } else {
+      //check final stock amount
+      //does not result in integer -----TO DO-----
+      const preStockAmount = await db.collection('Investor').findOne(
+        { username },
+        {projection: { _id:0, num: { $arrayElemAt: ['stockCounts', index] } } }
+        )
+
+      if (preStockAmount - changeAmount < 0) { //error if negative
+        res.status(400).json({ error: true, message: 'Not Enough Stocks To Sell'})
+
+      } else if (preStockAmount - changeAmount == 0) { //delete stock if 0
+        const nameDelete = await db.collection('Investors').updateOne({ username }, {$pull: {stockNames:stockName}})
+        const countDelete = await db.collection('Investors').updateOne(
+          { username }, 
+          {$pull: {stockCounts:changeAmount}}
+        )
+        
+        if(nameDelete.modifiedCount === null || countDelete.modifiedCount === null) {
+          res.status(404).json({error:true, message: 'Stock Could Not Be Removed'})
+
+        } else {
+          const updateString = 'Sold ' + changeAmount + ' shares of ' + stockName
+          const histUpdate = db.collection('Investors').updateOne({username}, {$push:{stockHistory : updateString}})
+          if (histUpdate.modifiedCount === null) {
+            res.status(404).json({error:true, message: 'History Could Not Be Updated'})
+          }
+
+          res.json({error: false, message: 'Stock Successfully Removed'})
+        }
+
+      } else { //change amount if positive
+        const stockChange = await db.collection('Investors').updateOne(
+          { username }, 
+          {$inc: {[`stockCounts.${index}`] : changeAmount}}
+        )
+        
+        if (stockChange.modifiedCount === null) {
+          res.status(404).json({error:true, message:'Stock Could Not Be Updated'})
+        } else {
+          const updateString = 'Purchased ' + changeAmount + ' shares of ' + stockName
+          const histUpdate = db.collection('Investors').updateOne({username}, {$push:{stockHistory : updateString}})
+          if (histUpdate.modifiedCount === null) {
+            res.status(404).json({error:true, message: 'History Could Not Be Updated'})
+          }
+          
+          res.json({error: false, message: 'Stock Successfully Updated'})
+        }
+      }
+    }
+  }, 'MonkeyBusinessWebApp')
+}
