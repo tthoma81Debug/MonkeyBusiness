@@ -20,7 +20,7 @@ app.use('/api', dataRouter)
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
-const temp = getStockDetails('AAPL')
-console.log(temp)
+// const temp = getStockDetails('AAPL')
+// console.log(temp)
 
 // testLogin()
