@@ -32,38 +32,8 @@ export async function getMonkeyPosition (url) {
   })
 }
 
-export async function getStockShort (stockName) {
-  const ls = cp.spawnSync('python', ['./python/script.py', stockName])
-  if (ls.status !== 0) {
-    const message = `
-      ORIGINAL CMD: ${stockName}
-      STDOUT: ${ls.stdout && ls.stdout.toString()}
-      STDERR: ${ls.stderr && ls.stderr.toString()}
-      STATUS: ${ls.status}
-      ERROR: ${ls.error}
-    `
-    throw new Error(message)
-  }
-  return ls.stdout.toString()
-}
-
-// export function getStockDetails (stockName) {
-//   const ls = cp.spawnSync('python', ['./python/script.py', stockName])
-//   if (ls.status !== 0) {
-//     const message = `
-//       ORIGINAL CMD: ${stockName}
-//       STDOUT: ${ls.stdout && ls.stdout.toString()}
-//       STDERR: ${ls.stderr && ls.stderr.toString()}
-//       STATUS: ${ls.status}
-//       ERROR: ${ls.error}
-//     `
-//     throw new Error(message)
-//   }
-//   return ls.stdout.toString()
-// }
-
-export function getStockDetails (stockName) {
-  const ls = cp.spawn('python', ['./python/script.py', stockName])
+export async function getStockShort (stockNameArray) {
+  const ls = cp.spawn('python', ['./python/GetStockInfo.py', stockNameArray])
   ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
   })
@@ -75,23 +45,9 @@ export function getStockDetails (stockName) {
   })
 }
 
-export function searchStockAPI (searchQuery) {
-  const ls = cp.spawnSync('python', ['./python/script.py', searchQuery])
-  if (ls.status !== 0) {
-    const message = `
-      ORIGINAL CMD: ${searchQuery}
-      STDOUT: ${ls.stdout && ls.stdout.toString()}
-      STDERR: ${ls.stderr && ls.stderr.toString()}
-      STATUS: ${ls.status}
-      ERROR: ${ls.error}
-    `
-    throw new Error(message)
-  }
-  return ls.stdout.toString()
-}
+export function getStockDetails (stockName, timeFrameMonths) {
+  const ls = cp.spawn('python', ['./python/GetClosingPriceList.py', stockName, timeFrameMonths])
 
-export function testNodeCall (param) {
-  const ls = cp.spawn('node', ['./python/support.js', param])
   ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`)
   })
@@ -102,3 +58,18 @@ export function testNodeCall (param) {
     console.log(`child process exited with code ${code}`)
   })
 }
+
+export function searchStockAPI (searchQuery, start, end) {
+  const ls = cp.spawn('python', ['./python/StockSearchList.py', searchQuery, start, end])
+
+  ls.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`)
+  })
+  ls.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`)
+  })
+  ls.on('close', (code) => {
+    console.log(`child process exited with code ${code}`)
+  })
+}
+

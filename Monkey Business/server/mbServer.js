@@ -1,7 +1,6 @@
 import Express from 'express'
 import dataRouter from './api/mbRoutes.js'
-import { testNodeCall, getStockShort, getStockDetails, searchStockAPI, getMonkeyPosition } from './services/callPythonScripts.js'
-import { testLogin } from './controllers/loginController.js'
+import { getMonkeyPosition } from './services/callPythonScripts.js'
 
 const PORT = 3000
 const app = new Express()
@@ -21,9 +20,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
 
-// const temp = getStockDetails('AAPL')
-// console.log(temp)
 
 const temp = getMonkeyPosition("https://www.youtube.com/watch?v=jaPx8uOE5_0")
 
-// testLogin()
+
