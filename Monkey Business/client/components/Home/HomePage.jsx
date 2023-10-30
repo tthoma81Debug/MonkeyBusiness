@@ -1,11 +1,23 @@
 import React from 'react'
-function Home () {
-//  General data? Stocks notifications etc.
+import PropTypes from 'prop-types'
+function Home (props) {
+  const { name } = props
+  let content
+  if (name !== '') {
+    content = (<div> Welcome {name} </div>)
+  } else {
+    content = (<div> Home page placeholder</div>)
+  }
   return (
   <React.Fragment>
-    <div> Home page placeholder</div>
+    {content}
   </React.Fragment>
   )
 }
-
+Home.propTypes = {
+  name: PropTypes.string
+}
+Home.defaultProps = {
+  name: ''
+}
 export default Home
