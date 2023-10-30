@@ -21,6 +21,9 @@ app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`)
 })
 
+// const temp = getStockDetails('AAPL')
+// console.log(temp)
+
 const temp = getMonkeyPosition("https://www.youtube.com/watch?v=jaPx8uOE5_0")
 
 // testLogin()
