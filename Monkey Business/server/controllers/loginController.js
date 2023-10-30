@@ -3,13 +3,6 @@ import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
 
-export async function testLogin (req, res) {
-  const saltRounds = 10
-  const myPlaintextPassword = 's0P4$$w0rD'
-  const someOtherPlaintextPassword = 'not_bacon'
-  let tempHash
-  let tempHash2
-}
 
 export async function comparePasswords (password, hash) {
   const result = await bcryptjs.compare(password, hash)

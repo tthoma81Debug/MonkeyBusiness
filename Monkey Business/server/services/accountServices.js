@@ -1,4 +1,4 @@
-import { queryMongoDatabase } from '../data/mongoController.js'
+import queryMongoDatabase from '../data/mongoController.js'
 import { validateEmail } from '../middleware/generalServerFunctions.js'
 import { hashPassword } from '../controllers/signupController.js'
 import { comparePasswords } from '../controllers/loginController.js'

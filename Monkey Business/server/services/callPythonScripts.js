@@ -30,19 +30,6 @@ export function getStockDetails (stockName, timeFrameMonths) {
   return ls.stdout.toString()
 }
 
-// export function getStockDetails (stockName) {
-//   const ls = cp.spawn('python', ['./python/script.py', stockName])
-//   ls.stdout.on('data', (data) => {
-//     console.log(`stdout: ${data}`)
-//   })
-//   ls.stderr.on('data', (data) => {
-//     console.error(`stderr: ${data}`)
-//   })
-//   ls.on('close', (code) => {
-//     console.log(`child process exited with code ${code}`)
-//   })
-// }
-
 export function searchStockAPI (searchQuery, start, end) {
   const ls = cp.spawnSync('python', ['./python/StockSearchList.py', searchQuery, start, end])
   if (ls.status !== 0) {

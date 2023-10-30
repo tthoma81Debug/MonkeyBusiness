@@ -14,7 +14,9 @@ def getStockInfo(names):
     output.append(stock.info['volume'])
     output.append((1-stock.info['currentPrice']/stock.info['regularMarketPreviousClose'])*100)
     nameArray.append(output)  # added after
+    print(output)
   return nameArray
 
 
-print(getStockInfo(names)) # added after
+getStockInfo(names)  # added after
+#print(getStockInfo(names)) # added after

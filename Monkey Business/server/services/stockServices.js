@@ -42,10 +42,10 @@ export async function getUserStocks (req, res) {
 
 export async function getStockInfo (req, res) {
   const stockName = req.body.stockName
-  const timeFrameMonths = req.body.timeFrameMonths
+  const timeFrameMonths = parseInt(req.body.timeFrameMonths)
   try {
-    const stockData = getStockDetails(stockName, timeFrameMonths)
-    res.json(stockData)
+    const stockData = await getStockDetails(stockName, timeFrameMonths)
+    res.send(stockData)
   } catch (err) {
     console.log(err)
   }
@@ -54,11 +54,11 @@ export async function searchForStock (req, res) {
   // call python function to search API for stock
   // process and return data
   const searchQuery = req.params.search
-  const start = req.query.start
-  const end = req.query.end
+  const start = req.body.start
+  const end = req.body.end
   try {
-    const stockData = searchStockAPI(searchQuery, start, end)
-    res.json(stockData)
+    const stockData = await searchStockAPI(searchQuery, start, end)
+    res.json(parseStockData(stockData))
   } catch (err) {
     console.log(err)
   }
@@ -80,7 +80,24 @@ function getInvestorStockNames (username) { // helper function to get investor s
 }
 export async function getInvestorStocks (req, res) {
   const username = req.session.username
-  const userStocks = getInvestorStockNames(username)
-  const userStockData = getStockShort(userStocks)
+  const userStocks = await getInvestorStockNames(username)
+  const userStockData = await getStockShort(userStocks)
   res.json(userStockData)
 }
+
+function parseStockData (stockData) {
+  // parse stock data
+  // return parsed data
+
+  const regex = /(?<=\[)(.*?)(?=\])/g
+  const matches = String(stockData.match(regex))
+  const data = matches.substring(1, matches.length - 1)
+  const parsedData = data.split('\', \'')
+
+  return (parsedData)
+}
+// /(?<=\[)(.*?)(?=\])/g
+// /\[(.*?)\]/g
+
+// /(?<=\[)(.*?)(?=\])/g
+

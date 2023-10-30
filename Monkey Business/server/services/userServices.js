@@ -30,6 +30,10 @@ export async function signup (req, res) { // working without authentication ----
   const passwordConfirm = req.body.passwordConfirm
   const email = req.body.email
 
+  // let errors = []
+  // if (!username || !password || !passwordConfirm || !email) { // file for validation errors ------------------TO DO --------------------
+  //   errors.push({ message: 'Please enter all fields' })
+  // }
   queryMongoDatabase(async db => {
     const signupSuccess = await db.collection('Users').findOne({ username })
 
