@@ -1,0 +1,36 @@
+//Monkey logo on header?
+//Pages: monkey tech, intro page, and log in - sign up
+
+Dealing with log in problem
+****
+const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+useEffect(() => {
+  // listen for changes to the state
+  localStorage.getItem("isLoggedIn")
+    .then((isLoggedIn) => {
+      setIsLoggedIn(isLoggedIn);
+    });
+}, []);
+
+const handleLogin = () => {
+  // update the state
+  setIsLoggedIn(true);
+};
+
+const handleLogout = () => {
+  // update the state
+  setIsLoggedIn(false);
+};
+
+return (
+  <div>
+    {isLoggedIn ? (
+      <h1>You are logged in!</h1>
+    ) : (
+      <h1>You are not logged in!</h1>
+    )}
+    <button onClick={handleLogin}>Login</button>
+    <button onClick={handleLogout}>Logout</button>
+  </div>
+);
