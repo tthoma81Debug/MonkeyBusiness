@@ -2,7 +2,7 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import PropTypes from 'prop-type'
+import PropTypes from 'prop-types'
 export default function MyNavBar (props) {
   const { loggedIn } = props
   let navContent
