@@ -1,7 +1,2 @@
 .env
 node_modules/
-.venv/
-temp.ts
-.vscode/
-```
-.bashrc

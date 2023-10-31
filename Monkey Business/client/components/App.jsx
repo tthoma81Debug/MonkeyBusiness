@@ -2,40 +2,56 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import MyNavBar from './Navigation/MyNavBar.jsx'
 import Home from './Home/HomePage.jsx'
+import LoginPage from './Login_Signup/LoginPage.jsx'
+import SignupPage from './Login_Signup/SignupPage.jsx'
 import MonkeTech from './MonkeyTech/MonkeyTechPage.jsx'
 import IntroPage from './Intro/IntroPage.jsx'
 import SettingsPage from './Setting/SettingsPage.jsx'
 import StatsPage from './Stat/StatsPage.jsx'
-import { MySearchBar } from './SearchPage/MySearchBar.jsx'
-import LoginCard from './Login_Signup/LoginRegisterForm.jsx'
-import SignUpCard from './Login_Signup/SignUpRegisterForm.jsx'
-export default function App () {
-  const [username, setUsername] = React.useState('')
-  const [logInStatus, setLogInStatus] = React.useState(false)
-  function onLogInChange (username) {
-    setUsername(username)
-    setLogInStatus(true)
-  }
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Button } from 'react-bootstrap'
+import tPage from './Tut/TutorialPage.jsx'
+//import { tutorialModal } from './Tutorial/tutModal.jsx'
+
+
+export default function App (props) {
+  const [darkMode, setDarkMode] = React.useState(false)
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode)
+    }
+  const theme = (darkMode ? 'dark' : 'light')
+  document.getElementById('html').setAttribute('data-bs-theme', darkMode ? 'dark' : 'light')
+  console.log(darkMode)
+  // const [modalShow, setModalShow] = React.useState(false);
+  // console.log("modal log ",modalShow)
+
   return (
     <React.Fragment>
-    <MyNavBar loggedIn = {logInStatus}/>
-    <Routes>
-        <Route path="/" exact element={<Home name = {username}/>} />
-        <Route path="/login" element = { <LoginCard onLogIn={onLogInChange}/> } />
-        <Route path="/about" Component={IntroPage } />
-        <Route path = "/signup" element = { <SignUpCard onSignUp = {onLogInChange}/>}/>
-        <Route path = "/monkeyTech" Component = {MonkeTech}/>
-        <Route path = "/setting" element = {
-        <SettingsPage
-          name = { username }
-          setLogIn = {setLogInStatus}
-          setName = {setUsername}
-          >
-        </SettingsPage>
-        }/>
-        <Route path = "/stats" Component = {StatsPage}/>
-        <Route path = "/search" Component = {MySearchBar}/>
-    </Routes>
+      <div data-bs-theme={theme}>
+        <Button onClick={handleDarkMode} data-bs-theme={theme}>Dark Mode</Button>
+        
+        
+        <MyNavBar data-bs-theme={theme}/>
+        
+
+        <Routes>
+          <Route path="/" exact element= {<Home theme={theme}/>}/>
+          <Route path="/login" Component={LoginPage} />
+          <Route path="/about" Component={IntroPage} />
+          <Route path="/signup" Component={SignupPage} />
+          <Route path="/monkeyTech" Component={MonkeTech} />
+          <Route path="/setting" Component={SettingsPage} />
+          <Route path="/stats" Component={StatsPage} />
+          <Route path="/TutorialPage" Component={tPage}/>
+        </Routes>
+        
+      </div>
+      {/* <div>
+      console.log("hit")
+      <Button variant="primary" onClick={() => setModalShow(true)}>Help</Button>
+      <tutorialModal show={modalShow} onHide={() => setModalShow(false)}></tutorialModal>
+      </div> */}
     </React.Fragment>
+    
   )
 }
