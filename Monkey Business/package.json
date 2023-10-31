@@ -46,6 +46,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^5.2.0",
     "mongoose": "^7.6.3",
+    "mongosh": "^2.0.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "python": "^0.0.4",

@@ -13,10 +13,10 @@ export async function login (req, res) {
     if (loginSuccess < 1) { res.status(404).json({ error: true, message: 'Username or Password could not be found.' }) } else {
       const match = await comparePasswords(password, loginSuccess.password)
       if (match) {
-        const accessToken = genAccessToken(username)
-        const refreshToken = genRefreshToken(username)
-        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.json({ accessToken })
+        req.session.user = username
+
+        console.log(req.session.user)
+        res.json({ error: false, message: `User: ${username} Logged In Successfully` })
       } else {
         res.status(404).json({ error: true, message: 'Username or Password could not be found.' })
       }
@@ -30,6 +30,7 @@ export async function signup (req, res) { // working without authentication ----
   const passwordConfirm = req.body.passwordConfirm
   const email = req.body.email
 
+  console.log(req.session.user)
   // let errors = []
   // if (!username || !password || !passwordConfirm || !email) { // file for validation errors ------------------TO DO --------------------
   //   errors.push({ message: 'Please enter all fields' })

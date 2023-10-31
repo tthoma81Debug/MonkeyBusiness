@@ -3,9 +3,9 @@ import dataRouter from './api/mbRoutes.js'
 import mongoose from 'mongoose'
 import Dotenv from 'dotenv'
 import session from 'express-session'
-//import passport from './config/passport.js'
+import passport from 'passport'
 import flash from 'connect-flash'
-const MongoStore = require('connect-mongo')(session)
+import MongoStore from 'connect-mongo'
 const PORT = 3000
 const app = new Express()
 Dotenv.config()
@@ -23,21 +23,25 @@ const connection = mongoose.createConnection(dbString, dbOptions)
 // Body Parser
 app.use(Express.urlencoded({ extended: false }))
 
-const sessionStore = new MongoStore({
+const sessionStore = MongoStore.create({
+  client: connection.getClient(),
   mongooseConnection: connection,
-  collection: 'sessions'
+  ttl: 60 * 60 * 24,
+  autoRemove: 'native',
+  collectionName: 'sessions'
 })
 // Express session
 app.use(session({
   secret: 'secret',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: sessionStore,
   cookie: { secure: true, maxAge: 1000 * 60 * 60 * 24 }
-}))
+}))//
 // Passport middleware
-//app.use(passport.initialize())
-//app.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
+
 // Connect flash
 app.use(flash())
 

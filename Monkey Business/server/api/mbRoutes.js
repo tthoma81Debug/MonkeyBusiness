@@ -5,10 +5,9 @@ import { getStockInfo, getInvestorStocks, searchForStock, getAllStocks, getUserS
 import { login, signup, logout, updatePreferences, deleteUser } from './../services/userServices.js'
 import { changeAccount } from '../services/accountServices.js'
 import { isAdmin, isAuthenticated } from '../middleware/authentication.js'
+// import passport from '../config/passport.js'
 import passport from 'passport'
 const dataRouter = new Express.Router()
-
-dataRouter.use(validationErrorMiddleware)
 
 // ------------------------------------ Stock Routes ------------------------------------
 dataRouter.get('/stocks/:search', searchForStock) // anyone can access * with restrictions to prevent abuse
@@ -20,12 +19,14 @@ dataRouter.get('/stocksTemp/:username', getUserStocks)
 dataRouter.get('/stocksTemp', getAllStocks)
 
 // ------------------------------------ User Routes ------------------------------------
-dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.urlencoded({ extended: false }), (req, res) => {passport.authenticate('local', {
-  successRedirect: '/home',
-  failureRedirect: '/login',
-  failureFlash: true
-})
-}, login) // open
+dataRouter.post('/login', validator.validate({ body: loginSchema }), Express.urlencoded({ extended: false }), login) // open
+// (req, res) => {
+//   passport.authenticateUser('local', {
+//     successRedirect: '/home',
+//     failureRedirect: '/login',
+//     failureFlash: true
+//   })
+// }
 dataRouter.get('/logout', logout) // open to only logged in users
 dataRouter.post('/signup', validator.validate({ body: signupSchema }), signup) // open
 dataRouter.delete('/account/:username', isAuthenticated, deleteUser) // corresponding user or admin can delete account
@@ -36,5 +37,6 @@ dataRouter.post('/preferences', isAuthenticated, updatePreferences) // correspon
 dataRouter.post('/monkey', validator.validate({ body: monkeySchema }), updateMonkey) // corresponding user can update monkey
 dataRouter.get('/monkey', getMonkeyInvestments) // corresponding user can get monkey investments
 
+dataRouter.use(validationErrorMiddleware)
 // Make the router available to import in other files
 export default dataRouter

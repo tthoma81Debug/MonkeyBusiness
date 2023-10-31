@@ -11,6 +11,13 @@ const connection = mongoose.createConnection(url, {
   useUnifiedTopology: true
 })
 
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+})
+
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -27,6 +34,14 @@ const UserSchema = new mongoose.Schema({
   }
 })
 
-const User = connection.model('User', UserSchema)
+export const User = connection.model('User', UserSchema)
 
-module.exports = connection
+mongoose.connection
+  .on("open", () => console.log("The goose is open"))
+  .on("close", () => console.log("The goose is closed"))
+  .on("error", (error) => {
+    console.log(error);
+    process.exit();
+  })
+
+export default mongoose.connection

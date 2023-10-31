@@ -8,8 +8,13 @@
 .pnp.js
 .venv/
 myenv/
+.vscode/
+Monkey Business/.vscode/
+.idea/
+temp.ts
+.bashrc
 
-
+/MonkeyBusiness/temp.ts
 # testing
 /coverage
 
