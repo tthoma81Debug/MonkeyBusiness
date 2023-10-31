@@ -1,0 +1,17 @@
+To Change a user account the POST request must target 'http://localhost:3000/api/account'
+The POST request must include the user's PASSWORD, CHANGETYPE, and corresponding information to each CHANGETYPE
+
+{
+  'password' = 'password',
+  'changeType' = ('password' or 'username' or 'email')
+
+  // if changeType == 'password'
+  'newPassword' = 'newPassword'
+  'confirmNewPassword' = 'confirmNewPassword'
+
+  // if changeType == 'username'
+  'newUsername' = 'newUsername'
+
+  // if changeType == 'email'
+  'newEmail' = 'newEmail'
+}
