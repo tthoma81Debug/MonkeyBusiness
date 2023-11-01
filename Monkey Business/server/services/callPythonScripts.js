@@ -1,10 +1,21 @@
 import cp from 'child_process'
 
-export async function getMonkeyPosition (url) {
-  const ls = cp.spawn('python', ['./python/MonkeyTracking.py', url])
+//function getMonkeyPosition
+//Runs the python script to record a live stream for (segments * 5) seconds
+//Then runs the movement detection algorithm on the video.t
+//INPUT
+/************************ */
+//url - the URL of the youtube livestream to process
+//segments - how many 5 second segments to record 
+//OUTPUT
+/************************ */
+//CoordSpace - the assortment of x and y positions of detected movements.
+//temp.ts - a video file of the last recorded livestream. 
+export async function getMonkeyPosition (url, segments) {
+  const ls = cp.spawn('python', ['./python/MonkeyTracking.py', url, segments])
   var coordSpace = [];
+  var result = ''
   ls.stdout.on('data', (data) => {
-    var result = ''
     result += data
     var char = '\n';
     var i = 0;
@@ -17,15 +28,14 @@ export async function getMonkeyPosition (url) {
       index = index+1;
       i = j + 1;
     }
-    var space = result.indexOf(' ', i);
-    const coord = {x: result.substring(i, space), y: result.substring(space, (result.length - 1))};
-    coordSpace[index] = coord;
+    //var space = result.indexOf(' ', i);
+    //const coord = {x: result.substring(i, space), y: result.substring(space), (result.length - 1)};
+    //coordSpace[index] = coord;
   })
   ls.stderr.on('data', (data) => {
     console.error(`stderr: ${data}`)
   })
   ls.on('close', (code) => {
-    //console.log(`child process exited with code ${code}`)
     for (let i = 0; i < coordSpace.length; i++) {
       console.log(`x: ${coordSpace[i].x}, y: ${coordSpace[i].y}`);
     }
