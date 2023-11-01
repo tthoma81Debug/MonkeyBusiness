@@ -14,30 +14,33 @@ export const MySearchBar = () => {
   }, [])
   const handleChange = (e) => {
     e.preventDefault()
+    const newStocksName = []
     setSearchInput(e.target.value)
     if (e.target.value.length > 0) {
-      const newStocksName = []
       const regex = new RegExp(e.target.value, 'gmi')
       stock.map((stockData) => {
         if (String(stockData.name).match(regex) != null) {
           newStocksName.push(stockData.name)
         }
         console.log('Stock' + newStocksName)
-        if (e.target.value === '' || e.target.value === null) {
-          setSearchResult(stocks)
-        } else {
-          setSearchResult(newStocksName)
-        }
+        return ([])
+      })
+    } else {
+      stock.map((stockData) => {
+        newStocksName.push(stockData.name)
         return ([])
       })
     }
+    setSearchResult(newStocksName)
   }
   console.log('Result' + searchResult)
+  let k = 0
   const stocks = searchResult.map(
     (thisStock) => {
+      k++
       console.log(thisStock)
       return (
-      <Row className = 'px-3 py-3 pt-1 pb-2' key = {thisStock}> {thisStock} </Row>
+      <Row className = 'px-3 py-3 pt-1 pb-2' key = {k}> {thisStock} </Row>
       )
     }
   )

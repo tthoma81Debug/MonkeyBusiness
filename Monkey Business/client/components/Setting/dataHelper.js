@@ -1,6 +1,6 @@
 export async function updatePref (Prefs) {
   try {
-    const response = await fetch('http://localhost:3000/api/update', {
+    const response = await fetch('http://localhost:3000/api/preferences', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json'
@@ -26,6 +26,7 @@ export async function deleteAcc (accID) {
       throw new Error(`Request failed with response code ${response.status}`)
     }
     // Parse the response from JSON into an object and return it
+    console.log('Account is removed from existence')
     return await response.json()
   } catch (err) {
     // something went wrong so return null
