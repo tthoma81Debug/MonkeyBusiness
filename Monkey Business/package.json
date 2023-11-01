@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "rm public/*.map public/mbClient.js public/mbClient.css",
     "client": "esbuild --bundle --minify --target=es6 --outdir=public client/main.jsx",
+    "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
     "client:dev": "esbuild --watch --bundle --sourcemap --target=es6 --outdir=public client/main.jsx",
     "server:dev": "nodemon --watch server dev",
     "server:prod": "node server/mbServer.js prod",
@@ -30,6 +31,7 @@
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.8",
     "bootstrap-icons": "^1.10.3",
+    "concurrently": "^7.4.0",
     "dotenv": "^16.0.3",
     "esbuild": "^0.19.4",
     "esbuild-sass-plugin": "^2.8.0",
