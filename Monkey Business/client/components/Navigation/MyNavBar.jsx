@@ -2,8 +2,29 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-
-export default function MyNavBar () {
+import PropTypes from 'prop-types'
+export default function MyNavBar (props) {
+  const { loggedIn } = props
+  let navContent
+  let navContent2
+  if (!loggedIn) {
+    navContent = (
+      <Nav className="justify-content-end" style={{ width: '50%' }}>
+      <LinkContainer to = "/login" >
+        <Nav.Link> Log In </Nav.Link>
+      </LinkContainer>
+      <LinkContainer to = "/signup" >
+        <Nav.Link> Sign Up </Nav.Link>
+      </LinkContainer>
+      </Nav>
+    )
+  } else {
+    navContent2 = (
+      <LinkContainer to = "/setting" >
+      <Nav.Link> Setting </Nav.Link>
+    </LinkContainer>
+    )
+  }
   return (
     <Navbar bg="primary" variant="dark">
     <Navbar.Brand >Monkey Business</Navbar.Brand>
@@ -27,15 +48,10 @@ export default function MyNavBar () {
         </LinkContainer>
         <LinkContainer to = "/TutorialPage" >
           <Nav.Link> Tutorial </Nav.Link>
-        </LinkContainer>
+        </LinkContainer> 
+          {navContent2}
         </Nav>
-        <Nav className="justify-content-end" style={{ width: '60%' }}>
-        <LinkContainer to = "/login" >
-          <Nav.Link> Log In </Nav.Link>
-        </LinkContainer>
-        <LinkContainer to = "/signup" >
-          <Nav.Link> Sign Up </Nav.Link>
-        </LinkContainer>
+        { navContent }
         </Nav>
     </Navbar.Collapse>
 </Navbar>

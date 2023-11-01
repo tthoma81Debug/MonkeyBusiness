@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import { logIn } from './dataHelper'
 import PropTypes from 'prop-types'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 let myTheme = 'light'
 let buttonTheme = 'outline-dark'
 const isMidnight = true
@@ -15,7 +15,7 @@ if (myTheme === 'light') {
 }
 function LoginCard (props) {
   const { onLogIn } = props
-  // const history = useHistory()
+  const history = useHistory()
   const [name, setName] = React.useState('')
   const [pass, setPass] = React.useState('')
   async function handleSubmit (e) {
@@ -26,7 +26,7 @@ function LoginCard (props) {
     }
     if (await logIn(user)) {
       onLogIn(name)
-      // history.push('/')
+      history.push('/')
     }
   }
   return (

@@ -2,7 +2,9 @@ import React from 'react'
 import { Row, Button, Modal } from 'react-bootstrap'
 import { updatePref, deleteAcc } from './dataHelper'
 import PropTypes from 'prop-types'
-
+import { useHistory } from 'react-router-dom'
+// history = useHistory()
+// history.oush('/')
 let myTheme = 'light'
 let buttonTheme = 'outline-dark'
 const isMidnight = false
@@ -19,6 +21,7 @@ function SettingsPage (props) {
   const [fontSize, setFontSize] = React.useState(12)
   const [graphColor, setGraphColor] = React.useState('Default')
   const [show, setShow] = React.useState(false)
+  const history = useHistory()
   function handleClose (e) {
     setShow(false)
   }
@@ -59,7 +62,8 @@ function SettingsPage (props) {
     if (await deleteAcc(name)) {
       setLogIn(false)
       setName('')
-      console.log('Account is removed from existence')
+      handleClose()
+      history.push('/')
     } else {
       console.log('Failed to remove account')
     }
