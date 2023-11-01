@@ -8,7 +8,7 @@
 # The x and y coordinates sent to the standard output.
 #
 # PYTHON INSTALLATION
-# You can install a python .venv in visual studio code easily. First, install a Python module online to use as the base.
+# You can install a python .venv in visual studio code easily. First, install a Python module from the Windows Store.
 # In the parent folder of the project, press ctrl + shift + p and search for Python: Create Environment and click Venv.
 # Create a new .venv and use your downloaded python file for the base.
 # When asked for dependencies, use the requirements.txt option. 
