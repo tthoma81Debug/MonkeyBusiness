@@ -7,3 +7,4 @@ export async function hashPassword (password) {
   const hash = await bcryptjs.hash(password, salt)
   return hash
 }
+

@@ -26,7 +26,7 @@ export default function MyNavBar (props) {
     )
   }
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="primary" variant="dark">
     <Navbar.Brand >Monkey Business</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
@@ -37,25 +37,23 @@ export default function MyNavBar (props) {
         <LinkContainer to = "/stats" >
           <Nav.Link> Statistics </Nav.Link>
         </LinkContainer>
-        <LinkContainer to = "/search" >
-          <Nav.Link> Search </Nav.Link>
-        </LinkContainer>
         <LinkContainer to = "/monkeyTech" >
           <Nav.Link> Monkey Technology </Nav.Link>
         </LinkContainer>
         <LinkContainer to = "/about" >
           <Nav.Link> About Us </Nav.Link>
         </LinkContainer>
-        {navContent2}
+        <LinkContainer to = "/setting" >
+          <Nav.Link> Setting </Nav.Link>
+        </LinkContainer>
+        <LinkContainer to = "/TutorialPage" >
+          <Nav.Link> Tutorial </Nav.Link>
+        </LinkContainer> 
+          {navContent2}
         </Nav>
         { navContent }
+        </Nav>
     </Navbar.Collapse>
 </Navbar>
   )
-}
-MyNavBar.propTypes = {
-  loggedIn: PropTypes.bool
-}
-MyNavBar.defaultProps = {
-  loggedIn: false
 }
