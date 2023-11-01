@@ -21,6 +21,6 @@ app.listen(PORT, () => {
 })
 
 
-const temp = getMonkeyPosition("https://www.youtube.com/watch?v=jaPx8uOE5_0")
+const temp = getMonkeyPosition("https://www.youtube.com/watch?v=jaPx8uOE5_0", 1)
 
 
